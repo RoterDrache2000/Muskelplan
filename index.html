@@ -730,6 +730,12 @@ body.view-prog .grid{grid-template-columns:minmax(0,1fr);max-width:960px;margin-
 /* iPhone/Android als App: Inhalt unter Uhrzeit, Kamera-Insel und Home-Balken freihalten */
 html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 .pv{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.covhead{margin:0;align-items:center}
+.covhead .label{margin:0}
+.covbody{display:grid;gap:8px;margin-top:8px}
+@media (max-width:640px){.skinmenu{position:fixed;left:16px;right:16px;width:auto;top:calc(env(safe-area-inset-top,0px) + 64px);max-height:calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 96px);z-index:80}}
+html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media (pointer:coarse){input,select,textarea{font-size:max(16px,1em)}}
 /* Patch Notes */
 .foot{gap:8px;flex-wrap:wrap}
 .newdot[hidden]{display:none}
@@ -1645,7 +1651,16 @@ function goalBlock(title, targets, c){
     ${miss.length ? `<p class="hint"><b>Fehlt noch:</b> ${miss.map(m => MUSCLES[m].n).join(", ")}</p>` : `<p class="hint"><b>Alles abgedeckt.</b></p>`}</div>`;
 }
 
+let coverOpen = (() => { try { const v = localStorage.getItem("muskelplan.coverOpen"); if (v !== null) return v === "1"; } catch(e) {} return window.innerWidth > 640; })();
 function renderCover(){
+  renderCoverInner();
+  const box = $("cover"); if (!box) return;
+  const first = box.querySelector(":scope > .label");
+  const title = first ? first.innerHTML : L("Abdeckung", "Coverage"); if (first) first.remove();
+  const body = box.innerHTML;
+  box.innerHTML = `<div class="libhead covhead"><span class="label">${title}</span><button type="button" class="ghost mini" data-cov="toggle" aria-expanded="${coverOpen}">${coverOpen ? L("Einklappen", "Collapse") : L("Aufklappen", "Expand")}</button></div><div class="covbody"${coverOpen ? "" : " hidden"}>${body}</div>`;
+}
+function renderCoverInner(){
   const p = plan(); const t = ptype(p);
   if (!p.units.length) {
     const tip = t === "ganz" ? `Ziel: Jede der ${ORDER.length} Muskelgruppen kommt mindestens einmal vor.`
@@ -4821,6 +4836,7 @@ let techQ = "", techCat = "alle";
 function exNoteKey(name){ const x = LIB.find(l => norm(l.n) === norm(name) || (l.en && norm(l.en) === norm(name))); return norm(x ? x.n : String(name || "")).trim(); }
 function exNote(name){ const o = (state.exNotes || {})[exNoteKey(name)]; return o && o.t ? o.t : ""; }
 function setExNote(name, t){ const k = exNoteKey(name); if (!k) return; state.exNotes ||= {}; const v = String(t || "").slice(0, 600); if (v.trim()) state.exNotes[k] = { t: v, d: todayIso() }; else delete state.exNotes[k]; }
+$("cover").addEventListener("click", e => { if (e.target.closest('[data-cov="toggle"]')) { coverOpen = !coverOpen; try { localStorage.setItem("muskelplan.coverOpen", coverOpen ? "1" : "0"); } catch(err) {} renderCover(); } });
 function vidUrl(name){
   const x = LIB.find(l => norm(l.n) === norm(name) || (l.en && norm(l.en) === norm(name)));
   const q = LANG === "en" ? `${x && x.en ? x.en : name} exercise proper form` : `${x ? x.n : name} Übung richtige Ausführung`;
@@ -5044,8 +5060,18 @@ $("copyTxt").addEventListener("click", copyPlan);
 $("copyAgain").addEventListener("click", copyPlan);
 $("copyClose").addEventListener("click", () => { $("copyBox").hidden = true; });
 
+// Als installierte App (Home-Bildschirm): nicht mit zwei Fingern zoomen
+(() => {
+  const app = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+  if (!app) return;
+  const vp = document.querySelector('meta[name="viewport"]'); if (vp) vp.setAttribute("content", "width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover");
+  ["gesturestart", "gesturechange", "gestureend"].forEach(t => document.addEventListener(t, e => e.preventDefault(), { passive: false }));
+  document.addEventListener("touchmove", e => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
+})();
+
 // ---------- Patch Notes ----------
 const NOTES = [
+  ["0.62", "14.10.2026", ["Als App auf dem Handy lässt sich die Seite nicht mehr aus Versehen heranzoomen, auch nicht beim Tippen in ein Eingabefeld.", "Das Skin-Menü hinter ✎ öffnet sich auf dem Handy jetzt vollständig im Bildschirm.", "„Abdeckung“ unter der Muskelkarte lässt sich ein- und ausklappen. Auf dem Handy startet sie eingeklappt, die App merkt sich deine Wahl."]],
   ["0.61", "14.10.2026", ["Als App auf dem iPhone liegt nichts mehr unter der Uhrzeit oder der Kamera-Insel, und unten bleibt Platz für den Home-Balken.", "Beim Wechsel zwischen Plan, Training und Fortschritt springt die Seite nicht mehr nach ganz oben. Sie bleibt, wo du bist, und holt nur die Tabs ins Bild, falls sie weggescrollt waren."]],
   ["0.60", "13.10.2026", ["Notizen zu jeder Übung: Im Training steht unter der Übung gut sichtbar „Deine Notiz zu dieser Übung“, z. B. Sitzhöhe oder Griff. Sie wird automatisch gespeichert und erscheint beim nächsten Training wieder, auch wenn du die Übung aus dem Plan löschst und neu hinzufügst.", "Im Plan siehst du die Notiz direkt bei der Übung.", "Video-Knöpfe zur YouTube-Suche jetzt bei jeder Übung im Plan, in der Bibliothek, in der Zuhause-Version und im Training. Auf Englisch wird auch auf Englisch gesucht.", "Übersetzung ins Englische vervollständigt."]],
   ["0.58", "13.10.2026", ["Wenn du einen neuen Plan erstellst oder die Zuhause-Version öffnest, zeigt die App oben einen Hinweis: Dein anderer Plan ist noch da, und oben bei „Plan“ wechselst du zurück. Das Auswahlfeld blinkt kurz, und ein Knopf bringt dich direkt zurück.", "Heißt der neue Plan zum Beispiel „Zuhause“, gibt es zusätzlich einen Tipp zur automatischen Zuhause-Version."]],
@@ -5112,7 +5138,7 @@ $("notesBox").addEventListener("click", e => {
 });
 
 // ---------- Daten & Sicherung, Version ----------
-const APP_VERSION = "0.61", APP_DATE = "13.10.2026";
+const APP_VERSION = "0.62", APP_DATE = "13.10.2026";
 $("appVer").textContent = `Beta ${APP_VERSION} · ${APP_DATE}`;
 const BK = "muskelplan.lastBackup";
 let bkPending = null;
