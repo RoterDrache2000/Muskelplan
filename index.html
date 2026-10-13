@@ -727,6 +727,9 @@ body.view-prog .grid{grid-template-columns:minmax(0,1fr);max-width:960px;margin-
 .updbox .updver{display:flex;flex-wrap:wrap;gap:6px 14px}
 .updbox input[type=file]{position:absolute;opacity:0;width:1px;height:1px}
 .updask{border:1.5px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:8px}
+/* iPhone/Android als App: Inhalt unter Uhrzeit, Kamera-Insel und Home-Balken freihalten */
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.pv{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 /* Patch Notes */
 .foot{gap:8px;flex-wrap:wrap}
 .newdot[hidden]{display:none}
@@ -2286,7 +2289,8 @@ function setView(v){
   resetForm(); focusId = null;
   if (v === "training") { const p = plan(); focusId = p.units.find(u => openT.has(u.id))?.id || null; }
   $("tip").textContent = v === "training" ? "Tippe auf einen Muskel, um zu sehen, welche Übungen ihn trainieren" : TIP0;
-  if (v === "fortschritt" || v === "freunde" || v === "technik") window.scrollTo({ top: 0 });
+  // Nicht nach ganz oben springen: nur wenn die Tabs schon aus dem Bild gescrollt sind, die Tabs oben ins Bild holen
+  try { const tb = $("tabs"); const pad = parseFloat(getComputedStyle(document.documentElement).paddingTop) || 0; const top = tb.getBoundingClientRect().top + window.scrollY - pad - 6; if (window.scrollY > top) window.scrollTo({ top: Math.max(0, top), behavior: "auto" }); } catch(e) {}
   renderAll();
 }
 $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) setView(b.dataset.view); });
@@ -5042,6 +5046,7 @@ $("copyClose").addEventListener("click", () => { $("copyBox").hidden = true; });
 
 // ---------- Patch Notes ----------
 const NOTES = [
+  ["0.61", "14.10.2026", ["Als App auf dem iPhone liegt nichts mehr unter der Uhrzeit oder der Kamera-Insel, und unten bleibt Platz für den Home-Balken.", "Beim Wechsel zwischen Plan, Training und Fortschritt springt die Seite nicht mehr nach ganz oben. Sie bleibt, wo du bist, und holt nur die Tabs ins Bild, falls sie weggescrollt waren."]],
   ["0.60", "13.10.2026", ["Notizen zu jeder Übung: Im Training steht unter der Übung gut sichtbar „Deine Notiz zu dieser Übung“, z. B. Sitzhöhe oder Griff. Sie wird automatisch gespeichert und erscheint beim nächsten Training wieder, auch wenn du die Übung aus dem Plan löschst und neu hinzufügst.", "Im Plan siehst du die Notiz direkt bei der Übung.", "Video-Knöpfe zur YouTube-Suche jetzt bei jeder Übung im Plan, in der Bibliothek, in der Zuhause-Version und im Training. Auf Englisch wird auch auf Englisch gesucht.", "Übersetzung ins Englische vervollständigt."]],
   ["0.58", "13.10.2026", ["Wenn du einen neuen Plan erstellst oder die Zuhause-Version öffnest, zeigt die App oben einen Hinweis: Dein anderer Plan ist noch da, und oben bei „Plan“ wechselst du zurück. Das Auswahlfeld blinkt kurz, und ein Knopf bringt dich direkt zurück.", "Heißt der neue Plan zum Beispiel „Zuhause“, gibt es zusätzlich einen Tipp zur automatischen Zuhause-Version."]],
   ["0.55", "13.10.2026", ["Auf dem Handy heißt der erste Tab kurz „Plan“, damit alle Tabs gut in eine Zeile passen."]],
@@ -5107,7 +5112,7 @@ $("notesBox").addEventListener("click", e => {
 });
 
 // ---------- Daten & Sicherung, Version ----------
-const APP_VERSION = "0.60", APP_DATE = "13.10.2026";
+const APP_VERSION = "0.61", APP_DATE = "13.10.2026";
 $("appVer").textContent = `Beta ${APP_VERSION} · ${APP_DATE}`;
 const BK = "muskelplan.lastBackup";
 let bkPending = null;
