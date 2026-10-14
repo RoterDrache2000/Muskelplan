@@ -432,7 +432,8 @@
 :root[data-skin="boxing"][data-theme="dark"]{--bg:#140C0C;--panel:#211414;--ink:#F4E9DF;--muted:#BFA79E;--line:#3E2522;--skin:#2E1C1A;--muscle:#4E2F2B;--sel:#E3343D;--sel-ink:#140C0C;--pick:#E8B04B;--pick-ink:#140C0C;--cov1:#4A1E1C;--cov2:#7E2A27;--cov3:#C23A37;--cov4:#F07A6E;--cov-ink:#F4E9DF;--c3ink:#140C0C;--c4ink:#140C0C;--tagbg:#2A1A18;--good:#6FD08A;--bad:#FF6B6B;--rope:#E3343D;--rope2:#3F6FD8;--ropew:#F4E9DF;color-scheme:dark}
 
 :root[data-skin="boxing"] h1,:root[data-skin="boxing"] h2,:root[data-skin="boxing"] h3,:root[data-skin="boxing"] .nick,:root[data-skin="boxing"] .tabs button,:root[data-skin="boxing"] .stats b,:root[data-skin="boxing"] .num,:root[data-skin="boxing"] .type b,:root[data-skin="boxing"] .timer,:root[data-skin="boxing"] .ring b,:root[data-skin="boxing"] .notever,:root[data-skin="boxing"] .pvcol h3,:root[data-skin="boxing"] .tourcard h3,:root[data-skin="boxing"] .bhead h3,:root[data-skin="boxing"] .dayhead h3{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.03em}
-:root[data-skin="boxing"] h1{font-size:clamp(2.8rem,8vw,4.8rem);transform:skew(-6deg);transform-origin:left bottom}
+:root[data-skin="boxing"] h1{font-size:clamp(2.2rem,8vw,4.8rem);transform:skew(-6deg);transform-origin:left bottom}
+@media (max-width:360px){:root[data-skin="boxing"] h1{font-size:2.1rem}:root[data-skin="comic"] h1{font-size:2.3rem}}
 :root[data-skin="boxing"] h2{font-size:1.7rem}
 :root[data-skin="boxing"] header{border-bottom:0;padding-bottom:22px;background-image:linear-gradient(var(--rope),var(--rope)),linear-gradient(var(--ropew),var(--ropew)),linear-gradient(var(--rope2),var(--rope2));background-size:100% 3px;background-repeat:no-repeat;background-position:0 calc(100% - 12px),0 calc(100% - 6px),0 100%}
 :root[data-skin="boxing"] .panel,:root[data-skin="boxing"] .figs{border:2px solid var(--ink);border-top:6px solid var(--sel);border-radius:4px;box-shadow:0 10px 22px -16px rgba(0,0,0,.5)}
@@ -516,6 +517,11 @@
 .calcwarn p{margin:0 0 6px;font-size:.93rem;line-height:1.45}
 .calcwarn p:last-child{margin:0}
 .calcvidrow{display:flex;flex-wrap:wrap;gap:8px}
+.planvids{margin:4px 0 0}
+body.fresh .planbar,body.fresh #tabs,body.fresh .grid,body.fresh #planCancel,body.fresh #planDelAsk{display:none!important}
+body.fresh #planEdit{border:2px solid var(--sel)}
+.libselbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 10px;padding:8px 12px;border-radius:10px;border:1.5px solid var(--pick);background:color-mix(in srgb,var(--pick) 10%,var(--panel))}
+.libtaphint{margin:0}
 .calcvidrow .vidlink.cur{background:var(--sel);border-color:var(--sel);color:var(--sel-ink)}
 .wissec .disc + .disc{margin-top:8px}
 
@@ -985,6 +991,7 @@ body.running .tabs{margin-top:8px}
 @media (max-width:360px){.tabs button,body.running .tabs button{font-size:.72rem;padding:9px 4px}}
 @media (max-width:359px){.tabs:has(> button:nth-child(4)) button{letter-spacing:0!important}:root[data-skin="comic"] .tabs:has(> button:nth-child(4)) button{font-size:.74rem!important}:root[data-skin="blueprint"] .tabs:has(> button:nth-child(4)) button,:root[data-skin="gold"] .tabs:has(> button:nth-child(4)) button{font-size:.66rem}}
 @media (max-width:640px){:root[data-skin="comic"] .tabs:has(> button:nth-child(4)) button{font-size:clamp(.8rem,3.6vw,1rem)}:root[data-skin="arcade"] .tabs:has(> button:nth-child(4)) button{font-size:clamp(.5rem,2.3vw,.7rem);padding:12px 4px}}
+@media (min-width:641px) and (max-width:1100px){.tabs:has(> button:nth-child(4)) button{font-size:clamp(.8rem,1.6vw,1.05rem)!important;padding:10px clamp(4px,1vw,12px)!important;letter-spacing:0!important}}
 @media (max-width:640px){.tabs:has(> button:nth-child(6)){gap:0}.tabs:has(> button:nth-child(6)) button,body.running .tabs:has(> button:nth-child(6)) button{font-size:clamp(.6rem,2.85vw,.76rem)!important;padding:9px 1px!important;letter-spacing:-.01em!important;min-width:0}:root[data-skin="arcade"] .tabs:has(> button:nth-child(6)) button,:root[data-skin="gameboy"] .tabs:has(> button:nth-child(6)) button{font-size:clamp(.42rem,1.9vw,.55rem)!important}}
 body.running #trainSec .planhead h2{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 body.running .runpanel{border-top:0;padding-top:0;margin-top:0}
@@ -1348,6 +1355,7 @@ button.primary,button.primary:hover{background:var(--btn,var(--sel));border-colo
   <section class="panel firsthint" id="firstHint" hidden aria-label="Hinweise"></section>
   <div id="planEdit" class="panel" style="margin-top:14px;display:grid;gap:14px" hidden>
     <h2 id="planEditTitle">Neuen Plan erstellen</h2>
+    <p class="hint" id="planEditIntro" hidden></p>
     <div class="field" style="max-width:360px"><label class="label" for="planName">Name des Plans</label><input id="planName" maxlength="40"></div>
     <div class="field" id="typeBox">
       <span class="label">Art des Plans</span>
@@ -1357,9 +1365,11 @@ button.primary,button.primary:hover{background:var(--btn,var(--sel));border-colo
         <button type="button" class="type" data-type="split"><b>Ober- / Unterkörper</b>Zwei Tage im Wechsel. Prüft pro Tag, was fehlt. Namen änderbar.</button>
       </div>
       <div class="field" id="daysRow"><label class="label" for="newDays">Trainingstage (optional)</label><input id="newDays" maxlength="120" placeholder="z. B. Push, Pull, Beine"><span class="hint">Mit Komma trennen. Leer lassen für eine einfache Liste. Später jederzeit änderbar.</span></div>
+      <div class="calcvids planvids" id="planVids"></div>
     </div>
     <div class="formfoot">
       <button class="primary" id="planOk" type="button">Plan erstellen</button>
+      <span class="err" id="planErr" hidden></span>
       <button class="ghost" id="planCancel" type="button">Abbrechen</button>
     </div>
   </div>
@@ -1753,7 +1763,7 @@ try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () =
 
 // ---------- Zustand ----------
 const uid = () => Math.random().toString(36).slice(2, 10);
-let state = { plans:[{ id:uid(), name:L("Mein Plan", "My plan"), units:[] }], active:null, mig2:true };
+let state = { plans:[{ id:uid(), name:L("Mein Plan", "My plan"), units:[] }], active:null, mig2:true, fresh:true };
 // Ältere Einträge: „Brust“ und „Bauch“ waren je ein ganzer Muskel, jetzt sind sie aufgeteilt.
 function migrate(st){
   if (!st || st.mig2) return st;
@@ -1776,8 +1786,16 @@ const plan = () => state.plans.find(p => p.id === state.active) || state.plans[0
 
 let dbRef = null, saveTimer = null;
 const statusEl = document.getElementById("status");
+// Während eines laufenden Trainings keine App-Updates (sagt dem Offline-Speicher Bescheid)
+var swRunSent = null;
+function swSyncRun(force){
+  const on = !!(state && state.run); if (!force && on === swRunSent) return;
+  try { const c = navigator.serviceWorker && navigator.serviceWorker.controller; if (c) { c.postMessage({ type: "run", on }); swRunSent = on; } } catch(e) {}
+}
+try { if (navigator.serviceWorker) navigator.serviceWorker.addEventListener("controllerchange", () => swSyncRun(true)); } catch(e) {}
 function save(){
   try { localStorage.setItem(LS, JSON.stringify(state)); } catch(e) {}
+  try { swSyncRun(); } catch(e) {}
   if (!dbRef) return;
   clearTimeout(saveTimer);
   statusEl.textContent = "Speichert …";
@@ -2004,8 +2022,11 @@ function toggle(m, label){
   // Alle Teile eines Muskels gewählt → als ganzer Muskel merken
   Object.keys(SUBS).forEach(par => { if (SUBS[par].every(c => selection.has(c))) { SUBS[par].forEach(c => selection.delete(c)); selection.add(par); } });
   focusId = null; $("err").hidden = true;
+  const libOn = $("libSec") && !$("libSec").hidden;
+  if (libOn && selection.size) libMatch = true;
   renderChips(); renderDayUI(); renderMap(); renderUnits(); renderLib();
-  $("tip").textContent = selection.size ? `Ausgewählt: ${[...selection].map(x => MUSCLES[x].n).join(", ")}` : TIP0;
+  const nLib = libOn && selection.size ? libFiltered().length : null;
+  $("tip").textContent = selection.size ? `Ausgewählt: ${[...selection].map(x => MUSCLES[x].n).join(", ")}${nLib !== null ? (LANG === "en" ? ` · ${nLib} matching exercises in the library` : ` · ${nLib} passende Übungen in der Bibliothek`) : ""}` : TIP0;
 }
 function bindFigure(){ document.querySelectorAll(".fig .m").forEach(g => {
   const ms = () => g.dataset.ms ? g.dataset.ms.split(" ") : g.dataset.m;
@@ -2022,7 +2043,7 @@ $("mapMode").addEventListener("click", e => {
   drawFigure("front"); drawFigure("back"); bindFigure(); renderMap();
 });
 $("chips").addEventListener("click", e => { const b = e.target.closest(".chip"); if (b) toggle(b.dataset.m); });
-$("clearSel").addEventListener("click", () => { selection.clear(); $("err").hidden = true; renderChips(); renderDayUI(); renderMap(); $("tip").textContent = TIP0; });
+$("clearSel").addEventListener("click", () => { selection.clear(); libMatch = false; $("err").hidden = true; renderChips(); renderDayUI(); renderMap(); renderLib(); $("tip").textContent = TIP0; });
 $("daySeg").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; formDay = b.dataset.day; renderDayUI(); });
 $("dayFilter").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; dayFilter = b.dataset.f; focusId = null; renderDayUI(); renderMap(); renderUnits(); if (view === "training") renderTraining(); });
 
@@ -2141,7 +2162,22 @@ $("dayMgr").addEventListener("keydown", e => { if (e.key === "Enter" && e.target
 let planMode = null, newType = "frei";
 function renderTypes(){
   $("types").querySelectorAll(".type").forEach(b => b.setAttribute("aria-pressed", b.dataset.type === newType));
+  if (newType) $("planErr").hidden = true;
   $("daysRow").hidden = newType !== "frei";
+  renderPlanVids();
+}
+const PLAN_YT = [
+  ["all", "Wie erstelle ich einen Trainingsplan?", "How do I create a workout plan?", "Trainingsplan erstellen Anfänger Fitnessstudio", "how to create a gym workout plan for beginners"],
+  ["ganz", "Ganzkörper-Plan richtig erstellen", "Build a full-body plan", "Ganzkörper Trainingsplan richtig erstellen", "how to build a full body workout plan"],
+  ["split", "Ober-/Unterkörper richtig aufteilen", "Upper/lower split done right", "Oberkörper Unterkörper Split Trainingsplan erstellen", "upper lower split workout plan explained"],
+  ["frei", "Push / Pull / Beine erklärt", "Push / pull / legs explained", "Push Pull Beine Trainingsplan erstellen", "push pull legs split explained"],
+  ["all", "Wie viele Sätze und Wiederholungen?", "How many sets and reps?", "wie viele Sätze und Wiederholungen Muskelaufbau", "how many sets and reps to build muscle"],
+  ["all", "Langsam steigern: Progressive Überlastung", "Progressive overload explained", "progressive Überlastung erklärt Krafttraining", "progressive overload explained"]
+];
+function renderPlanVids(){
+  const box = $("planVids"); if (!box) return;
+  const url = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+  box.innerHTML = `<span class="label">${L("Videos auf YouTube", "Videos on YouTube")}</span><div class="calcvidrow">${PLAN_YT.map(([k, de, en, qde, qen]) => `<a class="vidlink ${k === newType ? "cur" : ""}" href="${esc(url(L(qde, qen)))}" target="_blank" rel="noopener noreferrer" aria-label="${esc(L(`YouTube-Suche: ${de}`, `YouTube search: ${en}`))}"><span class="play" aria-hidden="true">▶</span>${L(de, en)}</a>`).join("")}</div><span class="hint">${L("Öffnet die YouTube-Suche. Achte auf seriöse Kanäle, zum Beispiel von Trainern oder Sportwissenschaftlern.", "Opens a YouTube search. Prefer reliable channels, e.g. trainers or sports scientists.")}</span>`;
 }
 $("types").addEventListener("click", e => {
   const b = e.target.closest(".type"); if (!b) return;
@@ -2162,16 +2198,33 @@ $("renPlan").addEventListener("click", () => {
   $("planEditTitle").textContent = "Plan umbenennen"; $("planOk").textContent = "Speichern";
   $("typeBox").hidden = true; $("planName").value = plan().name; $("planName").focus();
 });
+function applyFresh(){
+  const f = !!state.fresh; document.body.classList.toggle("fresh", f);
+  if (!f) { $("planEditIntro").hidden = true; return; }
+  planMode = "new"; if (!["frei", "ganz", "split"].includes(newType) || !applyFresh.done) newType = "";
+  applyFresh.done = true;
+  $("planDelAsk").hidden = true; $("planEdit").hidden = false; $("typeBox").hidden = false;
+  $("planEditTitle").textContent = L("Willkommen! Erstelle deinen ersten Plan", "Welcome! Create your first plan");
+  $("planEditIntro").textContent = L("Wähle, wie du trainieren möchtest, und gib deinem Plan einen Namen. Später kannst du jederzeit weitere Pläne anlegen, zum Beispiel einen für zu Hause.", "Choose how you want to train and give your plan a name. You can add more plans any time later, e.g. one for home.");
+  $("planEditIntro").hidden = false; $("planOk").textContent = L("Plan erstellen", "Create plan");
+  if (!$("planName").placeholder) $("planName").placeholder = L("z. B. Mein Gym-Plan", "e.g. My gym plan");
+  renderTypes();
+}
 function planOk(){
+  if (planMode === "new" && !newType) { const e = $("planErr"); e.textContent = L("Wähle zuerst die Art des Plans aus.", "First choose the type of plan."); e.hidden = false; try { $("types").scrollIntoView({ behavior: "smooth", block: "center" }); } catch(err) {} return; }
+  $("planErr").hidden = true;
   const n = $("planName").value.trim() || (planMode === "new" ? (newType === "frei" ? `Plan ${state.plans.length + 1}` : TYPES[newType]) : plan().name);
   if (planMode === "new") {
     const units = [];
     const p = { id: uid(), name: n, type: newType, units };
     if (newType === "frei") { const names = $("newDays").value.split(",").map(x => x.trim()).filter(Boolean).slice(0, 10); if (names.length) p.days = names.map(x => ({ id: uid(), name: x.slice(0, 30) })); }
     $("newDays").value = "";
-    const prevPlan = plan();
-    state.plans.push(p); state.active = p.id; focusId = null; dayFilter = "alle"; resetForm();
+    const wasFresh = !!state.fresh;
+    const prevPlan = wasFresh ? null : plan();
+    if (wasFresh) { state.plans = [p]; delete state.fresh; } else state.plans.push(p);
+    state.active = p.id; focusId = null; dayFilter = "alle"; resetForm();
     addOpen = false; renderAdd();
+    if (wasFresh) { applyFresh(); window.scrollTo({ top: 0, behavior: "smooth" }); }
     if (prevPlan && prevPlan !== p) showPlanHint(prevPlan, /zuhause|zu hause|daheim|home/i.test(n) && !prevPlan.homeOf ? "home" : "new");
   } else { plan().name = n; const hp = !plan().homeOf && homeOf(plan()); if (hp) hp.name = `${n} · ${L("Zuhause", "Home")}`; }
   $("planEdit").hidden = true; save(); renderAll();
@@ -3711,7 +3764,8 @@ function renderLib(){
   const head = "";
   if (box.hidden) return;
   const inPlan = new Set(plan().units.map(u => norm(u.name)));
-  const list = libFiltered();
+  let list = libFiltered();
+  if (libMatch && selection.size) { const sel = [...selection].map(m => bm(m)); const sc = x => sel.some(m => x.p.includes(m)) ? 0 : 1; list = list.map((x, i) => [x, i]).sort((a, b) => sc(a[0]) - sc(b[0]) || a[1] - b[1]).map(a => a[0]); }
   const cats = Object.keys(LIB_RAW);
   const moreN = (libMus ? 1 : 0) + (libMatch ? 1 : 0) + (libNew ? 1 : 0) + (libHome ? 1 : 0);
   const anyF = libCat !== "alle" || libGear !== "alle" || moreN || libQ;
@@ -3731,12 +3785,15 @@ function renderLib(){
       </div>
     </li>`;
   };
-  const groups = libCat === "alle" ? cats.map(c => [c, list.filter(x => x.cat === c)]).filter(g => g[1].length) : [[libCat, list]];
+  let groups = libCat === "alle" ? cats.map(c => [c, list.filter(x => x.cat === c)]).filter(g => g[1].length) : [[libCat, list]];
+  if (libMatch && selection.size && groups.length > 1) { const sel = [...selection].map(m => bm(m)); const hits = g => g[1].filter(x => sel.some(m => x.p.includes(m))).length; groups = groups.map((g, i) => [g, i]).sort((a, b) => hits(b[0]) - hits(a[0]) || a[1] - b[1]).map(a => a[0]); }
   const rows = groups.map(([c, l]) => `<li class="libgrp" aria-hidden="true"><span>${esc(c)}</span><span class="n">${l.length}</span></li>${l.map(row).join("")}`).join("");
   const keepFocus = document.activeElement && document.activeElement.id === "libQ";
   const oldList = box.querySelector(".liblist"); const listTop = oldList ? oldList.scrollTop : 0; const winY = window.scrollY;
+  const scrollX = [...box.querySelectorAll(".libscroll")].map(el => el.scrollLeft);
   box.innerHTML = head + `
     <div class="libsearch"><span class="libsico" aria-hidden="true">⌕</span><input id="libQ" type="search" value="${esc(libQ)}" placeholder="Übung, Gerät oder Muskel …" autocomplete="off" aria-label="Suchen"><span class="libcount n" aria-live="polite">${list.length}</span></div>
+    ${libMatch && selection.size ? `<div class="libselbar"><span>🎯 ${L("Übungen für", "Exercises for")} <b>${[...selection].map(x => MUSCLES[x].n).join(", ")}</b></span><button type="button" class="ghost mini" data-l="clearsel">✕ ${L("Auswahl aufheben", "Clear selection")}</button></div>` : `<p class="hint libtaphint">💡 ${L("Tippe am Körper auf einen Muskel, dann siehst du hier nur Übungen dafür.", "Tap a muscle on the body to see only exercises for it here.")}</p>`}
     <div class="libscroll" role="group" aria-label="Bereich">${["alle", ...cats].map(c => `<button type="button" class="chip" data-l="cat" data-v="${esc(c)}" aria-pressed="${libCat === c}">${c === "alle" ? "Alle Bereiche" : esc(c)}</button>`).join("")}</div>
     <div class="libscroll" role="group" aria-label="Gerät">${["alle", ...GEAR].map(g => `<button type="button" class="chip" data-l="gear" data-v="${g}" aria-pressed="${libGear === g}">${g === "alle" ? "Alle Geräte" : g === "Körpergewicht" ? "Matte / Körpergewicht" : gearName(g)}</button>`).join("")}</div>
     <details class="libmore2" ${libMoreOpen || moreN ? "open" : ""}><summary><span>Mehr Filter</span>${moreN ? `<span class="newdot">${moreN}</span>` : ""}</summary>
@@ -3750,13 +3807,28 @@ function renderLib(){
     <div class="liblegend"><span class="label">${list.length} ${list.length === 1 ? "Übung" : "Übungen"}</span>${anyF ? `<button type="button" class="ghost mini resetf" data-l="reset">Filter zurücksetzen</button>` : ""}</div>
     <p class="hint libhint">Tippe eine Übung an, dann leuchten ihre Muskeln am Körper: <b class="key prim">Hauptmuskel</b> und <b class="key">arbeitet mit</b>.</p>
     ${list.length ? `<ul class="liblist">${rows}</ul>` : `<div class="empty">Keine Übung passt zu deiner Suche. Ändere die Filter oder lege die Übung unten selbst an.</div>`}
+    ${libVids()}
     <p class="disc">Die Muskelzuordnungen sind vereinfachte Richtwerte und können ungenau oder falsch sein. Je nach Ausführung arbeiten auch andere Muskeln mit.</p>`;
   const newList = box.querySelector(".liblist"); if (newList && listTop) newList.scrollTop = listTop;
+  box.querySelectorAll(".libscroll").forEach((el, i) => { if (scrollX[i]) el.scrollLeft = scrollX[i]; });
   if (Math.abs(window.scrollY - winY) > 1) window.scrollTo({ top: winY, behavior: "instant" });
   if (keepFocus) { const q = $("libQ"); q.focus({ preventScroll: true }); q.setSelectionRange(q.value.length, q.value.length); }
 }
 $("libSec").addEventListener("toggle", e => { if (e.target.classList && e.target.classList.contains("libmore2")) libMoreOpen = e.target.open; }, true);
 
+const LIB_YT = [
+  ["Wie stelle ich ein Workout zusammen?", "How do I put a workout together?", "Workout richtig zusammenstellen Übungen Reihenfolge", "how to structure a workout exercise order"],
+  ["Grundübungen erklärt", "Compound exercises explained", "Grundübungen Krafttraining erklärt Anfänger", "compound exercises explained for beginners"],
+  ["Beste Übungen für Anfänger", "Best exercises for beginners", "beste Übungen Anfänger Fitnessstudio", "best gym exercises for beginners"],
+  ["Die beste Übung für jeden Muskel", "The best exercise for every muscle", "beste Übung für jeden Muskel", "best exercise for every muscle"]
+];
+function libVids(){
+  const url = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+  const a = (t, q, cur) => `<a class="vidlink ${cur ? "cur" : ""}" href="${esc(url(q))}" target="_blank" rel="noopener noreferrer" aria-label="${esc(L("YouTube-Suche: ", "YouTube search: ") + t)}"><span class="play" aria-hidden="true">▶</span>${esc(t)}</a>`;
+  const sel = [...new Set([...selection].map(m => bm(m)))].slice(0, 3);
+  const mus = sel.map(m => { const n = MUSCLES[m].n; return a(L(`Beste Übungen für ${n}`, `Best exercises for ${n}`), L(`beste Übungen ${n} Training`, `best ${n} exercises`), true); }).join("");
+  return `<div class="calcvids libvids"><span class="label">${L("Videos auf YouTube", "Videos on YouTube")}</span><div class="calcvidrow">${mus}${LIB_YT.map(([de, en, qde, qen]) => a(L(de, en), L(qde, qen), false)).join("")}</div><span class="hint">${L("Öffnet die YouTube-Suche. Achte auf seriöse Kanäle, zum Beispiel von Trainern oder Physiotherapeuten.", "Opens a YouTube search. Prefer reliable channels, e.g. trainers or physiotherapists.")}</span></div>`;
+}
 function libMuscles(x){ return ORDER.filter(m => x.p.includes(m) || x.s.includes(m)); }
 function showLibOnBody(x){
   focusId = null; libPreview = x;
@@ -3796,6 +3868,7 @@ function libClick(b){
   const act = b.dataset.l; const x = LIB[+b.dataset.i];
   if (act === "toggle") { libOpen = !libOpen; renderLib(); return; }
   if (act === "cat") { libCat = b.dataset.v; renderLib(); return; }
+  if (act === "clearsel") { selection.clear(); libMatch = false; renderChips(); renderDayUI(); renderMap(); renderLib(); $("tip").textContent = TIP0; return; }
   if (act === "reset") { libCat = "alle"; libGear = "alle"; libMus = ""; libMatch = false; libNew = false; libHome = false; libQ = ""; renderLib(); return; }
   if (act === "gear") { libGear = b.dataset.v; renderLib(); return; }
   if (act === "pick") {
@@ -5638,7 +5711,7 @@ $("copyClose").addEventListener("click", () => { $("copyBox").hidden = true; });
 
 // ---------- Patch Notes ----------
 const NOTES = [
-  ["0.70", "14.10.2026", ["Alle Designs sind jetzt sofort frei, du musst sie nicht mehr über Meilensteine freischalten.", "Android: Die Zurück-Taste schließt jetzt Druckvorschau, Tutorial und Design-Menü, statt die App zu verlassen. Der Sicherungs-Hinweis erklärt jetzt auch, wo die Datei bei Android landet.", "Blaupause: Die Muskelkarte zeigt jetzt deutlicher, wie oft ein Muskel trainiert wird, von Türkis über Gelb und Orange bis Rot.", "Oben neben „Tutorial“ steht jetzt klein, wann du zuletzt eine Sicherung gespeichert hast. Antippen speichert sofort eine neue. Nach 14 Tagen ohne Sicherung wird der Hinweis orange.", "Sicherungen heißen jetzt „Muskelplan Sicherung“ mit Datum, damit du sie in deinen Dateien leicht findest.", "Der Browser wird gebeten, deine Daten dauerhaft zu speichern und sie nicht von selbst zu löschen.", "Pausenzeiten sekundengenau: mit ±1 und ±15 Sekunden von 5 Sekunden bis 10 Minuten einstellbar, dazu Schnellwahl-Knöpfe. Auch während der Pause gibt es ±1 und ±15 Sekunden, und du kannst für einzelne Übungen eine eigene Pausenzeit merken.", "Rechner: Die Auswahl „Dein Alltag“ hat jetzt 6 Stufen mit genauer Beschreibung, Beispielen und ungefähren Schritten pro Tag. Trägst du Schritte bei den Körperwerten ein, schlägt der Rechner die passende Stufe vor."]],
+  ["0.70", "14.10.2026", ["Alle Designs sind jetzt sofort frei, du musst sie nicht mehr über Meilensteine freischalten.", "Während eines laufenden Trainings gibt es keine App-Updates mehr. Eine neue Version kommt erst, wenn du das Training beendet hast.", "Beim ersten Start beginnt sofort das Tutorial. Danach legst du selbst deinen ersten Plan an und wählst seine Art, statt mit einem leeren Standard-Plan zu starten.", "Übungsbibliothek: YouTube-Links wie „Wie stelle ich ein Workout zusammen?“ oder „Grundübungen erklärt“. Hast du am Körper Muskeln gewählt, gibt es dazu „Beste Übungen für …“.", "Übungsbibliothek: Tippe am Körper auf einen Muskel, dann zeigt die Bibliothek nur Übungen dafür, Übungen mit diesem Hauptmuskel zuerst. Mit „Auswahl aufheben“ siehst du wieder alle.", "Fehler behoben: Beim Antippen eines Filters in der Bibliothek sprang die Leiste nicht mehr an den Anfang zurück.", "Beim Erstellen eines Plans gibt es jetzt YouTube-Links, zum Beispiel „Wie erstelle ich einen Trainingsplan?“, „Ober-/Unterkörper richtig aufteilen“ oder „Push / Pull / Beine erklärt“. Das Video zur gewählten Plan-Art ist hervorgehoben.", "Android: Die Zurück-Taste schließt jetzt Druckvorschau, Tutorial und Design-Menü, statt die App zu verlassen. Der Sicherungs-Hinweis erklärt jetzt auch, wo die Datei bei Android landet.", "Blaupause: Die Muskelkarte zeigt jetzt deutlicher, wie oft ein Muskel trainiert wird, von Türkis über Gelb und Orange bis Rot.", "Oben neben „Tutorial“ steht jetzt klein, wann du zuletzt eine Sicherung gespeichert hast. Antippen speichert sofort eine neue. Nach 14 Tagen ohne Sicherung wird der Hinweis orange.", "Sicherungen heißen jetzt „Muskelplan Sicherung“ mit Datum, damit du sie in deinen Dateien leicht findest.", "Der Browser wird gebeten, deine Daten dauerhaft zu speichern und sie nicht von selbst zu löschen.", "Pausenzeiten sekundengenau: mit ±1 und ±15 Sekunden von 5 Sekunden bis 10 Minuten einstellbar, dazu Schnellwahl-Knöpfe. Auch während der Pause gibt es ±1 und ±15 Sekunden, und du kannst für einzelne Übungen eine eigene Pausenzeit merken.", "Rechner: Die Auswahl „Dein Alltag“ hat jetzt 6 Stufen mit genauer Beschreibung, Beispielen und ungefähren Schritten pro Tag. Trägst du Schritte bei den Körperwerten ein, schlägt der Rechner die passende Stufe vor."]],
   ["0.69", "14.10.2026", ["Rechner: neue YouTube-Links „Wie funktioniert Fett abnehmen?“, „Wie funktioniert Muskelaufbau?“ und „Wie funktioniert Gewicht zunehmen?“. Alle Video-Links stehen jetzt immer unten, auch bevor du etwas eingetragen hast.", "Neue Warnung bei „Daten & Sicherung“ und im Tutorial: Wer den Browserverlauf mit Website-Daten löscht oder die App entfernt, verliert ohne Sicherung alle Daten."]],
   ["0.68", "14.10.2026", ["Tutorial überarbeitet: Es zeigt jetzt auch, wie du einen Plan importierst, als PDF herunterlädst und teilst, die Übersicht nach dem Training, Übungsnotizen, Fortschritt anordnen, Meilensteine mit Designs und den Rechner.", "Rechner: Du kannst jetzt ein Ziel-Körperfett eintragen. Der Rechner zeigt, wie viel du dann ungefähr wiegst, wie viel Fett du dafür verlieren müsstest und wie lange das grob dauert."]],
   ["0.67", "14.10.2026", ["Rechner: Unter „Dein Ziel“ erklärt „Was ist der Unterschied zwischen den Zielen?“ zum Aufklappen, was die Ziele unterscheiden, zum Beispiel Abnehmen und nur Fett verlieren oder Muskelaufbau und Zunehmen."]],
@@ -5772,7 +5845,7 @@ function renderUpdate(){
     box.innerHTML = `<h3>${L("App aktualisieren", "Update the app")}</h3>
       <div class="updver hint"><span>${L("Läuft gerade", "Running now")}: <b>Beta ${esc(APP_VERSION)}</b></span></div>
       <p class="hint">${inClaude ? L("Das ist die Vorschau bei Claude. Sie ist immer automatisch auf dem neuesten Stand. Update-Dateien spielst du in der heruntergeladenen Muskelplan.html ein, an genau dieser Stelle.", "This is the preview inside Claude. It is always up to date automatically. Update files are installed in the downloaded Muskelplan.html, right here.")
-        : web ? L("Diese App aktualisiert sich von selbst, sobald eine neue Version hochgeladen ist. Eine Update-Datei brauchst du hier nicht.", "This app updates itself as soon as a new version is uploaded. You don't need an update file here.")
+        : web ? L("Diese App aktualisiert sich von selbst, sobald eine neue Version hochgeladen ist. Während eines laufenden Trainings wird nicht aktualisiert, erst wenn du es beendet hast. Eine Update-Datei brauchst du hier nicht.", "This app updates itself as soon as a new version is uploaded. It never updates during a running workout, only after you finish it. You don't need an update file here.")
         : L("Diese Datei ist noch eine ältere Ausgabe und kann keine Update-Dateien einspielen. Tausche sie einmal gegen die neue Muskelplan.html aus (gleicher Name, gleicher Ort). Deine Daten bleiben erhalten.", "This file is an older edition and cannot install update files. Replace it once with the new Muskelplan.html (same name, same place). Your data is kept.")}</p>`;
     return;
   }
@@ -6224,6 +6297,7 @@ let tourI = -1, tourView0 = null, tourEl = null, tourRaf = 0;
 function tourStart(){
   if (!$("pv").hidden) closePv();
   tourView0 = view; tourI = 0; $("tour").hidden = false; document.body.classList.add("touring");
+  if (state.fresh) { document.body.classList.remove("fresh"); $("planEdit").hidden = true; }
   tourShow(); mpLayer("tour");
 }
 function tourEnd(fromPop){
@@ -6233,6 +6307,7 @@ function tourEnd(fromPop){
   try { localStorage.setItem("muskelplan.tour", "1"); } catch(e) {}
   window.scrollTo({ top: 0, behavior: "smooth" });
   $("tourBtn").focus({ preventScroll: true });
+  if (state.fresh) applyFresh();
 }
 function tourPlace(){
   const spot = $("tourSpot");
@@ -6295,6 +6370,9 @@ if (fixGuess(state)) save();
 renderUpdate();
 checkUnlocks(true);
 renderAll();
+applyFresh();
+try { swSyncRun(true); if (navigator.serviceWorker) navigator.serviceWorker.ready.then(() => setTimeout(() => swSyncRun(true), 300)); } catch(e) {}
+if (state.fresh) { let seenTour = false; try { seenTour = localStorage.getItem("muskelplan.tour") === "1"; } catch(e) {} if (!seenTour) setTimeout(() => { if (state.fresh && $("tour").hidden) tourStart(); }, 600); }
 renderAdd();
 renderBackup();
 if (LANG === "en") trTree(document.body);
