@@ -494,6 +494,18 @@
 #calcOut .stats > div.hl{border-color:var(--sel);border-width:2px}
 #calcOut .stats > div.hl b{color:var(--sel)}
 .calcvids{display:grid;gap:8px;margin:12px 0}
+.calcinfo{border:1.5px solid var(--line);border-radius:10px;background:var(--tagbg)}
+.calcinfo summary{cursor:pointer;padding:10px 12px;font-weight:600;font-size:.92rem;list-style:none}
+.calcinfo summary::-webkit-details-marker{display:none}
+.calcinfo summary::after{content:" ▾";color:var(--muted)}
+.calcinfo[open] summary::after{content:" ▴"}
+.calcinfo .ci-body{padding:0 12px 12px;display:grid;gap:8px;font-size:.92rem;line-height:1.5}
+.calcinfo h4{margin:6px 0 0;font-size:.98rem}
+.calcinfo p{margin:0}
+.citable{width:100%;border-collapse:collapse;font-size:.84rem}
+.citable th,.citable td{text-align:left;padding:6px 4px;border-top:1px solid var(--line)}
+.citable th{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-top:0}
+.citable tr.cur td{font-weight:700;color:var(--sel)}
 .calcwarn{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;margin:4px 0 16px;padding:14px 16px;border:2px solid #E0A100;border-left-width:8px;border-radius:12px;background:color-mix(in srgb,#F5C400 16%,var(--panel));color:var(--ink)}
 .calcwarn .cw-ic{font-size:1.7rem;line-height:1}
 .calcwarn b{display:block;font-size:1.08rem;margin-bottom:4px}
@@ -5199,7 +5211,7 @@ function calcAutoDays(){
   if (d) return { n: Math.round(d / 4 * 2) / 2, src: "log" };
   const pd = daysOf(plan()).length; return { n: pd || 3, src: pd ? "plan" : "none" };
 }
-const CALC_GOAL = [["cut", "Abnehmen", "Lose fat", -500], ["slow", "Langsam abnehmen", "Lose slowly", -250], ["keep", "Gewicht halten", "Maintain", 0], ["bulk", "Muskelaufbau", "Build muscle", 250], ["gain", "Zunehmen", "Gain weight", 500]];
+const CALC_GOAL = [["cut", "Abnehmen", "Lose weight", -500], ["fat", "Nur Fett verlieren", "Lose fat only", -300], ["slow", "Langsam abnehmen", "Lose slowly", -250], ["keep", "Gewicht halten", "Maintain", 0], ["bulk", "Muskelaufbau", "Build muscle", 250], ["gain", "Zunehmen", "Gain weight", 500]];
 function calcResult(){
   const c = calcCfg(); const w = parseKg(String(c.w ?? "")), h = parseKg(String(c.h ?? "")), age = parseInt(c.age, 10);
   if (!c.sex) return { msg: L("Wähle zuerst Mann oder Frau aus.", "First choose male or female.") };
@@ -5215,13 +5227,14 @@ function calcResult(){
   const r10 = v => Math.round(v / 10) * 10;
   const gw = parseKg(String(c.gw ?? "")); const hasGw = gw >= 30 && gw <= 300 && Math.abs(gw - w) >= 0.5;
   const pw = hasGw ? gw : w;
-  const pLo = Math.round(pw * 1.6), pHi = Math.round(pw * 2.0), pMid = (pLo + pHi) / 2;
+  const gk0 = c.goal || "keep"; const pf = gk0 === "fat" ? [2.0, 2.4] : [1.6, 2.0];
+  const pLo = Math.round(pw * pf[0]), pHi = Math.round(pw * pf[1]), pMid = (pLo + pHi) / 2;
   const fat = Math.round(goal * 0.27 / 9); const carb = Math.max(0, Math.round((goal - pMid * 4 - fat * 9) / 4));
-  return { bmr: r10(bmr), tdee: r10(tdee), goal: r10(goal), diff: g[3], floored, pLo, pHi, fat, carb, gname: L(g[1], g[2]), pal, life, td, useKM, lbm, bf, w, goalRaw: tdee + g[3], gw: hasGw ? gw : null, pw, gk: g[0] };
+  return { bmr: r10(bmr), tdee: r10(tdee), goal: r10(goal), diff: g[3], floored, pLo, pHi, fat, carb, gname: L(g[1], g[2]), pal, life, td, useKM, lbm, bf, w, goalRaw: tdee + g[3], gw: hasGw ? gw : null, pw, gk: g[0], pf };
 }
 const CALC_YT = [["down", "Richtig abnehmen", "Lose weight the right way", "richtig abnehmen Ernährung Krafttraining", "how to lose fat the right way nutrition"], ["keep", "Gewicht richtig halten", "Maintain your weight", "Gewicht halten Ernährung Tipps", "how to maintain weight nutrition tips"], ["up", "Richtig zunehmen", "Gain weight the right way", "richtig zunehmen Muskelaufbau Ernährung", "how to gain weight muscle building nutrition"]];
 function calcVids(){
-  const g = calcCfg().goal || "keep"; const cur = g === "cut" || g === "slow" ? "down" : g === "keep" ? "keep" : "up";
+  const g = calcCfg().goal || "keep"; const cur = g === "cut" || g === "slow" || g === "fat" ? "down" : g === "keep" ? "keep" : "up";
   const url = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
   return `<div class="calcvids"><span class="label">${L("Videos auf YouTube", "Videos on YouTube")}</span><div class="calcvidrow">${CALC_YT.map(([k, de, en, qde, qen]) => `<a class="vidlink ${k === cur ? "cur" : ""}" href="${esc(url(L(qde, qen)))}" target="_blank" rel="noopener noreferrer" aria-label="${esc(L(`YouTube-Suche: ${de}`, `YouTube search: ${en}`))}"><span class="play" aria-hidden="true">▶</span>${L(de, en)}</a>`).join("")}</div><span class="hint">${L("Öffnet die YouTube-Suche. Achte auf seriöse Kanäle, zum Beispiel von Ernährungsfachkräften, Ärztinnen und Ärzten oder Sportwissenschaftlern.", "Opens a YouTube search. Prefer reliable channels, e.g. dietitians, doctors or sports scientists.")}</span></div>`;
 }
@@ -5235,7 +5248,8 @@ function calcGwHtml(r){
 }
 function calcGoalTxt(r){
   const kg = Math.abs(r.diff) * 7 / 7700; const k = fmt(Math.round(kg * 10) / 10);
-  const T = { cut: ["Zum Abnehmen: Du nimmst damit grob {k} kg pro Woche ab. Iss genug Eiweiß und trainier weiter, damit du vor allem Fett und nicht Muskeln verlierst.", "To lose fat: roughly {k} kg per week. Eat enough protein and keep training so you lose mainly fat, not muscle."],
+  const T = { fat: ["Nur Fett verlieren: Ganz ohne Muskelverlust geht Abnehmen nie sicher, aber so kommst du am nächsten dran. Ein kleines Minus (grob {k} kg pro Woche), mehr Eiweiß als sonst und weiter schwer trainieren, damit dein Körper die Muskeln behält. Die Waage bewegt sich dabei langsam, achte deshalb auch auf deinen Bauchumfang unter Körperwerte.", "Lose fat only: losing weight without any muscle loss is never guaranteed, but this gets closest. A small deficit (roughly {k} kg per week), more protein than usual and keep training heavy so your body keeps its muscle. The scale moves slowly, so also track your waist under Body stats."],
+    cut: ["Zum Abnehmen: Du nimmst damit grob {k} kg pro Woche ab. Iss genug Eiweiß und trainier weiter, damit du vor allem Fett und nicht Muskeln verlierst.", "To lose fat: roughly {k} kg per week. Eat enough protein and keep training so you lose mainly fat, not muscle."],
     slow: ["Langsam abnehmen: grob {k} kg pro Woche. Das ist leichter durchzuhalten, und du verlierst kaum Kraft.", "Lose slowly: roughly {k} kg per week. Easier to stick with, and you barely lose strength."],
     keep: ["Gewicht halten: Dein Gewicht bleibt etwa gleich. Mit Training kannst du trotzdem Muskeln aufbauen, nur langsamer.", "Maintain: your weight stays about the same. With training you can still build muscle, just more slowly."],
     bulk: ["Muskelaufbau: ein kleiner Überschuss. Du nimmst langsam zu, grob {k} kg pro Woche, und zwar möglichst viel davon als Muskeln. Gut für die meisten, die vor allem Muskeln wollen.", "Build muscle: a small surplus. You gain slowly, roughly {k} kg per week, mostly as muscle. Best for most people who mainly want muscle."],
@@ -5276,7 +5290,7 @@ function calcOutHtml(){
   if (r.msg) return `<p class="hint">${r.msg}</p>`;
   return `<div class="stats">
       <div class="hl"><span class="label">${L("Dein Ziel", "Your target")} · ${r.gname}</span><b class="n">${kc(r.goal)}</b><span class="hint n">${r.diff ? (LANG === "en" ? `${Math.abs(r.diff)} kcal ${r.diff > 0 ? "above" : "below"} maintenance` : `${Math.abs(r.diff)} kcal ${r.diff > 0 ? "mehr" : "weniger"} als zum Halten`) : L("pro Tag", "per day")}</span></div>
-      <div><span class="label">${L("Eiweiß", "Protein")}</span><b class="n">${r.pLo}–${r.pHi} g</b><span class="hint n">${r.gw ? (LANG === "en" ? `1.6–2.0 g per kg of your goal weight (${fmt(r.gw)} kg)` : `1,6–2,0 g pro kg deines Zielgewichts (${fmt(r.gw)} kg)`) : L("1,6–2,0 g pro kg Körpergewicht", "1.6–2.0 g per kg body weight")}</span></div>
+      <div><span class="label">${L("Eiweiß", "Protein")}</span><b class="n">${r.pLo}–${r.pHi} g</b><span class="hint n">${(() => { const f1 = v => LANG === "en" ? v.toFixed(1) : v.toFixed(1).replace(".", ","); const rg = `${f1(r.pf[0])}–${f1(r.pf[1])} g`; return r.gw ? (LANG === "en" ? `${rg} per kg of your goal weight (${fmt(r.gw)} kg)` : `${rg} pro kg deines Zielgewichts (${fmt(r.gw)} kg)`) : (LANG === "en" ? `${rg} per kg body weight` : `${rg} pro kg Körpergewicht`); })()}</span></div>
       <div><span class="label">${L("Gewicht halten", "Maintenance")}</span><b class="n">${kc(r.tdee)}</b><span class="hint n">${L("Tagesbedarf mit Aktivität", "Daily need incl. activity")}</span></div>
       <div><span class="label">${L("Grundumsatz", "Basal rate")}</span><b class="n">${kc(r.bmr)}</b><span class="hint n">${r.useKM ? L("mit Körperfett berechnet", "calculated with body fat") : L("in völliger Ruhe", "at complete rest")}</span></div>
       <div><span class="label">${L("Fett", "Fat")}</span><b class="n">${L("ca.", "approx.")} ${r.fat} g</b><span class="hint n">${L("etwa 25–30 % der Kalorien", "about 25–30% of calories")}</span></div>
@@ -5288,6 +5302,22 @@ function calcOutHtml(){
     ${calcVids()}
     <p class="hint">${LANG === "en" ? `${r.useKM ? `Basal rate via Katch-McArdle: 370 + 21.6 × ${fmt(Math.round(r.lbm * 10) / 10)} kg lean mass (${fmt(r.w)} kg at ${fmt(r.bf)}% body fat). ` : "Basal rate via Mifflin-St Jeor. "}Activity factor ${fmt(Math.round(r.pal * 100) / 100)} = daily life ${fmt(r.life)} + ${fmt(r.td)} training days × 0.05. Maintenance = basal rate × activity factor.` : `${r.useKM ? `Grundumsatz nach Katch-McArdle: 370 + 21,6 × ${fmt(Math.round(r.lbm * 10) / 10)} kg fettfreie Masse (${fmt(r.w)} kg bei ${fmt(r.bf)} % Körperfett). ` : "Grundumsatz nach Mifflin-St-Jeor. "}Aktivitätsfaktor ${fmt(Math.round(r.pal * 100) / 100)} = Alltag ${fmt(r.life)} + ${fmt(r.td)} Trainingstage × 0,05. Gewicht halten = Grundumsatz × Aktivitätsfaktor.`}</p>
     ${r.floored ? `<p class="disc">${L("Dein Ziel läge unter deinem Grundumsatz. Der Rechner zeigt deshalb den Grundumsatz an. Weniger zu essen ist auf Dauer nicht sinnvoll.", "Your target would be below your basal rate, so the calculator shows the basal rate instead. Eating less than that isn't sensible long-term.")}</p>` : ""}`;
+}
+let calcInfoOpen = false;
+function calcInfoHtml(cur){
+  const f1 = v => LANG === "en" ? v.toFixed(1) : v.toFixed(1).replace(".", ",");
+  const rows = CALC_GOAL.map(([k, de, en, d]) => { const pf = k === "fat" ? [2.0, 2.4] : [1.6, 2.0]; const kg = d * 7 / 7700; const kgt = d ? `${d > 0 ? "+" : "−"}${f1(Math.abs(kg))} kg` : "± 0";
+    return `<tr class="${k === cur ? "cur" : ""}"><td>${L(de, en)}</td><td>${d ? `${d > 0 ? "+" : "−"}${Math.abs(d)}` : "± 0"}</td><td>${f1(pf[0])}–${f1(pf[1])} g</td><td>${kgt}</td></tr>`; }).join("");
+  return `<details class="calcinfo" ${calcInfoOpen ? "open" : ""}><summary>ⓘ ${L("Was ist der Unterschied zwischen den Zielen?", "What's the difference between the goals?")}</summary><div class="ci-body">
+    <table class="citable"><thead><tr><th>${L("Ziel", "Goal")}</th><th>${L("kcal pro Tag", "kcal per day")}</th><th>${L("Eiweiß pro kg", "Protein per kg")}</th><th>${L("pro Woche", "per week")}</th></tr></thead><tbody>${rows}</tbody></table>
+    <p class="hint">${L("Kalorien jeweils im Vergleich zu „Gewicht halten“. Das Tempo ist grob geschätzt.", "Calories compared to “Maintain”. The pace is a rough estimate.")}</p>
+    <h4>${L("Abnehmen oder nur Fett verlieren?", "Lose weight or lose fat only?")}</h4>
+    <p>${L("<b>Abnehmen</b> heißt: schneller leichter werden. Bei einem größeren Minus verliert der Körper neben Fett aber auch eher etwas Muskeln.", "<b>Lose weight</b> means getting lighter faster. With a bigger deficit your body is more likely to lose some muscle along with fat.")}</p>
+    <p>${L("<b>Nur Fett verlieren</b> heißt: langsamer, dafür möglichst nur Fett. Das kleinere Minus, mehr Eiweiß und weiter schweres Training sagen dem Körper, dass er die Muskeln noch braucht. Ganz ohne Muskelverlust geht es nie sicher, aber so kommst du am nächsten dran. Gut, wenn du schon trainierst und deine Muskeln behalten willst.", "<b>Lose fat only</b> means slower, but mostly fat. The smaller deficit, more protein and continued heavy training tell your body it still needs its muscle. Zero muscle loss is never guaranteed, but this gets closest. Good if you already train and want to keep your muscle.")}</p>
+    <h4>${L("Muskelaufbau oder zunehmen?", "Build muscle or gain weight?")}</h4>
+    <p>${L("<b>Muskelaufbau</b> heißt: ein kleiner Überschuss. Du wirst langsam schwerer, und ein möglichst großer Teil davon sind Muskeln. Mehr kann der Körper ohnehin nicht in Muskeln umsetzen. Für die meisten das richtige Ziel.", "<b>Build muscle</b> means a small surplus. You gain slowly, and as much of it as possible is muscle. Your body can't turn much more than that into muscle anyway. The right goal for most people.")}</p>
+    <p>${L("<b>Zunehmen</b> heißt: doppelter Überschuss. Du wirst schneller schwerer, dabei kommt aber auch mehr Fett dazu. Sinnvoll, wenn du sehr schlank bist und bewusst Gewicht aufbauen willst, oder wenn du mit Muskelaufbau über Wochen nicht zunimmst.", "<b>Gain weight</b> means double the surplus. You get heavier faster, but more fat comes along. Useful if you're very lean and want to put on weight on purpose, or if you don't gain for weeks on “Build muscle”.")}</p>
+  </div></details>`;
 }
 function renderWissen(){
   const box = $("wisSec"); if (!box) return;
@@ -5313,6 +5343,7 @@ function renderWissen(){
       <div class="field"><label class="label" for="cLife">${L("Dein Alltag (ohne Training)", "Your daily life (without training)")}</label><select id="cLife">${CALC_LIFE.map(([v, de, en, dd, ed]) => `<option value="${v}" ${(c.life || "1.4") === v ? "selected" : ""}>${L(de, en)}</option>`).join("")}</select><span class="hint">${(() => { const x = CALC_LIFE.find(x => x[0] === (c.life || "1.4")) || CALC_LIFE[0]; return L(x[3], x[4]); })()}</span></div>
       <div class="field"><label class="label" for="cTd">${L("Trainingstage pro Woche", "Training days per week")}</label><select id="cTd"><option value="auto" ${c.td == null || c.td === "auto" ? "selected" : ""}>${(() => { const a = calcAutoDays(); return a.src === "log" ? (LANG === "en" ? `Automatic: Ø ${fmt(a.n)} (your last 4 weeks)` : `Automatisch: Ø ${fmt(a.n)} (deine letzten 4 Wochen)`) : a.src === "plan" ? (LANG === "en" ? `Automatic: ${a.n} (days in your plan)` : `Automatisch: ${a.n} (Tage in deinem Plan)`) : (LANG === "en" ? "Automatic: 3 (no workouts yet)" : "Automatisch: 3 (noch keine Trainings)"); })()}</option>${[0, 1, 2, 3, 4, 5, 6, 7].map(n => `<option value="${n}" ${String(c.td) === String(n) ? "selected" : ""}>${n}</option>`).join("")}</select></div>
       <div class="field"><span class="label">${L("Dein Ziel", "Your goal")}</span>${segB("goal", c.goal || "keep", CALC_GOAL.map(([k, de, en]) => [k, L(de, en)]))}</div>
+      ${calcInfoHtml(c.goal || "keep")}
     </div>
     <div class="calcwarn" role="note"><span class="cw-ic" aria-hidden="true">⚠️</span><div><b>${L("Wichtig: Jeder Körper ist anders!", "Important: every body is different!")}</b><p>${L("Die Zahlen sind nur ein grober Richtwert. Stoffwechsel, Muskelmasse, Gene, Schlaf, Stress und wie viel du dich im Alltag wirklich bewegst sind bei jedem Menschen unterschiedlich. Dein echter Bedarf kann deshalb um mehrere hundert Kalorien abweichen.", "These numbers are only a rough guide. Metabolism, muscle mass, genes, sleep, stress and how much you really move differ from person to person, so your real need can be several hundred calories off.")}</p><p>${L("Beobachte dein Gewicht 2 bis 3 Wochen lang und passe die Menge dann an. Das ist keine medizinische Beratung.", "Watch your weight for 2 to 3 weeks and adjust. This is not medical advice.")}</p></div></div>
     <div id="calcOut">${calcOutHtml()}</div>
@@ -5329,6 +5360,7 @@ if ($("wisSec")) {
     const fe = document.activeElement; const id = fe && fe.id, pos = fe && fe.selectionStart; $("calcOut").innerHTML = calcOutHtml();
     if (id && document.activeElement !== fe) { const i = document.getElementById(id); if (i) { i.focus(); try { i.setSelectionRange(pos, pos); } catch(err) {} } } };
   $("wisSec").addEventListener("input", upd); $("wisSec").addEventListener("change", upd);
+  $("wisSec").addEventListener("toggle", e => { if (e.target.classList && e.target.classList.contains("calcinfo")) calcInfoOpen = e.target.open; }, true);
   $("wisSec").addEventListener("click", e => { const b = e.target.closest("[data-cs]"); if (!b) return; calcCfg()[b.dataset.cs] = b.dataset.v; save(); renderWissen(); });
 }
 
@@ -5530,6 +5562,8 @@ $("copyClose").addEventListener("click", () => { $("copyBox").hidden = true; });
 
 // ---------- Patch Notes ----------
 const NOTES = [
+  ["0.67", "14.10.2026", ["Rechner: Unter „Dein Ziel“ erklärt „Was ist der Unterschied zwischen den Zielen?“ zum Aufklappen, was die Ziele unterscheiden, zum Beispiel Abnehmen und nur Fett verlieren oder Muskelaufbau und Zunehmen."]],
+  ["0.66", "14.10.2026", ["Rechner: neues Ziel „Nur Fett verlieren“. Kleines Kalorienminus und mehr Eiweiß (2,0–2,4 g pro kg), damit du möglichst nur Fett und keine Muskeln verlierst."]],
   ["0.65", "14.10.2026", ["Neuer Tab „Rechner“: schätzt, wie viele Kalorien und wie viel Eiweiß du am Tag brauchst, passend zu deinem Ziel (abnehmen, halten, Muskelaufbau, zunehmen). Trainingstage nimmt er automatisch aus deinen Trainings.", "Mit Zielgewicht wird das Eiweiß für dein Zielgewicht berechnet, und du siehst, wann du es ungefähr erreichst. Mit Körperfett wird der Grundumsatz genauer.", "Nach 2 Wochen Gewichtseinträgen berechnet der Rechner aus deinem echten Verlauf, wie viel du wirklich brauchst.", "Dazu ein deutlicher Hinweis, dass jeder Körper anders ist, und YouTube-Links zum richtigen Abnehmen, Halten und Zunehmen."]],
   ["0.64", "14.10.2026", ["Fortschritt selbst einrichten: Mit „⇅ Anordnen“ oben im Fortschritt änderst du die Reihenfolge der Bereiche und blendest aus, was du nicht brauchst.", "Körperwerte: Werte und Verlauf erscheinen direkt beim Aufklappen, ohne zweiten Knopf.", "Designs als Belohnung: Standard und Zettel sind frei, alle anderen Designs schaltest du mit Meilensteinen frei. Gesperrte Designs zeigen im Menü, was noch fehlt, und lassen sich kurz in der Vorschau ansehen.", "7 neue Designs: Notizbuch, Ozean, Sonnenuntergang, Game Boy, Boxhalle, Winter und Olympia / Gold.", "Viele neue Meilensteine: Sätze, Wiederholungen, Trainingszeit, verschiedene Übungen, Ganzkörper-Wochen, Training zu Hause, Körperwerte und besondere Momente."]],
   ["0.63", "14.10.2026", ["Die Tabs „Plan bauen“, „Training“ und „Fortschritt“ sind auf dem Handy größer und verteilen sich über die ganze Breite, damit man sie leichter trifft."]],
@@ -5600,7 +5634,7 @@ $("notesBox").addEventListener("click", e => {
 });
 
 // ---------- Daten & Sicherung, Version ----------
-const APP_VERSION = "0.65", APP_DATE = "14.10.2026";
+const APP_VERSION = "0.67", APP_DATE = "14.10.2026";
 $("appVer").textContent = `Beta ${APP_VERSION} · ${APP_DATE}`;
 const BK = "muskelplan.lastBackup";
 let bkPending = null;
