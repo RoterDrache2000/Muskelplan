@@ -1915,6 +1915,117 @@ button.rxli:hover{border-color:var(--ink);background:var(--bg)}
 .hstart .hsquick .hsset{justify-self:center;font-size:.85rem;padding:6px 12px;border-radius:999px}
 html.lay2 body.view-home .hstart:not(.open) .hsquick .hsset{background:var(--panel)}
 @media (min-width:1100px){html.lay2 .hstart .hsquick{display:none}}
+/* 1.1: Rückblick (dezent) */
+.rbsec{display:grid;gap:10px}
+.rbrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+.rbrow h2{font-size:1.1rem;margin:0}
+.rbsec .rbseg button{padding:5px 10px;font-size:.82rem}
+.rbnav{display:flex;align-items:center;gap:8px}
+.rbnav .rbper{flex:1;display:grid;gap:1px;min-width:0}
+.rbnav .rbper b{font-size:1rem;line-height:1.2}
+.rbnav .rbper .hint{font-size:.8rem}
+.rbnav .rbarr{width:34px;height:34px;padding:0;border-radius:999px;font-size:1.15rem;line-height:1;flex:0 0 auto}
+.rbnav .rbgo{border-radius:999px!important;flex:0 0 auto}
+@media (max-width:1099px){#rbSec{display:none!important}.arrlist .arr-rb{display:none}}
+.rbbanner{display:grid;gap:2px;margin-bottom:12px}
+.rbbrow{display:flex;align-items:center;gap:8px;padding:2px 2px 2px 10px;border-left:3px solid var(--sel)}
+.rbbrow .rbic{color:var(--sel);font-size:.85rem}
+.rbblink{flex:1;min-width:0;text-align:left;background:none;border:0;padding:6px 0;color:var(--ink);font-size:.92rem;font-weight:600;cursor:pointer;text-transform:none;letter-spacing:0;font-family:var(--body)}
+.rbblink:hover{color:var(--sel);background:none}
+.rbbrow .rbno{background:none;border:0;color:var(--muted);font-size:1.1rem;padding:4px 8px;line-height:1}
+html.rbopen,html.rbopen body{overflow:hidden}
+.rbv{position:fixed;inset:0;z-index:95;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);padding:calc(env(safe-area-inset-top,0px) + 12px) 16px calc(env(safe-area-inset-bottom,0px) + 14px)}
+.rbv[hidden]{display:none}
+.rbbox{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;width:100%;max-width:560px;margin:0 auto}
+@media (min-width:700px){.rbv{background:rgba(0,0,0,.45);justify-content:center;align-items:center;padding:24px}.rbbox{flex:0 1 auto;max-width:460px;height:min(720px,calc(100vh - 48px));background:var(--bg);border-radius:20px;padding:16px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}.rbx{top:8px;right:8px}}
+.rbbars0{display:flex;gap:4px;max-width:560px;width:100%;margin:0 auto;padding-right:48px}
+.rbbars0 i{flex:1;height:3px;border-radius:3px;background:color-mix(in srgb,var(--ink) 15%,transparent)}
+.rbbars0 i.done,.rbbars0 i.cur{background:var(--sel)}
+.rbx{position:absolute;top:-10px;right:0;width:40px;height:40px;padding:0;border-radius:999px!important;font-size:1.4rem;line-height:1;background:var(--panel);color:var(--ink);border:1.5px solid var(--line)}
+.rbslide{flex:1;min-height:0;overflow:auto;width:100%;max-width:560px;margin:12px auto;padding:24px 20px;border-radius:20px;display:flex;flex-direction:column;justify-content:center;gap:14px;cursor:pointer;animation:rbIn .3s ease;background:var(--panel);color:var(--ink);border:1.5px solid var(--line)}
+@keyframes rbIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rbslide{animation:none}}
+.rbslide.rb-intro,.rbslide.rb-end{background:color-mix(in srgb,var(--sel) 7%,var(--panel))}
+.rbkick{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.rbtitle{font-family:var(--display);font-size:clamp(1.8rem,8vw,2.4rem);line-height:1.05;margin:0;overflow-wrap:anywhere}
+.rbtitle.sm{font-size:clamp(1.5rem,6.5vw,2rem)}
+.rbsub{margin:0;font-size:.95rem;line-height:1.45;color:var(--muted)}
+.rbsub b{color:var(--ink)}
+.rbemoji{font-size:2.6rem;line-height:1}
+.rbbig{display:grid;gap:2px}
+.rbbig b{font-family:var(--display);font-size:clamp(2.4rem,11vw,3.4rem);line-height:1;color:var(--sel);overflow-wrap:anywhere}
+.rbbig b.rbname{font-size:clamp(1.5rem,6.5vw,2rem);line-height:1.1;color:var(--ink)}
+.rbbig span{font-size:1rem;font-weight:600}
+.rbbig small{font-size:.85rem;color:var(--muted)}
+.rbgrid,.rbsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:8px}
+.rbgrid > div,.rbsum > div{display:grid;gap:2px;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);min-width:0}
+.rbgrid b,.rbsum b{font-family:var(--display);font-size:1.25rem;line-height:1.1;overflow-wrap:anywhere}
+.rbgrid span,.rbsum span{font-size:.78rem;color:var(--muted)}
+.rbsum .w{grid-column:1/-1}
+.rblist{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.rblist li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:var(--tagbg)}
+.rblist .no{width:24px;height:24px;border-radius:999px;display:grid;place-items:center;background:var(--sel);color:var(--sel-ink);font-weight:700;font-size:.8rem;flex:0 0 auto}
+.rblist .t{flex:1;min-width:0;font-weight:600;overflow-wrap:anywhere}
+.rblist .t small{display:block;font-weight:400;color:var(--muted);font-size:.78rem}
+.rblist .n{font-weight:700}
+.rblist .n.up{color:var(--good)}
+.rbfigs{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:300px;width:100%;margin:0 auto}
+.rbfigs svg{width:100%;height:auto;max-height:30vh}
+.rbcal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;max-width:320px;width:100%;margin:0 auto}
+.rbcal .wd{font-size:.68rem;text-align:center;color:var(--muted)}
+.rbcal i{aspect-ratio:1;display:grid;place-items:center;border-radius:8px;font-style:normal;font-size:.74rem;background:var(--tagbg)}
+.rbcal i:empty{background:none}
+.rbcal i.on{background:var(--sel);color:var(--sel-ink);font-weight:700}
+.rbbars{display:flex;align-items:flex-end;gap:5px;height:130px}
+.rbbars > div{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end;min-width:0}
+.rbbars .bar{width:100%;max-width:32px;height:calc(var(--h) * 96px + 4px);border-radius:6px 6px 3px 3px;background:var(--sel);display:flex;justify-content:center}
+.rbbars .bar b{font-size:.7rem;color:var(--sel-ink);padding-top:2px}
+.rbbars .lbl{font-size:.68rem;color:var(--muted);white-space:nowrap}
+.rbfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:560px;width:100%;margin:0 auto}
+.rbfoot button{min-width:100px;border-radius:999px!important}
+.rbfoot button[hidden]{visibility:hidden;display:inline-block}
+.rbendbtns{display:flex;flex-wrap:wrap;gap:8px}
+.rbendbtns button{flex:1 1 140px;border-radius:999px!important}
+/* 1.1: Tag wählen beim Schnellstart */
+.hstart .hspick{padding:14px;border-radius:18px;background:var(--panel);border:1.5px solid var(--line)}
+.hstart .hspickh{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hstart .hspickh b{font-family:var(--display);font-size:1.2rem;line-height:1.15}
+.hstart .hsday{display:grid;gap:2px;text-align:left;width:100%;padding:14px 16px;border-radius:14px;font-size:1.05rem;font-weight:700}
+.hstart .hsday small{font-weight:500;font-size:.8rem;opacity:.85}
+/* 1.1: Kraftstufe Zuhause */
+.lvlseg{display:flex;width:100%}
+.lvlseg button{flex:1 1 0;font-weight:700;font-size:1.05rem;padding:9px 0}
+.lvlinfo{display:grid;gap:2px;padding:10px 12px;border-radius:12px;background:var(--tagbg)}
+.lvlinfo .hint{font-size:.82rem}
+@media (min-width:700px){.rbx{top:8px;right:8px}}
+/* 1.1: Handy-Kopfzeile aufgeräumt (eine Werkzeugleiste + kleine Infozeile) */
+@media (max-width:640px){
+  html.lay2 header .topright{display:grid!important;grid-template-columns:auto auto minmax(0,1fr) auto auto;grid-template-areas:"tour skin . theme lang" "bk bk bk ver ver";gap:10px 6px;align-items:center;width:100%;position:static;margin:0 0 6px}
+  html.lay2 .topright .tourbtn{grid-area:tour;width:38px;height:38px;padding:0!important;justify-content:center;font-size:0!important;gap:0;border-radius:999px!important}
+  html.lay2 .topright .tourbtn span{font-size:1rem;width:24px;height:24px;display:grid;place-items:center}
+  html.lay2 .topright .skinwrap{grid-area:skin}
+  html.lay2 .topright .skinbtn{width:38px;height:38px;padding:0;display:grid;place-items:center;font-size:1rem;border:1.5px solid var(--line)!important;border-radius:999px!important;background:var(--panel)}
+  html.lay2 .topright #themeSeg{grid-area:theme}
+  html.lay2 .topright #langSeg{grid-area:lang}
+  html.lay2 .topright .seg{display:flex!important;flex-wrap:nowrap!important;width:auto!important;border-radius:999px!important;overflow:hidden;gap:0!important;box-shadow:none!important}
+  html.lay2 .topright .seg button{min-width:36px;height:34px;padding:0 9px!important;font-size:.78rem!important;letter-spacing:0!important;border-radius:0!important}
+  html.lay2 .topright .seg button{flex:0 0 auto!important;margin:0!important;box-shadow:none!important;border-width:0!important}
+  html.lay2 .topright #themeSeg button{font-size:0!important;width:38px!important;min-width:0!important;padding:0!important}
+  html.lay2 .topright #themeSeg button::before{font-size:1rem;line-height:1;font-family:system-ui,-apple-system,"Segoe UI Symbol",sans-serif}
+  html.lay2 .topright #themeSeg [data-theme-set="system"]::before{content:"Auto";font-size:.68rem;font-weight:700;letter-spacing:0}
+  html.lay2 .topright #themeSeg [data-theme-set="system"]{width:44px!important}
+  html.lay2 .topright #themeSeg [data-theme-set="light"]::before{content:"☀"}
+  html.lay2 .topright #themeSeg [data-theme-set="dark"]::before{content:"☾"}
+  html.lay2 .topright .bkchip{grid-area:bk;justify-self:start;max-width:100%;border:0!important;background:none!important;padding:0!important;font-size:.74rem!important;color:var(--muted)}
+  html.lay2 .topright .ver{grid-area:ver;justify-self:end;border:0!important;background:none!important;padding:0!important;font-size:.7rem!important;letter-spacing:.02em;font-weight:500;color:var(--muted)}
+  html.lay2 .topright .bkchip[hidden]{display:none!important}
+}
+/* 1.1: Handy-Tableiste: weniger Leerraum unten, nur ein Markierungsstrich */
+@media (max-width:760px){
+  html.lay2 body .tabs,html.lay2 body.running .tabs{padding:0 2px max(calc(env(safe-area-inset-bottom,0px) - 16px),4px)!important}
+  html.lay2 body .tabs button,html.lay2 body.running .tabs button{border-bottom:0!important;box-shadow:none!important;min-height:56px;padding:8px 0 6px!important}
+  html.lay2 body .tabs button[aria-selected="true"]{border-top-color:var(--sel)!important;border-bottom-color:transparent!important;color:var(--ink)}
+}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
@@ -2148,6 +2259,7 @@ body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
         <div class="panel lib" id="volSec" aria-label="Sätze pro Körperregion"></div>
         <div class="panel lib bodysec" id="bodySec" aria-label="Körperwerte"></div>
         <div class="panel gstats" id="gStats"></div>
+        <div class="panel lib rbsec" id="rbSec" aria-label="Rückblick"></div>
         <div class="panel lib" id="exSec" aria-label="Fortschritt pro Übung"></div>
         <div class="panel lib" id="msSec" aria-label="Meilensteine"></div>
       </section>
@@ -2199,10 +2311,10 @@ body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
       <button type="button" class="danger" data-test="clear">Alle Testpläne löschen</button>
     </div>
     <div class="label">Verlauf für den aktuellen Plan simulieren</div>
-    <p class="hint">Simuliert für den gerade gewählten Plan einen älteren Trainingsverlauf mit steigenden Gewichten. Testdaten sind markiert und lassen sich wieder löschen, ohne deine echten Einträge anzufassen.</p>
+    <p class="hint">Simuliert für den gerade gewählten Plan einen älteren Trainingsverlauf mit steigenden Gewichten. Testdaten sind markiert und lassen sich wieder löschen, ohne deine echten Einträge anzufassen. Mit „1 Jahr“ oder „2 Jahre“ kannst du dir die Rückblicke (Monat, 6 Monate, Jahr) genau anschauen.</p>
     <div class="formfoot">
       <div class="field"><label class="label" for="dbgWeeks">Zeitraum</label>
-        <select id="dbgWeeks"><option value="4">4 Wochen</option><option value="8" selected>8 Wochen</option><option value="12">12 Wochen</option><option value="26">6 Monate</option></select></div>
+        <select id="dbgWeeks"><option value="4">4 Wochen</option><option value="8" selected>8 Wochen</option><option value="12">12 Wochen</option><option value="26">6 Monate</option><option value="52">1 Jahr</option><option value="104">2 Jahre</option></select></div>
       <div class="field"><label class="label" for="dbgFreq">Trainings pro Woche</label>
         <select id="dbgFreq"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
       <div class="libchecks">
@@ -3422,7 +3534,7 @@ function pushManual(u, entry){
 
 // ---------- Home (neues Layout) ----------
 let homeDays = {}; try { homeDays = JSON.parse(localStorage.getItem("muskelplan.homeDays") || "{}") || {}; } catch(e) { homeDays = {}; }
-let hsOpen = false;
+let hsOpen = false, hsPick = false;
 function homeDayOpen(p, id){ const k = p.id + ":" + id; return k in homeDays ? !!homeDays[k] : id === nextDay(p); }
 function homeSetDay(p, id, open){ homeDays[p.id + ":" + id] = open ? 1 : 0; try { localStorage.setItem("muskelplan.homeDays", JSON.stringify(homeDays)); } catch(e) {} }
 function homeRow(u, i){
@@ -3479,7 +3591,7 @@ function renderStart(){
       ${open ? (list.length ? `<ol>${list.map(homeRow).join("")}</ol>` : `<p class="hint" style="padding:10px 16px;margin:0">${L("An diesem Tag sind noch keine Übungen.", "No exercises on this day yet.")}</p>`) + `<div class="hdfoot">${list.length ? `<button type="button" class="primary" data-hw="go" data-day="${d.id}">▶ ${L("Diesen Tag starten", "Start this day")}</button>` : ""}<button type="button" class="ghost" data-hw="edit" data-day="${d.id}">${L("Bearbeiten", "Edit")}</button></div>` : ""}
     </div>`;
   }).join("") : `<div class="hday" data-open="1"><div class="hdh"><span class="nm">${L("Alle Übungen", "All exercises")}</span><span class="cnt">${p.units.length} ${p.units.length === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")}</span></div><ol>${p.units.map(homeRow).join("")}</ol><div class="hdfoot"><button type="button" class="ghost" data-hw="edit">${L("Bearbeiten", "Edit")}</button></div></div>`;
-  w.innerHTML = `<div class="hwhead"><div><div class="label">${L("Deine Workouts", "Your workouts")} · ${esc(p.homeOf ? L("Zuhause", "Home") : p.name)}</div><h2>${run ? L("Training läuft", "Workout running") : L("Bereit fürs Training", "Ready to train")}</h2></div>${hasDays(p) && ds.length > 1 ? `<button type="button" class="ghost" data-hw="all">${anyOpen ? L("Alle zuklappen", "Collapse all") : L("Alle aufklappen", "Expand all")}</button>` : ""}</div>${cards}<div class="hwadd"><button type="button" class="ghost" data-hw="add">＋ ${L("Übungen einfügen oder Plan importieren", "Add exercises or import a plan")}</button></div>`;
+  w.innerHTML = `${(() => { try { return rbBanner(); } catch(e) { return ""; } })()}<div class="hwhead"><div><div class="label">${L("Deine Workouts", "Your workouts")} · ${esc(p.homeOf ? L("Zuhause", "Home") : p.name)}</div><h2>${run ? L("Training läuft", "Workout running") : L("Bereit fürs Training", "Ready to train")}</h2></div>${hasDays(p) && ds.length > 1 ? `<button type="button" class="ghost" data-hw="all">${anyOpen ? L("Alle zuklappen", "Collapse all") : L("Alle aufklappen", "Expand all")}</button>` : ""}</div>${cards}<div class="hwadd"><button type="button" class="ghost" data-hw="add">＋ ${L("Übungen einfügen oder Plan importieren", "Add exercises or import a plan")}</button></div>`;
   // Start-Bereich
   if (run) {
     hs.classList.remove("open");
@@ -3488,6 +3600,12 @@ function renderStart(){
   }
   hs.classList.toggle("open", hsOpen);
   const qd = hasDays(p) ? ((startDay && ds.some(d => d.id === startDay && unitsFor(p, d.id).length)) ? startDay : nd) : null;
+  const pickDays = hasDays(p) ? ds.filter(d => unitsFor(p, d.id).length) : [];
+  if (hsPick && pickDays.length > 1 && !hsOpen) {
+    hs.innerHTML = `<div class="hsquick hspick"><div class="hspickh"><b>${L("Was trainierst du heute?", "What are you training today?")}</b><button type="button" class="ghost mini" data-hs="pickno">${L("Abbrechen", "Cancel")}</button></div>
+      ${pickDays.map(d => `<button type="button" class="${d.id === nd ? "primary" : "ghost"} hsday" data-hs="qday" data-day="${d.id}"><span>${esc(d.name)}</span><small>${unitsFor(p, d.id).length} ${unitsFor(p, d.id).length === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")}${d.id === nd ? " · " + L("ist dran", "up next") : ""}</small></button>`).join("")}</div>`;
+    return;
+  }
   hs.innerHTML = `<div class="hsquick" ${hsOpen ? "hidden" : ""}><button type="button" class="primary hsgo" data-hs="quick">▶ ${L("Training starten", "Start workout")}${qd ? `<small>${esc(dayNameH(p, qd))}</small>` : ""}</button>
       <button type="button" class="ghost hsset" data-hs="toggle" aria-expanded="${hsOpen}">⚙ ${L("Tag, Stoppuhr und Pausen einstellen", "Set day, stopwatch and rests")}</button></div>
     <div class="hsbody" ${hsOpen ? "" : 'data-closed="1"'}>
@@ -3506,7 +3624,7 @@ function homeGo(day){
   const p = plan(); const st = settings(); const auto = st.autoRest !== false;
   startSession(hasDays(p) ? (day || startDay || nextDay(p)) : null, auto);
   if (state.run) { state.run.clock = !!st.clock; state.run.restOn = auto; state.run.sound = auto && state.run.sound; save(); }
-  hsOpen = false; setView("training"); window.scrollTo({ top: 0, behavior: "auto" });
+  hsOpen = false; hsPick = false; setView("training"); window.scrollTo({ top: 0, behavior: "auto" });
 }
 function wireHome(){
   if (!$("hWork")) return;
@@ -3518,15 +3636,20 @@ function wireHome(){
     if (a === "go") { startDay = b.dataset.day; homeGo(b.dataset.day); focusEntry(); return; }
     if (a === "edit") { if (b.dataset.day) dayFilter = b.dataset.day; setView("bauen"); window.scrollTo({ top: 0, behavior: "auto" }); return; }
     if (a === "toplan") { setView("bauen"); return; }
+    if (a === "rb") { rbOpenView(rbPeriod(b.dataset.k, 1)); return; }
+    if (a === "rbno") { state.rbHide = [...new Set([...(state.rbHide || []), b.dataset.key])].slice(-40); save(); renderStart(); return; }
     if (a === "add") { setView("bauen"); openAdd(addTab || "lib"); requestAnimationFrame(() => requestAnimationFrame(() => { const el = $("addSec"); if (el) window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - 12), behavior: "auto" }); })); return; }
   });
   const rer = () => view === "home" ? renderStart() : renderSession();
   const hsClick = e => {
     const b = e.target.closest("[data-hs]"); if (!b || b.tagName === "INPUT") return; const a = b.dataset.hs; const st = settings();
-    if (a === "toggle") { hsOpen = !hsOpen; renderStart(); if (hsOpen) setTimeout(() => $("hStart").scrollIntoView({ behavior: "smooth", block: "nearest" }), 30); return; }
+    if (a === "toggle") { hsPick = false; hsOpen = !hsOpen; renderStart(); if (hsOpen) setTimeout(() => $("hStart").scrollIntoView({ behavior: "smooth", block: "nearest" }), 30); return; }
     if (a === "day") { startDay = b.dataset.day; rer(); return; }
     if (a === "step" || a === "set") { const k = b.dataset.k; const v = a === "set" ? +b.dataset.v : (st[k] || (k === "restSet" ? 90 : 120)) + (+b.dataset.d); st[k] = Math.max(5, Math.min(600, v)); save(); rer(); return; }
-    if (a === "go" || a === "quick") { homeGo(); focusEntry(); return; }
+    if (a === "quick") { const p = plan(); if (hasDays(p) && daysOf(p).filter(d => unitsFor(p, d.id).length).length > 1) { hsPick = true; renderStart(); return; } homeGo(); focusEntry(); return; }
+    if (a === "qday") { hsPick = false; startDay = b.dataset.day; homeGo(b.dataset.day); focusEntry(); return; }
+    if (a === "pickno") { hsPick = false; renderStart(); return; }
+    if (a === "go") { homeGo(); focusEntry(); return; }
     if (a === "cont") { setView("training"); window.scrollTo({ top: 0, behavior: "auto" }); return; }
     if (a === "manual") { hsOpen = false; if (view !== "training") setView("training"); setTimeout(() => $("tUnits")?.scrollIntoView({ behavior: "smooth", block: "start" }), 60); return; }
     if (a === "hist") { hsOpen = false; histOpen = true; setView("training"); window.scrollTo({ top: 0, behavior: "auto" }); return; }
@@ -4415,7 +4538,11 @@ function simulate(weeks, perWeek, p, shift){
   const today = new Date(); today.setHours(18, 0, 0, 0);
   const start = new Date(today); start.setDate(start.getDate() - weeks * 7);
   let n = 0, alt = "oben";
+  // Bei langen Zeiträumen gibt es ein paar Wochen Pause (Urlaub, krank), damit Rückblicke echt aussehen
+  const off = new Set(); if (weeks > 20) for (let w = 2; w < weeks - 1; w++) if (Math.random() < 0.07) off.add(w);
+  const grow = w => 1 + 0.5 * (1 - Math.exp(-w / 18));
   for (let w = 0; w < weeks; w++) {
+    if (off.has(w)) continue;
     for (let k = 0; k < perWeek; k++) {
       const d = new Date(start); d.setDate(d.getDate() + w * 7 + Math.floor(k * 7 / perWeek) + 1 + shift);
       if (d >= today) continue;
@@ -4434,8 +4561,8 @@ function simulate(weeks, perWeek, p, shift){
         }
         const b = baseKg(u); const target = parseInt(u.reps, 10) || 10;
         const sets = Array.from({ length: setsNum(u) }, (_, si) => b
-          ? { kg: roundKg(b * (0.85 + 0.08 * si) * (1 + 0.03 * w + (Math.random() - 0.5) * 0.05)), reps: Math.max(1, target + 1 - si + Math.round((Math.random() - 0.6) * 2)) }
-          : { kg: 0, reps: Math.max(1, target + Math.floor(w / 2) - si + Math.round((Math.random() - 0.5) * 2)) });
+          ? { kg: roundKg(b * (0.85 + 0.08 * si) * (grow(w) + (Math.random() - 0.5) * 0.05)), reps: Math.max(1, target + 1 - si + Math.round((Math.random() - 0.6) * 2)) }
+          : { kg: 0, reps: Math.max(1, target + Math.min(10, Math.floor(w / 2)) - si + Math.round((Math.random() - 0.5) * 2)) });
         const e = { id: uid(), d: iso, sets, t: s0 + i * 60000, sim: true };
         (u.log ||= []).push(e); items.push({ u: u.id, e: e.id });
       });
@@ -4467,7 +4594,7 @@ $("dbgSim").addEventListener("click", () => {
   if ($("dbgBody").checked) {
     const r = (a, b) => a + Math.random() * (b - a);
     for (let k = w; k >= 0; k--) {
-      const d = isoAdd(todayIso(), -k * 7 - 1); if (bodyList().some(x => x.d === d)) continue; const t = w - k;
+      const d = isoAdd(todayIso(), -k * 7 - 1); if (bodyList().some(x => x.d === d)) continue; const t = 30 * (1 - Math.exp(-(w - k) / 30));
       bodyList().push({ id: uid(), d, sim: true, w: Math.round((78 - 0.18 * t + r(-0.5, 0.5)) * 10) / 10, fat: Math.round((19 - 0.12 * t + r(-0.4, 0.4)) * 10) / 10, mus: Math.round((35 + 0.06 * t + r(-0.2, 0.2)) * 10) / 10,
         water: Math.round(r(55, 58) * 10) / 10, waist: Math.round((86 - 0.2 * t + r(-0.5, 0.5)) * 2) / 2, arm: Math.round((33 + 0.05 * t) * 2) / 2, hr: Math.round(r(58, 66) - 0.1 * t),
         sleep: Math.round(r(6, 8.5) * 2) / 2, steps: Math.round(r(5000, 12000) / 100) * 100, feel: Math.round(r(5, 9)) });
@@ -5069,6 +5196,13 @@ const LIB_RAW = {
     ["Tanzen / Zumba","Cardio","quadrizeps waden","gesaess bauch","1","45 min"]
   ]
 };
+// 1.1: Körpergewichts-Übungen für alle Kraftstufen
+LIB_RAW["Schultern"].push(...[["Handstand an der Wand", "Körpergewicht", "schultern trizeps", "schulter_seite bauch nacken", "3", "30 s"], ["Freier Handstand", "Körpergewicht", "schultern", "trizeps bauch unterarme schulter_seite", "3", "20 s"]]);
+LIB_RAW["Brust"].push(...[["Liegestütze an der Wand", "Körpergewicht", "brust trizeps", "schultern", "3", "15"], ["Pseudo-Planche-Liegestütze", "Körpergewicht", "brust schultern", "trizeps bauch bizeps", "3", "6"], ["Einarmige Liegestütze", "Körpergewicht", "brust trizeps", "schultern bauch seitbauch", "3", "3 je Seite"]]);
+LIB_RAW["Rücken"].push(...[["Muscle-ups", "Körpergewicht", "latissimus trizeps", "brust bizeps schultern bauch", "3", "3"], ["Typewriter-Klimmzüge", "Körpergewicht", "latissimus bizeps", "rhomboiden unterarme bauch", "3", "4 je Seite"], ["Front Lever (gehockt)", "Körpergewicht", "latissimus bauch", "rhomboiden bizeps unterarme", "3", "10 s"]]);
+LIB_RAW["Beine & Gesäß"].push(...[["Box-Kniebeugen (auf einen Stuhl)", "Körpergewicht", "quadrizeps gesaess", "beinbeuger", "3", "12"], ["Shrimp Squat", "Körpergewicht", "quadrizeps gesaess", "beinbeuger waden", "3", "5 je Bein"]]);
+LIB_RAW["Bauch & Rumpf"].push(...[["Dragon Flag", "Körpergewicht", "bauch bauch_unten", "hueftbeuger latissimus seitbauch", "3", "5"], ["Unterarmstütz auf den Knien", "Körpergewicht", "bauch", "schultern seitbauch", "3", "30 s"]]);
+Object.assign(I18N.lib, {"Handstand an der Wand": "Wall handstand", "Freier Handstand": "Freestanding handstand", "Liegestütze an der Wand": "Wall push-ups", "Pseudo-Planche-Liegestütze": "Pseudo planche push-ups", "Einarmige Liegestütze": "One-arm push-ups", "Muscle-ups": "Muscle-ups", "Typewriter-Klimmzüge": "Typewriter pull-ups", "Front Lever (gehockt)": "Tuck front lever", "Box-Kniebeugen (auf einen Stuhl)": "Box squats (to a chair)", "Shrimp Squat": "Shrimp squat", "Dragon Flag": "Dragon flag", "Unterarmstütz auf den Knien": "Kneeling plank"});
 Object.assign(I18N.lib, {"Kabel-Brustpresse": "Cable chest press", "Liegestütze mit Gewichtsweste": "Weighted vest push-ups", "Kurzhantelrudern brustgestützt (Schrägbank)": "Chest-supported dumbbell row (incline bench)", "Klimmzüge mit Zusatzgewicht": "Weighted pull-ups", "Lat-Pullover-Maschine": "Lat pullover machine", "Rudern am Kabel (breiter Griff)": "Wide-grip cable row", "Rudern an der Smith-Maschine": "Smith machine row", "Y-Raises am Kabel": "Cable Y-raises", "Reverse Flys am Kabel": "Cable reverse flyes", "Z-Press (sitzend am Boden)": "Z press (seated on the floor)", "Seitheben einarmig am Kabel": "Single-arm cable lateral raise", "Drag Curls": "Drag curls", "Trizepsstrecken über Kopf einarmig am Kabel": "Single-arm overhead cable extension", "Dips (aufrecht, Trizeps)": "Dips (upright, triceps)", "Unterarmroller (Wrist Roller)": "Wrist roller", "Hammer Curls am Preacher-Pult": "Preacher hammer curls", "Einbeinige Beinpresse": "Single-leg leg press", "Reverse Hyperextensions": "Reverse hyperextensions", "Kabel-Pull-Through": "Cable pull-through", "Zercher Squat": "Zercher squat", "Esel-Wadenheben (Donkey Calf Raise)": "Donkey calf raise", "Reverse Hack Squat": "Reverse hack squat", "Bulgarian Split Squat an der Smith-Maschine": "Smith machine Bulgarian split squat", "Hip Thrust einbeinig": "Single-leg hip thrust", "Sit-ups auf der Negativbank": "Decline sit-ups", "L-Sit": "L-sit", "Hohe Plank (Liegestützposition)": "High plank (push-up position)", "Seitstütz auf den Knien": "Kneeling side plank", "Kettlebell Goblet Clean": "Kettlebell goblet clean", "Boxen am Sandsack": "Heavy bag boxing", "Tanzen / Zumba": "Dancing / Zumba"});
 const LIB = Object.entries(LIB_RAW).flatMap(([cat, list]) => list.map(([n, g, p, s, sets, reps]) => ({
   n, en: I18N.lib[n] || "", g, cat, cardio: g === "Cardio", p: p.split(" ").filter(Boolean), s: [...new Set((s || "").split(" ").filter(Boolean))].filter(m => !p.split(" ").includes(m)), sets: sets || "3", reps: reps || "10"
@@ -5729,7 +5863,7 @@ addOpen = false;
 const HOME_EQ = [["matte", "Matte / Körpergewicht"], ["kh", "Kurzhanteln"], ["lh", "Langhantel"], ["sz", "SZ-Stange"], ["scheibe", "Hantelscheiben"], ["bank", "Hantelbank"], ["stange", "Klimmzugstange"], ["dip", "Dip-Barren"], ["kb", "Kettlebell"], ["band", "Widerstandsband"], ["ball", "Gymnastikball"], ["medball", "Medizinball"], ["roller", "Bauchroller"],
   ["kabel", "Kabelzug / Seilzug", "m"], ["smith", "Multipresse (Smith-Maschine)", "m"], ["latzug", "Latzug-Station", "m"], ["butterfly", "Butterfly / Brustpresse", "m"], ["beinpresse", "Beinpresse", "m"], ["beinstr", "Beinstrecker / Beinbeuger", "m"], ["hyper", "Rückenstrecker-Bank", "m"], ["station", "Kraftstation (Multi-Gym)", "m"],
   ["seil", "Springseil", "c"], ["ergo", "Heimtrainer / Ergometer", "c"], ["laufband", "Laufband", "c"], ["cross", "Crosstrainer", "c"], ["ruder", "Rudergerät", "c"]];
-let homeBan = new Set(), homeOpen = false, homeEq = new Set(["matte"]), homeMode = "ganz", homeLimit = 0, homeAskDel = false, homeAskRegen = false;
+let homeLvl = 3, homeBan = new Set(), homeOpen = false, homeEq = new Set(["matte"]), homeMode = "ganz", homeLimit = 0, homeAskDel = false, homeAskRegen = false;
 
 // Welche Ausrüstung braucht eine Übung? null = nur im Gym möglich
 function homeNeeds(x){
@@ -5756,7 +5890,7 @@ function homeNeeds(x){
   }
   if (x.g === "Körpergewicht") {
     if (/gewichtsweste/.test(n)) return null;
-    if (/klimmz|chin|hangend|toes to bar|dead hang|inverted/.test(n)) return ["stange"];
+    if (/klimmz|chin|hangend|toes to bar|dead hang|inverted|muscle-up|front lever/.test(n)) return ["stange"];
     if (/^dips/.test(n)) return ["dip"];
     if (/gymnastikball/.test(n)) return ["ball"];
     return [];
@@ -5775,6 +5909,20 @@ function homeNeeds(x){
   }
   return null;
 }
+// Kraftstufe 1 bis 6 für Körpergewichts-Übungen (Übungen mit Gewichten passen sich übers Gewicht an und haben keine Stufe)
+const HOME_LVL = [
+  [6, /handstand-liegestutze|freier handstand|einarmige liegestutze|muscle-up/],
+  [5, /handstand an der wand|pistol|nordic|l-sit|toes to bar|dragon flag|pseudo-planche|shrimp|typewriter|front lever|zusatzgewicht/],
+  [4, /^klimmzuge$|chin-ups|^dips|archer|klatsch|hangendes beinheben|scheibenwischer|sissy|copenhagen/],
+  [3, /breite liegestutze|diamant|fusse erhoht|pike|negative klimmz|scapula|jump squat|burpee|kosaken|einbeinig|hollow|v-ups|hangendes knieheben|box jumps|seitstutz mit huft|bear crawl/],
+  [2, /^liegestutze( mit plus)?$|kniebeugen ohne|wall sit|^unterarmstutz \(|hohe plank|sit-ups|reverse crunch|beinheben liegend|fahrrad-crunch|russian|mountain|flutter|seitliche crunch|^seitstutz$|stuhl|bankdips|inverted|dead hang|squat thrust|schulterantippen/]];
+const homeLvlOf = x => { if (x.g !== "Körpergewicht") return 0; const n = norm(x.n); const h = HOME_LVL.find(([, re]) => re.test(n)); return h ? h[0] : 1; };
+const HOME_LVLS = () => [[1, L("Einsteiger", "Beginner"), L("Liegestütze an der Wand oder auf den Knien, Kniebeugen auf einen Stuhl, Glute Bridge", "Wall or knee push-ups, box squats, glute bridge")],
+  [2, L("Grundlagen", "Basics"), L("normale Liegestütze, Plank, Kniebeugen, Stuhl-Dips", "regular push-ups, plank, squats, chair dips")],
+  [3, L("Fortgeschritten", "Intermediate"), L("Pike Push-ups, Burpees, negative Klimmzüge, Diamant-Liegestütze", "pike push-ups, burpees, negative pull-ups, diamond push-ups")],
+  [4, L("Stark", "Strong"), L("Klimmzüge, Dips, Archer-Liegestütze, Copenhagen Plank", "pull-ups, dips, archer push-ups, Copenhagen plank")],
+  [5, L("Sehr stark", "Very strong"), L("Handstand an der Wand, Pistol Squats, L-Sit, Dragon Flag", "wall handstand, pistol squats, L-sit, dragon flag")],
+  [6, L("Profi", "Pro"), L("Handstand-Liegestütze, freier Handstand, Muscle-ups, einarmige Liegestütze", "handstand push-ups, freestanding handstand, muscle-ups, one-arm push-ups")]];
 const MACH_KEYS = new Set(HOME_EQ.filter(e => e[2] === "m").map(e => e[0]));
 // Eine Kraftstation hat Kabelzug, Latzug, Butterfly und Beinstrecker in einem
 const homeHas = (eq, k) => eq.has(k) || (eq.has("station") && ["kabel", "latzug", "butterfly", "beinstr"].includes(k));
@@ -5826,9 +5974,12 @@ function trimHome(group, N){
   while (sel.length < N && cardio.length) sel.push(cardio.shift());
   return group.filter(i => sel.includes(i));
 }
-function buildHome(src, eq, mode, limit, ban){
+function buildHome(src, eq, mode, limit, ban, lvl){
   ban = ban || new Set();
-  const pool = LIB.filter(x => homeOk(x, eq) && !ban.has(x.n));
+  const lvOk = x => !lvl || homeLvlOf(x) <= lvl;
+  // Körpergewichts-Übungen nahe an der eigenen Stufe bevorzugen, viel zu leichte nach hinten
+  const lvSc = x => { const l = homeLvlOf(x); if (!lvl || !l) return 0; const d = lvl - l; return d === 0 ? 1.4 : d === 1 ? 0.8 : d === 2 ? 0 : -1.2; };
+  const pool = LIB.filter(x => homeOk(x, eq) && !ban.has(x.n) && lvOk(x));
   const used = new Set(); const items = []; const missing = [];
   for (const u of src.units) {
     if (isCardio(u)) {
@@ -5846,9 +5997,9 @@ function buildHome(src, eq, mode, limit, ban){
       continue;
     }
     const { p: P, s: S, hit } = homeProfile(u);
-    if (hit && homeOk(hit, eq) && !ban.has(hit.n) && !used.has(hit.n)) { items.push({ x: hit, sets: u.sets || hit.sets, reps: u.reps || hit.reps, alt: null, src: u }); used.add(hit.n); continue; }
+    if (hit && homeOk(hit, eq) && !ban.has(hit.n) && !used.has(hit.n) && lvOk(hit) && lvSc(hit) >= 0) { items.push({ x: hit, sets: u.sets || hit.sets, reps: u.reps || hit.reps, alt: null, src: u }); used.add(hit.n); continue; }
     let best = null, bs = -1e9;
-    pool.forEach(c => { if (c.cardio) return; const sc = homeScore(c, P, S, used); if (sc > bs) { bs = sc; best = c; } });
+    pool.forEach(c => { if (c.cardio) return; const sc = homeScore(c, P, S, used) + lvSc(c); if (sc > bs) { bs = sc; best = c; } });
     if (best && bs > 0 && used.has(best.n)) { const ex = items.find(i => i.x.n === best.n); ex.alt = ex.alt ? `${ex.alt}, ${u.name}` : `${ex.src ? ex.src.name : best.n}, ${u.name}`; }
     else if (best && bs > 0) { items.push({ x: best, sets: u.sets || best.sets, reps: homeReps(best, u.reps), alt: u.name, src: u }); used.add(best.n); }
     else missing.push(u.name);
@@ -5863,10 +6014,15 @@ function buildHome(src, eq, mode, limit, ban){
     pool.forEach(c => {
       if (c.cardio || used.has(c.n) || !c.p.includes(m)) return;
       const extra = c.p.filter(x => x !== m && !want.includes(x)).length;
-      const sc = 5 - c.p.length * 0.5 - extra + c.s.filter(x => want.includes(x) && !covered(x)).length * 0.5;
+      const sc = 5 - c.p.length * 0.5 - extra + c.s.filter(x => want.includes(x) && !covered(x)).length * 0.5 + lvSc(c);
       if (sc > bs) { bs = sc; best = c; }
     });
     if (best) { items.push({ x: best, sets: best.sets, reps: homeReps(best, best.reps), alt: null, extra: true }); used.add(best.n); added.push(MUSCLES[m].n); }
+  }
+  // Ab Stufe 5 kommt eine Handstand-Übung dazu
+  if (lvl >= 5 && !items.some(i => /handstand an der wand|freier handstand/.test(norm(i.x.n)))) {
+    const hs = pool.find(c => norm(c.n) === (lvl >= 6 ? "freier handstand" : "handstand an der wand"));
+    if (hs) { items.push({ x: hs, sets: hs.sets, reps: hs.reps, alt: null, extra: true, skill: true }); used.add(hs.n); }
   }
   // Tage
   if (mode === "split") {
@@ -5886,7 +6042,7 @@ function buildHome(src, eq, mode, limit, ban){
 }
 
 function makeHome(src, swapped){
-  const r = buildHome(src, homeEq, homeMode, homeLimit, homeBan);
+  const r = buildHome(src, homeEq, homeMode, homeLimit, homeBan, homeLvl);
   let hp = state.plans.find(p => p.homeOf === src.id);
   const old = hp ? hp.units : [];
   const units = r.items.map(i => {
@@ -5894,12 +6050,12 @@ function makeHome(src, swapped){
     const u = { id: prev ? prev.id : uid(), name: xn(i.x), lib: i.x.n, nick: "", sets: String(i.sets || "3"), reps: String(i.reps || "10"), muscles: libMuscles(i.x) };
     if (prev && prev.log) u.log = prev.log;
     if (i.x.cardio) u.kind = "cardio";
-    if (i.alt) u.alt = i.alt; if (i.extra) u.extra = true;
+    if (i.alt) u.alt = i.alt; if (i.extra) u.extra = true; if (i.skill) u.skill = true;
     if (i.day) u.day = i.day;
     return u;
   });
   if (!hp) { hp = { id: uid(), units: [] }; state.plans.push(hp); }
-  Object.assign(hp, { name: `${src.name} · ${L("Zuhause", "Home")}`, type: homeMode === "split" ? "split" : "ganz", units, homeOf: src.id, homeCfg: { eq: [...homeEq], mode: homeMode, limit: homeLimit, ban: [...homeBan], missing: r.missing, added: r.added, still: r.still, dropped: r.dropped } });
+  Object.assign(hp, { name: `${src.name} · ${L("Zuhause", "Home")}`, type: homeMode === "split" ? "split" : "ganz", units, homeOf: src.id, homeCfg: { eq: [...homeEq], mode: homeMode, limit: homeLimit, lvl: homeLvl, ban: [...homeBan], missing: r.missing, added: r.added, still: r.still, dropped: r.dropped } });
   delete hp.days;
   hp.sessions = (hp.sessions || []).filter(s => s.items.some(it => units.some(u => u.id === it.u)));
   homeAskRegen = false;
@@ -5927,9 +6083,13 @@ function renderHome(){
     return;
   }
   if (!p.units.some(u => !isCardio(u))) { box.innerHTML = head + `<p class="hint">Füge deinem Plan zuerst Übungen hinzu. Daraus wird dann die Zuhause-Version gebaut.</p>`; return; }
-  if (hp && hp.homeCfg && !homeAskRegen) { homeEq = new Set(hp.homeCfg.eq); homeMode = hp.homeCfg.mode; homeLimit = hp.homeCfg.limit || 0; homeBan = new Set(hp.homeCfg.ban || []); }
+  if (hp && hp.homeCfg && !homeAskRegen) { homeEq = new Set(hp.homeCfg.eq); homeMode = hp.homeCfg.mode; homeLimit = hp.homeCfg.limit || 0; homeLvl = hp.homeCfg.lvl || 0; homeBan = new Set(hp.homeCfg.ban || []); }
   const settings = `<div class="field"><span class="label">Was hast du zu Hause?</span>
       ${[["", HOME_EQ.filter(e => !e[2])], ["Geräte", HOME_EQ.filter(e => e[2] === "m")], ["Cardio-Geräte", HOME_EQ.filter(e => e[2] === "c")]].map(([t, list]) => `${t ? `<span class="hint eqsub">${t}</span>` : ""}<div class="chips">${list.map(([k, n]) => `<button type="button" class="chip" data-h="eq" data-v="${k}" aria-pressed="${homeEq.has(k)}" ${k === "matte" ? "disabled title=\"Ist immer dabei\"" : ""}>${n}</button>`).join("")}</div>`).join("")}</div>
+    <div class="field"><span class="label">${L("Deine Kraftstufe", "Your strength level")}</span>
+      <div class="seg lvlseg" role="group" aria-label="${L("Kraftstufe", "Strength level")}">${HOME_LVLS().map(([v, n]) => `<button type="button" data-h="lvl" data-v="${v}" aria-pressed="${homeLvl === v}" title="${esc(n)}">${v}</button>`).join("")}</div>
+      ${(() => { const c = HOME_LVLS().find(x => x[0] === homeLvl); return c ? `<span class="lvlinfo"><b>${L("Stufe", "Level")} ${c[0]} · ${c[1]}</b><span class="hint">${L("z. B.", "e.g.")} ${c[2]}</span></span>` : `<span class="hint">${L("Noch keine Stufe gewählt, die App nimmt alle Körpergewichts-Übungen.", "No level chosen yet, the app uses all bodyweight exercises.")}</span>`; })()}
+      <span class="hint">${L("Faustregel: keine Liegestütze → 1, 10 saubere Liegestütze → 2, 25 Liegestütze → 3, 5 Klimmzüge → 4, 15 Klimmzüge oder 30 s Handstand an der Wand → 5, freier Handstand → 6. Übungen mit Hanteln passt du übers Gewicht an.", "Rule of thumb: no push-ups → 1, 10 clean push-ups → 2, 25 push-ups → 3, 5 pull-ups → 4, 15 pull-ups or a 30 s wall handstand → 5, freestanding handstand → 6. Exercises with weights you adjust via the weight.")}</span></div>
     <div class="field"><span class="label">Aufteilung</span>
       <div class="seg" role="group"><button type="button" data-h="mode" data-v="ganz" aria-pressed="${homeMode === "ganz"}">Ein Training (ganzer Körper)</button><button type="button" data-h="mode" data-v="split" aria-pressed="${homeMode === "split"}">Ober- &amp; Unterkörper getrennt</button></div></div>
     <div class="field"><span class="label">Übungen pro Training</span>
@@ -5945,12 +6105,12 @@ function renderHome(){
     return;
   }
   const cfg = hp.homeCfg || {};
-  const row = u => `<li class="hrow"><span class="hrtxt"><span class="nm">${esc(u.name)}</span><span class="hint">${isCardio(u) ? esc(u.reps) : `${esc(u.sets)} × ${esc(u.reps)}`}${u.alt ? ` · statt ${esc(u.alt)}` : u.extra ? " · ergänzt" : ""}</span></span>${vidLinkFor(u.name, "sm")}<button type="button" class="ghost mini" data-h="swap" data-v="${u.id}" title="${L("Rauswerfen und durch eine andere passende Übung ersetzen", "Remove and replace with another fitting exercise")}">${L("Ersetzen", "Replace")}</button></li>`;
+  const row = u => `<li class="hrow"><span class="hrtxt"><span class="nm">${esc(u.name)}</span><span class="hint">${isCardio(u) ? esc(u.reps) : `${esc(u.sets)} × ${esc(u.reps)}`}${u.alt ? ` · statt ${esc(u.alt)}` : u.extra ? (u.skill ? " · " + L("Skill für deine Stufe", "skill for your level") : " · ergänzt") : ""}</span></span>${vidLinkFor(u.name, "sm")}<button type="button" class="ghost mini" data-h="swap" data-v="${u.id}" title="${L("Rauswerfen und durch eine andere passende Übung ersetzen", "Remove and replace with another fitting exercise")}">${L("Ersetzen", "Replace")}</button></li>`;
   const banList = [...homeBan];
   const bans = banList.length ? `<div class="field"><span class="label">${L("Ausgeschlossen", "Excluded")}</span><div class="chips">${banList.map(n => { const x = LIB.find(y => y.n === n); return `<button type="button" class="chip" data-h="unban" data-v="${esc(n)}" title="${L("Wieder erlauben", "Allow again")}">${esc(x ? xn(x) : n)} ✕</button>`; }).join("")}</div><span class="hint">${L("Diese Übungen kommen in der Zuhause-Version nicht mehr vor. Tippe eine an, um sie wieder zu erlauben.", "These exercises won't appear in the home version. Tap one to allow it again.")}</span></div>` : "";
   const list = hasDays(hp) ? daysOf(hp).map(d => `<div class="label">${esc(d.name)}</div><ol class="runlist">${unitsFor(hp, d.id).map(row).join("")}</ol>`).join("") : `<ol class="runlist">${hp.units.map(row).join("")}</ol>`;
   box.innerHTML = head + `
-    <div class="homeinfo"><b>${esc(hp.name)}</b><span class="hint">${hp.units.length} Übungen · ${cfg.mode === "split" ? "Ober- & Unterkörper getrennt" : "ein Training"}${cfg.limit ? ` · max. ${cfg.limit} pro Training` : ""} · ${(cfg.eq || []).map(k => (HOME_EQ.find(e => e[0] === k) || [k, k])[1]).join(", ")}</span></div>
+    <div class="homeinfo"><b>${esc(hp.name)}</b><span class="hint">${hp.units.length} Übungen · ${cfg.mode === "split" ? "Ober- & Unterkörper getrennt" : "ein Training"}${cfg.limit ? ` · max. ${cfg.limit} pro Training` : ""}${cfg.lvl ? ` · ${L("Kraftstufe", "strength level")} ${cfg.lvl}` : ""} · ${(cfg.eq || []).map(k => (HOME_EQ.find(e => e[0] === k) || [k, k])[1]).join(", ")}</span></div>
     ${cfg.added && cfg.added.length ? `<p class="hint">Ergänzt, damit alle Muskelgruppen dabei sind: ${cfg.added.map(esc).join(", ")}.</p>` : ""}
     ${cfg.dropped && cfg.dropped.length ? `<p class="hint">Weggelassen, um auf ${cfg.limit} zu kommen: ${cfg.dropped.map(esc).join(", ")}.</p>` : ""}
     ${cfg.missing && cfg.missing.length ? `<p class="hint">Ohne passende Alternative: ${cfg.missing.map(esc).join(", ")}.</p>` : ""}
@@ -5973,6 +6133,7 @@ $("homeSec").addEventListener("click", e => {
   if (a === "eq") { const k = b.dataset.v; homeEq.has(k) ? homeEq.delete(k) : homeEq.add(k); homeEq.add("matte"); renderHome(); return; }
   if (a === "mode") { homeMode = b.dataset.v; renderHome(); return; }
   if (a === "limit") { homeLimit = +b.dataset.v; renderHome(); return; }
+  if (a === "lvl") { homeLvl = +b.dataset.v; renderHome(); return; }
   if (a === "make") { makeHome(p); return; }
   if (a === "swap" || a === "unban") {
     const hp = state.plans.find(x => x.homeOf === p.id); if (!hp) return;
@@ -6332,9 +6493,9 @@ $("exSec").addEventListener("change", e => { if (e.target.id === "pEx") { pEx = 
 $("exSec").addEventListener("click", e => { if (e.target.closest('[data-ex="toggle"]')) { exOpen = !exOpen; renderExProgress(); return; } const b = e.target.closest("[data-pm]"); if (b && pEx) { metricOf[pEx] = b.dataset.pm; renderExProgress(); } });
 
 // Fortschritt selbst einrichten: Reihenfolge und welche Bereiche sichtbar sind
-const PROG_SECS = [["weekSec", "Diese Woche", "This week"], ["calSec", "Trainingskalender", "Training calendar"], ["recSec", "Muskel-Erholung", "Muscle recovery"], ["volSec", "Sätze pro Körperregion", "Sets per body region"], ["bodySec", "Körperwerte", "Body stats"], ["gStats", "Gesamtstatistik", "Overall statistics"], ["exSec", "Fortschritt pro Übung", "Progress per exercise"], ["msSec", "Meilensteine", "Milestones"]];
+const PROG_SECS = [["weekSec", "Diese Woche", "This week"], ["calSec", "Trainingskalender", "Training calendar"], ["recSec", "Muskel-Erholung", "Muscle recovery"], ["volSec", "Sätze pro Körperregion", "Sets per body region"], ["bodySec", "Körperwerte", "Body stats"], ["gStats", "Gesamtstatistik", "Overall statistics"], ["rbSec", "Rückblick", "Review"], ["exSec", "Fortschritt pro Übung", "Progress per exercise"], ["msSec", "Meilensteine", "Milestones"]];
 let progArrOpen = false;
-function progOrder(){ const ids = PROG_SECS.map(x => x[0]); const o = (state.progOrder || []).filter(id => ids.includes(id)); ids.forEach(id => { if (!o.includes(id)) o.push(id); }); return o; }
+function progOrder(){ const ids = PROG_SECS.map(x => x[0]); const o = (state.progOrder || []).filter(id => ids.includes(id)); ids.forEach(id => { if (!o.includes(id)) { if (id === "rbSec" && o.includes("gStats")) o.splice(o.indexOf("gStats") + 1, 0, id); else o.push(id); } }); return o; }
 function applyProgOrder(){
   const sec = $("progSec"); if (!sec) return; const hide = new Set(state.progHide || []);
   progOrder().forEach(id => { const el = $(id); if (!el) return; sec.appendChild(el); el.classList.toggle("phide", hide.has(id)); });
@@ -6347,7 +6508,7 @@ function renderProgArr(){
   const o = progOrder(), hide = new Set(state.progHide || []);
   box.innerHTML = `<div class="libhead"><h2>${L("Fortschritt anordnen", "Arrange progress")}</h2></div>
     <p class="hint">${L("Mit den Pfeilen änderst du die Reihenfolge. Mit dem Häkchen legst du fest, was angezeigt wird.", "Use the arrows to change the order. The checkbox controls what is shown.")}</p>
-    <ol class="arrlist">${o.map((id, i) => { const x = PROG_SECS.find(y => y[0] === id); return `<li class="${hide.has(id) ? "off" : ""}">
+    <ol class="arrlist">${o.map((id, i) => { const x = PROG_SECS.find(y => y[0] === id); return `<li class="${hide.has(id) ? "off" : ""}${id === "rbSec" ? " arr-rb" : ""}">
       <label class="check"><input type="checkbox" data-pa="show" data-id="${id}" ${hide.has(id) ? "" : "checked"}> ${esc(L(x[1], x[2]))}</label>
       <span class="arrbtns"><button type="button" class="ghost mini" data-pa="up" data-id="${id}" ${i === 0 ? "disabled" : ""} aria-label="${esc(L(`${x[1]} nach oben`, `Move ${x[2]} up`))}">↑</button><button type="button" class="ghost mini" data-pa="down" data-id="${id}" ${i === o.length - 1 ? "disabled" : ""} aria-label="${esc(L(`${x[1]} nach unten`, `Move ${x[2]} down`))}">↓</button></span></li>`; }).join("")}</ol>
     <div class="formfoot"><button type="button" class="ghost mini" data-pa="reset">${L("Standard wiederherstellen", "Restore default")}</button></div>`;
@@ -6367,7 +6528,7 @@ $("progArr").addEventListener("change", e => {
   const h = new Set(state.progHide || []); if (c.checked) h.delete(c.dataset.id); else h.add(c.dataset.id);
   state.progHide = [...h]; save(); applyProgOrder(); renderProgArr();
 });
-function renderProgress(){ applyProgOrder(); renderProgArr(); renderWeek(); renderCal(); renderRec(); renderVol(); renderBody(); renderGStats(); renderExProgress(); renderMs(); }
+function renderProgress(){ applyProgOrder(); renderProgArr(); try { renderRb(); } catch(e) { console.warn(e); } renderWeek(); renderCal(); renderRec(); renderVol(); renderBody(); renderGStats(); renderExProgress(); renderMs(); }
 
 // ---------- Fortschritt: Wochenüberblick, Kalender, Erholung, Sätze pro Region, Meilensteine ----------
 let calMonth = null, calSel = null, calOpen = false, recOpen = false, volOpen = false, volScope = "this", msOpen = false;
@@ -6644,6 +6805,187 @@ function renderMs(){
   }).join("");
 }
 $("msSec").addEventListener("click", e => { if (e.target.closest('[data-ms="toggle"]')) { msOpen = !msOpen; renderMs(); } });
+/* ---------- Rückblick (1.1): Monat, 6 Monate, Jahr ---------- */
+let rbScope = "m", rbOff = 1, rbView = null;
+const RB_SCOPES = () => [["m", L("Monat", "Month")], ["h", L("6 Monate", "6 months")], ["y", L("Jahr", "Year")], ["a", L("Gesamt", "All time")]];
+// Erster Eintrag überhaupt (Training, Cardio oder Körperwert)
+function rbFirst(){ let m = null; const f = d => { if (d && (!m || d < m)) m = d; }; state.plans.forEach(p => { p.units.forEach(u => (u.log || []).forEach(e => f(e.d))); (p.sessions || []).forEach(x => f(x.d)); }); (state.cardio || []).forEach(e => f(e.d)); return m; }
+const monName = (y, m) => new Date(y, m, 1).toLocaleDateString(LOC(), { month: "long" });
+function rbPeriod(scope, off){
+  const t = new Date(); let y = t.getFullYear(), m0, len;
+  if (scope === "a") {
+    const from = rbFirst() || todayIso(), to = todayIso(); const [fy, fm] = from.split("-").map(Number);
+    const n = (t.getFullYear() - fy) * 12 + t.getMonth() - (fm - 1) + 1;
+    return { scope, off: 1, from, to, pfrom: "0", pto: "0", title: L(`Seit ${fmtD(from)}`, `Since ${fmtD(from)}`), short: L("Gesamt", "All time"), key: "a", running: false, all: true, y: fy, m: fm - 1, len: Math.max(1, n) };
+  }
+  if (scope === "m") { m0 = t.getMonth() - off; len = 1; }
+  else if (scope === "h") { m0 = (t.getMonth() < 6 ? 0 : 6) - off * 6; len = 6; }
+  else { y -= off; m0 = 0; len = 12; }
+  const s = new Date(y, m0, 1), e = new Date(y, m0 + len, 0), ps = new Date(y, m0 - len, 1), pe = new Date(y, m0, 0);
+  const iso = d => d.toLocaleDateString("sv-SE"); const sy = s.getFullYear(), sm = s.getMonth();
+  const title = scope === "m" ? `${monName(sy, sm)} ${sy}` : scope === "h" ? `${monName(sy, sm)} – ${monName(sy, sm + 5)} ${sy}` : String(sy);
+  const short = scope === "m" ? monName(sy, sm) : scope === "h" ? (sm === 0 ? L(`1. Halbjahr ${sy}`, `First half of ${sy}`) : L(`2. Halbjahr ${sy}`, `Second half of ${sy}`)) : String(sy);
+  const from = iso(s), to = iso(e);
+  return { scope, off, from, to, pfrom: iso(ps), pto: iso(pe), title, short, key: `${scope}:${from}`, running: todayIso() <= to, y: sy, m: sm, len };
+}
+function rbData(per){
+  const inR = d => d >= per.from && d <= per.to;
+  const E = [], C = [];
+  state.plans.forEach(p => p.units.forEach(u => (u.log || []).forEach(e => { if (inR(e.d)) (e.cardio ? C : E).push({ p, u, e }); })));
+  (state.cardio || []).forEach(e => { if (inR(e.d)) C.push({ p: {}, u: { name: e.act, muscles: [] }, e: { ...e, cardio: e.cardio || e } }); });
+  const sess = state.plans.flatMap(p => (p.sessions || []).filter(s => inR(s.d)).map(s => ({ p, s })));
+  const days = [...new Set(E.concat(C).map(x => x.e.d))].sort();
+  const sDays = new Set(sess.map(x => x.s.d));
+  const workouts = sess.length + days.filter(d => !sDays.has(d)).length;
+  const timed = sess.filter(({ s }) => s.timed !== false && !s.manual && s.end > s.start);
+  const durMin = Math.round(timed.reduce((n, { s }) => n + (s.end - s.start), 0) / 60000);
+  const sets = E.reduce((n, x) => n + setsOf(x.e).length, 0), reps = E.reduce((n, x) => n + totalReps(x.e), 0), vol = E.reduce((n, x) => n + volume(x.e), 0);
+  const holdSec = E.reduce((n, x) => n + setsOf(x.e).reduce((a, s) => a + (secOf(s) || 0), 0), 0);
+  const cMin = C.reduce((n, x) => n + (+x.e.cardio.min || 0), 0), cKm = C.reduce((n, x) => n + (+x.e.cardio.km || 0), 0), cKcal = C.reduce((n, x) => n + (+x.e.cardio.kcal || 0), 0);
+  // Übungen
+  const ex = {}; E.concat(C).forEach(({ u, e }) => { const k = u.name; const o = ex[k] ||= { name: u.nick || u.name, n: 0, sets: 0, vol: 0, top: null, cardio: !!e.cardio }; o.n++; o.sets += setsOf(e).length; o.vol += volume(e); const t = e.cardio ? null : topSet(e); if (t && (!o.top || (t.kg || 0) > (o.top.kg || 0) || ((t.kg || 0) === (o.top.kg || 0) && (t.reps || 0) > (o.top.reps || 0)))) o.top = t; });
+  const exList = Object.values(ex).sort((a, b) => b.n - a.n || b.sets - a.sets);
+  // Muskeln
+  const mus = {}; E.forEach(({ u, e }) => (u.muscles || []).forEach(m => { if (MUSCLES[m]) mus[m] = (mus[m] || 0) + setsOf(e).length; }));
+  const musList = Object.entries(mus).sort((a, b) => b[1] - a[1]);
+  // Stärker geworden: bester Wert im Zeitraum gegen alles davor
+  const gains = []; let prs = 0; let heavy = null;
+  state.plans.forEach(p => p.units.forEach(u => {
+    if (isCardio(u)) return; const Lg = sortedLog(u).filter(e => !e.cardio); const inP = Lg.filter(e => inR(e.d)); if (!inP.length) return;
+    inP.forEach(e => { if (isRecord(u, e)) prs++; setsOf(e).forEach(s => { if ((s.kg || 0) > 0 && (!heavy || s.kg > heavy.kg)) heavy = { kg: s.kg, reps: s.reps, name: u.nick || u.name }; }); });
+    // Gesamt: erstes Mal gegen bestes Mal, sonst: Zeitraum gegen alles davor
+    const before = per.all ? Lg.slice(0, 1) : Lg.filter(e => e.d < per.from); const after = per.all ? Lg.slice(1) : inP; if (!before.length || !after.length) return;
+    const best = arr => arr.reduce((m, e) => Math.max(m, ...setsOf(e).map(s => e1rm(s) || (s.kg || 0))), 0);
+    const b0 = best(before), b1 = best(after);
+    if (b0 > 0 && b1 > b0) gains.push({ name: u.nick || u.name, pct: (b1 - b0) / b0 * 100, from: topSetOf(before), to: topSetOf(after) });
+  }));
+  gains.sort((a, b) => b.pct - a.pct);
+  // Rhythmus
+  const wd = [0, 0, 0, 0, 0, 0, 0]; days.forEach(d => wd[wdOf(d)]++);
+  const favWd = days.length ? wd.indexOf(Math.max(...wd)) : -1;
+  const wkSet = new Set(days.map(mondayOf)); const lastDay = todayIso() < per.to ? todayIso() : per.to;
+  let wkTot = 0; for (let m = mondayOf(per.from); m <= lastDay; m = isoAdd(m, 7)) wkTot++;
+  let streak = 0, run = 0, prevW = null; [...wkSet].sort().forEach(w => { run = prevW && daysBetween(prevW, w) === 7 ? run + 1 : 1; streak = Math.max(streak, run); prevW = w; });
+  const hours = sess.filter(({ s }) => s.start && !s.manual).map(({ s }) => new Date(s.start).getHours());
+  const avgH = hours.length ? hours.reduce((a, b) => a + b, 0) / hours.length : null;
+  const months = [];
+  if (per.all && per.len > 18) { for (let yy = per.y; yy <= new Date().getFullYear(); yy++) months.push({ k: String(yy), lbl: String(yy), n: days.filter(x => x.startsWith(yy + "-")).length }); }
+  else for (let i = 0; i < per.len; i++) { const d = new Date(per.y, per.m + i, 1); const k = d.toLocaleDateString("sv-SE").slice(0, 7); months.push({ k, lbl: d.toLocaleDateString(LOC(), { month: "short" }).replace(".", ""), n: days.filter(x => x.startsWith(k)).length }); }
+  // Körper
+  const body = bodyList().filter(b => inR(b.d) && b.w).sort((a, b) => a.d < b.d ? -1 : 1);
+  const bodyD = body.length > 1 ? { from: body[0].w, to: body[body.length - 1].w } : null;
+  return { E, C, days, workouts, durMin, sets, reps, vol, holdSec, cMin, cKm, cKcal, exList, musList, gains, prs, heavy, wd, favWd, wkSet, wkTot, streak, avgH, months, bodyD, notes: sess.filter(({ s }) => s.note).length };
+}
+function topSetOf(arr){ return arr.map(topSet).reduce((m, s) => !m || (s.kg || 0) > (m.kg || 0) || ((s.kg || 0) === (m.kg || 0) && (s.reps || 0) > (m.reps || 0)) ? s : m, null); }
+const WD_NAMES = () => LANG === "en" ? ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] : ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
+function rbCompare(kg){
+  const C = [[6000, L("Elefant", "elephant"), L("Elefanten", "elephants"), "🐘"], [1500, L("Auto", "car"), L("Autos", "cars"), "🚗"], [600, L("Konzertflügel", "grand piano"), L("Konzertflügel", "grand pianos"), "🎹"], [70, L("Waschmaschine", "washing machine"), L("Waschmaschinen", "washing machines"), "🧺"]];
+  const c = C.find(x => kg >= x[0] * 2) || C[C.length - 1]; const n = Math.round(kg / c[0] * 10) / 10;
+  return kg < 70 ? "" : `${c[3]} ${L("Das sind ungefähr", "That's about")} <b>${fmt(n)}</b> ${n === 1 ? c[1] : c[2]}.`;
+}
+function rbHeatFigure(side, mus){
+  let h = SIL.replace('class="sil"', 'style="fill:var(--skin);stroke:var(--skin)"');
+  const max = Math.max(1, ...Object.values(mus));
+  for (const [id, sh] of SHAPES[side]) {
+    const v = mus[id] || 0; const r = v / max;
+    const c = !v ? "rc3" : r > .66 ? "rc0" : r > .33 ? "rc1" : "rc2";
+    const shp = sh.replace(/class="cut"/g, 'style="fill:none;stroke:var(--panel);stroke-width:1.2"');
+    h += `<g class="${c}"><title>${MUSCLES[id].n}: ${v} ${L("Sätze", "sets")}</title>${shp}${MIRROR(shp)}</g>`;
+  }
+  return `<svg viewBox="0 0 200 400" class="fig" aria-hidden="true">${h}</svg>`;
+}
+function rbSlides(per, D){
+  const S = []; const nm = per.all ? L("Deine ganze Zeit mit Muskelplan", "Your whole time with Muskelplan") : per.scope === "y" ? L(`Dein Jahr ${per.y}`, `Your year ${per.y}`) : per.scope === "h" ? L(`Dein ${per.short}`, `Your ${per.short}`) : L(`Dein ${per.title}`, `Your ${per.title}`);
+  const big = (n, lbl, sub = "") => `<div class="rbbig"><b class="n">${n}</b><span>${lbl}</span>${sub ? `<small>${sub}</small>` : ""}</div>`;
+  const prev = rbData({ ...per, from: per.pfrom, to: per.pto });
+  const cmp = (a, b, unit, one) => b ? (a > b ? `▲ ${fmt(a - b)} ${a - b === 1 ? one : unit} ${L("mehr als im Zeitraum davor", "more than the period before")}` : a < b ? `▼ ${fmt(b - a)} ${b - a === 1 ? one : unit} ${L("weniger als im Zeitraum davor", "fewer than the period before")}` : L("genauso viele wie im Zeitraum davor", "the same as the period before")) : "";
+  S.push({ c: "intro", h: `<span class="rbkick">Muskelplan · ${L("Rückblick", "Review")}</span><h2 class="rbtitle">${esc(nm)}</h2><p class="rbsub">${per.all ? L(`Alles seit deinem ersten Eintrag am ${fmtD(per.from)}.`, `Everything since your first entry on ${fmtD(per.from)}.`) : per.running ? L("Der Zeitraum läuft noch, das ist dein Stand bis heute.", "This period is still running, this is where you are today.") : L("Schauen wir mal, was du geschafft hast.", "Let's see what you achieved.")}</p><div class="rbemoji" aria-hidden="true">💪</div>` });
+  S.push({ c: "a", h: `<span class="rbkick">${L("Trainings", "Workouts")}</span>${big(D.workouts, D.workouts === 1 ? L("Training", "workout") : L("Trainings", "workouts"), cmp(D.workouts, prev.workouts, L("Trainings", "workouts"), L("Training", "workout")))}
+    <div class="rbgrid"><div><b class="n">${D.days.length}</b><span>${L("Trainingstage", "training days")}</span></div>${D.durMin ? `<div><b class="n">${D.durMin >= 120 ? fmt(Math.round(D.durMin / 6) / 10) + " h" : D.durMin + " min"}</b><span>${L("im Training", "training time")}</span></div>` : ""}<div><b class="n">${D.wkSet.size}/${D.wkTot}</b><span>${L("aktive Wochen", "active weeks")}</span></div></div>` });
+  if (D.sets) S.push({ c: "b", h: `<span class="rbkick">${L("Geleistete Arbeit", "Work done")}</span>${big(kgTxt(D.vol), L("bewegtes Gewicht", "weight moved"))}<p class="rbsub">${rbCompare(D.vol)}</p>
+    <div class="rbgrid"><div><b class="n">${fmt(D.sets)}</b><span>${L("Sätze", "sets")}</span></div><div><b class="n">${fmt(D.reps)}</b><span>${L("Wiederholungen", "reps")}</span></div>${D.holdSec ? `<div><b class="n">${D.holdSec >= 3600 ? fmt(Math.round(D.holdSec / 360) / 10) + " h" : durTxt(D.holdSec)}</b><span>${L("gehalten", "held")}</span></div>` : ""}</div>` });
+  if (D.exList.length) { const f = D.exList[0]; S.push({ c: "c", h: `<span class="rbkick">${L("Deine Lieblingsübung", "Your favourite exercise")}</span><div class="rbbig"><b class="rbname">${esc(f.name)}</b><span>${f.n} × ${L("trainiert", "trained")}${f.top && f.top.kg ? ` · ${L("bester Satz", "best set")} ${setShort(f.top)}` : ""}</span></div>
+    <ol class="rblist">${D.exList.slice(0, 5).map((x, i) => `<li><span class="no n">${i + 1}</span><span class="t">${esc(x.name)}</span><span class="n">${x.n}×</span></li>`).join("")}</ol>` }); }
+  if (D.musList.length) S.push({ c: "d", h: `<span class="rbkick">${L("Deine Muskeln", "Your muscles")}</span><div class="rbfigs"><div>${rbHeatFigure("front", Object.fromEntries(D.musList))}</div><div>${rbHeatFigure("back", Object.fromEntries(D.musList))}</div></div>
+    <ol class="rblist">${D.musList.slice(0, 3).map(([m, n], i) => `<li><span class="no n">${i + 1}</span><span class="t">${esc(MUSCLES[m].n)}</span><span class="n">${n} ${L("Sätze", "sets")}</span></li>`).join("")}</ol>` });
+  if (D.gains.length || D.prs || D.heavy) S.push({ c: "e", h: `<span class="rbkick">${L("Stärker geworden", "Got stronger")}</span>${big(D.prs, D.prs === 1 ? L("neuer Bestwert", "new best") : L("neue Bestwerte", "new bests"))}
+    ${D.gains.length ? `<ol class="rblist">${D.gains.slice(0, 4).map(g => `<li><span class="t">${esc(g.name)}<small>${g.from ? setShort(g.from) : ""} → ${g.to ? setShort(g.to) : ""}</small></span><span class="n up">+${fmt(Math.round(g.pct))} %</span></li>`).join("")}</ol>` : ""}
+    ${D.heavy ? `<p class="rbsub">🏋️ ${L("Schwerster Satz", "Heaviest set")}: <b>${fmt(D.heavy.kg)} kg</b> ${D.heavy.reps ? "× " + D.heavy.reps : ""} · ${esc(D.heavy.name)}</p>` : ""}` });
+  const maxM = Math.max(1, ...D.months.map(x => x.n));
+  const cal = per.scope === "m" ? (() => { const first = per.from, n = daysBetween(per.from, per.to) + 1; const set = new Set(D.days); let h = `<div class="rbcal">${WD_NAMES().map(w => `<span class="wd">${w.slice(0, 2)}</span>`).join("")}`; for (let i = 0; i < wdOf(first); i++) h += "<i></i>"; for (let i = 0; i < n; i++) { const d = isoAdd(first, i); h += `<i class="${set.has(d) ? "on" : ""}${d === todayIso() ? " today" : ""}">${i + 1}</i>`; } return h + "</div>"; })()
+    : `<div class="rbbars">${D.months.map(x => `<div><span class="bar" style="--h:${x.n / maxM}"><b class="n">${x.n || ""}</b></span><span class="lbl">${esc(x.lbl)}</span></div>`).join("")}</div>`;
+  const tod = D.avgH == null ? "" : D.avgH < 11 ? L("☀️ Du bist ein Frühsportler.", "☀️ You're a morning trainer.") : D.avgH < 17 ? L("🌤️ Du trainierst am liebsten tagsüber.", "🌤️ You like to train during the day.") : L("🌙 Du bist ein Abendsportler.", "🌙 You're an evening trainer.");
+  if (D.days.length) S.push({ c: "f", h: `<span class="rbkick">${L("Dein Rhythmus", "Your rhythm")}</span>${cal}
+    <div class="rbgrid">${D.favWd >= 0 ? `<div><b>${WD_NAMES()[D.favWd]}</b><span>${L("dein Lieblingstag", "your favourite day")}</span></div>` : ""}<div><b class="n">${D.streak}</b><span>${D.streak === 1 ? L("Woche am Stück", "week in a row") : L("Wochen am Stück", "weeks in a row")}</span></div></div>${tod ? `<p class="rbsub">${tod}</p>` : ""}` });
+  if (D.C.length) S.push({ c: "g", h: `<span class="rbkick">Cardio</span>${big(D.cMin >= 120 ? fmt(Math.round(D.cMin / 6) / 10) + " h" : fmt(D.cMin) + " min", L("Cardio", "of cardio"))}
+    <div class="rbgrid">${D.cKm ? `<div><b class="n">${fmt(Math.round(D.cKm * 10) / 10)} km</b><span>${L("Strecke", "distance")}</span></div>` : ""}${D.cKcal ? `<div><b class="n">${fmt(Math.round(D.cKcal))}</b><span>kcal</span></div>` : ""}<div><b class="n">${D.C.length}</b><span>${L("Einheiten", "sessions")}</span></div></div>` });
+  if (D.bodyD) { const dW = Math.round((D.bodyD.to - D.bodyD.from) * 10) / 10; S.push({ c: "h", h: `<span class="rbkick">${L("Körper", "Body")}</span>${big(`${dW > 0 ? "+" : dW < 0 ? "−" : "±"}${fmt(Math.abs(dW))} kg`, L("Körpergewicht", "body weight"), `${fmt(D.bodyD.from)} kg → ${fmt(D.bodyD.to)} kg`)}` }); }
+  S.push({ c: "end", h: `<span class="rbkick">${esc(nm)}</span><h2 class="rbtitle sm">${L("Stark gemacht!", "Well done!")}</h2>
+    <div class="rbsum"><div><b class="n">${D.workouts}</b><span>${L("Trainings", "workouts")}</span></div><div><b class="n">${fmt(D.sets)}</b><span>${L("Sätze", "sets")}</span></div><div><b class="n">${kgTxt(D.vol)}</b><span>${L("bewegt", "moved")}</span></div><div><b class="n">${D.prs}</b><span>${L("Bestwerte", "bests")}</span></div>${D.exList[0] ? `<div class="w"><b>${esc(D.exList[0].name)}</b><span>${L("Lieblingsübung", "favourite exercise")}</span></div>` : ""}${D.musList[0] ? `<div class="w"><b>${esc(MUSCLES[D.musList[0][0]].n)}</b><span>${L("meist trainiert", "most trained")}</span></div>` : ""}</div>
+    <p class="rbsub">${per.all ? L("Weiter so, jedes Training zählt!", "Keep it up, every workout counts!") : per.running ? L("Mach weiter so, der Zeitraum ist noch nicht vorbei.", "Keep going, the period isn't over yet.") : L("Auf zum nächsten Abschnitt!", "On to the next one!")}</p>
+    <div class="rbendbtns"><button type="button" class="ghost" data-rb="again">↺ ${L("Nochmal ansehen", "Watch again")}</button><button type="button" class="primary" data-rb="close">${L("Schließen", "Close")}</button></div>` });
+  return S;
+}
+function renderRb(){
+  const box = $("rbSec"); if (!box) return;
+  const per = rbPeriod(rbScope, rbOff); const D = rbData(per);
+  const first = (() => { let m = null; state.plans.forEach(p => p.units.forEach(u => (u.log || []).forEach(e => { if (!m || e.d < m) m = e.d; }))); (state.cardio || []).forEach(e => { if (!m || e.d < m) m = e.d; }); return m; })();
+  const canBack = first && first < per.from;
+  box.innerHTML = `<div class="rbrow"><h2>${L("Rückblick", "Review")}</h2>
+    <div class="seg rbseg" role="group" aria-label="${L("Zeitraum", "Period")}">${RB_SCOPES().map(([k, n]) => `<button type="button" data-rb="scope" data-v="${k}" aria-pressed="${rbScope === k}">${n}</button>`).join("")}</div></div>
+    <div class="rbnav"><button type="button" class="ghost rbarr" data-rb="prev" ${canBack ? "" : "disabled"} aria-label="${L("Zeitraum davor", "Previous period")}">‹</button>
+      <div class="rbper"><b>${esc(per.title)}</b><span class="hint">${D.days.length ? `${D.workouts} ${D.workouts === 1 ? L("Training", "workout") : L("Trainings", "workouts")} · ${fmt(D.sets)} ${L("Sätze", "sets")} · ${kgTxt(D.vol)}` : L("keine Einträge", "no entries")}</span></div>
+      <button type="button" class="ghost rbarr" data-rb="next" ${rbOff > 1 ? "" : "disabled"} aria-label="${L("Zeitraum danach", "Next period")}">›</button>
+      <button type="button" class="ghost mini rbgo" data-rb="open" ${D.days.length ? "" : "disabled"}>${L("Ansehen", "View")}</button></div>`;
+}
+function rbOpenView(per){
+  const D = rbData(per); if (!D.days.length) return;
+  rbView = { per, S: rbSlides(per, D), i: 0, last: document.activeElement };
+  state.rbSeen = [...new Set([...(state.rbSeen || []), per.key])].slice(-40); save();
+  let ov = $("rbView"); if (!ov) { ov = document.createElement("div"); ov.id = "rbView"; ov.className = "rbv"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-modal", "true"); document.body.appendChild(ov); wireRbView(ov); }
+  ov.setAttribute("aria-label", L("Rückblick", "Review") + " " + per.title);
+  ov.hidden = false; document.documentElement.classList.add("rbopen"); rbDraw(); ov.querySelector(".rbx").focus({ preventScroll: true });
+  if (view === "home") renderStart();
+}
+function rbDraw(){
+  const ov = $("rbView"); if (!ov || !rbView) return; const { S, i } = rbView;
+  ov.innerHTML = `<div class="rbbox"><div class="rbbars0">${S.map((_, k) => `<i class="${k < i ? "done" : k === i ? "cur" : ""}"></i>`).join("")}</div>
+    <button type="button" class="rbx" data-rb="close" aria-label="${L("Rückblick schließen", "Close review")}">×</button>
+    <div class="rbslide rb-${S[i].c}" aria-live="polite">${S[i].h}</div>
+    <div class="rbfoot"><button type="button" class="ghost" data-rb="back" ${i ? "" : "disabled"} aria-label="${L("Zurück", "Back")}">‹ ${L("Zurück", "Back")}</button><span class="hint n">${i + 1} / ${S.length}</span><button type="button" class="primary" data-rb="fwd" ${i < S.length - 1 ? "" : "hidden"}>${L("Weiter", "Next")} ›</button></div></div>`;
+}
+function rbClose(){ const ov = $("rbView"); if (ov) ov.hidden = true; document.documentElement.classList.remove("rbopen"); const l = rbView && rbView.last; rbView = null; if (l && l.focus) try { l.focus({ preventScroll: true }); } catch(e) {} }
+function wireRbView(ov){
+  ov.addEventListener("click", e => {
+    const b = e.target.closest("[data-rb]");
+    if (b) { const a = b.dataset.rb; if (a === "close") rbClose(); else if (a === "back") { rbView.i = Math.max(0, rbView.i - 1); rbDraw(); } else if (a === "fwd") { rbView.i = Math.min(rbView.S.length - 1, rbView.i + 1); rbDraw(); } else if (a === "again") { rbView.i = 0; rbDraw(); } return; }
+    if (e.target.closest(".rbslide") && !e.target.closest("button,a,input")) { const r = ov.getBoundingClientRect(); const dir = e.clientX < r.left + r.width * .3 ? -1 : 1; rbView.i = Math.max(0, Math.min(rbView.S.length - 1, rbView.i + dir)); rbDraw(); }
+  });
+  let x0 = null; ov.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, { passive: true });
+  ov.addEventListener("touchend", e => { if (x0 == null || !rbView) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50) { rbView.i = Math.max(0, Math.min(rbView.S.length - 1, rbView.i + (dx < 0 ? 1 : -1))); rbDraw(); } });
+  document.addEventListener("keydown", e => { if (!rbView || ov.hidden) return; if (e.key === "Escape") rbClose(); else if (e.key === "ArrowRight") { rbView.i = Math.min(rbView.S.length - 1, rbView.i + 1); rbDraw(); } else if (e.key === "ArrowLeft") { rbView.i = Math.max(0, rbView.i - 1); rbDraw(); } });
+}
+$("rbSec").addEventListener("click", e => {
+  const b = e.target.closest("[data-rb]"); if (!b) return; const a = b.dataset.rb;
+  if (a === "scope") { rbScope = b.dataset.v; rbOff = 1; renderRb(); }
+  else if (a === "prev") { rbOff++; renderRb(); }
+  else if (a === "next") { rbOff = Math.max(1, rbOff - 1); renderRb(); }
+  else if (a === "open") rbOpenView(rbPeriod(rbScope, rbOff));
+});
+// Hinweis auf Home: abgeschlossener Zeitraum mit Daten, noch nicht angesehen (die ersten 14 Tage danach)
+// Hinweis auf Home: sobald ein Monat, Halbjahr oder Jahr vorbei ist, bis zum Ende des nächsten Monats oder bis zum Ausblenden mit ×
+function rbDue(){
+  const t = new Date(); const hide = new Set(state.rbHide || []);
+  const c = [];
+  if (t.getMonth() === 0) c.push(rbPeriod("y", 1));
+  if (t.getMonth() === 0 || t.getMonth() === 6) c.push(rbPeriod("h", 1));
+  c.push(rbPeriod("m", 1));
+  return c.filter(per => !hide.has(per.key) && rbData(per).days.length);
+}
+function rbBanner(){
+  const due = rbDue(); if (!due.length) return "";
+  return `<div class="rbbanner" role="region" aria-label="${L("Rückblick", "Review")}">${due.map(per => `<div class="rbbrow"><span class="rbic" aria-hidden="true">✦</span><button type="button" class="rbblink" data-hw="rb" data-k="${per.scope}">${per.scope === "y" ? L(`Jahresrückblick ${per.y}`, `${per.y} in review`) : L(`Rückblick ${per.short}`, `Review: ${per.short}`)} <span aria-hidden="true">›</span></button><button type="button" class="rbno" data-hw="rbno" data-key="${esc(per.key)}" aria-label="${L("Hinweis ausblenden", "Hide notice")}">×</button></div>`).join("")}</div>`;
+}
 
 // ---------- Technik: zu jeder Übung ein Erklärvideo (YouTube-Suche) ----------
 let techQ = "", techCat = "alle";
@@ -7088,10 +7430,15 @@ Object.assign(I18N.ui, {"„Noch ein Satz“ fragt jetzt kurz „Mit Timer“ od
 Object.assign(I18N.ui, {"Geräte":"Machines","Kabelzug / Seilzug":"Cable station","Multipresse (Smith-Maschine)":"Smith machine","Latzug-Station":"Lat pulldown station","Butterfly / Brustpresse":"Pec deck / chest press","Beinpresse":"Leg press","Beinstrecker / Beinbeuger":"Leg extension / leg curl","Rückenstrecker-Bank":"Back extension bench","Kraftstation (Multi-Gym)":"Home gym (multi-station)"});
 Object.assign(I18N.ui, {"Auto": "Car", "Formel 1": "Formula 1", "Busch": "Bush", "Graslandschaft": "Grassland", "Nintendo Retro": "Nintendo retro", "Mittelalter": "Medieval", "Rap-Stil": "Rap style", "2000er-Stil": "2000s style", "Sommer": "Summer", "22 neue Skins: Auto, Formel 1, Minecraft, Project Zomboid, Busch, Graslandschaft, Windows 11, Steam, iPhone / Android, DJ, Breaking Bad, Pokémon, Nintendo, Nintendo Retro, Mittelalter, Spider-Man, Superman, Rap-Stil, 2000er-Stil, Spotify, Sommer und Rave. Jeder hat eigene Farben, Schrift und Hintergrund, hell und dunkel. Es sind nachempfundene Designs ohne Original-Logos oder Bilder.": "22 new skins: car, Formula 1, Minecraft, Project Zomboid, bush, grassland, Windows 11, Steam, iPhone / Android, DJ, Breaking Bad, Pokémon, Nintendo, Nintendo retro, medieval, Spider-Man, Superman, rap style, 2000s style, Spotify, summer and rave. Each has its own colors, font and background, light and dark. They are inspired designs without original logos or images.", "Fehler behoben: Am Computer ist der Bereich „Training starten“ auf der Startseite beim Runterscrollen mitgewandert und hat die Muskelerholung verdeckt. Jetzt bleibt er an seinem Platz.": "Bug fixed: on computers, the “Start workout” area on the home page moved along when scrolling down and covered the muscle recovery. It now stays in place."});
 Object.assign(I18N.ui, {"Am Handy startet „Training starten“ jetzt sofort das Training mit dem nächsten Tag und öffnet direkt das Feld fürs Gewicht, die Tastatur geht gleich auf. Tag, Stoppuhr und Pausen stellst du bei Bedarf vorher über den kleinen Knopf darunter ein.": "On phones, “Start workout” now starts the workout with the next day right away and opens the weight field directly, so the keyboard comes up at once. If needed, set the day, stopwatch and rests first with the small button below.", "Tag, Stoppuhr und Pausen einstellen": "Set day, stopwatch and rests"});
+Object.assign(I18N.ui, {"Neu: Rückblicke für einen Monat, ein halbes Jahr, ein ganzes Jahr und „Gesamt“ seit deinem ersten Eintrag. Sie erscheinen erst, wenn der Zeitraum vorbei ist. Dann steht auf der Startseite ein kleiner Hinweis wie „Rückblick September“, den du antippen oder mit × ausblenden kannst. Am Computer findest du alle vergangenen Rückblicke und den Gesamt-Rückblick außerdem jederzeit unter „Fortschritt“ bei der Gesamtstatistik.": "New: reviews for a month, half a year, a whole year and “All time” since your first entry. They only appear once the period is over. The home page then shows a small notice such as “Review: September” that you can tap or hide with ×. On computers you can also find all past reviews and the all-time review at any time under “Progress”, next to the overall statistics.", "Der Rückblick zeigt dir Seite für Seite deine Trainings und aktiven Wochen, das bewegte Gewicht (mit Vergleich, z. B. wie viele Autos das sind), deine Lieblingsübung, welche Muskeln du am meisten trainiert hast, wo du stärker geworden bist, deinen Rhythmus mit Kalender und Lieblingstag, Cardio und Körpergewicht. Zum Schluss gibt es eine Zusammenfassung.": "Page by page, the review shows your workouts and active weeks, the weight you moved (with a comparison, e.g. how many cars that is), your favourite exercise, which muscles you trained most, where you got stronger, your rhythm with a calendar and favourite day, cardio and body weight. At the end there is a summary.", "Weiterblättern geht mit „Weiter“, durch Tippen auf die rechte Seite oder durch Wischen. Am Computer gehen auch die Pfeiltasten.": "Move on with “Next”, by tapping the right side or by swiping. On computers the arrow keys work too.", "Debug-Menü: Der Trainingsverlauf lässt sich jetzt auch für 1 Jahr oder 2 Jahre simulieren, mit ein paar Pausenwochen und realistischer Steigerung. So kannst du dir die Rückblicke genau anschauen.": "Debug menu: workout history can now also be simulated for 1 or 2 years, with a few break weeks and realistic progress, so you can look at the reviews in detail."});
+Object.assign(I18N.ui, {"Training starten am Handy fragt jetzt zuerst „Was trainierst du heute?“: Du tippst auf deinen Tag, zum Beispiel Oberkörper oder Unterkörper, und das Training startet sofort mit dem Gewichtsfeld. Der Tag, der dran ist, ist hervorgehoben.": "Start workout on phones now first asks “What are you training today?”: tap your day, e.g. upper or lower body, and the workout starts right away with the weight field. The day that's up next is highlighted."});
+Object.assign(I18N.ui, {"Zuhause-Version: Neu ist die Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt dann Körpergewichts-Übungen, die zu deiner Stufe passen, zum Beispiel Liegestütze auf den Knien bei Stufe 1 oder Klimmzüge und Dips bei Stufe 4. Ab Stufe 5 kommt eine Handstand-Übung dazu, bei Stufe 6 der freie Handstand. Eine Faustregel hilft dir beim Einschätzen.": "Home version: new strength level from 1 (beginner) to 6 (pro). The app then picks bodyweight exercises that fit your level, e.g. knee push-ups at level 1 or pull-ups and dips at level 4. From level 5 a handstand exercise is added, at level 6 the freestanding handstand. A rule of thumb helps you rate yourself.", "12 neue Körpergewichts-Übungen für Einsteiger und Profis: Liegestütze an der Wand, Unterarmstütz auf den Knien, Box-Kniebeugen, Handstand an der Wand, freier Handstand, Pseudo-Planche-Liegestütze, einarmige Liegestütze, Muscle-ups, Typewriter-Klimmzüge, Front Lever (gehockt), Shrimp Squat und Dragon Flag.": "12 new bodyweight exercises for beginners and pros: wall push-ups, kneeling plank, box squats, wall handstand, freestanding handstand, pseudo planche push-ups, one-arm push-ups, muscle-ups, typewriter pull-ups, tuck front lever, shrimp squat and dragon flag."});
+Object.assign(I18N.ui, {"Handy: Die Kopfzeile ist aufgeräumt. Tutorial (?), Skins (✎), Hell/Dunkel (Auto ☀ ☾) und Sprache stehen jetzt in einer Reihe, darunter klein „gesichert“ und die Version. Die Tableiste unten hat weniger Leerraum unter den Knöpfen und nur noch einen Markierungsstrich.": "Phone: the header is tidied up. Tutorial (?), skins (✎), light/dark (Auto ☀ ☾) and language are now in one row, with “backed up” and the version in small text below. The tab bar at the bottom has less empty space under the buttons and only one highlight line."});
 Object.assign(I18N.ui, {"Zuhause-Version: Unter „Geräte“ kannst du jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Multipresse, Latzug, Butterfly, Beinpresse, Beinstrecker/Beinbeuger, Rückenstrecker-Bank oder eine Kraftstation. Dann nimmt die App auch passende Maschinen-Übungen.": "Home version: under “Machines” you can now also pick machines you have at home, e.g. cable station, Smith machine, lat pulldown, pec deck, leg press, leg extension/curl, back extension bench or a home gym. The app then also uses matching machine exercises.", "44 neue Meilensteine (jetzt 102): Kraft (ein Satz mit 20 bis 200 kg), Halten (30 s bis 5 min am Stück), Cardio-Strecke, starke Woche und starker Monat, höhere Stufen bei allen bisherigen und neue besondere Momente wie Training nach 21 Uhr, Mehr Sätze als geplant oder nichts ausgelassen.": "44 new milestones (now 102): strength (a set with 20 to 200 kg), holding (30 s to 5 min in one go), cardio distance, strong week and strong month, higher tiers for all existing ones and new special moments like a workout after 9 pm, more sets than planned or nothing skipped."});
 Object.assign(I18N.ui, {"Auf Zeit":"Timed","Übungen auf Zeit, z. B. Unterarmstütz (Plank)":"Timed exercises, e.g. plank","Sek.":"sec","Dauer":"Duration"});
 Object.assign(I18N.ui, {"Training neu gestaltet: runde, übersichtliche Karten. Oben siehst du Tag, Übung x von y und die Stoppuhr, darunter die aktuelle Übung mit Satz-Kreisen, großen ± Knöpfen für Gewicht und Wiederholungen und einem Knopf, der die Werte vom letzten Mal übernimmt.": "Workout redesigned: round, clear cards. At the top you see the day, exercise x of y and the stopwatch, below that the current exercise with set circles, big ± buttons for weight and reps and a button that takes over last time's values.", "Nach jedem Satz wählst du unter „Was kommt als Nächstes?“, welche Übung du als Nächstes machst. Wechselst du mitten in einer Übung, bleiben deine Sätze gespeichert und du machst später dort weiter.": "After each set you choose under “What's next?” which exercise comes next. If you switch in the middle of an exercise, your sets are kept and you continue there later.", "In der Pause siehst du schon die nächste Übung mit „Letztes Mal“ und kannst Gewicht und Wiederholungen vorher eintragen. Du kannst dort auch deine Sätze bearbeiten, den Plan der Übung (Sätze × Wiederholungen) ändern und eine andere Übung auswählen.": "During the rest you already see the next exercise with “Last time” and can enter weight and reps in advance. You can also edit your sets there, change the exercise's plan (sets × reps) and pick a different exercise.", "Übungen auf Zeit, zum Beispiel Unterarmstütz (Plank): Beim Anlegen „Auf Zeit“ wählen. Im Training gibt es dafür eine Stoppuhr mit Ziel-Ring und Signal, gespeichert wird die Dauer in Sekunden.": "Timed exercises, e.g. plank: choose “Timed” when adding them. In the workout there is a stopwatch with a goal ring and a signal, and the time is saved in seconds.", "Neuer Bildschirm „Training fertig!“: Übersicht mit Dauer, Sätzen, bewegtem Gewicht und neuen Bestwerten, jede Übung als eigene Karte mit Vergleich zum letzten Mal, Notiz zum Training und Datum/Zeit zum Aufklappen.": "New “Workout done!” screen: overview with duration, sets, weight moved and new bests, every exercise as its own card compared to last time, a workout note and date/time to expand.", "Fehler behoben: Fügst du während des Trainings eine Übung hinzu, kommt sie jetzt mit ins Training, inklusive Pausen-Timer. Im Training gibt es außerdem „＋ Übung hinzufügen“ mit Suche in der Bibliothek.": "Bug fixed: if you add an exercise during a workout, it now joins the workout, including the rest timer. The workout also has “＋ Add exercise” with a library search.", "Alternativen: Im Plan zeigt „⇄ Alternativen“ bei jeder Übung andere Übungen für dieselben Muskeln, zum Tauschen oder Dazunehmen. Im Training hilft „⇄ Alternative“, wenn ein Gerät besetzt ist.": "Alternatives: in the plan, “⇄ Alternatives” shows other exercises for the same muscles on every exercise, to swap or add. In the workout, “⇄ Alternative” helps when a machine is taken.", "Übungsbibliothek: 31 neue Übungen, zum Beispiel Kabel-Brustpresse, Klimmzüge mit Zusatzgewicht, Reverse Flys am Kabel, Einbeinige Beinpresse, Kabel-Pull-Through und L-Sit. Viele Übungen haben jetzt passendere Wiederholungen (z. B. Seitheben 15, Kreuzheben 5), Farmer's Walk und Suitcase Carry laufen auf Zeit.": "Exercise library: 31 new exercises, e.g. cable chest press, weighted pull-ups, cable reverse flyes, single-leg leg press, cable pull-through and L-sit. Many exercises now have better rep targets (e.g. lateral raises 15, deadlifts 5), farmer's walk and suitcase carry are timed.", "Fehler behoben: Beim Laden einer Sicherung konnte das Speichern im Claude-Konto die geladenen Trainings und Statistiken wieder überschreiben. Jetzt wartet das Laden darauf und sagt dir, wie viele Pläne, Trainings und Einträge zurückgekommen sind.": "Bug fixed: when loading a backup, saving to your Claude account could overwrite the loaded workouts and statistics again. Loading now waits for it and tells you how many plans, workouts and entries came back.", "Die Muskelfigur steht jetzt in allen Bereichen unten, auch am Computer. Dadurch haben Plan und Training mehr Platz.": "The muscle figure is now at the bottom in every section, on computers too. That gives the plan and the workout more room."});
 const NOTES = [
+  ["1.1", "19.10.2026", ["Neu: Rückblicke für einen Monat, ein halbes Jahr, ein ganzes Jahr und „Gesamt“ seit deinem ersten Eintrag. Sie erscheinen erst, wenn der Zeitraum vorbei ist. Dann steht auf der Startseite ein kleiner Hinweis wie „Rückblick September“, den du antippen oder mit × ausblenden kannst. Am Computer findest du alle vergangenen Rückblicke und den Gesamt-Rückblick außerdem jederzeit unter „Fortschritt“ bei der Gesamtstatistik.", "Der Rückblick zeigt dir Seite für Seite deine Trainings und aktiven Wochen, das bewegte Gewicht (mit Vergleich, z. B. wie viele Autos das sind), deine Lieblingsübung, welche Muskeln du am meisten trainiert hast, wo du stärker geworden bist, deinen Rhythmus mit Kalender und Lieblingstag, Cardio und Körpergewicht. Zum Schluss gibt es eine Zusammenfassung.", "Weiterblättern geht mit „Weiter“, durch Tippen auf die rechte Seite oder durch Wischen. Am Computer gehen auch die Pfeiltasten.", "Debug-Menü: Der Trainingsverlauf lässt sich jetzt auch für 1 Jahr oder 2 Jahre simulieren, mit ein paar Pausenwochen und realistischer Steigerung. So kannst du dir die Rückblicke genau anschauen.", "Training starten am Handy fragt jetzt zuerst „Was trainierst du heute?“: Du tippst auf deinen Tag, zum Beispiel Oberkörper oder Unterkörper, und das Training startet sofort mit dem Gewichtsfeld. Der Tag, der dran ist, ist hervorgehoben.", "Zuhause-Version: Neu ist die Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt dann Körpergewichts-Übungen, die zu deiner Stufe passen, zum Beispiel Liegestütze auf den Knien bei Stufe 1 oder Klimmzüge und Dips bei Stufe 4. Ab Stufe 5 kommt eine Handstand-Übung dazu, bei Stufe 6 der freie Handstand. Eine Faustregel hilft dir beim Einschätzen.", "12 neue Körpergewichts-Übungen für Einsteiger und Profis: Liegestütze an der Wand, Unterarmstütz auf den Knien, Box-Kniebeugen, Handstand an der Wand, freier Handstand, Pseudo-Planche-Liegestütze, einarmige Liegestütze, Muscle-ups, Typewriter-Klimmzüge, Front Lever (gehockt), Shrimp Squat und Dragon Flag.", "Handy: Die Kopfzeile ist aufgeräumt. Tutorial (?), Skins (✎), Hell/Dunkel (Auto ☀ ☾) und Sprache stehen jetzt in einer Reihe, darunter klein „gesichert“ und die Version. Die Tableiste unten hat weniger Leerraum unter den Knöpfen und nur noch einen Markierungsstrich."]],
   ["1.0", "19.10.2026", ["Am Handy startet „Training starten“ jetzt sofort das Training mit dem nächsten Tag und öffnet direkt das Feld fürs Gewicht, die Tastatur geht gleich auf. Tag, Stoppuhr und Pausen stellst du bei Bedarf vorher über den kleinen Knopf darunter ein.", "22 neue Skins: Auto, Formel 1, Minecraft, Project Zomboid, Busch, Graslandschaft, Windows 11, Steam, iPhone / Android, DJ, Breaking Bad, Pokémon, Nintendo, Nintendo Retro, Mittelalter, Spider-Man, Superman, Rap-Stil, 2000er-Stil, Spotify, Sommer und Rave. Jeder hat eigene Farben, Schrift und Hintergrund, hell und dunkel. Es sind nachempfundene Designs ohne Original-Logos oder Bilder.", "Fehler behoben: Am Computer ist der Bereich „Training starten“ auf der Startseite beim Runterscrollen mitgewandert und hat die Muskelerholung verdeckt. Jetzt bleibt er an seinem Platz.", "Zuhause-Version: Unter „Geräte“ kannst du jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Multipresse, Latzug, Butterfly, Beinpresse, Beinstrecker/Beinbeuger, Rückenstrecker-Bank oder eine Kraftstation. Dann nimmt die App auch passende Maschinen-Übungen.", "44 neue Meilensteine (jetzt 102): Kraft (ein Satz mit 20 bis 200 kg), Halten (30 s bis 5 min am Stück), Cardio-Strecke, starke Woche und starker Monat, höhere Stufen bei allen bisherigen und neue besondere Momente wie Training nach 21 Uhr, Mehr Sätze als geplant oder nichts ausgelassen.", "„Noch ein Satz“ fragt jetzt kurz „Mit Timer“ oder „Ohne Timer“. Mit Timer läuft erst die Pause, danach trägst du den Extra-Satz ein.", "Training neu gestaltet: runde, übersichtliche Karten. Oben siehst du Tag, Übung x von y und die Stoppuhr, darunter die aktuelle Übung mit Satz-Kreisen, großen ± Knöpfen für Gewicht und Wiederholungen und einem Knopf, der die Werte vom letzten Mal übernimmt.", "Nach jedem Satz wählst du unter „Was kommt als Nächstes?“, welche Übung du als Nächstes machst. Wechselst du mitten in einer Übung, bleiben deine Sätze gespeichert und du machst später dort weiter.", "In der Pause siehst du schon die nächste Übung mit „Letztes Mal“ und kannst Gewicht und Wiederholungen vorher eintragen. Du kannst dort auch deine Sätze bearbeiten, den Plan der Übung (Sätze × Wiederholungen) ändern und eine andere Übung auswählen.", "Übungen auf Zeit, zum Beispiel Unterarmstütz (Plank): Beim Anlegen „Auf Zeit“ wählen. Im Training gibt es dafür eine Stoppuhr mit Ziel-Ring und Signal, gespeichert wird die Dauer in Sekunden.", "Neuer Bildschirm „Training fertig!“: Übersicht mit Dauer, Sätzen, bewegtem Gewicht und neuen Bestwerten, jede Übung als eigene Karte mit Vergleich zum letzten Mal, Notiz zum Training und Datum/Zeit zum Aufklappen.", "Fehler behoben: Fügst du während des Trainings eine Übung hinzu, kommt sie jetzt mit ins Training, inklusive Pausen-Timer. Im Training gibt es außerdem „＋ Übung hinzufügen“ mit Suche in der Bibliothek.", "Alternativen: Im Plan zeigt „⇄ Alternativen“ bei jeder Übung andere Übungen für dieselben Muskeln, zum Tauschen oder Dazunehmen. Im Training hilft „⇄ Alternative“, wenn ein Gerät besetzt ist.", "Übungsbibliothek: 31 neue Übungen, zum Beispiel Kabel-Brustpresse, Klimmzüge mit Zusatzgewicht, Reverse Flys am Kabel, Einbeinige Beinpresse, Kabel-Pull-Through und L-Sit. Viele Übungen haben jetzt passendere Wiederholungen (z. B. Seitheben 15, Kreuzheben 5), Farmer's Walk und Suitcase Carry laufen auf Zeit.", "Fehler behoben: Beim Laden einer Sicherung konnte das Speichern im Claude-Konto die geladenen Trainings und Statistiken wieder überschreiben. Jetzt wartet das Laden darauf und sagt dir, wie viele Pläne, Trainings und Einträge zurückgekommen sind.", "Die Muskelfigur steht jetzt in allen Bereichen unten, auch am Computer. Dadurch haben Plan und Training mehr Platz.", "Version 1.0 – das große Redesign, Muskelplan ist keine Beta mehr. Neuer Home-Bildschirm mit deinen Workouts (Trainingstage zum Auf- und Zuklappen) und „Training starten“ zum Ausklappen mit Stoppuhr, Pausen-Timer, Signalton und Pausenzeiten.", "Am Handy sind die Bereiche jetzt unten in einer Leiste, am Computer links in einer Seitenleiste.", "„Training starten“ steht auf Home und im Training ganz oben, mit Schaltern für Stoppuhr, Pausen-Timer und Signalton.", "Trainingstage sehen im Plan und im Training aus wie auf Home: runde Karten zum Auf- und Zuklappen.", "Plan: dein aktueller Plan mit „Übungen hinzufügen“ und der Zuhause-Version steht oben, die Muskelfigur darunter (am Computer daneben).", "Auf Home gibt es einen Knopf, um Übungen einzufügen oder einen Plan zu importieren.", "Die Figur auf Home zeigt jetzt die Muskel-Erholung: welche Muskeln du frisch trainiert hast und welche schon länger Pause haben.", "Der ganze Trainingsverlauf ist jetzt ein eigener Kasten zum Scrollen.", "Im Training übernimmt die nächste Pause die Zeit, die du gerade mit ±1 oder ±15 angepasst hast, statt wieder auf den Standard zu springen.", "Beim Wechseln der Bereiche springt die Seite nach oben.", "Beim Öffnen musst du keinen neuen Plan mehr anlegen. Das Tutorial startet nur beim allerersten Öffnen, im Artifact wird das in deinem Konto gemerkt.", "Im Training sind Gewicht und Wiederholungen nicht mehr vorausgefüllt. Du trägst sie jedes Mal neu ein, der Wert vom letzten Mal steht grau als Hinweis im Feld.", "Insgesamt rundere Ecken bei Karten, Knöpfen und Feldern."]],
   ["0.70", "14.10.2026", ["Alle Designs sind jetzt sofort frei, du musst sie nicht mehr über Meilensteine freischalten.", "Während eines laufenden Trainings gibt es keine App-Updates mehr. Eine neue Version kommt erst, wenn du das Training beendet hast.", "Beim ersten Start beginnt sofort das Tutorial. Danach legst du selbst deinen ersten Plan an und wählst seine Art, statt mit einem leeren Standard-Plan zu starten.", "Übungsbibliothek: YouTube-Links wie „Wie stelle ich ein Workout zusammen?“ oder „Grundübungen erklärt“. Hast du am Körper Muskeln gewählt, gibt es dazu „Beste Übungen für …“.", "Übungsbibliothek: Tippe am Körper auf einen Muskel, dann zeigt die Bibliothek nur Übungen dafür, Übungen mit diesem Hauptmuskel zuerst. Mit „Auswahl aufheben“ siehst du wieder alle.", "Fehler behoben: Beim Antippen eines Filters in der Bibliothek sprang die Leiste nicht mehr an den Anfang zurück.", "Beim Erstellen eines Plans gibt es jetzt YouTube-Links, zum Beispiel „Wie erstelle ich einen Trainingsplan?“, „Ober-/Unterkörper richtig aufteilen“ oder „Push / Pull / Beine erklärt“. Das Video zur gewählten Plan-Art ist hervorgehoben.", "Android: Die Zurück-Taste schließt jetzt Druckvorschau, Tutorial und Design-Menü, statt die App zu verlassen. Der Sicherungs-Hinweis erklärt jetzt auch, wo die Datei bei Android landet.", "Blaupause: Die Muskelkarte zeigt jetzt deutlicher, wie oft ein Muskel trainiert wird, von Türkis über Gelb und Orange bis Rot.", "Oben neben „Tutorial“ steht jetzt klein, wann du zuletzt eine Sicherung gespeichert hast. Antippen speichert sofort eine neue. Nach 14 Tagen ohne Sicherung wird der Hinweis orange.", "Sicherungen heißen jetzt „Muskelplan Sicherung“ mit Datum, damit du sie in deinen Dateien leicht findest.", "Der Browser wird gebeten, deine Daten dauerhaft zu speichern und sie nicht von selbst zu löschen.", "Pausenzeiten sekundengenau: mit ±1 und ±15 Sekunden von 5 Sekunden bis 10 Minuten einstellbar, dazu Schnellwahl-Knöpfe. Auch während der Pause gibt es ±1 und ±15 Sekunden, und du kannst für einzelne Übungen eine eigene Pausenzeit merken.", "Rechner: Die Auswahl „Dein Alltag“ hat jetzt 6 Stufen mit genauer Beschreibung, Beispielen und ungefähren Schritten pro Tag. Trägst du Schritte bei den Körperwerten ein, schlägt der Rechner die passende Stufe vor."]],
   ["0.69", "14.10.2026", ["Rechner: neue YouTube-Links „Wie funktioniert Fett abnehmen?“, „Wie funktioniert Muskelaufbau?“ und „Wie funktioniert Gewicht zunehmen?“. Alle Video-Links stehen jetzt immer unten, auch bevor du etwas eingetragen hast.", "Neue Warnung bei „Daten & Sicherung“ und im Tutorial: Wer den Browserverlauf mit Website-Daten löscht oder die App entfernt, verliert ohne Sicherung alle Daten."]],
@@ -7175,7 +7522,7 @@ $("notesBox").addEventListener("click", e => {
 });
 
 // ---------- Daten & Sicherung, Version ----------
-const APP_VERSION = "1.0", APP_DATE = "19.10.2026";
+const APP_VERSION = "1.1", APP_DATE = "19.10.2026";
 $("appVer").textContent = `Version ${APP_VERSION} · ${APP_DATE}`;
 const BK = "muskelplan.lastBackup";
 let bkPending = null;
@@ -7702,7 +8049,7 @@ const TOUR = [
 if (LAY2) {
   TOUR.splice(1, 0,
     { sel: "#hWork", view: "home", get t(){ return L("Home: deine Workouts", "Home: your workouts"); }, get b(){ return L("Hier siehst du die Trainingstage deines Plans, zum Beispiel Oberkörper und Unterkörper. Tippe auf einen Tag, um ihn auf- oder zuzuklappen. Der Tag, der als Nächstes dran ist, ist markiert. Die Figur daneben zeigt, wann jeder Muskel zuletzt trainiert wurde: frisch trainiert oder schon länger in Pause.", "Here you see the workout days of your plan, e.g. upper and lower body. Tap a day to expand or collapse it. The day that's up next is marked. The figure shows when each muscle was last trained: recently or resting for a while."); } },
-    { sel: "#hStart", view: "home", pre: () => { hsOpen = true; renderStart(); }, get t(){ return L("Training starten", "Start workout"); }, get b(){ return L("Am Handy startet „Training starten“ sofort den nächsten Tag und öffnet gleich das Feld fürs Gewicht. Unter „Tag, Stoppuhr und Pausen einstellen“ wählst du vorher den Tag, Stoppuhr, Pausen-Timer, Signalton und wie lang die Pausen sind.", "On phones, “Start workout” starts the next day right away and opens the weight field. Under “Set day, stopwatch and rests” you can first pick the day, stopwatch, rest timer, beep and how long the rests are."); } });
+    { sel: "#hStart", view: "home", pre: () => { hsOpen = true; renderStart(); }, get t(){ return L("Training starten", "Start workout"); }, get b(){ return L("Am Handy fragt „Training starten“ kurz, welchen Tag du heute machst, startet dann sofort und öffnet gleich das Feld fürs Gewicht. Unter „Tag, Stoppuhr und Pausen einstellen“ wählst du vorher den Tag, Stoppuhr, Pausen-Timer, Signalton und wie lang die Pausen sind.", "On phones, “Start workout” briefly asks which day you're doing today, then starts right away and opens the weight field. Under “Set day, stopwatch and rests” you can first pick the day, stopwatch, rest timer, beep and how long the rests are."); } });
   const tb = TOUR.find(x => x.sel === "#tabs"); if (tb) { tb.view = "home"; Object.defineProperty(tb, "b", { get(){ return L("„Home“: deine Workouts und Training starten. „Plan“: Übungen zusammenstellen. „Training“: im Gym deine Sätze eintragen. „Fortschritt“: Körperwerte und Statistiken. „Rechner“: Kalorien und Eiweiß für dein Ziel. Am Handy findest du die Bereiche unten, am Computer links.", "“Home”: your workouts and starting a workout. “Plan”: put exercises together. “Training”: log your sets at the gym. “Progress”: body values and statistics. “Calculator”: calories and protein for your goal. On the phone the sections are at the bottom, on a computer on the left."); } }); }
 }
 let tourI = -1, tourView0 = null, tourEl = null, tourRaf = 0;
