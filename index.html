@@ -2026,6 +2026,215 @@ html.rbopen,html.rbopen body{overflow:hidden}
   html.lay2 body .tabs button,html.lay2 body.running .tabs button{border-bottom:0!important;box-shadow:none!important;min-height:56px;padding:8px 0 6px!important}
   html.lay2 body .tabs button[aria-selected="true"]{border-top-color:var(--sel)!important;border-bottom-color:transparent!important;color:var(--ink)}
 }
+/* 1.1: Desktop-Design (ab 1100 px): Tableiste oben, Übersicht, Plan mit Tabelle */
+html:not(.dsk) :is(#dash,#dpDays,#dpLib,#dpHead,#dpFoot,.dsklogo,.dskbar){display:none!important}
+html:not(.dsk) .tabs .td,html.dsk .tabs .tm{display:none}
+@media (min-width:1100px){
+  html.dsk body,html.dsk.lay2 body{padding-left:0!important}
+  html.dsk .wrap{padding-top:92px!important}
+  html.dsk body.view-home .wrap,html.dsk body.view-bauen .wrap{max-width:1440px;padding-left:28px;padding-right:28px}
+  html.dsk header{--dpad:max(24px,calc((100vw - 1440px) / 2 + 28px));position:fixed!important;top:0;left:0;right:0;z-index:50;display:flex!important;flex-wrap:nowrap!important;align-items:center!important;gap:16px;height:68px;min-height:0!important;margin:0!important;padding:0 var(--dpad)!important;background-color:var(--bg);border-bottom:1.5px solid var(--line)}
+  html.dsk .dsklogo{order:0;flex:0 0 auto;font-family:var(--display);font-weight:800;font-size:1.65rem;text-transform:uppercase;line-height:1;letter-spacing:.01em;white-space:nowrap;color:var(--ink)}
+  html.dsk .dsklogo b{color:var(--sel);font-weight:inherit}
+  html.dsk header .tabs,html.dsk.lay2 body header .tabs,html.dsk.lay2 body.running header .tabs{order:1;position:static!important;flex:1 1 auto;min-width:0;width:auto!important;height:68px;display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:stretch;gap:2px!important;padding:0!important;margin:0!important;background:transparent!important;border:0!important;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;box-shadow:none!important;z-index:auto}
+  html.dsk header .tabs::-webkit-scrollbar{display:none}
+  html.dsk header .tabs::before,html.dsk header .tabs::after{display:none!important;content:none!important}
+  html.dsk.lay2 body header .tabs button,html.dsk.lay2 body.running header .tabs button{flex:0 0 auto!important;width:auto!important;min-height:0!important;height:68px;display:flex!important;flex-direction:row!important;align-items:center;gap:6px;padding:0 14px!important;border:0!important;border-bottom:3px solid transparent!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;font-family:var(--body)!important;text-transform:none!important;letter-spacing:0!important;font-weight:600!important;font-size:.98rem!important;color:var(--muted)!important;margin:0!important;white-space:nowrap}
+  html.dsk.lay2 body header .tabs button:hover{color:var(--ink)!important}
+  html.dsk.lay2 body header .tabs button[aria-selected="true"]{color:var(--ink)!important;border-bottom-color:var(--sel)!important}
+  html.dsk header .tabs .ti{display:none!important}
+  html.dsk header .planbar{order:2;flex:0 1 auto;flex-wrap:nowrap;min-width:0}
+  html.dsk header .planbar .label,html.dsk header #newPlan,html.dsk header #planMenu{display:none!important}
+  html.dsk header .planbar select{max-width:230px;height:40px;font-weight:600;border-radius:10px}
+  html.dsk .dskbar{order:3;flex:0 0 auto;display:flex;align-items:center;gap:8px}
+  html.dsk .dsktrain{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);font-weight:600;font-size:.92rem;white-space:nowrap}
+  html.dsk .dsktrain:hover,html.dsk .dsktrain.on{border-color:var(--sel)}
+  html.dsk .dsktrain .dot{width:8px;height:8px;border-radius:50%;background:var(--sel);animation:dskdot 1.4s ease-in-out infinite}
+  @keyframes dskdot{50%{opacity:.35}}
+  html.dsk .dskgear{width:40px;height:40px;padding:0;display:grid;place-items:center;border:1.5px solid var(--line);border-radius:10px;background:var(--panel);font-size:1.05rem;color:var(--ink)}
+  html.dsk header.gearopen .dskgear{border-color:var(--sel)}
+  html.dsk .dskbar .bkchip{height:32px}
+  html.dsk header .topright{position:absolute!important;top:64px;right:var(--dpad);left:auto;transform:none!important;order:9;display:none!important;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:12px;width:300px!important;padding:16px;margin:0;background:var(--panel);border:1.5px solid var(--line);border-radius:16px;box-shadow:0 22px 44px -16px rgba(0,0,0,.4);z-index:60}
+  html.dsk header.gearopen .topright{display:flex!important}
+  html.dsk header .topright .seg{display:flex;width:100%}
+  html.dsk header .topright .seg button{flex:1 1 0}
+  html.dsk header .topright .tourbtn,html.dsk header .topright .ver{align-self:flex-start}
+  html.dsk header .topright .skinbtn{width:100%;height:38px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg)}
+  html.dsk header .topright .skinbtn::after{content:" Skins";font-size:.9rem;font-weight:600}
+  html.dsk header .topright .skinmenu{right:0;left:auto;top:44px}
+  @media (max-width:1399px){html.dsk .dskbar .bkchip{max-width:36px;overflow:hidden;padding:3px 8px;white-space:nowrap}}
+  @media (max-width:1259px){html.dsk .dsklogo{display:none}}
+  /* Training starten als Fenster oben rechts */
+  html.dsk body:not(.hspop) #hStart{display:none!important}
+  html.dsk body.hspop #hStart{display:grid!important;position:fixed;top:74px;right:max(24px,calc((100vw - 1440px) / 2 + 28px));width:min(420px,calc(100vw - 48px));max-height:calc(100vh - 92px);overflow:auto;z-index:55;border-radius:18px;box-shadow:0 26px 60px -18px rgba(0,0,0,.45)}
+  /* Übersicht */
+  html.dsk body.view-home .grid{display:block}
+  html.dsk body.view-home :is(#hWork,#hRec,.mapcol,.right,#dpDays,#dpLib){display:none!important}
+  html.dsk body:not(.view-home) #dash{display:none!important}
+  .dash{display:grid;gap:20px;grid-template-columns:minmax(0,1fr) minmax(330px,400px);grid-template-areas:"k m" "v m" "s c";align-items:stretch}
+  .dkpis{grid-area:k;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .dkpi{background:var(--panel);border:1.5px solid var(--line);border-radius:18px;padding:16px 18px;display:grid;gap:6px;align-content:start;min-width:0}
+  .dkpi .label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dkpi b{font-family:var(--display);font-weight:800;font-size:2.3rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dkpi .sub{font-size:.84rem;color:var(--muted);line-height:1.3}
+  .dash .up{color:var(--good);font-weight:600}
+  .dash .dn{color:var(--muted)}
+  .dkpi .sub .up{font-weight:500}
+  .dcard{border-radius:18px;padding:18px 20px;display:grid;gap:14px;align-content:start;min-width:0;margin:0}
+  .dch{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .dch h2{font-size:1.45rem}
+  .dvol{grid-area:v}
+  .dbars{display:flex;gap:10px;align-items:stretch}
+  .dbar{flex:1 1 0;min-width:0;display:grid;gap:8px}
+  .dbar .bw{height:220px;display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch;gap:4px}
+  .dbar .v{font-size:.7rem;color:var(--muted);text-align:center;white-space:nowrap;overflow:hidden}
+  .dbar i{display:block;border-radius:9px 9px 4px 4px;background:color-mix(in srgb,var(--ink) 16%,var(--panel))}
+  .dbar.cur i{background:var(--sel)}
+  .dbar.cur .v{color:var(--ink);font-weight:700}
+  .dbar .k{font-size:.76rem;color:var(--muted);text-align:center;white-space:nowrap}
+  .dbar.cur .k{color:var(--ink);font-weight:700}
+  .dmus{grid-area:m}
+  .dmus .heatfigs{display:grid;grid-template-columns:1fr 1fr;gap:6px;max-width:none}
+  .dmus .heatfigs svg{width:100%;max-height:330px}
+  .dgrad{display:flex;align-items:center;gap:10px;font-size:.78rem;color:var(--muted)}
+  .dgrad i{flex:1;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--muscle),var(--cov1),var(--cov2),var(--cov3),var(--cov4))}
+  .dwarn{margin:0;padding:11px 13px;border-radius:12px;font-size:.88rem;line-height:1.4;border:1.5px solid color-mix(in srgb,#E0A030 55%,var(--line));background:color-mix(in srgb,#E0A030 10%,var(--panel))}
+  .dwarn.ok{border-color:var(--line);background:var(--bg)}
+  .dkraft{grid-area:s}
+  .dtab{width:100%;border-collapse:collapse;font-size:.95rem}
+  .dtab th{font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0 8px 10px}
+  .dtab td{padding:12px 8px;border-top:1px solid var(--line);white-space:nowrap}
+  .dtab td.nm{font-weight:600;white-space:normal}
+  .dtab .sp{width:30%}
+  .dtab td.sp svg{display:block;width:100%;height:30px}
+  .dtab .r{text-align:right}
+  .dcal{grid-area:c}
+  .dcells{display:grid;grid-template-rows:repeat(7,auto);grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px}
+  .dcells i{display:block;aspect-ratio:1;border-radius:5px;background:color-mix(in srgb,var(--ink) 8%,var(--panel))}
+  .dcells i.c1{background:color-mix(in srgb,var(--sel) 32%,var(--panel))}
+  .dcells i.c2{background:color-mix(in srgb,var(--sel) 55%,var(--panel))}
+  .dcells i.c3{background:color-mix(in srgb,var(--sel) 78%,var(--panel))}
+  .dcells i.c4{background:var(--sel)}
+  .dcells i.cf{background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
+  .dcal .dsub{margin-top:4px}
+  .drec{list-style:none;margin:0;padding:0}
+  .drec li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+  .drec li b{font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .drec li span{color:var(--muted);font-size:.86rem;white-space:nowrap}
+  .dcal .dmore{justify-self:start}
+  /* Plan bearbeiten */
+  html.dsk body.view-bauen .grid{display:grid;grid-template-columns:250px minmax(0,1fr) 350px;grid-template-rows:auto 1fr;gap:24px;align-items:start}
+  html.dsk body.view-bauen :is(.right,#hWork,#hRec){display:none!important}
+  html.dsk body:not(.view-bauen) :is(#dpDays,#dpLib){display:none!important}
+  html.dsk body.view-bauen #dpDays{grid-column:1;grid-row:1 / span 2;position:sticky;top:88px;display:grid;gap:10px;align-content:start}
+  html.dsk body.view-bauen #planSec{grid-column:2;grid-row:1 / span 2;order:0;display:flex;flex-direction:column;gap:16px}
+  html.dsk body.view-bauen #dpLib{grid-column:3;grid-row:1;display:grid;gap:12px;margin:0}
+  html.dsk body.view-bauen .mapcol{grid-column:3;grid-row:2;position:static!important;order:0;top:auto}
+  html.dsk body.view-bauen #planSec .planhead,html.dsk body.view-bauen #printBox{display:none!important}
+  html.dsk #dpHead{order:-3}
+  html.dsk #units{order:-2;margin:0}
+  html.dsk #dpFoot{order:-1}
+  html.dsk #copyBox{order:1}
+  html.dsk #addSec{order:2}
+  html.dsk #dayMgr{order:3}
+  html.dsk #homeSec{order:4}
+  .dpdays .label{margin-top:6px}
+  .dpday{display:grid;gap:4px;width:100%;text-align:left;padding:14px 16px;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;color:var(--ink)}
+  .dpday:hover{border-color:color-mix(in srgb,var(--sel) 50%,var(--line));background:var(--panel)}
+  .dpday.on{border-color:var(--line);box-shadow:inset 4px 0 0 var(--sel)}
+  .dpday .t{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .dpday b{font-family:var(--display);font-weight:800;font-size:1.3rem;line-height:1.05;text-transform:uppercase;overflow-wrap:anywhere;min-width:0}
+  .dpday .cnt{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+  .dpday .due{background:var(--sel);color:var(--sel-ink);border-radius:999px;padding:2px 9px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+  .dpday .m{font-size:.82rem;color:var(--muted);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dpadd{width:100%;padding:12px;border:1.5px dashed var(--line);border-radius:14px;background:transparent;color:var(--muted);font-weight:600}
+  .dpadd:hover{color:var(--ink);border-color:var(--ink);background:transparent}
+  .dpacts{display:grid;gap:2px}
+  .dplink{border:0;background:transparent;text-align:left;padding:6px 0;font-weight:600;color:var(--ink);font-size:.95rem}
+  .dplink:hover{background:transparent;color:var(--sel)}
+  .dphead{display:grid;gap:4px}
+  .dpname{font-family:var(--display);font-weight:800;font-size:3.2rem;line-height:1;text-transform:uppercase;letter-spacing:.01em;margin:0;padding:0 0 2px;border:0;border-bottom:2px solid transparent;border-radius:0!important;background:transparent;width:100%;color:var(--ink)}
+  input.dpname:hover{border-bottom-color:var(--line)}
+  input.dpname:focus{outline:none;border-bottom-color:var(--pick)}
+  .dpsub{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .dpsub .hint{margin:0}
+  .dpsaved{color:var(--good);font-weight:600;font-size:.86rem;white-space:nowrap}
+  .dpsaved.fl{animation:dpfl 1.2s ease}
+  @keyframes dpfl{0%{opacity:.2}30%{opacity:1;transform:scale(1.06)}100%{transform:none}}
+  html.dsk #units .dpt{--dcols:20px 32px minmax(0,1.5fr) minmax(0,1.25fr) 62px 80px 62px 38px;display:grid;gap:10px}
+  .dphd{display:grid;grid-template-columns:var(--dcols);gap:10px;padding:0 15px;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+  .dphd span:nth-child(n+5){text-align:center}
+  html.dsk #units .unit.drow{display:grid!important;grid-template-columns:var(--dcols);align-items:center;gap:10px;padding:12px 14px!important;margin:0!important;background:var(--panel);border:1.5px solid var(--line);border-radius:14px;cursor:default}
+  html.dsk #units .unit.drow.on,html.dsk #units .unit.drow:focus-within{border-color:var(--pick)}
+  html.dsk #units .unit.drow.drag{opacity:.4}
+  html.dsk #units .unit.drow.dover-t{box-shadow:inset 0 3px 0 var(--sel)}
+  html.dsk #units .unit.drow.dover-b{box-shadow:inset 0 -3px 0 var(--sel)}
+  .drow .dh{cursor:grab;color:var(--muted);font-size:1.15rem;line-height:1;user-select:none;text-align:center}
+  .drow .dno{width:30px;height:30px;border-radius:8px;background:var(--tagbg);display:grid;place-items:center;font-weight:700;font-size:.85rem}
+  .drow .dnm{display:grid;min-width:0}
+  .drow .dnm b{font-weight:600;font-size:1rem;overflow-wrap:anywhere}
+  .drow .dnm .hint{font-size:.8rem;margin:0}
+  .drow .dtags{display:flex;flex-wrap:wrap;gap:4px;min-width:0}
+  .drow .dtags .tag{margin:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .drow .dnum{width:100%;text-align:center;font-weight:700;font-size:1rem;padding:8px 4px;border:1.5px solid var(--line);border-radius:10px!important;background:var(--bg)}
+  .drow .dnum:focus{outline:none;border-color:var(--pick);box-shadow:0 0 0 3px color-mix(in srgb,var(--pick) 20%,transparent)}
+  .drow .dna,.drow .dlast{text-align:center;color:var(--muted);font-size:.9rem;white-space:nowrap}
+  .drow .dmenu{position:relative;justify-self:end}
+  .drow .dmenu summary{list-style:none;cursor:pointer;width:34px;height:34px;display:grid;place-items:center;border-radius:10px;color:var(--muted);font-weight:700;font-size:1.1rem}
+  .drow .dmenu summary::-webkit-details-marker{display:none}
+  .drow .dmenu summary:hover,.drow .dmenu[open] summary{background:var(--tagbg);color:var(--ink)}
+  .drow .dmpop{position:absolute;right:0;top:40px;z-index:20;display:grid;gap:6px;min-width:190px;padding:8px;background:var(--panel);border:1.5px solid var(--line);border-radius:12px;box-shadow:0 18px 36px -14px rgba(0,0,0,.35)}
+  .drow .dmpop > *{width:100%;justify-content:flex-start;text-align:left}
+  .drow .dask{display:flex;gap:4px;justify-self:end;white-space:nowrap}
+  .drow .altbox{grid-column:1 / -1}
+  html.dsk #units .empty{margin:0}
+  .dpaddex{width:100%;padding:15px;border:1.5px dashed var(--line);border-radius:14px;background:transparent;color:var(--sel);font-weight:600}
+  .dpaddex:hover{background:transparent;border-color:var(--sel)}
+  .dpfoot{display:grid;gap:14px}
+  .dpfoot.dover .dpaddex{border-color:var(--sel);background:color-mix(in srgb,var(--sel) 8%,transparent)}
+  .dtiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+  .dtile{background:var(--panel);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:2px;min-width:0}
+  .dtile b{font-family:var(--display);font-weight:800;font-size:1.8rem;line-height:1.05;white-space:nowrap}
+  .dtile span{font-size:.82rem;color:var(--muted)}
+  .dplib{border-radius:18px;padding:18px}
+  .dplib input[type=search]{width:100%;border-radius:12px;padding:10px 12px}
+  .dpchips{display:flex;flex-wrap:wrap;gap:6px}
+  .dpchips .chip{font-size:.8rem;padding:5px 11px}
+  .dplist{list-style:none;margin:0;padding:0}
+  .dplist li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line);cursor:grab}
+  .dplist li > div{display:grid;min-width:0}
+  .dplist li b{font-weight:600;font-size:.95rem}
+  .dplist li .hint{font-size:.78rem;margin:0}
+  .dpplus{flex:0 0 32px;width:32px;height:32px;padding:0;display:grid;place-items:center;border:1.5px solid color-mix(in srgb,var(--sel) 55%,var(--line));border-radius:10px;background:transparent;color:var(--sel);font-weight:700;font-size:1.1rem}
+  .dpplus:hover{background:var(--sel);color:var(--sel-ink)}
+  .dpsugg{margin:0;font-size:.82rem}
+}
+@media (min-width:1100px){
+  html:not(.dsk) .dpcovh{display:none!important}
+  html.dsk body:not(.view-bauen) .dpcovh{display:none!important}
+  html.dsk body.view-bauen .mapcol{background:var(--panel);border:1.5px solid var(--line);border-radius:18px;padding:18px;display:grid;gap:12px}
+  html.dsk body.view-bauen .mapcol #dayFilter{display:none!important}
+  html.dsk body.view-bauen .mapcol .figs{border:0;padding:0;background:transparent;margin:0}
+  html.dsk body.view-bauen .mapcol .mapmode{justify-self:start}
+  html.dsk body.view-bauen .mapcol .cover{border:0;padding:0;background:transparent;margin:0}
+  html.dsk body.view-bauen .mapcol .tip{font-size:.85rem}
+}
+@media (min-width:1100px) and (max-width:1279px){
+  html.dsk body.view-bauen .grid{grid-template-columns:210px minmax(0,1fr) 290px;gap:20px}
+  html.dsk #units .dpt{--dcols:18px 30px minmax(0,1fr) 58px 76px 36px}
+  html.dsk #units .dpt :is(.dtags,.dlast,.dna+.dtags),html.dsk .dphd span:nth-child(4),html.dsk .dphd span:nth-child(7){display:none}
+  .dtiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dpname{font-size:2.6rem}
+  .dash{grid-template-columns:minmax(0,1fr) 320px}
+  .dkpi b{font-size:1.9rem}
+}
+@media (min-width:1100px){
+  .dkpi b{white-space:normal;overflow:visible;overflow-wrap:anywhere;font-size:clamp(1.6rem,2.3vw,2.3rem)}
+  .dpname{font-size:clamp(2rem,3.1vw,3.2rem)}
+  :root:is([data-skin="arcade"],[data-skin="block"],[data-skin="nes"],[data-skin="gameboy"]) .dpname{font-size:clamp(1.4rem,2.1vw,2.2rem)}
+  :root:is([data-skin="arcade"],[data-skin="block"],[data-skin="nes"],[data-skin="gameboy"]) .dkpi b{font-size:clamp(1.1rem,1.6vw,1.6rem)}
+  :root:is([data-skin="arcade"],[data-skin="block"],[data-skin="nes"],[data-skin="gameboy"]) .dpday b{font-size:.95rem}
+}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
@@ -2894,6 +3103,7 @@ function renderUnits(){
       <div class="formfoot"><button type="button" class="primary" data-start="lib">Übungen auswählen</button><button type="button" class="ghost" data-start="tour">Tutorial ansehen</button></div></div>`;
     return;
   }
+  if (DSK()) { $("units").innerHTML = dpUnitsHTML(p); return; }
   if (hasDays(p)) {
     $("units").innerHTML = daysOf(p).map(dd => { const d = dd.id;
       const list = unitsFor(p, d);
@@ -2911,7 +3121,7 @@ function renderPlans(){
   $("planSel").innerHTML = state.plans.map(p => `<option value="${p.id}" ${p.id===state.active?"selected":""}>${esc(p.name)} · ${TYPES[ptype(p)]} (${p.units.length})</option>`).join("");
 }
 
-function renderAll(){ renderPlans(); renderChips(); renderDayUI(); renderMap(); renderCover(); renderUnits(); if (view === "training") { renderTraining(); if (typeof renderSession === "function") renderSession(); } else if (view === "fortschritt") { renderProgress(); } else if (view === "freunde") { renderFriends(); } else if (view === "technik") { renderTech(); } else if (view === "wissen") { renderWissen(); } else if (view === "home") { renderStart(); } else { renderLib(); renderHome(); } }
+function renderAll(){ renderPlans(); renderChips(); renderDayUI(); renderMap(); renderCover(); renderUnits(); if (view === "training") { renderTraining(); if (typeof renderSession === "function") renderSession(); } else if (view === "fortschritt") { renderProgress(); } else if (view === "freunde") { renderFriends(); } else if (view === "technik") { renderTech(); } else if (view === "wissen") { renderWissen(); } else if (view === "home") { renderStart(); } else { renderLib(); renderHome(); } if (typeof renderDsk === "function") { try { renderDsk(); } catch(e) { console.warn(e); } } }
 
 // ---------- Interaktion ----------
 const TIP0 = "Tippe auf einen Muskel, um ihn auszuwählen";
@@ -3640,7 +3850,7 @@ function wireHome(){
     if (a === "rbno") { state.rbHide = [...new Set([...(state.rbHide || []), b.dataset.key])].slice(-40); save(); renderStart(); return; }
     if (a === "add") { setView("bauen"); openAdd(addTab || "lib"); requestAnimationFrame(() => requestAnimationFrame(() => { const el = $("addSec"); if (el) window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - 12), behavior: "auto" }); })); return; }
   });
-  const rer = () => view === "home" ? renderStart() : renderSession();
+  const rer = () => view === "home" || document.body.classList.contains("hspop") ? renderStart() : renderSession();
   const hsClick = e => {
     const b = e.target.closest("[data-hs]"); if (!b || b.tagName === "INPUT") return; const a = b.dataset.hs; const st = settings();
     if (a === "toggle") { hsPick = false; hsOpen = !hsOpen; renderStart(); if (hsOpen) setTimeout(() => $("hStart").scrollIntoView({ behavior: "smooth", block: "nearest" }), 30); return; }
@@ -3689,7 +3899,7 @@ function initLay2(){
 initLay2();
 
 function setView(v){
-  view = v;
+  view = v; document.body.classList.remove("hspop"); document.querySelector("header")?.classList.remove("gearopen");
   document.body.classList.toggle("running", v === "training" && !!state.run && state.run.planId === state.active);
   document.body.classList.toggle("view-prog", v === "fortschritt" || v === "freunde" || v === "technik" || v === "wissen");
   document.body.classList.toggle("view-home", v === "home"); document.body.classList.toggle("view-bauen", v === "bauen"); document.body.classList.toggle("view-training", v === "training");
@@ -7434,12 +7644,15 @@ Object.assign(I18N.ui, {"Neu: Rückblicke für einen Monat, ein halbes Jahr, ein
 Object.assign(I18N.ui, {"Training starten am Handy fragt jetzt zuerst „Was trainierst du heute?“: Du tippst auf deinen Tag, zum Beispiel Oberkörper oder Unterkörper, und das Training startet sofort mit dem Gewichtsfeld. Der Tag, der dran ist, ist hervorgehoben.": "Start workout on phones now first asks “What are you training today?”: tap your day, e.g. upper or lower body, and the workout starts right away with the weight field. The day that's up next is highlighted."});
 Object.assign(I18N.ui, {"Zuhause-Version: Neu ist die Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt dann Körpergewichts-Übungen, die zu deiner Stufe passen, zum Beispiel Liegestütze auf den Knien bei Stufe 1 oder Klimmzüge und Dips bei Stufe 4. Ab Stufe 5 kommt eine Handstand-Übung dazu, bei Stufe 6 der freie Handstand. Eine Faustregel hilft dir beim Einschätzen.": "Home version: new strength level from 1 (beginner) to 6 (pro). The app then picks bodyweight exercises that fit your level, e.g. knee push-ups at level 1 or pull-ups and dips at level 4. From level 5 a handstand exercise is added, at level 6 the freestanding handstand. A rule of thumb helps you rate yourself.", "12 neue Körpergewichts-Übungen für Einsteiger und Profis: Liegestütze an der Wand, Unterarmstütz auf den Knien, Box-Kniebeugen, Handstand an der Wand, freier Handstand, Pseudo-Planche-Liegestütze, einarmige Liegestütze, Muscle-ups, Typewriter-Klimmzüge, Front Lever (gehockt), Shrimp Squat und Dragon Flag.": "12 new bodyweight exercises for beginners and pros: wall push-ups, kneeling plank, box squats, wall handstand, freestanding handstand, pseudo planche push-ups, one-arm push-ups, muscle-ups, typewriter pull-ups, tuck front lever, shrimp squat and dragon flag."});
 Object.assign(I18N.ui, {"Handy: Die Kopfzeile ist aufgeräumt. Tutorial (?), Skins (✎), Hell/Dunkel (Auto ☀ ☾) und Sprache stehen jetzt in einer Reihe, darunter klein „gesichert“ und die Version. Die Tableiste unten hat weniger Leerraum unter den Knöpfen und nur noch einen Markierungsstrich.": "Phone: the header is tidied up. Tutorial (?), skins (✎), light/dark (Auto ☀ ☾) and language are now in one row, with “backed up” and the version in small text below. The tab bar at the bottom has less empty space under the buttons and only one highlight line."});
+Object.assign(I18N.ui, {"Rückblicke für Monat, halbes Jahr, Jahr und „Gesamt“ seit deinem ersten Training: Trainings, bewegtes Gewicht, Lieblingsübung, meisttrainierte Muskeln, wo du stärker geworden bist, Rhythmus, Cardio und Körpergewicht. Ist ein Zeitraum vorbei, erscheint auf der Startseite ein kleiner Hinweis. Am Computer findest du alle Rückblicke jederzeit unter „Fortschritt“.": "Reviews for a month, half a year, a year and “All time” since your first workout: workouts, weight moved, favourite exercise, most trained muscles, where you got stronger, rhythm, cardio and body weight. When a period ends, a small notice appears on the home screen. On a computer you can open every review any time under “Progress”.", "„Training starten“ am Handy fragt zuerst, welchen Tag du trainierst, zum Beispiel Ober- oder Unterkörper. Danach startet das Training sofort mit dem Gewichtsfeld.": "“Start workout” on the phone first asks which day you are training, for example upper or lower body. Then the workout starts right away with the weight field.", "Zuhause-Version: Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt passende Körpergewichts-Übungen, ab Stufe 5 auch Handstand. Dazu 12 neue Übungen, zum Beispiel Liegestütze an der Wand, Muscle-ups, Front Lever und Dragon Flag.": "Home version: strength level from 1 (beginner) to 6 (pro). The app picks matching bodyweight exercises, from level 5 including handstands. Plus 12 new exercises, for example wall push-ups, muscle-ups, front lever and dragon flag.", "Handy: aufgeräumte Kopfzeile in einer Reihe und weniger Leerraum in der Tableiste unten.": "Phone: tidier header in one row and less empty space in the tab bar at the bottom.", "Großes Redesign, Muskelplan ist keine Beta mehr: neue Startseite mit deinen Trainingstagen und „Training starten“ (Stoppuhr, Pausen-Timer, Signalton), Tableiste unten am Handy und Seitenleiste am Computer, rundere Karten und Knöpfe.": "Big redesign, Muskelplan is no longer a beta: new home screen with your training days and “Start workout” (stopwatch, rest timer, sound), tab bar at the bottom on phones and sidebar on computers, rounder cards and buttons.", "Die Muskelfigur auf der Startseite zeigt die Muskel-Erholung: was du frisch trainiert hast und was schon länger Pause hat.": "The muscle figure on the home screen shows muscle recovery: what you trained recently and what has rested longer.", "Neuer Trainings-Bildschirm: Satz-Kreise, große ± Knöpfe, Werte vom letzten Mal als Hinweis. Nach jedem Satz wählst du die nächste Übung, in der Pause siehst und bearbeitest du sie schon. „Noch ein Satz“ geht mit oder ohne Timer.": "New workout screen: set circles, big ± buttons, last time's values as a hint. After each set you pick the next exercise, and during rest you already see and edit it. “One more set” works with or without a timer.", "Übungen auf Zeit wie Unterarmstütz (Plank) mit Stoppuhr und Ziel-Ring.": "Timed exercises like the plank, with a stopwatch and target ring.", "Neuer Bildschirm „Training fertig!“ mit Dauer, Sätzen, bewegtem Gewicht, neuen Bestwerten und Vergleich zum letzten Mal.": "New “Workout done!” screen with duration, sets, weight moved, new personal bests and a comparison to last time.", "„⇄ Alternativen“ zeigt andere Übungen für dieselben Muskeln, im Training hilfreich, wenn ein Gerät besetzt ist. Übungen lassen sich auch mitten im Training hinzufügen.": "“⇄ Alternatives” shows other exercises for the same muscles, handy during a workout when a machine is taken. You can also add exercises mid-workout.", "31 neue Übungen in der Bibliothek und passendere Wiederholungszahlen.": "31 new exercises in the library and better rep targets.", "Zuhause-Version: Du kannst jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Latzug oder Beinpresse.": "Home version: you can now also choose machines you have at home, for example cable station, lat pulldown or leg press.", "44 neue Meilensteine, jetzt 102 insgesamt.": "44 new milestones, 102 in total now.", "22 neue Skins, zum Beispiel Formel 1, Minecraft, Pokémon, Spotify und Rave, jeweils hell und dunkel.": "22 new skins, for example Formula 1, Minecraft, Pokémon, Spotify and Rave, each in light and dark.", "Fehler behoben: Eine geladene Sicherung wird nicht mehr überschrieben, und „Training starten“ verdeckt am Computer beim Scrollen nicht mehr die Muskelerholung.": "Bug fixes: a loaded backup is no longer overwritten, and on a computer “Start workout” no longer covers the muscle recovery while scrolling."});
+Object.assign(I18N.ui, {"Neues Design am Computer: Bereiche oben in einer Leiste und „Übersicht“ als Startseite mit Trainings und Volumen im Monat, Volumen pro Woche, Kraftentwicklung, Muskeln und Trainingstagen. Im Plan stehen die Tage links, die Übungen als Tabelle zum direkten Ändern und Sortieren in der Mitte, Bibliothek und Abdeckung rechts. „▶ Training“ und die Einstellungen (⚙) sind oben rechts. Am Handy bleibt alles wie gewohnt.": "New design on computers: sections in a bar at the top and “Overview” as the start page with workouts and volume this month, volume per week, strength progress, muscles and training days. In the plan, days are on the left, exercises in a table you can edit and reorder directly in the middle, library and coverage on the right. “▶ Workout” and the settings (⚙) are top right. On phones everything stays as before."});
+Object.assign(I18N.ui, {"Übersicht": "Overview", "Statistiken": "Statistics", "Einstellungen": "Settings", "Trainingstage": "Training days", "Bibliothek": "Library"});
 Object.assign(I18N.ui, {"Zuhause-Version: Unter „Geräte“ kannst du jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Multipresse, Latzug, Butterfly, Beinpresse, Beinstrecker/Beinbeuger, Rückenstrecker-Bank oder eine Kraftstation. Dann nimmt die App auch passende Maschinen-Übungen.": "Home version: under “Machines” you can now also pick machines you have at home, e.g. cable station, Smith machine, lat pulldown, pec deck, leg press, leg extension/curl, back extension bench or a home gym. The app then also uses matching machine exercises.", "44 neue Meilensteine (jetzt 102): Kraft (ein Satz mit 20 bis 200 kg), Halten (30 s bis 5 min am Stück), Cardio-Strecke, starke Woche und starker Monat, höhere Stufen bei allen bisherigen und neue besondere Momente wie Training nach 21 Uhr, Mehr Sätze als geplant oder nichts ausgelassen.": "44 new milestones (now 102): strength (a set with 20 to 200 kg), holding (30 s to 5 min in one go), cardio distance, strong week and strong month, higher tiers for all existing ones and new special moments like a workout after 9 pm, more sets than planned or nothing skipped."});
 Object.assign(I18N.ui, {"Auf Zeit":"Timed","Übungen auf Zeit, z. B. Unterarmstütz (Plank)":"Timed exercises, e.g. plank","Sek.":"sec","Dauer":"Duration"});
 Object.assign(I18N.ui, {"Training neu gestaltet: runde, übersichtliche Karten. Oben siehst du Tag, Übung x von y und die Stoppuhr, darunter die aktuelle Übung mit Satz-Kreisen, großen ± Knöpfen für Gewicht und Wiederholungen und einem Knopf, der die Werte vom letzten Mal übernimmt.": "Workout redesigned: round, clear cards. At the top you see the day, exercise x of y and the stopwatch, below that the current exercise with set circles, big ± buttons for weight and reps and a button that takes over last time's values.", "Nach jedem Satz wählst du unter „Was kommt als Nächstes?“, welche Übung du als Nächstes machst. Wechselst du mitten in einer Übung, bleiben deine Sätze gespeichert und du machst später dort weiter.": "After each set you choose under “What's next?” which exercise comes next. If you switch in the middle of an exercise, your sets are kept and you continue there later.", "In der Pause siehst du schon die nächste Übung mit „Letztes Mal“ und kannst Gewicht und Wiederholungen vorher eintragen. Du kannst dort auch deine Sätze bearbeiten, den Plan der Übung (Sätze × Wiederholungen) ändern und eine andere Übung auswählen.": "During the rest you already see the next exercise with “Last time” and can enter weight and reps in advance. You can also edit your sets there, change the exercise's plan (sets × reps) and pick a different exercise.", "Übungen auf Zeit, zum Beispiel Unterarmstütz (Plank): Beim Anlegen „Auf Zeit“ wählen. Im Training gibt es dafür eine Stoppuhr mit Ziel-Ring und Signal, gespeichert wird die Dauer in Sekunden.": "Timed exercises, e.g. plank: choose “Timed” when adding them. In the workout there is a stopwatch with a goal ring and a signal, and the time is saved in seconds.", "Neuer Bildschirm „Training fertig!“: Übersicht mit Dauer, Sätzen, bewegtem Gewicht und neuen Bestwerten, jede Übung als eigene Karte mit Vergleich zum letzten Mal, Notiz zum Training und Datum/Zeit zum Aufklappen.": "New “Workout done!” screen: overview with duration, sets, weight moved and new bests, every exercise as its own card compared to last time, a workout note and date/time to expand.", "Fehler behoben: Fügst du während des Trainings eine Übung hinzu, kommt sie jetzt mit ins Training, inklusive Pausen-Timer. Im Training gibt es außerdem „＋ Übung hinzufügen“ mit Suche in der Bibliothek.": "Bug fixed: if you add an exercise during a workout, it now joins the workout, including the rest timer. The workout also has “＋ Add exercise” with a library search.", "Alternativen: Im Plan zeigt „⇄ Alternativen“ bei jeder Übung andere Übungen für dieselben Muskeln, zum Tauschen oder Dazunehmen. Im Training hilft „⇄ Alternative“, wenn ein Gerät besetzt ist.": "Alternatives: in the plan, “⇄ Alternatives” shows other exercises for the same muscles on every exercise, to swap or add. In the workout, “⇄ Alternative” helps when a machine is taken.", "Übungsbibliothek: 31 neue Übungen, zum Beispiel Kabel-Brustpresse, Klimmzüge mit Zusatzgewicht, Reverse Flys am Kabel, Einbeinige Beinpresse, Kabel-Pull-Through und L-Sit. Viele Übungen haben jetzt passendere Wiederholungen (z. B. Seitheben 15, Kreuzheben 5), Farmer's Walk und Suitcase Carry laufen auf Zeit.": "Exercise library: 31 new exercises, e.g. cable chest press, weighted pull-ups, cable reverse flyes, single-leg leg press, cable pull-through and L-sit. Many exercises now have better rep targets (e.g. lateral raises 15, deadlifts 5), farmer's walk and suitcase carry are timed.", "Fehler behoben: Beim Laden einer Sicherung konnte das Speichern im Claude-Konto die geladenen Trainings und Statistiken wieder überschreiben. Jetzt wartet das Laden darauf und sagt dir, wie viele Pläne, Trainings und Einträge zurückgekommen sind.": "Bug fixed: when loading a backup, saving to your Claude account could overwrite the loaded workouts and statistics again. Loading now waits for it and tells you how many plans, workouts and entries came back.", "Die Muskelfigur steht jetzt in allen Bereichen unten, auch am Computer. Dadurch haben Plan und Training mehr Platz.": "The muscle figure is now at the bottom in every section, on computers too. That gives the plan and the workout more room."});
 const NOTES = [
-  ["1.1", "19.10.2026", ["Neu: Rückblicke für einen Monat, ein halbes Jahr, ein ganzes Jahr und „Gesamt“ seit deinem ersten Eintrag. Sie erscheinen erst, wenn der Zeitraum vorbei ist. Dann steht auf der Startseite ein kleiner Hinweis wie „Rückblick September“, den du antippen oder mit × ausblenden kannst. Am Computer findest du alle vergangenen Rückblicke und den Gesamt-Rückblick außerdem jederzeit unter „Fortschritt“ bei der Gesamtstatistik.", "Der Rückblick zeigt dir Seite für Seite deine Trainings und aktiven Wochen, das bewegte Gewicht (mit Vergleich, z. B. wie viele Autos das sind), deine Lieblingsübung, welche Muskeln du am meisten trainiert hast, wo du stärker geworden bist, deinen Rhythmus mit Kalender und Lieblingstag, Cardio und Körpergewicht. Zum Schluss gibt es eine Zusammenfassung.", "Weiterblättern geht mit „Weiter“, durch Tippen auf die rechte Seite oder durch Wischen. Am Computer gehen auch die Pfeiltasten.", "Debug-Menü: Der Trainingsverlauf lässt sich jetzt auch für 1 Jahr oder 2 Jahre simulieren, mit ein paar Pausenwochen und realistischer Steigerung. So kannst du dir die Rückblicke genau anschauen.", "Training starten am Handy fragt jetzt zuerst „Was trainierst du heute?“: Du tippst auf deinen Tag, zum Beispiel Oberkörper oder Unterkörper, und das Training startet sofort mit dem Gewichtsfeld. Der Tag, der dran ist, ist hervorgehoben.", "Zuhause-Version: Neu ist die Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt dann Körpergewichts-Übungen, die zu deiner Stufe passen, zum Beispiel Liegestütze auf den Knien bei Stufe 1 oder Klimmzüge und Dips bei Stufe 4. Ab Stufe 5 kommt eine Handstand-Übung dazu, bei Stufe 6 der freie Handstand. Eine Faustregel hilft dir beim Einschätzen.", "12 neue Körpergewichts-Übungen für Einsteiger und Profis: Liegestütze an der Wand, Unterarmstütz auf den Knien, Box-Kniebeugen, Handstand an der Wand, freier Handstand, Pseudo-Planche-Liegestütze, einarmige Liegestütze, Muscle-ups, Typewriter-Klimmzüge, Front Lever (gehockt), Shrimp Squat und Dragon Flag.", "Handy: Die Kopfzeile ist aufgeräumt. Tutorial (?), Skins (✎), Hell/Dunkel (Auto ☀ ☾) und Sprache stehen jetzt in einer Reihe, darunter klein „gesichert“ und die Version. Die Tableiste unten hat weniger Leerraum unter den Knöpfen und nur noch einen Markierungsstrich."]],
-  ["1.0", "19.10.2026", ["Am Handy startet „Training starten“ jetzt sofort das Training mit dem nächsten Tag und öffnet direkt das Feld fürs Gewicht, die Tastatur geht gleich auf. Tag, Stoppuhr und Pausen stellst du bei Bedarf vorher über den kleinen Knopf darunter ein.", "22 neue Skins: Auto, Formel 1, Minecraft, Project Zomboid, Busch, Graslandschaft, Windows 11, Steam, iPhone / Android, DJ, Breaking Bad, Pokémon, Nintendo, Nintendo Retro, Mittelalter, Spider-Man, Superman, Rap-Stil, 2000er-Stil, Spotify, Sommer und Rave. Jeder hat eigene Farben, Schrift und Hintergrund, hell und dunkel. Es sind nachempfundene Designs ohne Original-Logos oder Bilder.", "Fehler behoben: Am Computer ist der Bereich „Training starten“ auf der Startseite beim Runterscrollen mitgewandert und hat die Muskelerholung verdeckt. Jetzt bleibt er an seinem Platz.", "Zuhause-Version: Unter „Geräte“ kannst du jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Multipresse, Latzug, Butterfly, Beinpresse, Beinstrecker/Beinbeuger, Rückenstrecker-Bank oder eine Kraftstation. Dann nimmt die App auch passende Maschinen-Übungen.", "44 neue Meilensteine (jetzt 102): Kraft (ein Satz mit 20 bis 200 kg), Halten (30 s bis 5 min am Stück), Cardio-Strecke, starke Woche und starker Monat, höhere Stufen bei allen bisherigen und neue besondere Momente wie Training nach 21 Uhr, Mehr Sätze als geplant oder nichts ausgelassen.", "„Noch ein Satz“ fragt jetzt kurz „Mit Timer“ oder „Ohne Timer“. Mit Timer läuft erst die Pause, danach trägst du den Extra-Satz ein.", "Training neu gestaltet: runde, übersichtliche Karten. Oben siehst du Tag, Übung x von y und die Stoppuhr, darunter die aktuelle Übung mit Satz-Kreisen, großen ± Knöpfen für Gewicht und Wiederholungen und einem Knopf, der die Werte vom letzten Mal übernimmt.", "Nach jedem Satz wählst du unter „Was kommt als Nächstes?“, welche Übung du als Nächstes machst. Wechselst du mitten in einer Übung, bleiben deine Sätze gespeichert und du machst später dort weiter.", "In der Pause siehst du schon die nächste Übung mit „Letztes Mal“ und kannst Gewicht und Wiederholungen vorher eintragen. Du kannst dort auch deine Sätze bearbeiten, den Plan der Übung (Sätze × Wiederholungen) ändern und eine andere Übung auswählen.", "Übungen auf Zeit, zum Beispiel Unterarmstütz (Plank): Beim Anlegen „Auf Zeit“ wählen. Im Training gibt es dafür eine Stoppuhr mit Ziel-Ring und Signal, gespeichert wird die Dauer in Sekunden.", "Neuer Bildschirm „Training fertig!“: Übersicht mit Dauer, Sätzen, bewegtem Gewicht und neuen Bestwerten, jede Übung als eigene Karte mit Vergleich zum letzten Mal, Notiz zum Training und Datum/Zeit zum Aufklappen.", "Fehler behoben: Fügst du während des Trainings eine Übung hinzu, kommt sie jetzt mit ins Training, inklusive Pausen-Timer. Im Training gibt es außerdem „＋ Übung hinzufügen“ mit Suche in der Bibliothek.", "Alternativen: Im Plan zeigt „⇄ Alternativen“ bei jeder Übung andere Übungen für dieselben Muskeln, zum Tauschen oder Dazunehmen. Im Training hilft „⇄ Alternative“, wenn ein Gerät besetzt ist.", "Übungsbibliothek: 31 neue Übungen, zum Beispiel Kabel-Brustpresse, Klimmzüge mit Zusatzgewicht, Reverse Flys am Kabel, Einbeinige Beinpresse, Kabel-Pull-Through und L-Sit. Viele Übungen haben jetzt passendere Wiederholungen (z. B. Seitheben 15, Kreuzheben 5), Farmer's Walk und Suitcase Carry laufen auf Zeit.", "Fehler behoben: Beim Laden einer Sicherung konnte das Speichern im Claude-Konto die geladenen Trainings und Statistiken wieder überschreiben. Jetzt wartet das Laden darauf und sagt dir, wie viele Pläne, Trainings und Einträge zurückgekommen sind.", "Die Muskelfigur steht jetzt in allen Bereichen unten, auch am Computer. Dadurch haben Plan und Training mehr Platz.", "Version 1.0 – das große Redesign, Muskelplan ist keine Beta mehr. Neuer Home-Bildschirm mit deinen Workouts (Trainingstage zum Auf- und Zuklappen) und „Training starten“ zum Ausklappen mit Stoppuhr, Pausen-Timer, Signalton und Pausenzeiten.", "Am Handy sind die Bereiche jetzt unten in einer Leiste, am Computer links in einer Seitenleiste.", "„Training starten“ steht auf Home und im Training ganz oben, mit Schaltern für Stoppuhr, Pausen-Timer und Signalton.", "Trainingstage sehen im Plan und im Training aus wie auf Home: runde Karten zum Auf- und Zuklappen.", "Plan: dein aktueller Plan mit „Übungen hinzufügen“ und der Zuhause-Version steht oben, die Muskelfigur darunter (am Computer daneben).", "Auf Home gibt es einen Knopf, um Übungen einzufügen oder einen Plan zu importieren.", "Die Figur auf Home zeigt jetzt die Muskel-Erholung: welche Muskeln du frisch trainiert hast und welche schon länger Pause haben.", "Der ganze Trainingsverlauf ist jetzt ein eigener Kasten zum Scrollen.", "Im Training übernimmt die nächste Pause die Zeit, die du gerade mit ±1 oder ±15 angepasst hast, statt wieder auf den Standard zu springen.", "Beim Wechseln der Bereiche springt die Seite nach oben.", "Beim Öffnen musst du keinen neuen Plan mehr anlegen. Das Tutorial startet nur beim allerersten Öffnen, im Artifact wird das in deinem Konto gemerkt.", "Im Training sind Gewicht und Wiederholungen nicht mehr vorausgefüllt. Du trägst sie jedes Mal neu ein, der Wert vom letzten Mal steht grau als Hinweis im Feld.", "Insgesamt rundere Ecken bei Karten, Knöpfen und Feldern."]],
+  ["1.1", "19.10.2026", ["Neues Design am Computer: Bereiche oben in einer Leiste und „Übersicht“ als Startseite mit Trainings und Volumen im Monat, Volumen pro Woche, Kraftentwicklung, Muskeln und Trainingstagen. Im Plan stehen die Tage links, die Übungen als Tabelle zum direkten Ändern und Sortieren in der Mitte, Bibliothek und Abdeckung rechts. „▶ Training“ und die Einstellungen (⚙) sind oben rechts. Am Handy bleibt alles wie gewohnt.", "Rückblicke für Monat, halbes Jahr, Jahr und „Gesamt“ seit deinem ersten Training: Trainings, bewegtes Gewicht, Lieblingsübung, meisttrainierte Muskeln, wo du stärker geworden bist, Rhythmus, Cardio und Körpergewicht. Ist ein Zeitraum vorbei, erscheint auf der Startseite ein kleiner Hinweis. Am Computer findest du alle Rückblicke jederzeit unter „Fortschritt“.", "„Training starten“ am Handy fragt zuerst, welchen Tag du trainierst, zum Beispiel Ober- oder Unterkörper. Danach startet das Training sofort mit dem Gewichtsfeld.", "Zuhause-Version: Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt passende Körpergewichts-Übungen, ab Stufe 5 auch Handstand. Dazu 12 neue Übungen, zum Beispiel Liegestütze an der Wand, Muscle-ups, Front Lever und Dragon Flag.", "Handy: aufgeräumte Kopfzeile in einer Reihe und weniger Leerraum in der Tableiste unten."]],
+  ["1.0", "19.10.2026", ["Großes Redesign, Muskelplan ist keine Beta mehr: neue Startseite mit deinen Trainingstagen und „Training starten“ (Stoppuhr, Pausen-Timer, Signalton), Tableiste unten am Handy und Seitenleiste am Computer, rundere Karten und Knöpfe.", "Die Muskelfigur auf der Startseite zeigt die Muskel-Erholung: was du frisch trainiert hast und was schon länger Pause hat.", "Neuer Trainings-Bildschirm: Satz-Kreise, große ± Knöpfe, Werte vom letzten Mal als Hinweis. Nach jedem Satz wählst du die nächste Übung, in der Pause siehst und bearbeitest du sie schon. „Noch ein Satz“ geht mit oder ohne Timer.", "Übungen auf Zeit wie Unterarmstütz (Plank) mit Stoppuhr und Ziel-Ring.", "Neuer Bildschirm „Training fertig!“ mit Dauer, Sätzen, bewegtem Gewicht, neuen Bestwerten und Vergleich zum letzten Mal.", "„⇄ Alternativen“ zeigt andere Übungen für dieselben Muskeln, im Training hilfreich, wenn ein Gerät besetzt ist. Übungen lassen sich auch mitten im Training hinzufügen.", "31 neue Übungen in der Bibliothek und passendere Wiederholungszahlen.", "Zuhause-Version: Du kannst jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Latzug oder Beinpresse.", "44 neue Meilensteine, jetzt 102 insgesamt.", "22 neue Skins, zum Beispiel Formel 1, Minecraft, Pokémon, Spotify und Rave, jeweils hell und dunkel.", "Fehler behoben: Eine geladene Sicherung wird nicht mehr überschrieben, und „Training starten“ verdeckt am Computer beim Scrollen nicht mehr die Muskelerholung."]],
   ["0.70", "14.10.2026", ["Alle Designs sind jetzt sofort frei, du musst sie nicht mehr über Meilensteine freischalten.", "Während eines laufenden Trainings gibt es keine App-Updates mehr. Eine neue Version kommt erst, wenn du das Training beendet hast.", "Beim ersten Start beginnt sofort das Tutorial. Danach legst du selbst deinen ersten Plan an und wählst seine Art, statt mit einem leeren Standard-Plan zu starten.", "Übungsbibliothek: YouTube-Links wie „Wie stelle ich ein Workout zusammen?“ oder „Grundübungen erklärt“. Hast du am Körper Muskeln gewählt, gibt es dazu „Beste Übungen für …“.", "Übungsbibliothek: Tippe am Körper auf einen Muskel, dann zeigt die Bibliothek nur Übungen dafür, Übungen mit diesem Hauptmuskel zuerst. Mit „Auswahl aufheben“ siehst du wieder alle.", "Fehler behoben: Beim Antippen eines Filters in der Bibliothek sprang die Leiste nicht mehr an den Anfang zurück.", "Beim Erstellen eines Plans gibt es jetzt YouTube-Links, zum Beispiel „Wie erstelle ich einen Trainingsplan?“, „Ober-/Unterkörper richtig aufteilen“ oder „Push / Pull / Beine erklärt“. Das Video zur gewählten Plan-Art ist hervorgehoben.", "Android: Die Zurück-Taste schließt jetzt Druckvorschau, Tutorial und Design-Menü, statt die App zu verlassen. Der Sicherungs-Hinweis erklärt jetzt auch, wo die Datei bei Android landet.", "Blaupause: Die Muskelkarte zeigt jetzt deutlicher, wie oft ein Muskel trainiert wird, von Türkis über Gelb und Orange bis Rot.", "Oben neben „Tutorial“ steht jetzt klein, wann du zuletzt eine Sicherung gespeichert hast. Antippen speichert sofort eine neue. Nach 14 Tagen ohne Sicherung wird der Hinweis orange.", "Sicherungen heißen jetzt „Muskelplan Sicherung“ mit Datum, damit du sie in deinen Dateien leicht findest.", "Der Browser wird gebeten, deine Daten dauerhaft zu speichern und sie nicht von selbst zu löschen.", "Pausenzeiten sekundengenau: mit ±1 und ±15 Sekunden von 5 Sekunden bis 10 Minuten einstellbar, dazu Schnellwahl-Knöpfe. Auch während der Pause gibt es ±1 und ±15 Sekunden, und du kannst für einzelne Übungen eine eigene Pausenzeit merken.", "Rechner: Die Auswahl „Dein Alltag“ hat jetzt 6 Stufen mit genauer Beschreibung, Beispielen und ungefähren Schritten pro Tag. Trägst du Schritte bei den Körperwerten ein, schlägt der Rechner die passende Stufe vor."]],
   ["0.69", "14.10.2026", ["Rechner: neue YouTube-Links „Wie funktioniert Fett abnehmen?“, „Wie funktioniert Muskelaufbau?“ und „Wie funktioniert Gewicht zunehmen?“. Alle Video-Links stehen jetzt immer unten, auch bevor du etwas eingetragen hast.", "Neue Warnung bei „Daten & Sicherung“ und im Tutorial: Wer den Browserverlauf mit Website-Daten löscht oder die App entfernt, verliert ohne Sicherung alle Daten."]],
   ["0.68", "14.10.2026", ["Tutorial überarbeitet: Es zeigt jetzt auch, wie du einen Plan importierst, als PDF herunterlädst und teilst, die Übersicht nach dem Training, Übungsnotizen, Fortschritt anordnen, Meilensteine mit Designs und den Rechner.", "Rechner: Du kannst jetzt ein Ziel-Körperfett eintragen. Der Rechner zeigt, wie viel du dann ungefähr wiegst, wie viel Fett du dafür verlieren müsstest und wie lange das grob dauert."]],
@@ -7451,23 +7664,18 @@ const NOTES = [
   ["0.62", "14.10.2026", ["Als App auf dem Handy lässt sich die Seite nicht mehr aus Versehen heranzoomen, auch nicht beim Tippen in ein Eingabefeld.", "Das Skin-Menü hinter ✎ öffnet sich auf dem Handy jetzt vollständig im Bildschirm.", "„Abdeckung“ unter der Muskelkarte lässt sich ein- und ausklappen. Auf dem Handy startet sie eingeklappt, die App merkt sich deine Wahl."]],
   ["0.61", "14.10.2026", ["Als App auf dem iPhone liegt nichts mehr unter der Uhrzeit oder der Kamera-Insel, und unten bleibt Platz für den Home-Balken.", "Beim Wechsel zwischen Plan, Training und Fortschritt springt die Seite nicht mehr nach ganz oben. Sie bleibt, wo du bist, und holt nur die Tabs ins Bild, falls sie weggescrollt waren."]],
   ["0.60", "13.10.2026", ["Notizen zu jeder Übung: Im Training steht unter der Übung gut sichtbar „Deine Notiz zu dieser Übung“, z. B. Sitzhöhe oder Griff. Sie wird automatisch gespeichert und erscheint beim nächsten Training wieder, auch wenn du die Übung aus dem Plan löschst und neu hinzufügst.", "Im Plan siehst du die Notiz direkt bei der Übung.", "Video-Knöpfe zur YouTube-Suche jetzt bei jeder Übung im Plan, in der Bibliothek, in der Zuhause-Version und im Training. Auf Englisch wird auch auf Englisch gesucht.", "Übersetzung ins Englische vervollständigt."]],
-  ["0.59", "13.10.2026", ["In der Vorschau bei Claude ist jetzt immer die Entwickler-Version mit Debug-Menü an."]],
   ["0.58", "13.10.2026", ["Wenn du einen neuen Plan erstellst oder die Zuhause-Version öffnest, zeigt die App oben einen Hinweis: Dein anderer Plan ist noch da, und oben bei „Plan“ wechselst du zurück. Das Auswahlfeld blinkt kurz, und ein Knopf bringt dich direkt zurück.", "Heißt der neue Plan zum Beispiel „Zuhause“, gibt es zusätzlich einen Tipp zur automatischen Zuhause-Version."]],
   ["0.57", "13.10.2026", ["Auch in der Übungsbibliothek hat jetzt jede Übung neben „Anpassen“ und „+ Plan“ einen Video-Knopf zur YouTube-Suche."]],
   ["0.56", "13.10.2026", ["Video-Knopf jetzt auch direkt bei jeder Übung in deinem Plan und in der Zuhause-Version: ein Tipp öffnet die YouTube-Suche zu genau dieser Übung."]],
-  ["0.55", "13.10.2026", ["Neuer Tab „Technik“ (noch in Arbeit, deshalb mit 🚧): Zu jeder Übung gibt es einen Knopf „Video“, der die YouTube-Suche mit Erklärvideos genau zu dieser Übung öffnet. Oben stehen die Übungen aus deinem Plan, darunter alle Übungen mit Suche und Bereichen.", "Auch während des Trainings steht unter jeder Übung ein Video-Knopf.", "Das Debug-Menü ist wieder da: ganz unten neben den Patch Notes. Mit 5× Tippen auf die Versionsanzeige blendest du es aus und wieder ein.", "Auf dem Handy heißt der erste Tab kurz „Plan“, damit alle Tabs in eine Zeile passen."]],
-  ["0.54", "13.10.2026", ["Der Tab „Freunde“ hat ein kleines 🚧, weil dieser Bereich noch nicht fertig ist."]],
+  ["0.55", "13.10.2026", ["Auch während des Trainings steht unter jeder Übung ein Video-Knopf.", "Auf dem Handy heißt der erste Tab kurz „Plan“, damit alle Tabs in eine Zeile passen."]],
   ["0.53", "13.10.2026", ["Fehler behoben: Bei „Mit Timer starten“ startet nach jedem Satz und jeder Übung jetzt immer die Pause. Den Signalton am Ende der Pause schaltest du extra ein.", "Alle aufklappbaren Bereiche öffnen und schließen sich jetzt auch per Tipp auf die Überschrift. Die Knöpfe „Aufklappen“ bleiben.", "Unter „Daten & Sicherung“ steht jetzt immer „App aktualisieren“ mit einer Erklärung, wie diese Ausgabe aktualisiert wird."]],
   ["0.52", "13.10.2026", ["„Übungen hinzufügen“ startet eingeklappt. Zum Öffnen kannst du jetzt einfach auf die Überschrift tippen, der Knopf „Aufklappen“ bleibt.", "Download-Version: Updates kannst du jetzt per Datei einspielen, unter „Daten & Sicherung“ → „Update einspielen“. Pläne, Trainings und Einstellungen bleiben erhalten.", "Startet ein Update nicht richtig, geht die App automatisch zur eingebauten Version zurück. Mit „Zurück zur ursprünglichen Version“ geht das auch von Hand."]],
   ["0.51", "13.10.2026", ["Nach dem Training kommt eine Übersicht über dein heutiges Training. Dort kannst du alles noch bearbeiten und speicherst es mit „Jetzt speichern“, oder du verwirfst es.", "Auf schmalen Handys passen alle vier Tabs wieder in eine Zeile.", "In der Übersicht siehst du bei jeder Übung, was du letztes Mal geschafft hast, und die Zahlen oben rechnen beim Ändern mit.", "Schließt du die App vorher, bleibt das Training erhalten und die Übersicht erscheint beim nächsten Öffnen wieder."]],
   ["0.50", "13.10.2026", ["Zuhause-Version: mehr Ausrüstung zur Auswahl, nämlich SZ-Stange, Hantelscheiben, Dip-Barren, Gymnastikball, Medizinball und Bauchroller, dazu Cardio-Geräte: Springseil, Heimtrainer, Laufband, Crosstrainer und Rudergerät.", "Cardio aus dem Gym-Plan wird zu Hause passend ersetzt, z. B. Rudern durch dein Rudergerät oder Radfahren durch den Heimtrainer.", "Im Training kannst du eine Übung jetzt auch auslassen, wenn du schon Sätze eingetragen hast. Vorher fragt die App, ob die Sätze verworfen oder behalten werden sollen.", "Die Zuhause-Version lässt sich anpassen: Mit „Ersetzen“ fliegt eine Übung raus und die App sucht eine andere für dieselben Muskeln. Ausgeschlossene Übungen stehen darunter und lassen sich mit einem Tipp wieder erlauben."]],
-  ["0.49", "13.10.2026", ["Freunde: Gruppen gibt es nur mit Einladungs-Code, und du kannst in mehreren Gruppen gleichzeitig sein. Oben wechselst du die Gruppe, Bestenliste, Aktivität, gemeinsames Training und geteilte Pläne zeigen dann nur diese Gruppe.", "Unter „Meine Gruppen“ siehst du die Mitglieder und den Code, der erst nach Tippen auf „Anzeigen“ sichtbar wird. Außerdem kannst du eine neue Gruppe erstellen oder eine verlassen. Beitreten mit Code kommt, sobald die echte Verbindung steht."]],
-  ["0.48", "13.10.2026", ["Neu unter „Freunde“: „Gemeinsam trainieren“. Du wählst, wer mitmacht, und ob ihr deinen Plan oder den Plan eines Freundes nehmt, bei Bedarf auch den Tag. Darunter siehst du die Übungen und wie das gemeinsame Training aussehen wird. Noch eine Vorschau, gestartet werden kann es noch nicht."]],
   ["0.47", "13.10.2026", ["Die Ansicht „Detailliert“ der Muskelkarte zeigt jetzt mehr einzelne Muskeln statt nur feinerer Linien, und jeder lässt sich anklicken: Bizeps und Trizeps je mit zwei Köpfen, Unterarm-Beuger und -Strecker, drei Teile vom vorderen Oberschenkel, zwei vom hinteren, oberer und unterer Trapez sowie obere und untere Wade.", "Wählst du für eine Übung einen Teilmuskel aus, merkt sich der Plan das genau. Statistiken und Abdeckung zählen weiter den ganzen Muskel."]],
   ["0.46", "13.10.2026", ["Trainingstage wie Oberkörper und Unterkörper lassen sich jetzt per Tipp auf die Überschrift ein- und ausklappen, unter „Plan bauen“ und unter „Training“. Die App merkt sich, was zu ist.", "Auf dem Handy stehen die Knöpfe einer Übung jetzt unter dem Namen, damit lange Namen nicht mehr Buchstabe für Buchstabe umbrechen."]],
-  ["0.45", "13.10.2026", ["Neuer Bereich „Freunde“ neben Fortschritt, erst einmal als Vorschau mit Beispieldaten: Bestenliste (Trainingstage, Gewicht, Cardio, Serie, Bestwerte), Aktivität, geteilte Pläne und Gruppe mit Einladungs-Code.", "In der Bestenliste stehen deine echten Werte, damit du siehst, wie es später aussieht. Geteilt wird noch nichts.", "Teilen ist freiwillig: Du wählst selbst, was deine Freunde sehen. Körperwerte und Notizen werden nie geteilt."]],
   ["0.44", "13.10.2026", ["Übersichtlicher: Bibliothek, eigene Übung und Import stecken jetzt zusammen im Bereich „Übungen hinzufügen“, mit drei Reitern statt drei einzelnen Aufklapp-Bereichen.", "Umbenennen und Plan löschen sind ins Menü ⋯ neben „+ Neuer Plan“ gewandert.", "Bei einem leeren Plan zeigt die Seite in drei Schritten, wie du loslegst.", "Die Trainingstage sind eingeklappt und lassen sich bei Bedarf bearbeiten."]],
-  ["0.43", "13.10.2026", ["Zwei Modi: Normal ist das Debug-Menü jetzt ausgeblendet, so kannst du die Seite gut teilen. Der Entwicklermodus mit Debug-Menü und fertigen Testplänen lässt sich mit 5× schnellem Tippen auf die Versionsanzeige oben rechts ein- und ausschalten.", "Der Tutorial-Knopf steht jetzt oben rechts.", "Bessere Lesbarkeit in allen Looks: kleine farbige Abzeichen und rote Knöpfe sind kräftiger. Behoben: unsichtbare Muskel-Abzeichen im Look „Zettel“ und unlesbare ausgewählte Filter in „Eisen-Gym“.", "Blaupause: Die Muskelkarte nutzt jetzt deutlich unterscheidbare Farben (Mint, Gelb, Orange, Koralle), ausgewählte Muskeln sind weiß."]],
+  ["0.43", "13.10.2026", ["Der Tutorial-Knopf steht jetzt oben rechts.", "Bessere Lesbarkeit in allen Looks: kleine farbige Abzeichen und rote Knöpfe sind kräftiger. Behoben: unsichtbare Muskel-Abzeichen im Look „Zettel“ und unlesbare ausgewählte Filter in „Eisen-Gym“.", "Blaupause: Die Muskelkarte nutzt jetzt deutlich unterscheidbare Farben (Mint, Gelb, Orange, Koralle), ausgewählte Muskeln sind weiß."]],
   ["0.42", "13.10.2026", ["Die Versionen heißen jetzt „Beta 0.xx“, weil Muskelplan noch in Entwicklung ist.", "Übungsbibliothek: Beim Antippen einer Übung springt die Liste nicht mehr nach oben.", "PDFs und Sicherungen lassen sich jetzt auch speichern, wenn du die Seite ohne Claude im normalen Browser öffnest.", "Beim Bearbeiten eines Trainings kannst du jetzt auch Startzeit und Dauer ändern.", "Die Pausenzeiten lassen sich jederzeit einstellen, auch bevor der Pausen-Timer eingeschaltet ist."]],
   ["0.41", "13.10.2026", ["Übungsbibliothek neu gestaltet: große Suchleiste mit Trefferzahl, Bereiche und Geräte als wischbare Leisten, weitere Filter unter „Mehr Filter“, Zwischenüberschriften pro Bereich und übersichtlichere Einträge.", "Lange Überschriften werden auf dem Handy nicht mehr mitten im Wort getrennt."]],
   ["0.40", "13.10.2026", ["Mehr Hinweise zu Gesundheit, Sicherheit, Genauigkeit und deinen Daten: beim ersten Start ein kurzer Kasten „Bevor du loslegst“, unten ein neuer Knopf „Hinweise“ mit allem gesammelt, und kurze Hinweise direkt beim Trainingsstart, bei Maximalgewichten, Kalorien, Zielgewicht, Zuhause-Training und Sicherung."]],
@@ -8052,6 +8260,8 @@ if (LAY2) {
     { sel: "#hStart", view: "home", pre: () => { hsOpen = true; renderStart(); }, get t(){ return L("Training starten", "Start workout"); }, get b(){ return L("Am Handy fragt „Training starten“ kurz, welchen Tag du heute machst, startet dann sofort und öffnet gleich das Feld fürs Gewicht. Unter „Tag, Stoppuhr und Pausen einstellen“ wählst du vorher den Tag, Stoppuhr, Pausen-Timer, Signalton und wie lang die Pausen sind.", "On phones, “Start workout” briefly asks which day you're doing today, then starts right away and opens the weight field. Under “Set day, stopwatch and rests” you can first pick the day, stopwatch, rest timer, beep and how long the rests are."); } });
   const tb = TOUR.find(x => x.sel === "#tabs"); if (tb) { tb.view = "home"; Object.defineProperty(tb, "b", { get(){ return L("„Home“: deine Workouts und Training starten. „Plan“: Übungen zusammenstellen. „Training“: im Gym deine Sätze eintragen. „Fortschritt“: Körperwerte und Statistiken. „Rechner“: Kalorien und Eiweiß für dein Ziel. Am Handy findest du die Bereiche unten, am Computer links.", "“Home”: your workouts and starting a workout. “Plan”: put exercises together. “Training”: log your sets at the gym. “Progress”: body values and statistics. “Calculator”: calories and protein for your goal. On the phone the sections are at the bottom, on a computer on the left."); } }); }
 }
+{ const h = TOUR.find(x => x.sel === "#hWork"); if (h) { h.dsel = "#dash"; Object.defineProperty(h, "dt", { get(){ return L("Übersicht", "Overview"); } }); Object.defineProperty(h, "db", { get(){ return L("Am Computer siehst du hier auf einen Blick deine Trainings im Monat, das bewegte Gewicht, neue Rekorde, wie du stärker wirst, welche Muskeln du trainiert hast und deine letzten Trainings. Oben rechts startest du mit „▶ Training“.", "On a computer you see everything at a glance here: workouts this month, weight moved, new records, how you get stronger, which muscles you trained and your recent workouts. Top right, “▶ Workout” starts a session."); } }); }
+  const pb = TOUR.find(x => x.sel === "#printBox"); if (pb) pb.dsel = "#dpDays .dpacts"; }
 let tourI = -1, tourView0 = null, tourEl = null, tourRaf = 0;
 function tourStart(){
   if (!$("pv").hidden) closePv();
@@ -8061,7 +8271,7 @@ function tourStart(){
 }
 function tourEnd(fromPop){
   if (fromPop !== true && mpLayerBack("tour")) return;
-  $("tour").hidden = true; tourI = -1; tourEl = null; cancelAnimationFrame(tourRaf); document.body.classList.remove("touring");
+  $("tour").hidden = true; tourI = -1; tourEl = null; cancelAnimationFrame(tourRaf); document.body.classList.remove("touring", "hspop"); document.querySelector("header")?.classList.remove("gearopen");
   if (tourView0 && view !== tourView0) setView(tourView0);
   try { localStorage.setItem("muskelplan.tour", "1"); } catch(e) {}
   if (!state.tourSeen) { state.tourSeen = true; save(); }
@@ -8085,15 +8295,18 @@ function tourFollow(ms){
   step();
 }
 function tourShow(){
-  const st = TOUR[tourI];
+  const st = TOUR[tourI]; const dsk = typeof DSK === "function" && DSK();
   if (st.view && view !== st.view) setView(st.view);
+  document.body.classList.remove("hspop"); document.querySelector("header")?.classList.toggle("gearopen", dsk && (st.sel === ".topright" || st.sel === "#tourBtn"));
   if (st.pre) st.pre();
-  const el = st.sel ? document.querySelector(st.sel) : null;
+  if (dsk && st.sel === "#hStart") dskPop(true);
+  const sel = dsk && st.dsel ? st.dsel : st.sel;
+  const el = sel ? document.querySelector(sel) : null;
   tourEl = el && el.getClientRects().length && el.getBoundingClientRect().height > 0 ? el : null;
   const card = $("tourCard");
   card.innerHTML = `<div class="tourtop"><span class="label n">Schritt ${tourI + 1} von ${TOUR.length}</span><button type="button" class="ghost mini" data-tour="end">Beenden</button></div>
     <div class="tourbar" aria-hidden="true"><i style="width:${(tourI + 1) / TOUR.length * 100}%"></i></div>
-    <h3 id="tourTitle">${esc(st.t)}</h3><p>${esc(st.b)}</p>
+    <h3 id="tourTitle">${esc(dsk && st.dt ? st.dt : st.t)}</h3><p>${esc(dsk && st.db ? st.db : st.b)}</p>
     <div class="formfoot">${tourI > 0 ? `<button type="button" class="ghost" data-tour="prev">Zurück</button>` : ""}<span style="flex:1"></span><button type="button" class="primary" data-tour="next">${tourI === TOUR.length - 1 ? "Fertig" : "Weiter"}</button></div>`;
   if (tourEl) {
     const r = tourEl.getBoundingClientRect();
@@ -8170,6 +8383,314 @@ applyDev();
 if (fixGuess(state)) save();
 renderUpdate();
 checkUnlocks(true);
+// ---------- 1.1: Desktop-Design (ab 1100 px): Tableiste oben, Übersicht als Startseite, Plan mit Tabelle und Bibliothek ----------
+var DSK_MQ = window.matchMedia("(min-width:1100px)");
+function DSK(){ return LAY2 && DSK_MQ.matches && !!document.getElementById("dash"); }
+var dpDay = null, dshMetric = "kg", dshMus = "m", dpLibQ = "", dpLibChip = "", dragU = null, dragLib = null;
+var dskHome = { tabs: null, bk: null };
+function dskSetup(){
+  const hd = document.querySelector("header"); if (!hd || $("dskBar")) return;
+  const logo = document.createElement("div"); logo.className = "dsklogo"; logo.setAttribute("translate", "no"); logo.innerHTML = `Muskel<b>plan</b>`; hd.insertBefore(logo, hd.firstChild);
+  const bar = document.createElement("div"); bar.className = "dskbar"; bar.id = "dskBar";
+  bar.innerHTML = `<button type="button" class="ghost dsktrain" id="dskTrain"></button><button type="button" class="ghost dskgear" id="dskGear" aria-haspopup="true" aria-expanded="false" title="Einstellungen" aria-label="Einstellungen">⚙</button>`;
+  hd.appendChild(bar);
+  const fill = document.createElement("div"); fill.id = "dash"; fill.className = "dash"; fill.setAttribute("aria-label", "Übersicht");
+  const days = document.createElement("section"); days.id = "dpDays"; days.className = "dpdays"; days.setAttribute("aria-label", "Trainingstage");
+  const lib = document.createElement("section"); lib.id = "dpLib"; lib.className = "panel dplib"; lib.setAttribute("aria-label", "Bibliothek");
+  const grid = document.querySelector(".grid"); grid.insertBefore(fill, grid.firstChild); grid.insertBefore(days, grid.firstChild); grid.appendChild(lib);
+  const head = document.createElement("div"); head.id = "dpHead"; head.className = "dphead"; $("planSec").insertBefore(head, $("planSec").firstChild);
+  const covh = document.createElement("div"); covh.id = "dpCovH"; covh.className = "dch dpcovh"; document.querySelector(".mapcol").insertBefore(covh, document.querySelector(".mapcol").firstChild);
+  const foot = document.createElement("div"); foot.id = "dpFoot"; foot.className = "dpfoot"; $("units").after(foot);
+  // Tab-Namen am Computer
+  const tl = (v, a, b) => { const t = $("tabs").querySelector(`[data-view="${v}"]`); if (!t) return; [...t.childNodes].forEach(n => { if (n.nodeType === 3 && n.nodeValue.trim()) { const s = document.createElement("span"); s.className = "tm"; s.textContent = n.nodeValue; n.replaceWith(s); } });
+    const d = document.createElement("span"); d.className = "td"; d.textContent = b; t.appendChild(d); };
+  tl("home", "Home", "Übersicht"); tl("fortschritt", "Fortschritt", "Statistiken");
+  dskHome.tabs = { parent: $("tabs").parentNode, next: $("tabs").nextSibling };
+  dskHome.bk = { parent: $("bkChip").parentNode, next: $("bkChip").nextSibling };
+  $("dskTrain").addEventListener("click", e => { e.stopPropagation(); if (state.run && state.run.planId === state.active) { dskPop(false); setView("training"); window.scrollTo({ top: 0, behavior: "auto" }); return; } dskPop(!document.body.classList.contains("hspop")); });
+  $("dskGear").addEventListener("click", e => { e.stopPropagation(); dskGear(!hd.classList.contains("gearopen")); });
+  document.addEventListener("click", e => {
+    if (!e.target.isConnected || e.target.closest("#tour")) return;
+    if (hd.classList.contains("gearopen") && !e.target.closest(".topright, #dskGear, #skinMenu")) dskGear(false);
+    if (document.body.classList.contains("hspop") && !e.target.closest("#hStart, #dskTrain")) dskPop(false);
+  });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { if (document.body.classList.contains("hspop")) dskPop(false); if (hd.classList.contains("gearopen")) dskGear(false); } });
+  fill.addEventListener("click", dshClick); days.addEventListener("click", dpDaysClick); lib.addEventListener("click", dpLibClick);
+  lib.addEventListener("input", e => { if (e.target.id === "dpLibQ") { dpLibQ = e.target.value; renderDpLib(true); } });
+  head.addEventListener("change", e => { if (e.target.id === "dpName") { const p = plan(); if (!Array.isArray(p.days)) p.days = daysOf(p).map(d => ({ ...d })); const d = p.days.find(x => x.id === dpDay); if (d) { d.name = e.target.value.trim().slice(0, 30) || d.name; save(); renderAll(); } } });
+  head.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.id === "dpName") e.target.blur(); });
+  foot.addEventListener("click", e => { const b = e.target.closest("[data-dpf]"); if (!b) return; if (b.dataset.dpf === "own") { resetForm(); setFormOpen(true); renderAll(); dskScrollTo($("addSec")); $("uName").focus({ preventScroll: true }); } });
+  wireDpTable();
+  DSK_MQ.addEventListener ? DSK_MQ.addEventListener("change", dskApply) : DSK_MQ.addListener(dskApply);
+  dskApply(true);
+}
+function dskScrollTo(el){ if (!el) return; requestAnimationFrame(() => window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - 90), behavior: "smooth" })); }
+function dskGear(o){ const hd = document.querySelector("header"); hd.classList.toggle("gearopen", !!o); $("dskGear").setAttribute("aria-expanded", !!o); }
+function dskPop(o){
+  document.body.classList.toggle("hspop", !!o);
+  if (o) { hsPick = false; renderStart(); $("hStart").hidden = false; requestAnimationFrame(() => $("hStart").querySelector("button:not([disabled])")?.focus({ preventScroll: true })); }
+  else if ($("hStart")) $("hStart").hidden = view !== "home";
+  renderDskBar();
+}
+function dskApply(first){
+  const on = DSK(), hd = document.querySelector("header");
+  document.documentElement.classList.toggle("dsk", on);
+  if (on) { const lg = hd.querySelector(".dsklogo"); lg.after($("tabs")); $("dskBar").insertBefore($("bkChip"), $("dskTrain")); }
+  else { dskHome.tabs.parent.insertBefore($("tabs"), dskHome.tabs.next); dskHome.bk.parent.insertBefore($("bkChip"), dskHome.bk.next); dskGear(false); if (document.body.classList.contains("hspop")) dskPop(false); }
+  if (first !== true) renderAll();
+}
+function renderDsk(){
+  if (!$("dash")) return;
+  renderDskBar();
+  if (!DSK()) return;
+  if (view === "home") renderDash();
+  if (view === "bauen") { renderDpDays(); renderDpHead(); renderDpFoot(); renderDpLib();
+    const p = plan(); const cur = dpDayOf(p); const want = cur || "alle";
+    if (dayFilter !== want) { dayFilter = want; renderDayUI(); renderMap(); renderCover(); }
+    $("dpCovH").innerHTML = `<h2>${L("Abdeckung", "Coverage")}</h2><span class="label">${cur ? esc(dayName(p, cur)) : L("Ganzer Plan", "Whole plan")}</span>`; }
+}
+function renderDskBar(){
+  const b = $("dskTrain"); if (!b) return;
+  const run = state.run && state.run.planId === state.active;
+  b.innerHTML = run ? `<i class="dot"></i>${L("Training läuft", "Workout running")}` : `▶ ${L("Training", "Workout")}`;
+  b.classList.toggle("on", !!run || document.body.classList.contains("hspop"));
+  b.setAttribute("aria-expanded", document.body.classList.contains("hspop"));
+}
+
+// ----- Übersicht (Startseite am Computer) -----
+const isoWeekNo = iso => { const [y, m, d] = iso.split("-").map(Number); const t = new Date(Date.UTC(y, m - 1, d)); const dn = (t.getUTCDay() + 6) % 7; t.setUTCDate(t.getUTCDate() - dn + 3); const f = new Date(Date.UTC(t.getUTCFullYear(), 0, 4)); return 1 + Math.round(((t - f) / 864e5 - 3 + ((f.getUTCDay() + 6) % 7)) / 7); };
+const monthName = (y, m) => new Date(y, m - 1, 1).toLocaleDateString(LOC(), { month: "long" });
+function dshAll(){
+  const E = []; state.plans.forEach(p => p.units.forEach(u => (u.log || []).forEach(e => E.push({ p, u, e }))));
+  (state.cardio || []).forEach(e => E.push({ p: {}, u: { name: e.act, muscles: [], kind: "cardio" }, e }));
+  const S = state.plans.flatMap(p => (p.sessions || []).map(s => ({ p, s })));
+  return { E, K: E.filter(x => !x.e.cardio && !isCardio(x.u)), S };
+}
+function spark(vals, up){
+  const W = 220, H = 34; if (vals.length < 2) return "";
+  const lo = Math.min(...vals), hi = Math.max(...vals), r = hi - lo || 1;
+  const pts = vals.map((v, i) => `${(i / (vals.length - 1) * (W - 4) + 2).toFixed(1)},${(H - 4 - (v - lo) / r * (H - 8)).toFixed(1)}`).join(" ");
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="${up ? "var(--sel)" : "var(--muted)"}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>`;
+}
+function renderDash(){
+  const box = $("dash"); const { E, K, S } = dshAll(); const today = todayIso();
+  const [ty, tm] = today.split("-").map(Number); const mk = today.slice(0, 7);
+  const pd = new Date(ty, tm - 2, 1); const pk = pd.toLocaleDateString("sv-SE").slice(0, 7);
+  const mName = monthName(ty, tm), pName = monthName(pd.getFullYear(), pd.getMonth() + 1);
+  const daysIn = k => new Set(E.filter(x => x.e.d.startsWith(k)).map(x => x.e.d)).size;
+  const volIn = k => K.filter(x => x.e.d.startsWith(k)).reduce((n, x) => n + volume(x.e), 0);
+  const nT = daysIn(mk), nP = daysIn(pk), vT = volIn(mk), vP = volIn(pk);
+  const recs = K.filter(x => x.e.d.startsWith(mk) && !isTimeU(x.u) && isRecord(x.u, x.e)).sort((a, b) => a.e.d < b.e.d ? -1 : 1);
+  const lastRec = recs[recs.length - 1];
+  const weekSet = new Set(E.map(x => mondayOf(x.e.d))); const thisMon = mondayOf(today);
+  let streak = 0; { let m = thisMon; if (!weekSet.has(m)) m = isoAdd(m, -7); while (weekSet.has(m)) { streak++; m = isoAdd(m, -7); } }
+  let best = 0, run = 0, prevW = null; [...weekSet].sort().forEach(w => { run = prevW && daysBetween(prevW, w) === 7 ? run + 1 : 1; best = Math.max(best, run); prevW = w; });
+  const up = (d, txt) => `<span class="${d > 0 ? "up" : d < 0 ? "dn" : ""}">${d > 0 ? "▲" : d < 0 ? "▼" : ""} ${txt}</span>`;
+  const diffT = nT - nP;
+  const kpi = (lab, val, sub) => `<div class="dkpi"><span class="label">${lab}</span><b class="n">${val}</b><span class="sub">${sub}</span></div>`;
+  const kpis = kpi(`${L("Trainings", "Workouts")} · ${esc(mName)}`, fmt(nT), diffT ? up(diffT, L(`${Math.abs(diffT)} ${diffT > 0 ? "mehr" : "weniger"} als ${pName}`, `${Math.abs(diffT)} ${diffT > 0 ? "more" : "fewer"} than ${pName}`)) : L(`genauso viele wie ${pName}`, `same as ${pName}`))
+    + kpi(`${L("Volumen", "Volume")} · ${esc(mName)}`, kgTxt(vT), vP ? up(vT - vP, `${fmt(Math.round(Math.abs(vT - vP) / vP * 100))} % ${L("zum Vormonat", "vs last month")}`) : L("Vormonat ohne Einträge", "no entries last month"))
+    + kpi(L("Neue Rekorde", "New records"), fmt(recs.length), lastRec ? `${L("zuletzt", "latest")} ${esc(lastRec.u.nick || lastRec.u.name)}${topSet(lastRec.e).kg ? " " + fmt(topSet(lastRec.e).kg) + " kg" : ""}` : L("diesen Monat noch keiner", "none yet this month"))
+    + kpi(L("Serie", "Streak"), streak === 1 ? L("1 Woche", "1 week") : L(`${streak} Wochen`, `${streak} weeks`), best > streak ? L(`Rekord: ${best} Wochen`, `Best: ${best} weeks`) : L("jede Woche mind. 1 Training", "at least 1 workout every week"));
+  // Volumen pro Woche
+  const weeks = []; for (let i = 9; i >= 0; i--) weeks.push({ mon: isoAdd(thisMon, -7 * i), kg: 0, sets: 0, min: 0, cur: i === 0 });
+  const wi = Object.fromEntries(weeks.map((w, i) => [w.mon, i]));
+  K.forEach(x => { const i = wi[mondayOf(x.e.d)]; if (i !== undefined) { weeks[i].kg += volume(x.e); weeks[i].sets += setsOf(x.e).length; } });
+  S.forEach(({ s }) => { const i = wi[mondayOf(s.d)]; if (i !== undefined && s.timed !== false && !s.manual && s.end > s.start) weeks[i].min += (s.end - s.start) / 60000; });
+  (state.cardio || []).forEach(e => { const i = wi[mondayOf(e.d)]; if (i !== undefined && e.cardio) weeks[i].min += e.cardio.min || 0; });
+  const wv = w => dshMetric === "kg" ? w.kg : dshMetric === "sets" ? w.sets : w.min;
+  const wmax = Math.max(1, ...weeks.map(wv));
+  const wlab = w => dshMetric === "kg" ? kgTxt(w.kg) : dshMetric === "sets" ? `${fmt(w.sets)} ${L("Sätze", "sets")}` : fmtDur(w.min * 60000);
+  const bars = weeks.map(w => `<div class="dbar${w.cur ? " cur" : ""}" title="${L("Woche ab", "Week from")} ${fmtD(w.mon)}: ${wlab(w)}${w.cur ? " · " + L("läuft noch", "in progress") : ""}"><div class="bw"><span class="v n">${wv(w) ? wlab(w).replace(/ (Sätze|sets)$/, "") : ""}</span><i style="height:${Math.max(wv(w) ? 2 : 0, wv(w) / wmax * 84)}%"></i></div><span class="k">${L("KW", "W")} ${isoWeekNo(w.mon)}</span></div>`).join("");
+  const segH = (g, cur, o) => `<div class="seg" role="group">${o.map(([k, n]) => `<button type="button" data-dsh="${g}" data-v="${k}" aria-pressed="${cur === k}">${n}</button>`).join("")}</div>`;
+  // Kraftentwicklung (8 Wochen)
+  const from = isoAdd(thisMon, -49); const grp = {};
+  K.forEach(x => { if (isTimeU(x.u) || x.e.d < from) return; const k = norm(x.u.name); (grp[k] ||= { u: x.u, list: [] }).list.push(x.e); });
+  const allBest = {}; K.forEach(x => { const k = norm(x.u.name); allBest[k] = Math.max(allBest[k] || 0, topSet(x.e).kg || 0); });
+  const rows = Object.entries(grp).map(([k, g]) => {
+    const byD = {}; g.list.forEach(e => { const t = topSet(e); const v = t.kg || 0; byD[e.d] = Math.max(byD[e.d] || 0, v); });
+    const kg = Object.values(byD).some(v => v > 0);
+    if (!kg) { g.list.forEach(e => { byD[e.d] = Math.max(...setsOf(e).map(s => s.reps || 0), 0); }); }
+    const vals = Object.keys(byD).sort().map(d => byD[d]);
+    return { k, u: g.u, n: g.list.length, vals, kg };
+  }).filter(r => r.vals.length >= 2).sort((a, b) => b.n - a.n).slice(0, 5);
+  const unitT = r => r.kg ? " kg" : " " + L("Wdh.", "reps");
+  const kraft = rows.length ? `<table class="dtab"><thead><tr><th>${L("Übung", "Exercise")}</th><th>${L("Vorher", "Before")}</th><th>${L("Jetzt", "Now")}</th><th class="sp">${L("Verlauf", "Trend")}</th><th class="r">${L("Plus", "Change")}</th></tr></thead><tbody>${rows.map(r => {
+      const a = r.vals[0], b = r.vals[r.vals.length - 1]; const pc = a ? (b - a) / a * 100 : 0; const top = r.kg && b > a && b >= (allBest[r.k] || 0);
+      return `<tr><td class="nm">${esc(r.u.nick || r.u.name)}</td><td class="n">${fmt(a)}${unitT(r)}</td><td class="n"><b>${fmt(b)}${unitT(r)}</b>${top ? ` <span title="${L("Bestwert", "Personal best")}">🏆</span>` : ""}</td><td class="sp">${spark(r.vals, b > a)}</td><td class="r n ${b > a ? "up" : b < a ? "dn" : ""}">${b === a ? "±0" : (pc > 0 ? "+" : "−") + fmt(Math.round(Math.abs(pc) * 10) / 10) + " %"}</td></tr>`; }).join("")}</tbody></table>`
+    : `<p class="hint">${L("Sobald du eine Übung mindestens zweimal in den letzten 8 Wochen gemacht hast, siehst du hier, wie sich dein Gewicht entwickelt.", "Once you have done an exercise at least twice in the last 8 weeks, you'll see how your weight develops here.")}</p>`;
+  // Muskeln
+  const mFrom = dshMus === "m" ? mk + "-01" : thisMon; const mus = {};
+  K.forEach(x => { if (x.e.d < mFrom) return; const n = setsOf(x.e).length; x.u.muscles.forEach(m => mus[m] = (mus[m] || 0) + n); });
+  const mmax = Math.max(0, ...Object.values(mus));
+  const share = Object.fromEntries(Object.entries(mus).map(([m, n]) => [m, mmax ? n / mmax : 0]));
+  const low = ORDER.filter(m => (mus[m] || 0) <= mmax * 0.1);
+  const lowTxt = !mmax ? L("In diesem Zeitraum gibt es noch keine Einträge.", "No entries in this period yet.")
+    : low.length ? (() => { const n = low.slice(0, 3).map(m => MUSCLES[m].n); const s = n.length > 1 ? n.slice(0, -1).join(", ") + " " + L("und", "and") + " " + n[n.length - 1] : n[0]; return `⚠ ${s}${low.length > 3 ? L(` und ${low.length - 3} weitere`, ` and ${low.length - 3} more`) : ""} ${dshMus === "m" ? L("kamen diesen Monat kaum vor.", "barely came up this month.") : L("kamen diese Woche kaum vor.", "barely came up this week.")}`; })()
+    : `✓ ${L("Alle Muskelgruppen waren dabei.", "Every muscle group was trained.")}`;
+  // Trainingstage (12 Wochen)
+  const cStart = isoAdd(thisMon, -77); const dv = {};
+  E.forEach(x => { if (x.e.d >= cStart) dv[x.e.d] = (dv[x.e.d] || 0) + (volume(x.e) || 1); });
+  const dmax = Math.max(1, ...Object.values(dv)); let cells = "";
+  for (let i = 0; i < 84; i++) { const d = isoAdd(cStart, i); const v = dv[d] || 0; const lv = d > today ? "f" : !v ? 0 : v > dmax * .75 ? 4 : v > dmax * .5 ? 3 : v > dmax * .25 ? 2 : 1; cells += `<i class="c${lv}" title="${fmtD(d)}${v ? " · " + L("Training", "workout") : ""}"></i>`; }
+  const recent = S.filter(({ s }) => s.items && s.items.length).sort((a, b) => (b.s.start || 0) - (a.s.start || 0) || (a.s.d < b.s.d ? 1 : -1)).slice(0, 4);
+  const recentH = recent.length ? `<ul class="drec">${recent.map(({ p, s }) => { const v = sessionVolume(p, s); const nm = s.manual ? L("Einzeln eingetragen", "Logged singly") : s.day ? dayName(p, s.day) : L("Training", "Workout");
+      return `<li><b>${esc(nm)}</b><span class="n">${fmtDs(s.d)}${s.timed === false || s.manual || !(s.end > s.start) ? "" : " · " + fmtDur(s.end - s.start)}${v ? " · " + fmt(Math.round(v)) + " kg" : ""}</span></li>`; }).join("")}</ul><button type="button" class="ghost mini dmore" data-dsh="hist">${L("Alle Trainings", "All workouts")} →</button>`
+    : `<p class="hint">${L("Noch keine Trainings. Starte oben rechts mit ▶ Training.", "No workouts yet. Start top right with ▶ Workout.")}</p>`;
+  box.innerHTML = `<div class="dkpis">${kpis}</div>
+    <section class="panel dcard dvol"><div class="dch"><h2>${L("Volumen pro Woche", "Volume per week")}</h2>${segH("metric", dshMetric, [["kg", "kg"], ["sets", L("Sätze", "Sets")], ["min", L("Dauer", "Time")]])}</div><div class="dbars">${bars}</div></section>
+    <section class="panel dcard dmus"><div class="dch"><h2>${L("Muskeln", "Muscles")}</h2>${segH("mus", dshMus, [["m", L("Monat", "Month")], ["w", L("Woche", "Week")]])}</div>
+      <div class="heatfigs"><div>${heatFigure("front", share)}</div><div>${heatFigure("back", share)}</div></div>
+      <div class="dgrad"><span>${L("wenig", "little")}</span><i></i><span>${L("viel", "a lot")}</span></div>
+      <p class="dwarn${low.length && mmax ? "" : " ok"}">${lowTxt}</p></section>
+    <section class="panel dcard dkraft"><div class="dch"><h2>${L("Kraftentwicklung", "Strength progress")}</h2><span class="label">${L("Bestes Gewicht · 8 Wochen", "Best weight · 8 weeks")}</span></div>${kraft}</section>
+    <section class="panel dcard dcal"><div class="dch"><h2>${L("Trainingstage", "Training days")}</h2><span class="label">${L("12 Wochen", "12 weeks")}</span></div><div class="dcells">${cells}</div>
+      <div class="label dsub">${L("Letzte Trainings", "Recent workouts")}</div>${recentH}</section>`;
+}
+function dshClick(e){
+  const b = e.target.closest("[data-dsh]"); if (!b) return; const g = b.dataset.dsh;
+  if (g === "metric") { dshMetric = b.dataset.v; renderDash(); }
+  if (g === "mus") { dshMus = b.dataset.v; renderDash(); }
+  if (g === "hist") { histOpen = true; setView("training"); window.scrollTo({ top: 0, behavior: "auto" }); }
+}
+
+// ----- Plan bearbeiten am Computer -----
+function dpDayOf(p){
+  const ds = daysOf(p); if (!ds.length) return null;
+  if (!ds.some(d => d.id === dpDay)) dpDay = dayFilter !== "alle" && ds.some(d => d.id === dayFilter) ? dayFilter : (nextDay(p) || ds[0].id);
+  if (!editingId) formDay = dpDay;
+  return dpDay;
+}
+const musShort = u => [...new Set(unitSel(u).map(m => MUSCLES[bm(m)]?.n || MUSCLES[m]?.n || m))];
+function renderDpDays(){
+  const p = plan(); const ds = daysOf(p); const cur = dpDayOf(p); const nd = hasDays(p) ? nextDay(p) : null;
+  const card = (id, name, list, due) => `<button type="button" class="dpday${id === cur || !id ? " on" : ""}" data-dp="day" data-day="${id || ""}"><span class="t"><b>${esc(name)}</b>${due ? `<span class="due">${L("ist dran", "up next")}</span>` : `<span class="cnt n">${list.length} ${L("Üb.", "ex.")}</span>`}</span><span class="m">${esc([...new Set(list.flatMap(musShort))].slice(0, 3).join(" · ") || L("Noch keine Übungen", "No exercises yet"))}</span></button>`;
+  const link = (a, t) => `<button type="button" class="dplink" data-dp="${a}">${t}</button>`;
+  $("dpDays").innerHTML = `<div class="label">${L("Trainingstage", "Training days")}</div>
+    ${ds.length ? ds.map(d => card(d.id, d.name, unitsFor(p, d.id), d.id === nd && unitsFor(p, d.id).length)).join("") : card(null, L("Alle Übungen", "All exercises"), p.units, false)}
+    <button type="button" class="dpadd" data-dp="addday">+ ${ds.length ? L("Tag hinzufügen", "Add day") : L("In Trainingstage aufteilen", "Split into training days")}</button>
+    <div class="label">${L("Plan", "Plan")}</div>
+    <div class="dpacts">${link("imp", "⇪ " + L("Plan importieren", "Import plan"))}${link("pv", "⎙ " + L("Druckvorschau & PDF", "Print preview & PDF"))}${link("txt", "⧉ " + L("Als Text kopieren", "Copy as text"))}${link("ren", "✎ " + L("Plan umbenennen", "Rename plan"))}${link("home", "⌂ " + L("Zuhause-Version", "Home version"))}${link("new", "＋ " + L("Neuer Plan", "New plan"))}${state.plans.length > 1 ? link("del", "× " + L("Plan löschen", "Delete plan")) : ""}</div>`;
+}
+function dpDaysClick(e){
+  const b = e.target.closest("[data-dp]"); if (!b) return; const a = b.dataset.dp;
+  if (a === "day") { if (b.dataset.day) { dpDay = b.dataset.day; formDay = dpDay; } altOpen = null; focusId = null; renderAll(); return; }
+  if (a === "addday") { dayMgrOpen = true; renderDayMgr(); $("dayMgr").querySelector('[data-dm="add"]')?.click(); const p = plan(); const ds = daysOf(p); if (ds.length) { dpDay = ds[ds.length - 1].id; renderAll(); requestAnimationFrame(() => { const i = $("dpName"); if (i) { i.focus(); i.select(); } }); } return; }
+  if (a === "imp") { openAdd("imp"); dskScrollTo($("addSec")); return; }
+  if (a === "pv") { $("openPv").click(); return; }
+  if (a === "txt") { $("copyTxt").click(); dskScrollTo($("copyBox")); return; }
+  if (a === "ren") { $("renPlan").click(); return; }
+  if (a === "new") { $("newPlan").click(); return; }
+  if (a === "del") { $("delPlan").click(); return; }
+  if (a === "home") { dskScrollTo($("homeSec")); return; }
+}
+function renderDpHead(){
+  const p = plan(); const ds = daysOf(p); const cur = dpDayOf(p); const i = ds.findIndex(d => d.id === cur);
+  if (document.activeElement && document.activeElement.id === "dpName") return;
+  $("dpHead").innerHTML = `<div class="dpkick label">${L("Plan bearbeiten", "Edit plan")} · ${esc(p.name)}${ds.length ? ` · ${L(`Tag ${i + 1} von ${ds.length}`, `Day ${i + 1} of ${ds.length}`)}` : ""}</div>
+    ${ds.length ? `<input id="dpName" class="dpname" value="${esc(dayName(p, cur))}" maxlength="30" aria-label="${L("Name des Trainingstags", "Name of the training day")}" title="${L("Zum Umbenennen anklicken", "Click to rename")}">` : `<h2 class="dpname">${L("Alle Übungen", "All exercises")}</h2>`}
+    <div class="dpsub"><span class="hint">${L("Ziehen am Griff ⠿ zum Sortieren · Sätze und Wiederholungen direkt anklicken und ändern", "Drag the ⠿ handle to reorder · click sets and reps to change them")}</span><span class="dpsaved" id="dpSaved">✓ ${L("Automatisch gespeichert", "Saved automatically")}</span></div>`;
+}
+function dpUnitsHTML(p){
+  const cur = dpDayOf(p); const list = cur ? unitsFor(p, cur) : p.units;
+  const lastKg = u => { const L0 = sortedLog(u); const e = L0[L0.length - 1]; if (!e) return "–"; if (e.cardio) return e.cardio.min ? fmtMin(e.cardio.min) : "–"; const t = topSet(e); return t.kg ? fmt(t.kg) : t.sec != null ? secTxt(t.sec) : t.reps ? `${t.reps}×` : "–"; };
+  const gear = u => { const x = LIB.find(x => norm(x.n) === norm(u.name) || (x.en && norm(x.en) === norm(u.name))); return x ? gearName(x.g) : isCardio(u) ? "Cardio" : ""; };
+  const row = (u, i) => { const tg = musShort(u);
+    return `<article class="unit drow${u.id === focusId ? " on" : ""}${altOpen === u.id ? " alt" : ""}" data-id="${u.id}" tabindex="0" draggable="false" aria-label="${esc(u.nick || u.name)}">
+      <span class="dh" title="${L("Ziehen zum Sortieren", "Drag to reorder")}" aria-hidden="true">⠿</span>
+      <span class="dno n">${i + 1}</span>
+      <div class="dnm"><b>${esc(u.nick || u.name)}</b><span class="hint">${esc([u.nick ? u.name : "", gear(u)].filter(Boolean).join(" · "))}${exNote(u.name) ? " · 📝" : ""}</span></div>
+      <div class="dtags">${tg.slice(0, 2).map(m => `<span class="tag">${esc(m)}</span>`).join("")}${tg.length > 2 ? `<span class="tag more">+${tg.length - 2}</span>` : ""}</div>
+      ${isCardio(u) ? `<span class="dna">–</span>` : `<input class="dnum n" data-f="sets" value="${esc(u.sets || "")}" inputmode="numeric" maxlength="3" aria-label="${L("Sätze", "Sets")}">`}
+      <input class="dnum n" data-f="reps" value="${esc(u.reps || "")}" maxlength="12" aria-label="${isCardio(u) ? L("Dauer", "Duration") : isTimeU(u) ? L("Sekunden", "Seconds") : L("Wiederholungen", "Reps")}">
+      <span class="dlast n" title="${L("Zuletzt", "Last time")}">${lastKg(u)}</span>
+      ${u._ask ? `<span class="dask"><button type="button" class="danger mini" data-act="delyes">${L("Löschen", "Delete")}</button><button type="button" class="ghost mini" data-act="nodel" aria-label="${L("Abbrechen", "Cancel")}">×</button></span>`
+        : `<details class="dmenu"><summary aria-label="${L("Weitere Aktionen", "More actions")}">⋯</summary><div class="dmpop">${vidLinkFor(u.name, "sm")}<button type="button" class="ghost mini" data-act="alt">⇄ ${L("Alternativen", "Alternatives")}</button><button type="button" class="ghost mini" data-act="edit">${L("Bearbeiten", "Edit")}</button>${i > 0 ? `<button type="button" class="ghost mini" data-act="up">↑ ${L("Nach oben", "Move up")}</button>` : ""}<button type="button" class="danger mini" data-act="del">${L("Löschen", "Delete")}</button></div></details>`}
+      ${altOpen === u.id ? altPanel(u) : ""}
+    </article>`; };
+  return `<div class="dpt"><div class="dphd"><span></span><span></span><span>${L("Übung", "Exercise")}</span><span>${L("Muskeln", "Muscles")}</span><span>${L("Sätze", "Sets")}</span><span>${L("Wdh.", "Reps")}</span><span>${L("Zuletzt", "Last")}</span><span></span></div>
+    ${list.length ? list.map(row).join("") : `<div class="empty">${L("Noch keine Übungen für diesen Tag. Wähle rechts aus der Bibliothek oder leg unten eine eigene an.", "No exercises for this day yet. Pick from the library on the right or add your own below.")}</div>`}</div>`;
+}
+function renderDpFoot(){
+  const p = plan(); const cur = dpDayOf(p); const list = cur ? unitsFor(p, cur) : p.units; const st = settings();
+  const sets = list.filter(u => !isCardio(u)).reduce((n, u) => n + (parseInt(u.sets, 10) || 0), 0);
+  const sec = list.reduce((n, u) => { if (isCardio(u)) return n + (parseFloat(String(u.reps).replace(",", ".")) || 0) * 60; const s = parseInt(u.sets, 10) || 0; return n + s * (45 + (st.restSet || 90)) + (st.restEx || 120); }, 0);
+  const ds = daysOf(p);
+  const tile = (v, t) => `<div class="dtile"><b class="n">${v}</b><span>${t}</span></div>`;
+  $("dpFoot").innerHTML = `<button type="button" class="dpaddex" data-dpf="own">+ ${L("Eigene Übung anlegen oder rechts aus der Bibliothek ziehen", "Create your own exercise or drag one from the library")}</button>
+    <div class="dtiles">${tile(fmt(sets), L("Sätze an diesem Tag", "Sets on this day"))}${tile("≈ " + fmtDur(sec * 1000), L("geschätzte Dauer", "estimated time"))}${tile(fmt(ds.length || 1), ds.length ? L("Trainingstage", "Training days") : L("Liste ohne Tage", "List without days"))}${tile(fmt(p.units.length), L("Übungen im ganzen Plan", "Exercises in the whole plan"))}</div>`;
+}
+const DP_CHIPS = [["m:brust", "Brust"], ["m:ruecken", "Rücken"], ["m:schultern", "Schultern"], ["m:arme", "Arme"], ["m:beine", "Beine"], ["m:bauch", "Bauch"], ["g:Kabelzug", "Kabelzug"], ["g:Kurzhantel", "Kurzhantel"], ["g:Maschine", "Maschine"], ["g:Körpergewicht", "Körpergewicht"]];
+const DP_REG = { brust: /^brust/, ruecken: /latiss|rhomb|nacken|trapez|rueck|unterer_r/, schultern: /schulter/, arme: /bizeps|trizeps|unterarm/, beine: /quadri|beinbeug|oberschenkel|gesaess|wade|addukt|abdukt|hueft|schien/, bauch: /bauch|core|seitl/ };
+function renderDpLib(keep){
+  const p = plan(); const cur = dpDayOf(p); const inPlan = new Set(p.units.map(u => norm(u.name)));
+  const q = norm(dpLibQ.trim());
+  let list = LIB.map((x, i) => ({ x, i })).filter(({ x }) => !inPlan.has(norm(x.n)) && !(x.en && inPlan.has(norm(x.en))));
+  if (q) list = list.filter(({ x }) => norm(x.n).includes(q) || (x.en && norm(x.en).includes(q)) || x.p.some(m => norm(MUSCLES[m]?.n || "").includes(q)));
+  if (dpLibChip) { const [t, v] = dpLibChip.split(":"); list = list.filter(({ x }) => t === "g" ? x.g === v : x.p.some(m => DP_REG[v].test(m) || DP_REG[v].test(bm(m)))); }
+  let sugg = false;
+  if (!q && !dpLibChip) { const c = countMuscles(cur ? unitsFor(p, cur) : p.units); const reg = cur && isUpperLower(p) ? region(cur) : ORDER; const gap = new Set(reg.filter(m => !c[m]));
+    if (gap.size) { sugg = true; list = list.filter(({ x }) => !x.cardio && x.p.some(m => gap.has(bm(m)) || gap.has(m))).sort((a, b) => b.x.p.filter(m => gap.has(bm(m))).length - a.x.p.filter(m => gap.has(bm(m))).length); } }
+  const res = list.slice(0, 6);
+  const items = res.length ? `<ul class="dplist">${res.map(({ x, i }) => `<li draggable="true" data-li="${i}"><div><b>${esc(xn(x))}</b><span class="hint">${esc(x.p.slice(0, 2).map(m => MUSCLES[m].n).join(" · "))} · ${esc(gearName(x.g))}</span></div><button type="button" class="dpplus" data-dl="add" data-i="${i}" aria-label="${esc(xn(x))} ${L("hinzufügen", "add")}">+</button></li>`).join("")}</ul>`
+    : `<p class="hint">${L("Nichts gefunden.", "Nothing found.")}</p>`;
+  const body = `${sugg ? `<p class="hint dpsugg">${L("Vorschläge für Muskeln, die an diesem Tag noch fehlen:", "Suggestions for muscles still missing on this day:")}</p>` : ""}${items}${list.length > 6 ? `<button type="button" class="ghost mini" data-dl="more">${L(`Alle ${list.length} in der Bibliothek ansehen`, `See all ${list.length} in the library`)} →</button>` : ""}`;
+  if (keep && $("dpLibRes")) { $("dpLibRes").innerHTML = body; return; }
+  $("dpLib").innerHTML = `<div class="dch"><h2>${L("Bibliothek", "Library")}</h2><span class="label">${LIB.length}+ ${L("Übungen", "exercises")}</span></div>
+    <input id="dpLibQ" type="search" value="${esc(dpLibQ)}" placeholder="⌕ ${L("Übung suchen …", "Search exercise …")}" aria-label="${L("Übung suchen", "Search exercise")}">
+    <div class="chips dpchips">${DP_CHIPS.map(([k, n]) => `<button type="button" class="chip" data-dl="chip" data-v="${k}" aria-pressed="${dpLibChip === k}">${k[0] === "g" ? esc(gearName(n)) : L(n, { Brust: "Chest", "Rücken": "Back", Schultern: "Shoulders", Arme: "Arms", Beine: "Legs", Bauch: "Core" }[n])}</button>`).join("")}</div>
+    <div id="dpLibRes">${body}</div>`;
+}
+function dpAddLib(i, beforeId, after){
+  const x = LIB[i]; if (!x) return; const p = plan(); const cur = dpDayOf(p);
+  const nu = { id: uid(), name: xn(x), nick: "", sets: x.sets, reps: x.reps, muscles: libMuscles(x) };
+  if (x.cardio) nu.kind = "cardio"; if (cur) nu.day = cur;
+  const t = beforeId && p.units.find(u => u.id === beforeId);
+  if (t) p.units.splice(p.units.indexOf(t) + (after ? 1 : 0), 0, nu); else { const list = cur ? unitsFor(p, cur) : p.units; const last = list[list.length - 1]; if (last) p.units.splice(p.units.indexOf(last) + 1, 0, nu); else p.units.push(nu); }
+  focusId = nu.id; save(); renderAll(); toast(L(`${xn(x)} ist jetzt im Plan.`, `${xn(x)} is now in your plan.`));
+}
+function dpLibClick(e){
+  const b = e.target.closest("[data-dl]"); if (!b) return; const a = b.dataset.dl;
+  if (a === "chip") { dpLibChip = dpLibChip === b.dataset.v ? "" : b.dataset.v; renderDpLib(); return; }
+  if (a === "add") { dpAddLib(+b.dataset.i); return; }
+  if (a === "more") { openAdd("lib"); dskScrollTo($("addSec")); }
+}
+function dpFlash(){ const s = $("dpSaved"); if (!s) return; s.classList.remove("fl"); void s.offsetWidth; s.classList.add("fl"); }
+function wireDpTable(){
+  const box = $("units");
+  // Eingabefelder und Menü in der Tabelle sollen nicht die ganze Zeile anklicken
+  box.addEventListener("click", e => { if (e.target.closest(".drow input, .drow summary, .drow .dh")) e.stopPropagation(); }, true);
+  box.addEventListener("toggle", e => { if (e.target.classList && e.target.classList.contains("dmenu") && e.target.open) box.querySelectorAll(".dmenu[open]").forEach(d => { if (d !== e.target) d.open = false; }); }, true);
+  box.addEventListener("change", e => {
+    const f = e.target.dataset && e.target.dataset.f; if (!f) return; const row = e.target.closest(".drow"); const p = plan(); const u = p.units.find(x => x.id === row?.dataset.id); if (!u) return;
+    let v = e.target.value.trim().slice(0, 12);
+    if (f === "sets") { const n = parseInt(v, 10); v = n > 0 ? String(Math.min(n, 20)) : u.sets; }
+    if (f === "reps") { if (isCardio(u) && /^\d+([.,]\d+)?$/.test(v)) v += " min"; else if (isTimeU(u) && /^\d+$/.test(v)) v += " s"; }
+    u[f] = v; e.target.value = v; save(); dpFlash(); renderDpFoot(); renderDpDays();
+  });
+  box.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.dataset && e.target.dataset.f) e.target.blur(); });
+  box.addEventListener("mousedown", e => { const h = e.target.closest(".drow .dh"); if (h) h.closest(".drow").draggable = true; });
+  box.addEventListener("dragstart", e => { const r = e.target.closest && e.target.closest(".drow"); if (!r) return; dragU = r.dataset.id; dragLib = null; r.classList.add("drag"); try { e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/plain", dragU); } catch(err) {} });
+  const clear = () => { box.querySelectorAll(".dover-t,.dover-b,.drag").forEach(r => r.classList.remove("dover-t", "dover-b", "drag")); box.querySelectorAll(".drow[draggable=true]").forEach(r => r.draggable = false); };
+  box.addEventListener("dragend", () => { dragU = null; clear(); });
+  box.addEventListener("dragover", e => { if (!dragU && dragLib == null) return; const r = e.target.closest(".drow"); e.preventDefault(); box.querySelectorAll(".dover-t,.dover-b").forEach(x => x.classList.remove("dover-t", "dover-b")); if (r && r.dataset.id !== dragU) { const b = r.getBoundingClientRect(); r.classList.add(e.clientY > b.top + b.height / 2 ? "dover-b" : "dover-t"); } });
+  box.addEventListener("drop", e => {
+    if (!dragU && dragLib == null) return; e.preventDefault(); const r = e.target.closest(".drow"); const after = r && r.classList.contains("dover-b"); const lib = dragLib; clear();
+    if (lib != null) { dragLib = null; dpAddLib(lib, r && r.dataset.id, after); return; }
+    const p = plan(); const u = p.units.find(x => x.id === dragU); dragU = null; if (!u || !r || r.dataset.id === u.id) return;
+    const t = p.units.find(x => x.id === r.dataset.id); if (!t) return;
+    p.units.splice(p.units.indexOf(u), 1); p.units.splice(p.units.indexOf(t) + (after ? 1 : 0), 0, u); if (t.day) u.day = t.day;
+    save(); renderAll(); dpFlash();
+  });
+  const lib = $("dpLib");
+  lib.addEventListener("dragstart", e => { const li = e.target.closest && e.target.closest("[data-li]"); if (!li) return; dragLib = +li.dataset.li; dragU = null; try { e.dataTransfer.effectAllowed = "copy"; e.dataTransfer.setData("text/plain", li.dataset.li); } catch(err) {} });
+  lib.addEventListener("dragend", () => { dragLib = null; clear(); });
+  const foot = $("dpFoot");
+  foot.addEventListener("dragover", e => { if (dragLib != null || dragU) { e.preventDefault(); foot.classList.add("dover"); } });
+  foot.addEventListener("dragleave", () => foot.classList.remove("dover"));
+  foot.addEventListener("drop", e => { foot.classList.remove("dover"); if (dragLib != null) { e.preventDefault(); const i = dragLib; dragLib = null; dpAddLib(i); } });
+}
+dskSetup();
 renderAll();
 applyFresh();
 try { swSyncRun(true); if (navigator.serviceWorker) navigator.serviceWorker.ready.then(() => setTimeout(() => swSyncRun(true), 300)); } catch(e) {}
