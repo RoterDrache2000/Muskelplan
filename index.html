@@ -2524,6 +2524,22 @@ html.dsk .setskins.all{max-height:none}
 .sshow .hint{margin:6px 0 0}
 .hssspre{justify-self:center;margin-top:4px}
 .rxsshow{display:block;font-size:.78rem;color:var(--muted);margin-top:2px}
+/* v43: Yoga-Hinweis, Rückgängig, Supersatz-Hilfe, Desktop-Liste */
+.yogahint{margin:6px 0 8px;padding:8px 12px;border-radius:12px;background:var(--tagbg);font-size:.85rem}
+.toast .toastbtn{margin-left:8px;padding:4px 12px;border-radius:999px;border:1.5px solid currentColor;background:transparent;color:inherit;font:inherit;font-weight:700;cursor:pointer}
+.setfaq{padding:4px}
+.setfaq summary{min-height:46px;display:flex;align-items:center;font-weight:600;cursor:pointer;list-style:none}
+.setfaq summary::-webkit-details-marker{display:none}
+.setfaq p{margin:0 0 10px;font-size:.88rem;line-height:1.45;color:var(--muted)}
+html.dsk .dskhide{display:none!important}
+/* Desktop-Bibliothek bleibt beim Scrollen stehen, die Liste füllt die Höhe bis zum unteren Rand */
+html.dsk body.view-bauen #dpLib{display:flex;flex-direction:column;align-self:start;position:sticky;top:84px;max-height:calc(100vh - 100px)}
+html.dsk #dpLibRes{flex:1 1 auto;min-height:160px;overflow-y:auto;overscroll-behavior:contain;padding-right:4px}
+/* v44: Hinweise und Videolinks */
+.ytrow{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.ytl{font-size:.8rem;white-space:normal;text-align:left}
+.yogahint small{display:block;margin-top:4px;font-size:.78rem;opacity:.85}
+.hsafe,.csafe{margin:8px 0 0}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
@@ -3339,7 +3355,7 @@ let altOpen = null, altAsk = null, ssOpenId = null;
 function ssBadge(u){ const o = ssPartner(plan(), u); return o ? `<div class="ssbadge">⇅ ${L("Supersatz mit", "Superset with")} ${esc(o.nick || o.name)}</div>` : ""; }
 function ssPanel(u){
   const p = plan(), o = ssPartner(p, u), mates = ssMates(p, u).filter(x => x !== o);
-  return `<div class="sspanel"><p class="hint">${SS_HOW()}</p>
+  return `<div class="sspanel"><p class="hint">${SS_HOW()}</p><div class="ytrow">${ytLink("Supersätze richtig trainieren", "How to do supersets right", "Supersätze richtig trainieren", "how to do supersets correctly")}</div>
     ${o ? `<div class="sscur">⇅ <b>${esc(u.nick || u.name)}</b> + <b>${esc(o.nick || o.name)}</b><button type="button" class="ghost mini" data-act="ssoff">${L("Supersatz lösen", "Remove superset")}</button></div>` : ""}
     ${mates.length ? `<div class="label">${o ? L("Oder mit einer anderen Übung verbinden", "Or pair with another exercise") : L("Mit welcher Übung im Wechsel?", "Which exercise to alternate with?")}</div><div class="sspick">${mates.map(x => `<button type="button" class="ghost mini" data-act="sspick" data-p="${x.id}">${esc(x.nick || x.name)}${ssPartner(p, x) ? ` <small>(${L("ist schon verbunden", "already paired")})</small>` : ""}</button>`).join("")}</div>`
       : o ? "" : `<p class="hint">${L("An diesem Tag gibt es keine zweite passende Übung. Cardio und Halte-Übungen gehen nicht als Supersatz.", "There's no second suitable exercise on this day. Cardio and hold exercises can't be a superset.")}</p>`}</div>`;
@@ -3437,7 +3453,27 @@ function renderPlans(){
   $("planSel").innerHTML = state.plans.map(p => `<option value="${p.id}" ${p.id===state.active?"selected":""}>${esc(p.name)} · ${TYPES[ptype(p)]} (${p.units.length})</option>`).join("");
 }
 
-function renderAll(){ renderPlans(); renderChips(); renderDayUI(); renderMap(); renderCover(); renderUnits(); if (view === "training") { renderTraining(); if (typeof renderSession === "function") renderSession(); } else if (view === "fortschritt") { renderProgress(); } else if (view === "freunde") { renderFriends(); } else if (view === "technik") { renderTech(); } else if (view === "wissen") { renderWissen(); } else if (view === "home") { renderStart(); } else { renderLib(); renderHome(); } if (typeof renderDsk === "function") { try { renderDsk(); } catch(e) { console.warn(e); } } }
+// Bibliotheksfilter passt sich beim Planwechsel an die Planart an (Yoga-Plan: Yoga, Gym-Plan: alles)
+// Jeder Plan merkt sich seinen eigenen Filter (Bereich, Gerät, Desktop-Chip)
+let libSyncId = null, libFilt = {};
+try { libFilt = JSON.parse(localStorage.getItem("mp_libfilt") || "{}") || {}; } catch(e) {}
+function libFiltSave(){
+  if (!libSyncId) return; libFilt[libSyncId] = { cat: libCat, gear: libGear, chip: typeof dpLibChip !== "undefined" ? dpLibChip : "" };
+  const ids = new Set(state.plans.map(p => p.id)); Object.keys(libFilt).forEach(k => { if (!ids.has(k)) delete libFilt[k]; });
+  try { localStorage.setItem("mp_libfilt", JSON.stringify(libFilt)); } catch(e) {}
+}
+addEventListener("pagehide", libFiltSave);
+function libSyncPlan(){
+  const p = plan(); if (!p || libSyncId === p.id) return; libFiltSave(); libSyncId = p.id;
+  const flex = ptype(p) === "beweglich", dp = typeof dpLibChip !== "undefined", sv = libFilt[p.id];
+  if (sv) { libCat = sv.cat || "alle"; libGear = sv.gear || "alle"; if (dp) dpLibChip = sv.chip || ""; }
+  else { libCat = flex && !YOGA2 ? "Yoga" : "alle"; libGear = "alle"; if (dp) dpLibChip = flex && !YOGA2 ? "c:Yoga" : ""; }
+  // Sicherheitsnetz: kein Yoga-Filter im Gym-Plan, kein Gym-Filter im Yoga-Plan
+  if (!flex) { if (libCat === "Yoga" || libCat === "Dehnen") libCat = "alle"; if (dp && /^c:(Yoga|Dehnen)$/.test(dpLibChip)) dpLibChip = ""; }
+  else if (!YOGA2) { if (libCat !== "Yoga" && libCat !== "Dehnen") libCat = "Yoga"; if (dp && !/^c:(Yoga|Dehnen)$/.test(dpLibChip)) dpLibChip = "c:Yoga"; }
+  if (flex && YOGA && GEAR_HIDE_FLEX.includes(libGear)) libGear = "alle";
+}
+function renderAll(){ libSyncPlan(); renderPlans(); renderChips(); renderDayUI(); renderMap(); renderCover(); renderUnits(); if (view === "training") { renderTraining(); if (typeof renderSession === "function") renderSession(); } else if (view === "fortschritt") { renderProgress(); } else if (view === "freunde") { renderFriends(); } else if (view === "technik") { renderTech(); } else if (view === "wissen") { renderWissen(); } else if (view === "home") { renderStart(); } else { renderLib(); renderHome(); } if (typeof renderDsk === "function") { try { renderDsk(); } catch(e) { console.warn(e); } } }
 
 // ---------- Interaktion ----------
 const TIP0 = "Tippe auf einen Muskel, um ihn auszuwählen";
@@ -3540,8 +3576,8 @@ $("units").addEventListener("click", e => {
   if (!act && e.target.closest(".altbox, .sspanel")) return;
   if (act === "ss") { ssOpenId = ssOpenId === u.id ? null : u.id; altOpen = null; keepInPlace(() => $("units").querySelector(`[data-id="${u.id}"]`), renderUnits); return; }
   if (act === "ssoff") { ssUnlink(p, u); ssOpenId = null; save(); renderAll(); toast(L("Supersatz gelöst.", "Superset removed.")); return; }
-  if (act === "sspick") { const o = p.units.find(x => x.id === e.target.closest("button").dataset.p); if (!o) return; ssLink(p, u, o); ssOpenId = null; save(); renderAll();
-    toast(L(`Supersatz: ${u.nick || u.name} und ${o.nick || o.name} laufen im Training im Wechsel, die Pause kommt nach beiden.`, `Superset: ${u.nick || u.name} and ${o.nick || o.name} alternate in your workout, rest after both.`)); return; }
+  if (act === "sspick") { const o = p.units.find(x => x.id === e.target.closest("button").dataset.p); if (!o) return; const un = ssSnap(p); ssLink(p, u, o); ssOpenId = null; save(); renderAll();
+    toastUndo(L(`Supersatz: ${u.nick || u.name} und ${o.nick || o.name} laufen im Training im Wechsel, die Pause kommt nach beiden.`, `Superset: ${u.nick || u.name} and ${o.nick || o.name} alternate in your workout, rest after both.`), () => { un(); save(); renderAll(); }); return; }
   p.units.forEach(x => { if (x !== u || act !== "del") delete x._ask; });
   if (act === "del") { u._ask = true; renderUnits(); return; }
   if (act === "unspare") { delete u.spare; delete u.altOf; save(); renderAll(); return; }
@@ -3635,14 +3671,13 @@ let flexTpl = "flow";
 function flexUnits(id){ const t = FLEX_TPL.find(x => x[0] === id) || FLEX_TPL[0];
   return t[4].map(n => LIB.find(x => x.n === n)).filter(Boolean).map(x => ({ id: uid(), name: xn(x), nick: "", sets: x.sets, reps: L(x.reps, x.reps.replace("je Seite", "per side")), muscles: libMuscles(x), mode: "halten", sides: /je Seite/.test(x.reps) ? 2 : 1 })); }
 if (YOGA) { const tb = document.createElement("button"); tb.type = "button"; tb.className = "type"; tb.dataset.type = "beweglich"; tb.innerHTML = `<b>Beweglich</b>Yoga-Flow oder Stretching: Posen und Dehnungen mit Haltezeit und Halte-Timer.`; $("types").appendChild(tb);
-  const fr = document.createElement("div"); fr.className = "field"; fr.id = "flexTplRow"; fr.hidden = true; $("withExRow").before(fr);
-  fr.addEventListener("click", e => { const b = e.target.closest("[data-ft]"); if (!b) return; flexTpl = b.dataset.ft; renderTypes(); const n = $("planName"); const t = FLEX_TPL.find(x => x[0] === flexTpl); if (n && (!n.value.trim() || FLEX_TPL.some(x => n.value === x[1] || n.value === x[2]))) n.value = L(t[1], t[2]); }); }
+}
 function renderTypes(){
   $("types").querySelectorAll(".type").forEach(b => b.setAttribute("aria-pressed", b.dataset.type === newType));
   if ($("flexTplRow")) { const fr = $("flexTplRow"); fr.hidden = newType !== "beweglich";
     if (newType === "beweglich") fr.innerHTML = `<span class="label">${L("Vorlage", "Template")}</span><div class="chips flextpl">${FLEX_TPL.map(t => `<button type="button" class="chip" data-ft="${t[0]}" aria-pressed="${flexTpl === t[0]}">${t[3] ? "🧘 " : "🤸 "}${esc(L(t[1], t[2]))}</button>`).join("")}</div><span class="hint">${L("🧘 Yoga-Flow läuft im Training automatisch zur nächsten Pose, 🤸 Stretching wartet auf dich. Beides kannst du später ändern.", "🧘 Yoga flows move on to the next pose automatically, 🤸 stretching waits for you. You can change both later.")}</span>${(() => { const t = FLEX_TPL.find(x => x[0] === flexTpl) || FLEX_TPL[0]; const xs = t[4].map(n => LIB.find(x => x.n === n)).filter(Boolean); return `<ul class="tplposes">${xs.map(x => `<li><span><b>${esc(xn(x))}</b> <span class="hint">${esc(L(x.reps, x.reps.replace("je Seite", "per side")))}</span></span>${vidLinkFor(x.n, "sm")}</li>`).join("")}</ul>`; })()}`; }
   if (newType) $("planErr").hidden = true;
-  $("withExRow").hidden = newType === "frei" || newType === "beweglich"; // Yoga: die gewählte Vorlage bringt ihre Posen mit
+  $("withExRow").hidden = newType === "frei" || newType === "beweglich"; // Yoga: eigenen Plan aus der Bibliothek zusammenstellen, dazu YouTube-Videos
   $("daysRow").hidden = newType !== "frei";
   renderPlanVids();
 }
@@ -3656,6 +3691,9 @@ const PLAN_YT = [
 ];
 // Dehnen und Yoga: eigene Videos, bei „Beweglich“ nur diese, sonst die ersten beiden zusätzlich
 const PLAN_YT_FLEX = [
+  ["beweglich", "Beste Morning-Yoga-Stretch-Session", "Best morning yoga stretch session", "beste Morning Yoga Stretch Session", "best morning yoga stretch session"],
+  ["beweglich", "Abend-Yoga zum Entspannen", "Evening yoga to unwind", "Abend Yoga entspannen zum Mitmachen", "evening yoga relaxing follow along"],
+  ["beweglich", "Yoga-Flow für Anfänger", "Yoga flow for beginners", "Yoga Flow für Anfänger zum Mitmachen", "yoga flow for beginners follow along"],
   ["beweglich", "Dehnen nach dem Krafttraining", "Stretching after strength training", "Dehnen nach dem Krafttraining Routine", "stretching routine after weight training"],
   ["beweglich", "Yoga für Anfänger: die Grundhaltungen", "Yoga for beginners: basic poses", "Yoga für Anfänger Grundhaltungen", "yoga for beginners basic poses"],
   ["beweglich", "Wie lange und wie oft dehnen?", "How long and how often to stretch?", "wie lange und wie oft dehnen Beweglichkeit verbessern", "how long to hold a stretch how often flexibility"],
@@ -3702,13 +3740,13 @@ function applyFresh(){
 function planOk(){
   if (planMode === "new" && !newType) { const e = $("planErr"); e.textContent = L("Wähle zuerst die Art des Plans aus.", "First choose the type of plan."); e.hidden = false; try { $("types").scrollIntoView({ behavior: "smooth", block: "center" }); } catch(err) {} return; }
   $("planErr").hidden = true;
-  const n = $("planName").value.trim() || (planMode === "new" ? (newType === "frei" ? `Plan ${state.plans.length + 1}` : newType === "beweglich" ? (t => L(t[1], t[2]))(FLEX_TPL.find(x => x[0] === flexTpl) || FLEX_TPL[0]) : TYPES[newType]) : plan().name);
+  const n = $("planName").value.trim() || (planMode === "new" ? (newType === "frei" ? `Plan ${state.plans.length + 1}` : newType === "beweglich" ? L("Mein Yoga-Plan", "My yoga plan") : TYPES[newType]) : plan().name);
   if (planMode === "new") {
-    const units = newType === "beweglich" ? flexUnits(flexTpl) : (newType !== "frei" && $("withEx").checked)
+    const units = newType === "beweglich" ? [] : (newType !== "frei" && $("withEx").checked)
       ? EX[newType].map(([name, nick, sets, reps, muscles, day]) => ({ id: uid(), name: L(name, I18N.ui[name] || name), nick: L(nick, I18N.ui[nick] || nick), sets, reps: L(reps, reps.replace("je Bein", "per leg")), muscles: [...muscles], ...(day ? { day } : {}) }))
       : [];
     const p = { id: uid(), name: n, type: newType, units };
-    if (newType === "beweglich") p.flow = !!(FLEX_TPL.find(x => x[0] === flexTpl) || [])[3];
+    if (newType === "beweglich") p.flow = false;
     if (newType === "frei") { const names = $("newDays").value.split(",").map(x => x.trim()).filter(Boolean).slice(0, 10); if (names.length) p.days = names.map(x => ({ id: uid(), name: x.slice(0, 30) })); }
     $("newDays").value = "";
     const wasFresh = !!state.fresh;
@@ -3719,7 +3757,10 @@ function planOk(){
     if (wasFresh) { applyFresh(); window.scrollTo({ top: 0, behavior: "smooth" }); }
     if (prevPlan && prevPlan !== p) showPlanHint(prevPlan, /zuhause|zu hause|daheim|home/i.test(n) && !prevPlan.homeOf ? "home" : "new");
   } else { plan().name = n; const hp = !plan().homeOf && homeOf(plan()); if (hp) hp.name = `${n} · ${L("Zuhause", "Home")}`; }
+  const flexNew = planMode === "new" && newType === "beweglich";
   $("planEdit").hidden = true; save(); renderAll();
+  // Neuer Yoga-Plan ist leer: gleich die Bibliothek öffnen, wie beim Gym-Plan
+  if (flexNew) { if (!DSK()) { openAdd("lib"); setTimeout(() => $("addSec")?.scrollIntoView({ behavior: "smooth", block: "start" }), 60); } toast(L("Dein Yoga-Plan ist angelegt.", "Your yoga plan is ready.")); }
 }
 $("planOk").addEventListener("click", planOk);
 $("planName").addEventListener("keydown", e => { if (e.key === "Enter") planOk(); if (e.key === "Escape") $("planEdit").hidden = true; });
@@ -4114,9 +4155,9 @@ function hsSsSection(p){
   return `<div class="hsss"><div class="label" style="margin-bottom:6px">⇅ ${L("Supersätze", "Supersets")}</div>
     ${pairs.map(([a, b]) => `<div class="hsssrow"><span>${esc(a.nick || a.name)} <b>+</b> ${esc(b.nick || b.name)}</span><button type="button" class="ghost mini" data-hs="ssoff" data-id="${a.id}" aria-label="${L("Supersatz lösen", "Remove superset")}">✕</button></div>`).join("")}
     ${ok.length < 2 ? `<p class="hint">${L("Für einen Supersatz braucht der Tag zwei Kraft- oder Zeit-Übungen.", "A superset needs two strength or timed exercises on this day.")}</p>`
-      : hsSsAdd ? `<div class="hsssadd"><select id="hsSsA" aria-label="${L("Erste Übung", "First exercise")}">${opt(ok[0].id)}</select><span>+</span><select id="hsSsB" aria-label="${L("Zweite Übung", "Second exercise")}">${opt(ok[1].id)}</select><button type="button" class="primary mini" data-hs="sslink">${L("Verbinden", "Pair")}</button><button type="button" class="ghost mini" data-hs="ssadd">${L("Abbrechen", "Cancel")}</button></div>`
+      : hsSsAdd ? `<div class="hsssadd"><select id="hsSsA" data-hs="ssa" aria-label="${L("Erste Übung", "First exercise")}">${opt(ok[0].id)}</select><span>+</span><select id="hsSsB" data-hs="ssb" aria-label="${L("Zweite Übung", "Second exercise")}">${opt(ok[1].id)}</select><button type="button" class="primary mini" data-hs="sslink">${L("Verbinden", "Pair")}</button><button type="button" class="ghost mini" data-hs="ssadd">${L("Abbrechen", "Cancel")}</button></div><p class="warnline" id="hsSsErr" role="alert" hidden></p>`
       : `<button type="button" class="ghost mini hsssbtn" data-hs="ssadd">＋ ${L("Supersatz hinzufügen", "Add superset")}</button>`}
-    <details class="sshow"><summary>${L("Wie funktioniert ein Supersatz?", "How does a superset work?")}</summary><p class="hint">${SS_HOW()} ${L("Was du hier verbindest, merkt sich der Plan auch für die nächsten Trainings. Im Training kannst du einen Supersatz jederzeit beenden.", "What you pair here is kept in the plan for your next workouts too. During the workout you can end a superset at any time.")}</p></details></div>`;
+    <details class="sshow"><summary>${L("Wie funktioniert ein Supersatz?", "How does a superset work?")}</summary><p class="hint">${SS_HOW()} ${L("Was du hier verbindest, merkt sich der Plan auch für die nächsten Trainings. Im Training kannst du einen Supersatz jederzeit beenden.", "What you pair here is kept in the plan for your next workouts too. During the workout you can end a superset at any time.")}</p><div class="ytrow">${ytLink("Supersätze richtig trainieren", "How to do supersets right", "Supersätze richtig trainieren", "how to do supersets correctly")}</div></details></div>`;
 }
 function homeDayOpen(p, id){ const k = p.id + ":" + id; return k in homeDays ? !!homeDays[k] : id === nextDay(p); }
 function homeSetDay(p, id, open){ homeDays[p.id + ":" + id] = open ? 1 : 0; try { localStorage.setItem("muskelplan.homeDays", JSON.stringify(homeDays)); } catch(e) {} }
@@ -4142,6 +4183,7 @@ function startBody(p, mode){
       <div><div class="label" style="margin-bottom:6px">${L("Pause zwischen Übungen", "Rest between exercises")}</div>${step("restEx", st.restEx || 120)}</div>
       ${hsSsSection(p)}
       <button type="button" class="primary hsgo" data-hs="go">▶ ${L("Los geht's", "Let's go")}</button>
+      <div class="ytrow">${ytLink("Aufwärmen vor dem Krafttraining", "Warm-up before strength training", "Aufwärmen vor dem Krafttraining", "warm up before strength training")}</div>
       <p class="disc">${L("Wärm dich vor dem Training auf und steigere Gewichte langsam. Hör sofort auf bei Schmerzen, Schwindel, Atemnot oder Druck in der Brust.", "Warm up before training and increase weights gradually. Stop immediately if you feel pain, dizziness, shortness of breath or chest pressure.")}</p>
       <div class="hslinks"><button type="button" class="ghost" data-hs="manual">${L("Einzeln eintragen", "Log single exercises")}</button>${mode === "home" && (p.sessions || []).length ? `<button type="button" class="ghost" data-hs="hist">${L("Letzte Trainings", "Recent workouts")}</button>` : ""}</div>`;
 }
@@ -4150,10 +4192,11 @@ function renderHomeRec(){
   const last = lastTrained(); const today = todayIso();
   const long = ORDER.filter(m => !last[m] || daysBetween(last[m], today) > 7);
   const any = ORDER.some(m => last[m]);
+  const recFoot = `<p class="disc">${L("Die Farben zeigen nur, wann du einen Muskel zuletzt trainiert hast. Das ist ein Richtwert: Wie schnell du dich erholst, hängt von Schlaf, Ernährung, Belastung und Erfahrung ab.", "The colours only show when you last trained a muscle. It's a rough guide: how fast you recover depends on sleep, nutrition, load and experience.")}</p><div class="ytrow">${ytLink("Wie lange braucht ein Muskel zur Erholung?", "How long do muscles need to recover?", "wie lange braucht ein Muskel zur Erholung", "how long do muscles need to recover")}</div>`;
   box.innerHTML = `<div class="hrhead"><h2>${L("Muskel-Erholung", "Muscle recovery")}</h2><span class="label">${L("Wann zuletzt trainiert", "Last trained")}</span></div>
     <div class="heatfigs"><div>${recoveryFigure("front", last)}<span class="label">${L("Vorne", "Front")}</span></div><div>${recoveryFigure("back", last)}<span class="label">${L("Hinten", "Back")}</span></div></div>
     <div class="legend"><span><i class="rcl rc0"></i>${L("heute oder gestern", "today or yesterday")}</span><span><i class="rcl rc1"></i>${L("vor 2–3 Tagen", "2–3 days ago")}</span><span><i class="rcl rc2"></i>${L("vor 4–7 Tagen", "4–7 days ago")}</span><span><i class="rcl rc3"></i>${L("länger her oder nie", "longer ago or never")}</span></div>
-    ${!any ? `<p class="hint">${L("Sobald du trainierst, siehst du hier, welche Muskeln frisch trainiert sind und welche schon länger Pause haben.", "Once you train, you'll see here which muscles were trained recently and which have been resting for a while.")}</p>` : long.length ? `<p class="hint"><b>${L("Länger nicht trainiert", "Not trained for a while")}:</b> ${long.map(m => MUSCLES[m].n).join(", ")}</p>` : `<p class="hint"><b>${L("Jede Muskelgruppe wurde in den letzten 7 Tagen trainiert.", "Every muscle group was trained in the last 7 days.")}</b></p>`}`;
+    ${!any ? `<p class="hint">${L("Sobald du trainierst, siehst du hier, welche Muskeln frisch trainiert sind und welche schon länger Pause haben.", "Once you train, you'll see here which muscles were trained recently and which have been resting for a while.")}</p>` : long.length ? `<p class="hint"><b>${L("Länger nicht trainiert", "Not trained for a while")}:</b> ${long.map(m => MUSCLES[m].n).join(", ")}</p>` : `<p class="hint"><b>${L("Jede Muskelgruppe wurde in den letzten 7 Tagen trainiert.", "Every muscle group was trained in the last 7 days.")}</b></p>`}${recFoot}`;
 }
 function renderStart(){
   const p = plan(); const w = $("hWork"), hs = $("hStart"); if (!w || !hs) return;
@@ -4237,8 +4280,8 @@ function wireHome(){
     if (a === "ssadd") { hsSsAdd = !hsSsAdd; rer(); return; }
     if (a === "ssoff") { const p = plan(), u = p.units.find(x => x.id === b.dataset.id); if (u) { ssUnlink(p, u); save(); } rer(); return; }
     if (a === "sslink") { const p = plan(), x = p.units.find(u => u.id === $("hsSsA")?.value), y = p.units.find(u => u.id === $("hsSsB")?.value);
-      if (!x || !y || x === y) { toast(L("Wähle zwei verschiedene Übungen.", "Pick two different exercises.")); return; }
-      ssLink(p, x, y); hsSsAdd = false; save(); rer(); toast(L(`Supersatz: ${x.nick || x.name} und ${y.nick || y.name} im Wechsel, die Pause kommt nach beiden.`, `Superset: ${x.nick || x.name} and ${y.nick || y.name} back to back, rest after both.`)); return; }
+      if (!x || !y || x === y) { const er = $("hsSsErr"); if (er) { er.textContent = L("Wähle zwei verschiedene Übungen. Eine Übung kann nicht mit sich selbst einen Supersatz bilden.", "Pick two different exercises. An exercise can't form a superset with itself."); er.hidden = false; } return; }
+      const un = ssSnap(p); ssLink(p, x, y); hsSsAdd = false; save(); rer(); toastUndo(L(`Supersatz: ${x.nick || x.name} und ${y.nick || y.name} im Wechsel, die Pause kommt nach beiden.`, `Superset: ${x.nick || x.name} and ${y.nick || y.name} back to back, rest after both.`), () => { un(); save(); rer(); }); return; }
     if (a === "go") { homeGo(); focusEntry(); return; }
     if (a === "cont") { setView("training"); window.scrollTo({ top: 0, behavior: "auto" }); return; }
     if (a === "manual") { hsOpen = false; if (view !== "training") setView("training"); setTimeout(() => $("tUnits")?.scrollIntoView({ behavior: "smooth", block: "start" }), 60); return; }
@@ -4247,6 +4290,8 @@ function wireHome(){
   $("hStart").addEventListener("click", hsClick); $("sessBox").addEventListener("click", hsClick);
   const hsChange = e => {
     const t = e.target; if (!t.dataset || !t.dataset.hs) return; const st = settings();
+    if (t.dataset.hs === "ssa" || t.dataset.hs === "ssb") { const a = $("hsSsA"), b = $("hsSsB"), er = $("hsSsErr"); if (er) er.hidden = true;
+      if (a && b && a.value === b.value) { const o = [...(t === a ? b : a).options].find(x => x.value !== t.value); if (o) (t === a ? b : a).value = o.value; } return; }
     if (t.dataset.hs === "clock") st.clock = t.checked;
     if (t.dataset.hs === "auto") st.autoRest = t.checked;
     if (t.dataset.hs === "sound") st.rest = t.checked;
@@ -4462,6 +4507,9 @@ function ssLink(p, a, b){
   // B direkt hinter A, damit das Paar im Plan zusammensteht
   p.units.splice(p.units.indexOf(b), 1); p.units.splice(p.units.indexOf(a) + 1, 0, b);
 }
+// Merkt Reihenfolge und Partner vor dem Verbinden, für „Rückgängig“
+function ssSnap(p){ const o = p.units.map(u => [u, u.ss]);
+  return () => { if (p.units.length === o.length && o.every(([u]) => p.units.includes(u))) p.units.splice(0, p.units.length, ...o.map(x => x[0])); o.forEach(([u, v]) => { if (v) u.ss = v; else delete u.ss; }); }; }
 const ssMates = (p, u) => p.units.filter(x => x !== u && ssOk(x) && (!hasDays(p) || dayIdOf(p, x) === dayIdOf(p, u)));
 // Im Plan verbundene Paare starten im Training von selbst
 function ssAuto(p, run){
@@ -4569,6 +4617,7 @@ function holdCard(p, run, u, nextU){
       : `<div class="hring"><div class="ring" id="sHRing" style="--p:${Math.min(1, el / tg)}"><b class="n" id="sHold">${clock(el * 1000)}</b><span class="hint">${L("von", "of")} ${clock(tg * 1000)} ${L("halten", "hold")}</span></div></div>`}
       <div class="hdots" id="sHDots" aria-hidden="true">${Array.from({ length: breaths }, (_, i) => `<i class="${el >= (i + 1) * per ? "on" : ""}"></i>`).join("")}</div>
       <p class="hint hbreath">${L("Atemzug", "Breath")} <b id="sHBreath">${Math.min(breaths, Math.floor(el / per) + 1)}</b> ${L("von", "of")} ${breaths} · ${L("ruhig ausatmen, tiefer sinken lassen", "breathe out slowly, sink a little deeper")}</p>
+      ${k ? "" : `<p class="disc hsafe">${YOGA_SAFE()}</p>`}
       ${planned > 1 ? `<div class="rxpills">${Array.from({ length: planned }, (_, i) => `<span class="sp ${i < k ? "done" : i === k ? "cur" : ""}">${i < k ? `<i>✓</i>${durTxt(run.cur[i].sec)}` : hs === 2 ? (i % 2 === 0 ? L("rechts", "right") : L("links", "left")) : i + 1}</span>`).join("")}</div>` : ""}
       <div class="hfeel"><span class="label">${L("Wie tief kommst du heute?", "How deep can you go today?")}</span><div class="seg" role="group">${[[1, L("Steif", "Stiff")], [2, L("Okay", "Okay")], [3, L("Locker", "Loose")]].map(([v, n]) => `<button type="button" data-s="hfeel" data-v="${v}" aria-pressed="${feel === v}">${n}</button>`).join("")}</div></div>
       <div class="hbtns"><button type="button" class="ghost" data-s="hplus" ${on ? "" : "disabled"}>+15 s</button><button type="button" class="ghost" data-s="hpause" ${on ? "" : "disabled"}>${on && run.tm.pz ? "▶ " + L("Weiter", "Resume") : "❚❚ " + L("Pause", "Pause")}</button><button type="button" class="ghost" data-s="hflow" aria-pressed="${!!run.flow}" title="${L("Nach der Haltezeit automatisch weiter", "Move on automatically when the time is up")}">${run.flow ? "✓ " : ""}${L("Automatisch weiter", "Auto next")}</button></div>
@@ -4675,8 +4724,11 @@ function rxAddList(p, run){
   // Treffer sortieren: Name vor Hauptmuskel vor Nebenmuskel
   const mHit = ms => sHit(ms.map(m => MUSCLES[m].n + " " + MUSCLES_DE[m]).join(" "), q, false);
   const flexP = YOGA && ptype(p) === "beweglich";
-  const score = x => { const nm = libNames(x), r = sRank(nm, nm, q); return r >= 5 ? 4 + r / 10 : r === 4 ? 3 : mHit(x.p) ? 2 : mHit(x.s) ? 1 : r ? 0.5 : 0; };
-  const lib = q ? LIB.filter(x => libFit(x) && !planN.has(norm(x.n)) && !(x.en && planN.has(norm(x.en)))).map((x, i) => ({ x, i, s: score(x) })).filter(o => o.s).map(o => (o.x.flex && !flexP && (o.s -= 5), o)).sort((a, b) => b.s - a.s || a.i - b.i).slice(0, 8).map(o => o.x) : [];
+  // gleiche Reihenfolge wie in der Bibliothek
+  const score = x => { const nm = libNames(x), r = sRank(nm, nm + " " + x.g + " " + (GEAR_EN[x.g] || "") + " " + x.p.concat(x.s).map(m => MUSCLES[m].n + " " + MUSCLES_DE[m]).join(" "), q, x); return r ? 10 + r : mHit(x.p) ? 2 : mHit(x.s) ? 1 : 0; };
+  const inP = x => planN.has(norm(x.n)) || (x.en && planN.has(norm(x.en)));
+  const ownN = new Set(own.map(u => norm(u.name)));
+  const lib = q ? LIB.filter(x => libFit(x) && !ownN.has(norm(x.n)) && !(x.en && ownN.has(norm(x.en)))).map((x, i) => ({ x, i, s: score(x) })).filter(o => o.s).map(o => (o.x.flex && !flexP && (o.s -= 5), o)).sort((a, b) => b.s - a.s || a.i - b.i).slice(0, 8).map(o => o.x) : [];
   const li = (attr, name, sub) => `<li><button type="button" class="rxli" ${attr}><span class="rxnm">${name}</span><span class="hint">${sub}</span><span class="rxarrow" aria-hidden="true">＋</span></button></li>`;
   if (!q && runAdd && runAdd.ss) { const cu = curUnit(p, run); const op = run.order.slice(run.idx).map(id => p.units.find(x => x.id === id)).filter(x => x && cu && x.id !== cu.id && !isCardio(x));
     return `<li class="hint rxnone">${L(`Wähle die Übung, die du im Wechsel mit ${unitNm(cu)} machst. Nach jedem Satz geht es ohne Pause zur anderen Übung, die Pause kommt nach beiden. Oder such oben eine neue.`, `Pick the exercise to alternate with ${unitNm(cu)}. After each set you go straight to the other one, rest comes after both. Or search for a new one above.`)}</li>`
@@ -4685,7 +4737,7 @@ function rxAddList(p, run){
     if (al.length) return `<li class="hint rxnone">${L(`Gerät besetzt? Diese Übungen trainieren dieselben Muskeln wie ${unitNm(cu)}. Die gewählte ersetzt sie nur heute, dein Plan bleibt gleich.`, `Machine taken? These train the same muscles as ${unitNm(cu)}. Your pick replaces it for today, your plan stays the same.`)}</li>` + al.map(({ x, i, inPlan }) => { const pu = inPlan && p.units.find(y => norm(y.name) === norm(x.n) || (x.en && norm(y.name) === norm(x.en)));
       return li(pu ? `data-s="addU" data-id="${pu.id}" data-now="1"` : `data-s="addL" data-i="${i}" data-now="1"`, esc(xn(x)), `${esc(gearName(x.g))} · ${x.p.map(m => MUSCLES[m].n).join(", ")}${pu ? " · " + L("schon im Plan", "already in plan") : ""}`); }).join(""); }
   const h = own.map(u => li(`data-s="addU" data-id="${u.id}"`, unitNm(u), `${L("aus deinem Plan", "from your plan")}${hasDays(p) && u.day && u.day !== run.day ? " · " + dayNameH(p, dayIdOf(p, u)) : ""}`)).join("")
-    + lib.map(x => li(`data-s="addL" data-i="${LIB.indexOf(x)}"`, esc(xn(x)) + akaLine(x, q), `${esc(gearName(x.g))} · ${x.p.map(m => MUSCLES[m].n).join(", ")}`)).join("");
+    + lib.map(x => li(`data-s="addL" data-i="${LIB.indexOf(x)}"`, esc(xn(x)) + (inP(x) ? ` <span class="inplan"><span aria-hidden="true">✓ </span>${L("Im Plan", "In plan")}</span>` : "") + akaLine(x, q), `${esc(gearName(x.g))} · ${x.p.map(m => MUSCLES[m].n).join(", ")}`)).join("");
   return h || `<li class="hint rxnone">${q ? L("Nichts gefunden.", "Nothing found.") : L("Tippe oben, um in der Übungsbibliothek zu suchen.", "Type above to search the exercise library.")}</li>`;
 }
 function renderSession(){
@@ -4759,6 +4811,7 @@ function renderSession(){
           <div class="err" id="sErr" hidden></div>
           <button type="button" class="primary rxgo" data-s="cardioSave">${nextU ? L("Speichern & weiter", "Save & continue") : L("Speichern & fertig", "Save & finish")}</button>
           <div class="rxsub">${nextU ? `<button type="button" class="ghost" data-s="later">${L("Später machen", "Do later")}</button>` : ""}<button type="button" class="ghost" data-s="skip">${L("Auslassen", "Skip")}</button></div>
+          <p class="disc csafe">${CARDIO_SAFE()}</p>
         </section>
         ${rxNextList(p, run, u)}
         ${runPanel(p, run)}
@@ -4952,6 +5005,7 @@ function renderSession(){
       <button type="button" class="primary" data-s="start" data-timer="1">Mit Timer starten</button>
       <button type="button" class="ghost" data-s="start" data-timer="0">Ohne Timer starten</button>
     </div>
+    <div class="ytrow">${ytLink("Aufwärmen vor dem Krafttraining", "Warm-up before strength training", "Aufwärmen vor dem Krafttraining", "warm up before strength training")}</div>
     <p class="disc">${Lx("Wärm dich vor dem Training auf und steigere Gewichte langsam. Hör sofort auf bei Schmerzen, Schwindel, Atemnot oder Druck in der Brust.", "Warm up before training and increase weights gradually. Stop immediately if you feel pain, dizziness, shortness of breath or chest pressure.")}</p>` : `<p class="hint">Lege zuerst unter „Plan bauen“ Übungen an.</p>`}
     ${recent.length ? `<div class="label">Letzte Trainings</div><ul class="recent">${recent.map(s => `<li><button type="button" class="ghost recentbtn" data-s="show" data-id="${s.id}">${sessRow(p, s)}</button>${s.note ? `<p class="noteq hint">${esc(s.note.length > 140 ? s.note.slice(0, 140) + " …" : s.note)}</p>` : ""}</li>`).join("")}</ul>
     <div class="formfoot"><button type="button" class="ghost" data-s="hist">Ganzen Trainingsverlauf anzeigen (${(p.sessions || []).length})</button></div>` : ""}
@@ -6019,6 +6073,9 @@ const LIB = Object.entries(LIB_RAW).flatMap(([cat, list]) => list.map(([n, g, p,
 })));
 LIB.forEach(x => { if (!x.cardio && x.cat !== "Dehnen" && szWants(x.n + " " + (x.en || ""), x.p.concat(x.s))) x.s.push("saegezahn"); });
 const GEAR = ["Maschine", "Kabelzug", "Langhantel", "Kurzhantel", "Körpergewicht", "Cardio", "Sonstiges"].concat(YOGA ? ["Matte"] : []);
+// Im Yoga-Plan: keine Studio-Geräte, Matte zuerst
+const GEAR_HIDE_FLEX = ["Maschine", "Kabelzug", "Langhantel", "Kurzhantel", "Cardio"];
+const gearFor = flex => flex ? ["Matte", "Körpergewicht", "Sonstiges"].filter(g => GEAR.includes(g)) : GEAR;
 const GEAR_EN = { Maschine: "Machine", Kabelzug: "Cable", Langhantel: "Barbell", Kurzhantel: "Dumbbell", "Körpergewicht": "Bodyweight", Cardio: "Cardio", Sonstiges: "Other", Matte: "Mat" };
 const gearName = g => LANG === "en" ? GEAR_EN[g] || g : g;
 let libCat = "alle", libGear = "alle", libQ = "", libMatch = false, libOpen = false, libPick = null, libMus = "", libNew = false, libHome = false;
@@ -6043,14 +6100,18 @@ function sHit(hay, q, fuzzy = true){
   return fz ? 1 : 2;
 }
 // Reihenfolge der Treffer: Name beginnt so > Name enthält es am Stück > Name enthält alle Wörter > Muskel/Gerät > Tippfehler
-function sRank(name, hay, q){
-  const n = sqz(name), all = sqz(q), hit = sHit(hay, q); if (!hit) return 0;
-  // Genau ein anderer Name (auch bekannt als) zählt so viel wie der Name selbst
-  const x = typeof LIB_N !== "undefined" && LIB_N.get(name), oth = x ? [x.en, ...(x.aka || [])].filter(Boolean).map(sqz) : [];
-  if (n === all || oth.includes(all)) return 7;
-  const core = sqz(String(q).split(/\s+/).filter(w => !S_OPT.has(norm(w))).join(" "));
-  if (core && core !== all && (n === core || oth.includes(core))) return 6.5;
-  return n.startsWith(all) ? 6 : n.includes(all) ? 5 : oth.some(o => o.includes(all)) ? 4.5 : sHit(name, q, false) ? 4 : sHit(name, q) ? 3 : hit === 2 ? 2 : 1;
+function sRank(name, hay, q, lx){
+  const hit = sHit(hay, q); if (!hit) return 0;
+  // Bibliotheksübung: Hauptname zählt einzeln, andere Namen (auch bekannt als) extra
+  const x = lx || (typeof LIB_N !== "undefined" && LIB_N.get(name)), n = sqz(x ? x.n : name), all = sqz(q), oth = x ? [x.en, ...(x.aka || [])].filter(Boolean).map(sqz) : [];
+  const qw = String(q).split(/\s+/).map(norm), gearQ = qw.some(w => /^(kurzhantel|kurzhanteln|kh)$/.test(w)) ? "Kurzhantel" : qw.some(w => /^(langhantel|lh)$/.test(w)) ? "Langhantel" : "";
+  // Gerät im Suchwort: passende Übungen etwas nach vorne, andere Geräte etwas nach hinten
+  const gb = x && gearQ ? (x.g === gearQ ? .3 : x.g && x.g !== "Körpergewicht" && x.g !== "Sonstiges" ? -.3 : 0) : 0;
+  if (n === all || oth.includes(all)) return 7 + gb;
+  const core = sqz(qw.filter(w => !S_OPT.has(w)).join(" "));
+  if (core && core !== all && (n === core || oth.includes(core))) return 6.5 + gb;
+  const nm = x ? x.n : name;
+  return (n.startsWith(all) ? 6 : n.includes(all) ? 5 : oth.some(o => o.includes(all)) ? 4.5 : sHit(nm, q, false) ? 4 : sHit(nm, q) ? 3 : hit === 2 ? 2 : 1) + gb;
 }
 LIB.forEach(x => { if (x.cat === "Yoga" || x.cat === "Dehnen") x.flex = true; });
 // Andere gebräuchliche Namen: werden bei der Suche und beim Einlesen von PDFs mitgefunden
@@ -6078,7 +6139,7 @@ function libFiltered(){
     (!libMus || x.p.includes(libMus)) &&
     (!libNew || !(planNames.has(norm(x.n)) || (x.en && planNames.has(norm(x.en))))) &&
     (!libHome || (homeNeeds(x) !== null && !homeNeeds(x).some(k => MACH_KEYS.has(k)))) &&
-    (!q || (x._hit = sRank(libNames(x), libNames(x) + " " + x.g + " " + (GEAR_EN[x.g] || "") + " " + x.p.concat(x.s).map(m => MUSCLES[m].n + " " + MUSCLES_DE[m]).join(" "), q))))
+    (!q || (x._hit = sRank(libNames(x), libNames(x) + " " + x.g + " " + (GEAR_EN[x.g] || "") + " " + x.p.concat(x.s).map(m => MUSCLES[m].n + " " + MUSCLES_DE[m]).join(" "), q, x))))
     .map((x, i) => [x, i]).sort((a, b) => (q ? (b[0]._hit || 0) - (a[0]._hit || 0) : 0) || a[1] - b[1]).map(a => a[0]);
 }
 
@@ -6090,8 +6151,11 @@ function renderLib(){
   const inPlan = new Set(plan().units.map(u => norm(u.name)));
   let list = libFiltered();
   if (libMatch && selection.size) { const sel = [...selection].map(m => bm(m)); const sc = x => sel.some(m => x.p.includes(m)) ? 0 : 1; list = list.map((x, i) => [x, i]).sort((a, b) => sc(a[0]) - sc(b[0]) || a[1] - b[1]).map(a => a[0]); }
-  const cats = Object.keys(LIB_RAW).filter(c => LIB.some(x => x.cat === c && libFit(x)));
+  const flexP = YOGA && ptype(plan()) === "beweglich";
+  let cats = Object.keys(LIB_RAW).filter(c => LIB.some(x => x.cat === c && libFit(x)));
+  if (flexP) cats = [...cats.filter(c => c === "Yoga" || c === "Dehnen"), ...cats.filter(c => c !== "Yoga" && c !== "Dehnen")];
   if (libCat !== "alle" && !cats.includes(libCat)) libCat = "alle";
+  if (flexP && GEAR_HIDE_FLEX.includes(libGear)) libGear = "alle";
   const moreN = (libMus ? 1 : 0) + (libMatch ? 1 : 0) + (libNew ? 1 : 0) + (libHome ? 1 : 0);
   const anyF = libCat !== "alle" || libGear !== "alle" || moreN || libQ;
   const row = x => {
@@ -6118,9 +6182,10 @@ function renderLib(){
   const scrollX = [...box.querySelectorAll(".libscroll")].map(el => el.scrollLeft);
   box.innerHTML = head + `
     <div class="libsearch"><span class="libsico" aria-hidden="true">⌕</span><input id="libQ" type="search" value="${esc(libQ)}" placeholder="Übung, Gerät oder Muskel …" autocomplete="off" aria-label="Suchen"><span class="libcount n" aria-live="polite">${list.length}</span></div>
-    ${libMatch && selection.size ? `<div class="libselbar"><span>🎯 ${L("Übungen für", "Exercises for")} <b>${[...selection].map(x => MUSCLES[x].n).join(", ")}</b></span><button type="button" class="ghost mini" data-l="clearsel">✕ ${L("Auswahl aufheben", "Clear selection")}</button></div>` : `<p class="hint libtaphint">💡 ${L("Tippe am Körper auf einen Muskel, dann siehst du hier nur Übungen dafür.", "Tap a muscle on the body to see only exercises for it here.")}</p>`}
+    ${libMatch && selection.size ? `<div class="libselbar"><span>🎯 ${L("Übungen für", "Exercises for")} <b>${[...selection].map(x => MUSCLES[x].n).join(", ")}</b></span><button type="button" class="ghost mini" data-l="clearsel">✕ ${L("Auswahl aufheben", "Clear selection")}</button></div>` : flexP ? "" : `<p class="hint libtaphint">💡 ${L("Tippe am Körper auf einen Muskel, dann siehst du hier nur Übungen dafür.", "Tap a muscle on the body to see only exercises for it here.")}</p>`}
+    ${flexP ? `<p class="hint yogahint dskhide">🧘 ${YOGA_HINT()}<small>${YOGA_SAFE()}</small></p>` : ""}
     <div class="libscroll" role="group" aria-label="Bereich">${["alle", ...cats].map(c => `<button type="button" class="chip" data-l="cat" data-v="${esc(c)}" aria-pressed="${libCat === c}">${c === "alle" ? "Alle Bereiche" : esc(c)}</button>`).join("")}</div>
-    <div class="libscroll" role="group" aria-label="Gerät">${["alle", ...GEAR].map(g => `<button type="button" class="chip" data-l="gear" data-v="${g}" aria-pressed="${libGear === g}">${g === "alle" ? "Alle Geräte" : g === "Körpergewicht" ? "Matte / Körpergewicht" : gearName(g)}</button>`).join("")}</div>
+    <div class="libscroll" role="group" aria-label="Gerät">${["alle", ...gearFor(flexP)].map(g => `<button type="button" class="chip" data-l="gear" data-v="${g}" aria-pressed="${libGear === g}">${g === "alle" ? "Alle Geräte" : g === "Körpergewicht" ? (flexP ? gearName(g) : "Matte / Körpergewicht") : gearName(g)}</button>`).join("")}</div>
     <details class="libmore2" ${libMoreOpen || moreN ? "open" : ""}><summary><span>Mehr Filter</span>${moreN ? `<span class="newdot">${moreN}</span>` : ""}</summary>
       <div class="libmoregrid">
         <div class="field"><label class="label" for="libMus">Hauptmuskel</label><select id="libMus"><option value="">Alle Muskeln</option>${ORDER.map(m => `<option value="${m}" ${libMus === m ? "selected" : ""}>${MUSCLES[m].n}</option>`).join("")}</select></div>
@@ -6147,12 +6212,21 @@ const LIB_YT = [
   ["Beste Übungen für Anfänger", "Best exercises for beginners", "beste Übungen Anfänger Fitnessstudio", "best gym exercises for beginners"],
   ["Die beste Übung für jeden Muskel", "The best exercise for every muscle", "beste Übung für jeden Muskel", "best exercise for every muscle"]
 ];
+// Yoga-Plan: Videos zu Yoga und Dehnen statt Workout-Videos
+const LIB_YT_FLEX = [
+  ["Beste Morning-Yoga-Stretch-Session", "Best morning yoga stretch session", "beste Morning Yoga Stretch Session", "best morning yoga stretch session"],
+  ["Yoga für Anfänger: die Grundhaltungen", "Yoga for beginners: basic poses", "Yoga für Anfänger Grundhaltungen", "yoga for beginners basic poses"],
+  ["Yoga-Flow für Anfänger", "Yoga flow for beginners", "Yoga Flow für Anfänger zum Mitmachen", "yoga flow for beginners follow along"],
+  ["Abend-Yoga zum Entspannen", "Evening yoga to unwind", "Abend Yoga entspannen zum Mitmachen", "evening yoga relaxing follow along"],
+  ["Dehnen nach dem Krafttraining", "Stretching after strength training", "Dehnen nach dem Krafttraining Routine", "stretching routine after weight training"]
+];
 function libVids(){
   const url = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
   const a = (t, q, cur) => `<a class="vidlink ${cur ? "cur" : ""}" href="${esc(url(q))}" target="_blank" rel="noopener noreferrer" aria-label="${esc(L("YouTube-Suche: ", "YouTube search: ") + t)}"><span class="play" aria-hidden="true">▶</span>${esc(t)}</a>`;
   const sel = [...new Set([...selection].map(m => bm(m)))].slice(0, 3);
-  const mus = sel.map(m => { const n = MUSCLES[m].n; return a(L(`Beste Übungen für ${n}`, `Best exercises for ${n}`), L(`beste Übungen ${n} Training`, `best ${n} exercises`), true); }).join("");
-  return `<div class="calcvids libvids"><span class="label">${L("Videos auf YouTube", "Videos on YouTube")}</span><div class="calcvidrow">${mus}${LIB_YT.map(([de, en, qde, qen]) => a(L(de, en), L(qde, qen), false)).join("")}</div><span class="hint">${L("Öffnet die YouTube-Suche. Achte auf seriöse Kanäle, zum Beispiel von Trainern oder Physiotherapeuten.", "Opens a YouTube search. Prefer reliable channels, e.g. trainers or physiotherapists.")}</span></div>`;
+  const flex = YOGA && ptype(plan()) === "beweglich";
+  const mus = sel.map(m => { const n = MUSCLES[m].n; return flex ? a(L(`Yoga und Dehnen für ${n}`, `Yoga and stretches for ${n}`), L(`Yoga Dehnübungen ${n}`, `yoga stretches for ${n}`), true) : a(L(`Beste Übungen für ${n}`, `Best exercises for ${n}`), L(`beste Übungen ${n} Training`, `best ${n} exercises`), true); }).join("");
+  return `<div class="calcvids libvids"><span class="label">${L("Videos auf YouTube", "Videos on YouTube")}</span><div class="calcvidrow">${mus}${(flex ? LIB_YT_FLEX : LIB_YT).map(([de, en, qde, qen]) => a(L(de, en), L(qde, qen), false)).join("")}</div><span class="hint">${L("Öffnet die YouTube-Suche. Achte auf seriöse Kanäle, zum Beispiel von Trainern oder Physiotherapeuten.", "Opens a YouTube search. Prefer reliable channels, e.g. trainers or physiotherapists.")}</span></div>`;
 }
 function libMuscles(x){ return ORDER.filter(m => x.p.includes(m) || x.s.includes(m)); }
 function showLibOnBody(x){
@@ -7040,7 +7114,9 @@ function renderHome(){
     <div class="field"><span class="label">${L("Deine Kraftstufe", "Your strength level")}</span>
       <div class="seg lvlseg" role="group" aria-label="${L("Kraftstufe", "Strength level")}">${HOME_LVLS().map(([v, n]) => `<button type="button" data-h="lvl" data-v="${v}" aria-pressed="${homeLvl === v}" title="${esc(n)}">${v}</button>`).join("")}</div>
       ${(() => { const c = HOME_LVLS().find(x => x[0] === homeLvl); return c ? `<span class="lvlinfo"><b>${L("Stufe", "Level")} ${c[0]} · ${c[1]}</b><span class="hint">${L("z. B.", "e.g.")} ${c[2]}</span></span>` : `<span class="hint">${L("Noch keine Stufe gewählt, die App nimmt alle Körpergewichts-Übungen.", "No level chosen yet, the app uses all bodyweight exercises.")}</span>`; })()}
-      <span class="hint">${L("Faustregel: keine Liegestütze → 1, 10 saubere Liegestütze → 2, 25 Liegestütze → 3, 5 Klimmzüge → 4, 15 Klimmzüge oder 30 s Handstand an der Wand → 5, freier Handstand → 6. Übungen mit Hanteln passt du übers Gewicht an.", "Rule of thumb: no push-ups → 1, 10 clean push-ups → 2, 25 push-ups → 3, 5 pull-ups → 4, 15 pull-ups or a 30 s wall handstand → 5, freestanding handstand → 6. Exercises with weights you adjust via the weight.")}</span></div>
+      <span class="hint">${L("Faustregel: keine Liegestütze → 1, 10 saubere Liegestütze → 2, 25 Liegestütze → 3, 5 Klimmzüge → 4, 15 Klimmzüge oder 30 s Handstand an der Wand → 5, freier Handstand → 6. Übungen mit Hanteln passt du übers Gewicht an.", "Rule of thumb: no push-ups → 1, 10 clean push-ups → 2, 25 push-ups → 3, 5 pull-ups → 4, 15 pull-ups or a 30 s wall handstand → 5, freestanding handstand → 6. Exercises with weights you adjust via the weight.")}</span>
+      <div class="ytrow">${(() => { const lv = homeLvl || 0, de = lv >= 5 ? "Calisthenics Fortgeschrittene" : lv >= 3 ? "Fortgeschrittene" : "Anfänger", en = lv >= 5 ? "advanced calisthenics" : lv >= 3 ? "intermediate" : "beginner";
+        return ytLink(lv ? `Training zuhause ohne Geräte (Stufe ${lv})` : "Training zuhause ohne Geräte", lv ? `Home workout without equipment (level ${lv})` : "Home workout without equipment", `Training zuhause ohne Geräte ${de}`, `home workout no equipment ${en}`); })()}</div></div>
     <div class="field"><span class="label">Aufteilung</span>
       <div class="seg" role="group"><button type="button" data-h="mode" data-v="ganz" aria-pressed="${homeMode === "ganz"}">Ein Training (ganzer Körper)</button><button type="button" data-h="mode" data-v="split" aria-pressed="${homeMode === "split"}">Ober- &amp; Unterkörper getrennt</button></div></div>
     <div class="field"><span class="label">Übungen pro Training</span>
@@ -7438,7 +7514,8 @@ function renderExProgress(){
   if (!exOpen) { box.innerHTML = head + `<p class="hint">Verlauf, Bestwerte und geschätztes Maximalgewicht für jede deiner ${units.length} Übungen.</p>`; return; }
   box.innerHTML = head + `
     <div class="field"><label class="label" for="pEx">Übung</label><select id="pEx">${plans.map(p => { const us = units.filter(x => x.p === p); return us.length ? `<optgroup label="${esc(p.name)}">${us.map(x => `<option value="${x.u.id}" ${x.u.id === pEx ? "selected" : ""}>${esc(x.u.nick ? `${x.u.nick} (${x.u.name})` : x.u.name)} · ${(x.u.log || []).length}×</option>`).join("")}</optgroup>` : ""; }).join("")}</select></div>
-    <div class="statsbox">${exProgressHtml(u)}</div>`;
+    <div class="statsbox">${exProgressHtml(u)}</div>
+    <div class="ytrow">${ytLink("Progressive Überlastung erklärt", "Progressive overload explained", "progressive Überlastung Krafttraining erklärt", "progressive overload explained")}</div>`;
 }
 $("exSec").addEventListener("change", e => { if (e.target.id === "pEx") { pEx = e.target.value; renderExProgress(); } });
 $("exSec").addEventListener("click", e => { if (e.target.closest('[data-ex="toggle"]')) { exOpen = !exOpen; renderExProgress(); return; } const b = e.target.closest("[data-pm]"); if (b && pEx) { metricOf[pEx] = b.dataset.pm; renderExProgress(); } });
@@ -7493,6 +7570,7 @@ function renderFlex(){
   const top = Object.entries(best).sort((a, b) => b[1] - a[1]).slice(0, 5);
   const fe = H.filter(x => x.e.feel); const loose = fe.length ? Math.round(fe.filter(x => x.e.feel === 3).length / fe.length * 100) : null;
   box.innerHTML = `<div class="libhead"><h2>${L("Beweglichkeit", "Flexibility")}</h2><span class="hint">${L("Yoga & Dehnen", "Yoga & stretching")}</span></div>
+    <div class="ytrow">${ytLink("Beweglichkeit messen", "How to test your flexibility", "Beweglichkeit testen messen", "how to test your flexibility at home")}</div>
     ${H.length ? `<div class="stats fstats"><div><span class="label">${L("Serie", "Streak")}</span><b class="n">${streak === 1 ? L("1 Tag", "1 day") : L(`${streak} Tage`, `${streak} days`)}</b></div><div><span class="label">${L("Diese Woche", "This week")}</span><b class="n">${wMin} min</b></div><div><span class="label">${L("Sessions", "Sessions")}</span><b class="n">${new Set(wk.map(x => x.e.d)).size}</b></div>${loose != null ? `<div><span class="label">${L("„Locker“", "“Loose”")}</span><b class="n">${loose} %</b></div>` : ""}</div>
       <div class="label">${L("Yoga- und Dehn-Minuten pro Woche", "Yoga and stretching minutes per week")}</div>
       <div class="fbars">${weeks.map(w => `<div class="fbar${w.cur ? " cur" : ""}" title="${L("Woche ab", "Week from")} ${fmtD(w.m)}: ${Math.round(w.v)} min"><div class="bw"><i style="height:${w.v / max * 100}%"></i></div><span>${isoWeekNo(w.m)}</span></div>`).join("")}</div>
@@ -8421,14 +8499,15 @@ Object.assign(I18N.ui, {"Training neu gestaltet: runde, übersichtliche Karten. 
 Object.assign(I18N.ui, {"Beim ersten Start beginnt sofort das Tutorial. Danach legst du deinen ersten Plan selbst an und wählst seine Art.": "On first launch the tutorial starts right away. Then you create your first plan yourself and choose its type.", "Alle Designs sind sofort frei.": "All designs are available right away.", "Übungsbibliothek: Tippe am Körper auf einen Muskel, dann zeigt sie nur Übungen dafür. Dazu YouTube-Links wie „Grundübungen erklärt“ oder „Beste Übungen für …“.": "Exercise library: tap a muscle on the body to see only exercises for it. Plus YouTube links like “Basic exercises explained” or “Best exercises for …”.", "Beim Erstellen eines Plans gibt es YouTube-Links zur gewählten Plan-Art, zum Beispiel „Push / Pull / Beine erklärt“.": "When you create a plan you get YouTube links for the chosen plan type, for example “Push / Pull / Legs explained”.", "Sicherung: Oben steht, wann du zuletzt gesichert hast, ein Tipp sichert sofort neu. Nach 14 Tagen wird der Hinweis orange. Die Dateien heißen „Muskelplan Sicherung“ mit Datum, und der Browser soll deine Daten dauerhaft behalten.": "Backup: the top bar shows when you last saved a backup, one tap saves a new one. After 14 days the hint turns orange. Files are named “Muskelplan Sicherung” with the date, and the browser is asked to keep your data permanently.", "Pausenzeiten sekundengenau von 5 Sekunden bis 10 Minuten, auch während der Pause mit ±1 und ±15 Sekunden, und auf Wunsch eine eigene Pause pro Übung.": "Rest times to the second from 5 seconds to 10 minutes, adjustable by ±1 and ±15 seconds during the rest too, and an own rest time per exercise if you like.", "Rechner: „Dein Alltag“ hat 6 Stufen mit Beispielen und Schritten pro Tag. Trägst du Schritte ein, schlägt der Rechner die passende Stufe vor.": "Calculator: “Your daily life” has 6 levels with examples and steps per day. If you log steps, the calculator suggests the matching level.", "Blaupause: Die Muskelkarte zeigt deutlicher, wie oft ein Muskel trainiert wird, von Türkis bis Rot.": "Blueprint: the muscle map shows more clearly how often a muscle is trained, from turquoise to red.", "Android: Die Zurück-Taste schließt Druckvorschau, Tutorial und Design-Menü, statt die App zu verlassen.": "Android: the back button closes print preview, tutorial and design menu instead of leaving the app.", "Während eines laufenden Trainings kommen keine App-Updates.": "No app updates during a running workout.", "Rechner: YouTube-Links zu Fett abnehmen, Muskelaufbau und Zunehmen.": "Calculator: YouTube links on losing fat, building muscle and gaining weight.", "Warnung: Wer Browserdaten löscht oder die App entfernt, verliert ohne Sicherung alle Daten.": "Warning: deleting browser data or removing the app without a backup loses all your data.", "Tutorial erweitert: Import, PDF und Teilen, Übersicht nach dem Training, Übungsnotizen, Fortschritt anordnen, Meilensteine und Rechner.": "Tutorial extended: import, PDF and sharing, workout summary, exercise notes, arranging progress, milestones and calculator.", "Rechner: Ziel-Körperfett mit ungefährem Zielgewicht und Dauer.": "Calculator: target body fat with approximate target weight and duration.", "Rechner: neues Ziel „Nur Fett verlieren“ mit kleinem Kalorienminus und mehr Eiweiß, dazu eine Erklärung, wie sich die Ziele unterscheiden.": "Calculator: new goal “Lose fat only” with a small calorie deficit and more protein, plus an explanation of how the goals differ.", "Neuer Tab „Rechner“: Kalorien und Eiweiß pro Tag passend zu deinem Ziel. Mit Zielgewicht siehst du, wann du es ungefähr erreichst, nach 2 Wochen Gewichtseinträgen rechnet er mit deinem echten Verlauf.": "New “Calculator” tab: calories and protein per day for your goal. With a target weight you see roughly when you reach it, after 2 weeks of weight entries it uses your real trend.", "Fortschritt selbst einrichten: Mit „⇅ Anordnen“ änderst du die Reihenfolge der Bereiche und blendest aus, was du nicht brauchst.": "Customize progress: with “⇅ Arrange” you change the order of sections and hide what you don't need.", "7 neue Designs: Notizbuch, Ozean, Sonnenuntergang, Game Boy, Boxhalle, Winter und Olympia / Gold.": "7 new designs: Notebook, Ocean, Sunset, Game Boy, Boxing gym, Winter and Olympia / Gold.", "Viele neue Meilensteine.": "Many new milestones.", "Als App auf dem Handy wird nicht mehr aus Versehen herangezoomt.": "As an app on the phone it no longer zooms in by accident.", "„Abdeckung“ unter der Muskelkarte lässt sich einklappen.": "“Coverage” below the muscle map can be collapsed.", "iPhone-App: nichts liegt mehr unter Uhrzeit, Kamera-Insel oder Home-Balken.": "iPhone app: nothing sits under the clock, camera island or home bar anymore.", "Beim Wechsel der Bereiche springt die Seite nicht mehr nach oben.": "Switching sections no longer jumps to the top of the page.", "Notizen zu jeder Übung, zum Beispiel Sitzhöhe oder Griff. Sie erscheinen im Training und im Plan und bleiben auch, wenn du die Übung neu hinzufügst.": "Notes for every exercise, for example seat height or grip. They show in the workout and in the plan and stay even if you add the exercise again.", "Neuer Plan oder Zuhause-Version: Ein Hinweis zeigt, wie du zu deinem anderen Plan zurückkommst.": "New plan or home version: a hint shows how to get back to your other plan.", "Video-Knopf zur YouTube-Suche bei jeder Übung: im Plan, in der Bibliothek, in der Zuhause-Version und im Training.": "Video button with a YouTube search for every exercise: in the plan, library, home version and workout.", "Fehler behoben: Bei „Mit Timer starten“ startet nach jedem Satz die Pause. Den Signalton schaltest du extra ein.": "Fixed: with “Start with timer” the rest now starts after every set. The beep is a separate switch.", "Aufklappbare Bereiche öffnen und schließen sich per Tipp auf die Überschrift.": "Collapsible sections open and close by tapping the heading.", "Download-Version: Updates per Datei einspielen unter „Daten & Sicherung“. Deine Daten bleiben, und startet ein Update nicht, geht die App zur vorherigen Version zurück.": "Download version: install updates from a file under “Data & backup”. Your data stays, and if an update fails the app goes back to the previous version.", "Übersicht nach dem Training: alles noch bearbeiten, mit dem letzten Mal vergleichen, speichern oder verwerfen. Sie bleibt auch erhalten, wenn du die App vorher schließt.": "Summary after the workout: edit everything, compare with last time, save or discard. It is kept even if you close the app before.", "Zuhause-Version: mehr Ausrüstung und Cardio-Geräte, Cardio aus dem Gym-Plan wird passend ersetzt.": "Home version: more equipment and cardio machines, gym cardio is replaced to match.", "Zuhause-Version anpassen: „Ersetzen“ sucht eine andere Übung für dieselben Muskeln, ausgeschlossene Übungen lassen sich wieder erlauben.": "Customize the home version: “Replace” picks another exercise for the same muscles, excluded exercises can be allowed again.", "Im Training kannst du eine Übung auch mit eingetragenen Sätzen auslassen.": "In a workout you can skip an exercise even with sets already logged.", "Muskelkarte „Detailliert“: mehr einzelne Muskeln zum Anklicken, zum Beispiel Bizeps- und Trizepsköpfe, Oberschenkel- und Wadenteile.": "Muscle map “Detailed”: more individual muscles to click, for example biceps and triceps heads, thigh and calf parts.", "Trainingstage lassen sich ein- und ausklappen, die App merkt es sich.": "Training days can be collapsed, the app remembers it.", "Handy: Knöpfe einer Übung stehen unter dem Namen.": "Phone: an exercise's buttons sit below its name.", "Übersichtlicher Plan: Bibliothek, eigene Übung und Import zusammen unter „Übungen hinzufügen“, Umbenennen und Löschen im Menü ⋯, und bei einem leeren Plan drei Schritte zum Loslegen.": "Tidier plan: library, own exercise and import together under “Add exercises”, rename and delete in the ⋯ menu, and three steps to get started with an empty plan.", "Bessere Lesbarkeit in allen Looks.": "Better readability in all looks.", "Beim Bearbeiten eines Trainings lassen sich Startzeit und Dauer ändern.": "When editing a workout you can change start time and duration.", "Pausenzeiten lassen sich jederzeit einstellen.": "Rest times can be set at any time.", "Übungsbibliothek neu gestaltet: große Suche, wischbare Filterleisten und Zwischenüberschriften pro Bereich.": "Exercise library redesigned: big search, swipeable filter bars and headings per section.", "Hinweise zu Gesundheit, Sicherheit und deinen Daten, gesammelt unter „Hinweise“.": "Notes on health, safety and your data, collected under “Notes”.", "Muskelkarte mit drei Ansichten: Einfach, Standard und Detailliert.": "Muscle map with three views: Simple, Standard and Detailed.", "Fortschritt ausgebaut: „Diese Woche“, Trainingskalender, Muskel-Erholung, Sätze pro Körperregion und Meilensteine.": "Progress extended: “This week”, workout calendar, muscle recovery, sets per body region and milestones.", "Sprache umschaltbar: Deutsch oder Englisch.": "Switchable language: German or English.", "Sieben neue Looks: Eisen-Gym, Militär-Akte, Windows 95, Comic, Japanisch minimal, Blaupause und Wald.": "Seven new looks: Iron gym, Military file, Windows 95, Comic, Japanese minimal, Blueprint and Forest.", "Über 60 neue Übungen ohne Maschinen.": "Over 60 new exercises without machines.", "Tutorial: Eine geführte Tour zeigt dir alle Bereiche.": "Tutorial: a guided tour shows you every section.", "Notizen zu jedem Training.": "Notes for every workout.", "Neuer Look „1940er Schwarz-Weiß“.": "New look “1940s black and white”.", "Patch Notes, mit einem kleinen „neu“ nach Updates.": "Patch notes, with a small “new” after updates.", "Zuhause-Version: passendere Übungen, und nach dem Training ist der nächste Tag dran.": "Home version: better matching exercises, and after a workout the next day is up.", "Bessere Muskel-Erkennung für eigene und importierte Übungen.": "Better muscle detection for your own and imported exercises.", "Plan als Text einfügen, zum Beispiel „Bankdrücken 3 × 10“, und gespeicherte PDFs vollständig wieder einlesen.": "Paste a plan as text, for example “Bench press 3 × 10”, and fully re-import saved PDFs.", "Skin-Menü hinter ✎: Zettel, Kreidetafel, Neon, Arcade und Tape.": "Skin menu behind ✎: Note, Chalkboard, Neon, Arcade and Tape.", "Neuer Look „Zettel“.": "New look “Note”.", "Tab „Fortschritt“ mit Körperwerten als Graphen.": "“Progress” tab with body measurements as graphs.", "Cardio jederzeit eintragen, auch ohne Plan.": "Log cardio any time, even without a plan.", "Gewichte werden vom selben Satz beim letzten Training vorgeschlagen.": "Weights are suggested from the same set last workout.", "Zuhause-Training startbar, mit eigener Statistik.": "Home workouts can be started, with their own stats.", "Zuhause-Version auf 6 bis 12 Übungen begrenzbar, Filter „ohne Maschinen“.": "Home version limited to 6 to 12 exercises, filter “no machines”.", "Zuhause-Version: Aus deinem Gym-Plan wird ein Plan mit deiner Ausrüstung.": "Home version: your gym plan becomes a plan with your equipment.", "Bibliothek mit 237 Übungen, Cardio mit Statistik, Plan als Text kopieren.": "Library with 237 exercises, cardio with stats, copy plan as text.", "Kompakter Trainingsmodus fürs Handy, Hell, Dunkel oder System.": "Compact workout mode for phones, light, dark or system.", "Als App installierbar, auch offline, mit Sicherung zum Exportieren und Einlesen.": "Installable as an app, also offline, with backup export and import.", "PDF-Import: Trainingspläne hochladen und übernehmen.": "PDF import: upload and use training plans.", "Im Training erledigte und offene Übungen sehen, später machen oder überspringen.": "In a workout see done and open exercises, do them later or skip them.", "Brust in oben, Mitte und unten geteilt, Bauch in oben und unten.": "Chest split into upper, middle and lower, abs into upper and lower.", "Übungsbibliothek mit den Muskeln jeder Übung.": "Exercise library showing each exercise's muscles.", "Download-Version für dein eigenes Gerät.": "Download version for your own device.", "Muskelkarte, Plantypen und eigene Trainingstage.": "Muscle map, plan types and custom training days.", "Drucken und PDF mit Vorschau.": "Print and PDF with preview.", "Sätze eintragen, geführtes Training mit optionalem Timer.": "Log sets, guided workout with optional timer.", "Verlauf, Graphen und Gesamtstatistik.": "History, graphs and overall stats."});
 Object.assign(I18N.ui, {"Die Seite liest den Text der PDF und erkennt Zeilen wie „{Q}“ und Tabellen mit einer Zeile pro Satz, auch mit Trainingstagen. Eingescannte PDFs kann sie nicht lesen. PDFs, die du mit Muskelplan gespeichert hast, werden immer vollständig übernommen.": "The page reads the PDF's text and recognises lines like “{Q}” and tables with one row per set, including training days. It can't read scanned PDFs. PDFs you saved with Muskelplan are always imported completely.", "In der Datei wurden keine Übungen gefunden. Sie sollte Zeilen wie „{Q}“ oder eine Tabelle mit einer Zeile pro Satz enthalten.": "No exercises found in the file. It should contain lines like “{Q}” or a table with one row per set."});
 Object.assign(I18N.ui, {"Einstellungen hinter dem ⚙ oben rechts: Sprache, Hell, Dunkel oder System, Skins mit kleiner Vorschau und Links zu Sicherung, Hilfe und Hinweisen.": "Settings behind the ⚙ at the top right: language, light, dark or system, skins with a small preview and links to backup, help and notes."});
+Object.assign(I18N.ui, {"Supersätze": "Supersets", "Zwei Übungen im Wechsel: erst ein Satz der ersten, direkt danach ohne Pause ein Satz der zweiten, dann kommt die Pause. Das spart Zeit. Verbinden kannst du sie im Plan mit „⇅ Supersatz“ bei einer Übung, beim Start unter „⇅ Supersätze festlegen“ oder mitten im Training.": "Two exercises back to back: one set of the first, right after it without a rest one set of the second, then the rest. It saves time. Pair them in the plan with “⇅ Superset” on an exercise, when starting under “⇅ Set supersets”, or during the workout."});
 Object.assign(I18N.ui, {"Über ⚙ und „Hilfe & Tour“ startest du diese Tour jederzeit wieder. Was in jeder Version neu ist, steht ganz unten unter „Patch Notes“, wichtige Hinweise unter „Hinweise“. Viel Spaß beim Training!": "Restart this tour any time via ⚙ and “Help & tour”. What's new in each version is under “Patch Notes” at the bottom, important notes under “Notes”. Enjoy your training!", "Hinter dem ⚙ oben rechts stellst du die Sprache, Hell, Dunkel oder System und über 20 Skins ein, zum Beispiel „Zettel“, „Game Boy“ oder „Olympia / Gold“. Die App merkt sich deine Auswahl.": "Behind the ⚙ at the top right you set the language, light, dark or system and over 20 skins, for example “Notepad”, “Game Boy” or “Olympic / Gold”. The app remembers your choice."});
 Object.assign(I18N.ui, {"Plan als PDF im neuen Design, wahlweise in Farbe oder Schwarz-Weiß, mit Muskel-Übersicht und Fortschritt je Übung. Die PDF lässt sich beim Plan-Erstellen wieder einlesen, und nach dem ersten Öffnen mit Internet geht das auch offline. Auch gekaufte Pläne mit einer Tabelle pro Übung werden samt Trainingstagen eingelesen, dazu kamen neue Übungen wie High Knees, Double Crunch und Plank Up-Down.": "Plan PDF in a new design, in colour or black and white, with a muscle overview and progress per exercise. The PDF can be imported again when creating a plan, and after the first visit online this also works offline. Bought plans with one table per exercise are now read including their training days, and new exercises like High Knees, Double Crunch and Plank Up-Down were added."});
 Object.assign(I18N.ui, {"Diese PDF ist eingescannt und enthält keinen lesbaren Text. Die automatische Erkennung kann nur PDFs mit echtem Text lesen. Stammt die PDF aus Muskelplan, nimm bitte die Originaldatei, nicht eine neu gespeicherte oder gedruckte Kopie.": "This PDF is scanned and contains no readable text. Automatic recognition can only read PDFs with real text. If the PDF comes from Muskelplan, please use the original file, not a re-saved or printed copy."});
 Object.assign(I18N.ui, {"Der Sägezahnmuskel zählt jetzt bei 69 Übungen mit, zum Beispiel bei Liegestützen, Bankdrücken, Schulterdrücken, Plank und Seitstütz. Deine Pläne werden automatisch ergänzt. Im Training gibt es den Video-Knopf jetzt auch in der Pause.": "The serratus now counts for 69 exercises, e.g. push-ups, bench press, shoulder press, plank and side plank. Your plans are updated automatically. During rest, the workout now also shows the video button."});
 Object.assign(I18N.ui, {"Training: Die Notiz zur Übung steht gut sichtbar unter dem Namen, auch in der Pause, und lässt sich mit ✎ direkt ändern. „Alternative“ ersetzt die Übung jetzt nur für heute, dein Plan bleibt gleich. Die Suche zeigt passende Übungen zuerst und findet sie auch mit anderer Schreibweise oder kleinem Tippfehler, zum Beispiel „Schulter drücken“ für „Schulterdrücken“. Viele Übungen findest du auch unter anderen Namen wie „Military Press“ oder „Stirndrücken“, darunter steht klein „auch bekannt als“. Das gilt auch beim Einlesen einer PDF. Die App öffnet beim Start den Plan, den du zuletzt offen hattest. Zeit-Übungen wie Plank fragen nach dem Stoppen der Stoppuhr „Übernehmen“, „Wiederholen“ oder „Anpassen“ und zeigen wie Körpergewicht-Übungen kein Gewicht mehr. Wer doch Gewicht nutzt, wählt beim Bearbeiten „Mit Zusatzgewicht“. Mit „⇅ Supersatz“ nimmst du, auch in der Pause, eine zweite Übung dazu: Beide machst du im Wechsel, die Pause kommt nach beiden. Supersätze legst du auch schon im Plan oder beim Start fest, eine kurze Erklärung steht jeweils dabei.": "Workout: your exercise note now sits clearly under the name, also during rest, and you can edit it right there with ✎. “Alternative” now replaces the exercise for today only, your plan stays the same. Search shows the best matches first and also finds exercises written differently or with a small typo, e.g. “shoulder-press” for “shoulder press”. Many exercises can also be found by other names such as “Military Press” or “skull crusher”, shown in small print as “also known as”. The same applies when importing a PDF. The app opens the plan you last had open. Timed exercises like the plank now ask “Keep time”, “Redo” or “Adjust” after you stop the stopwatch, and, like bodyweight exercises, no longer show a weight. If you do use weight, choose “With added weight” when editing. With “⇅ Superset” you can add a second exercise, even during rest: you alternate both, and the rest comes after both. You can also set supersets in the plan or when starting, each with a short explanation."});
-Object.assign(I18N.ui, {"Yoga und Dehnen: neue Übungsart „Halten“ mit 34 Posen und Dehnübungen, Planart „Beweglich“ mit 6 Vorlagen, Halte-Timer mit Gong, Vibration und Atempunkten, Seitenwechsel, „Automatisch weiter“ und Steif/Okay/Locker nach jeder Übung. Unter „Fortschritt“ zeigt „Beweglichkeit“ Serie, Minuten pro Woche und längste Haltezeiten.": "Yoga and stretching: new exercise type “Hold” with 34 poses and stretches, plan type “Mobility” with 6 templates, hold timer with gong, vibration and breathing dots, side switch, “Auto continue” and Stiff/Okay/Loose after each exercise. Under “Progress”, “Mobility” shows streak, minutes per week and longest holds."});
+Object.assign(I18N.ui, {"Yoga und Dehnen: neue Übungsart „Halten“ mit 34 Posen und Dehnübungen, Planart „Beweglich“ zum eigenen Zusammenstellen aus der Bibliothek, mit YouTube-Videos zum Mitmachen, Halte-Timer mit Gong, Vibration und Atempunkten, Seitenwechsel, „Automatisch weiter“ und Steif/Okay/Locker nach jeder Übung. Unter „Fortschritt“ zeigt „Beweglichkeit“ Serie, Minuten pro Woche und längste Haltezeiten.": "Yoga and stretching: new exercise type “Hold” with 34 poses and stretches, plan type “Mobility” you put together yourself from the library, with YouTube videos to follow along, hold timer with gong, vibration and breathing dots, side switch, “Auto continue” and Stiff/Okay/Loose after each exercise. Under “Progress”, “Mobility” shows streak, minutes per week and longest holds."});
 const NOTES = [
-  ["1.2", "19.10.2026", ["Einstellungen hinter dem ⚙ oben rechts: Sprache, Hell, Dunkel oder System, Skins mit kleiner Vorschau und Links zu Sicherung, Hilfe und Hinweisen.", "Yoga und Dehnen: neue Übungsart „Halten“ mit 34 Posen und Dehnübungen, Planart „Beweglich“ mit 6 Vorlagen, Halte-Timer mit Gong, Vibration und Atempunkten, Seitenwechsel, „Automatisch weiter“ und Steif/Okay/Locker nach jeder Übung. Unter „Fortschritt“ zeigt „Beweglichkeit“ Serie, Minuten pro Woche und längste Haltezeiten.", "Training: Die Notiz zur Übung steht gut sichtbar unter dem Namen, auch in der Pause, und lässt sich mit ✎ direkt ändern. „Alternative“ ersetzt die Übung jetzt nur für heute, dein Plan bleibt gleich. Die Suche zeigt passende Übungen zuerst und findet sie auch mit anderer Schreibweise oder kleinem Tippfehler, zum Beispiel „Schulter drücken“ für „Schulterdrücken“. Viele Übungen findest du auch unter anderen Namen wie „Military Press“ oder „Stirndrücken“, darunter steht klein „auch bekannt als“. Das gilt auch beim Einlesen einer PDF. Die App öffnet beim Start den Plan, den du zuletzt offen hattest. Zeit-Übungen wie Plank fragen nach dem Stoppen der Stoppuhr „Übernehmen“, „Wiederholen“ oder „Anpassen“ und zeigen wie Körpergewicht-Übungen kein Gewicht mehr. Wer doch Gewicht nutzt, wählt beim Bearbeiten „Mit Zusatzgewicht“. Mit „⇅ Supersatz“ nimmst du, auch in der Pause, eine zweite Übung dazu: Beide machst du im Wechsel, die Pause kommt nach beiden. Supersätze legst du auch schon im Plan oder beim Start fest, eine kurze Erklärung steht jeweils dabei.", "Der Sägezahnmuskel zählt jetzt bei 69 Übungen mit, zum Beispiel bei Liegestützen, Bankdrücken, Schulterdrücken, Plank und Seitstütz. Deine Pläne werden automatisch ergänzt. Im Training gibt es den Video-Knopf jetzt auch in der Pause.", "Plan als PDF im neuen Design, wahlweise in Farbe oder Schwarz-Weiß, mit Muskel-Übersicht und Fortschritt je Übung. Die PDF lässt sich beim Plan-Erstellen wieder einlesen, und nach dem ersten Öffnen mit Internet geht das auch offline. Auch gekaufte Pläne mit einer Tabelle pro Übung werden samt Trainingstagen eingelesen, dazu kamen neue Übungen wie High Knees, Double Crunch und Plank Up-Down."]],
+  ["1.2", "19.10.2026", ["Einstellungen hinter dem ⚙ oben rechts: Sprache, Hell, Dunkel oder System, Skins mit kleiner Vorschau und Links zu Sicherung, Hilfe und Hinweisen.", "Yoga und Dehnen: neue Übungsart „Halten“ mit 34 Posen und Dehnübungen, Planart „Beweglich“ zum eigenen Zusammenstellen aus der Bibliothek, mit YouTube-Videos zum Mitmachen, Halte-Timer mit Gong, Vibration und Atempunkten, Seitenwechsel, „Automatisch weiter“ und Steif/Okay/Locker nach jeder Übung. Unter „Fortschritt“ zeigt „Beweglichkeit“ Serie, Minuten pro Woche und längste Haltezeiten.", "Training: Die Notiz zur Übung steht gut sichtbar unter dem Namen, auch in der Pause, und lässt sich mit ✎ direkt ändern. „Alternative“ ersetzt die Übung jetzt nur für heute, dein Plan bleibt gleich. Die Suche zeigt passende Übungen zuerst und findet sie auch mit anderer Schreibweise oder kleinem Tippfehler, zum Beispiel „Schulter drücken“ für „Schulterdrücken“. Viele Übungen findest du auch unter anderen Namen wie „Military Press“ oder „Stirndrücken“, darunter steht klein „auch bekannt als“. Das gilt auch beim Einlesen einer PDF. Die App öffnet beim Start den Plan, den du zuletzt offen hattest. Zeit-Übungen wie Plank fragen nach dem Stoppen der Stoppuhr „Übernehmen“, „Wiederholen“ oder „Anpassen“ und zeigen wie Körpergewicht-Übungen kein Gewicht mehr. Wer doch Gewicht nutzt, wählt beim Bearbeiten „Mit Zusatzgewicht“. Mit „⇅ Supersatz“ nimmst du, auch in der Pause, eine zweite Übung dazu: Beide machst du im Wechsel, die Pause kommt nach beiden. Supersätze legst du auch schon im Plan oder beim Start fest, eine kurze Erklärung steht jeweils dabei.", "Der Sägezahnmuskel zählt jetzt bei 69 Übungen mit, zum Beispiel bei Liegestützen, Bankdrücken, Schulterdrücken, Plank und Seitstütz. Deine Pläne werden automatisch ergänzt. Im Training gibt es den Video-Knopf jetzt auch in der Pause.", "Plan als PDF im neuen Design, wahlweise in Farbe oder Schwarz-Weiß, mit Muskel-Übersicht und Fortschritt je Übung. Die PDF lässt sich beim Plan-Erstellen wieder einlesen, und nach dem ersten Öffnen mit Internet geht das auch offline. Auch gekaufte Pläne mit einer Tabelle pro Übung werden samt Trainingstagen eingelesen, dazu kamen neue Übungen wie High Knees, Double Crunch und Plank Up-Down."]],
   ["1.1", "19.10.2026", ["Neues Design am Computer: Bereiche oben in einer Leiste und „Übersicht“ als Startseite mit Trainings und Volumen im Monat, Volumen pro Woche, Kraftentwicklung, Muskeln und Trainingstagen. Im Plan stehen die Tage links (direkt umbenennen und löschen), die Übungen als Tabelle zum direkten Ändern und Sortieren in der Mitte, Bibliothek und Abdeckung rechts. „▶ Training“ und die Einstellungen (⚙) sind oben rechts. Am Handy bleibt alles wie gewohnt.", "Rückblicke für Monat, halbes Jahr, Jahr und „Gesamt“ seit deinem ersten Training: Trainings, bewegtes Gewicht, Lieblingsübung, meisttrainierte Muskeln, wo du stärker geworden bist, Rhythmus, Cardio und Körpergewicht. Ist ein Zeitraum vorbei, erscheint auf der Startseite ein kleiner Hinweis. Am Computer findest du alle Rückblicke jederzeit unter „Fortschritt“.", "„Training starten“ am Handy fragt zuerst, welchen Tag du trainierst, zum Beispiel Ober- oder Unterkörper. Danach startet das Training sofort mit dem Gewichtsfeld.", "Zuhause-Version: Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt passende Körpergewichts-Übungen, ab Stufe 5 auch Handstand. Dazu 12 neue Übungen, zum Beispiel Liegestütze an der Wand, Muscle-ups, Front Lever und Dragon Flag.", "Handy: aufgeräumte Kopfzeile in einer Reihe und weniger Leerraum in der Tableiste unten."]],
   ["1.0", "19.10.2026", ["Großes Redesign, Muskelplan ist keine Beta mehr: neue Startseite mit deinen Trainingstagen und „Training starten“ (Stoppuhr, Pausen-Timer, Signalton), Tableiste unten am Handy und Seitenleiste am Computer, rundere Karten und Knöpfe.", "Die Muskelfigur auf der Startseite zeigt die Muskel-Erholung: was du frisch trainiert hast und was schon länger Pause hat.", "Neuer Trainings-Bildschirm: Satz-Kreise, große ± Knöpfe, Werte vom letzten Mal als Hinweis. Nach jedem Satz wählst du die nächste Übung, in der Pause siehst und bearbeitest du sie schon. „Noch ein Satz“ geht mit oder ohne Timer.", "Übungen auf Zeit wie Unterarmstütz (Plank) mit Stoppuhr und Ziel-Ring.", "Neuer Bildschirm „Training fertig!“ mit Dauer, Sätzen, bewegtem Gewicht, neuen Bestwerten und Vergleich zum letzten Mal.", "„⇄ Alternativen“ zeigt andere Übungen für dieselben Muskeln, im Training hilfreich, wenn ein Gerät besetzt ist. Übungen lassen sich auch mitten im Training hinzufügen.", "31 neue Übungen in der Bibliothek und passendere Wiederholungszahlen.", "Zuhause-Version: Du kannst jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Latzug oder Beinpresse.", "44 neue Meilensteine, jetzt 102 insgesamt.", "22 neue Skins, zum Beispiel Formel 1, Minecraft, Pokémon, Spotify und Rave, jeweils hell und dunkel.", "Fehler behoben: Eine geladene Sicherung wird nicht mehr überschrieben, und „Training starten“ verdeckt am Computer beim Scrollen nicht mehr die Muskelerholung."]],
   ["0.70", "14.10.2026", ["Beim ersten Start beginnt sofort das Tutorial. Danach legst du deinen ersten Plan selbst an und wählst seine Art.", "Alle Designs sind sofort frei.", "Übungsbibliothek: Tippe am Körper auf einen Muskel, dann zeigt sie nur Übungen dafür. Dazu YouTube-Links wie „Grundübungen erklärt“ oder „Beste Übungen für …“.", "Beim Erstellen eines Plans gibt es YouTube-Links zur gewählten Plan-Art, zum Beispiel „Push / Pull / Beine erklärt“.", "Sicherung: Oben steht, wann du zuletzt gesichert hast, ein Tipp sichert sofort neu. Nach 14 Tagen wird der Hinweis orange. Die Dateien heißen „Muskelplan Sicherung“ mit Datum, und der Browser soll deine Daten dauerhaft behalten.", "Pausenzeiten sekundengenau von 5 Sekunden bis 10 Minuten, auch während der Pause mit ±1 und ±15 Sekunden, und auf Wunsch eine eigene Pause pro Übung.", "Rechner: „Dein Alltag“ hat 6 Stufen mit Beispielen und Schritten pro Tag. Trägst du Schritte ein, schlägt der Rechner die passende Stufe vor.", "Blaupause: Die Muskelkarte zeigt deutlicher, wie oft ein Muskel trainiert wird, von Türkis bis Rot.", "Android: Die Zurück-Taste schließt Druckvorschau, Tutorial und Design-Menü, statt die App zu verlassen.", "Während eines laufenden Trainings kommen keine App-Updates."]],
@@ -8504,6 +8583,9 @@ $("appVer").textContent = `Version ${APP_VERSION} · ${APP_DATE}`;
 const BK = "muskelplan.lastBackup";
 let bkPending = null;
 function toast(t){ const el = $("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => el.hidden = true, 6000); }
+// Hinweis mit „Rückgängig“-Knopf
+function toastUndo(t, fn){ toast(t); const el = $("toast"), b = document.createElement("button"); b.type = "button"; b.className = "toastbtn"; b.textContent = L("Rückgängig", "Undo");
+  b.addEventListener("click", () => { el.hidden = true; fn(); toast(L("Rückgängig gemacht.", "Undone.")); }); el.append(" ", b); clearTimeout(toast.t); toast.t = setTimeout(() => el.hidden = true, 8000); }
 function lastBackup(){ try { return +localStorage.getItem(BK) || 0; } catch(e) { return 0; } }
 function renderBackup(){
   const t = lastBackup(); const days = t ? Math.floor((Date.now() - t) / 864e5) : null;
@@ -8993,13 +9075,20 @@ $("langSeg").addEventListener("click", e => { const b = e.target.closest("[data-
 applyLangData();
 
 // ---------- Hinweise (Disclaimer) ----------
+// Kleiner YouTube-Such-Link für Hinweise (Erholung, Aufwärmen, Supersätze …)
+const ytLink = (de, en, qde, qen) => `<a class="vidlink sm ytl" href="https://www.youtube.com/results?search_query=${encodeURIComponent(L(qde, qen))}" target="_blank" rel="noopener noreferrer"><span class="play" aria-hidden="true">▶</span>${esc(L(de, en))}</a>`;
+const IN_CL = () => typeof claude !== "undefined" && !!claude && typeof claude.use === "function";
+const YOGA_SAFE = () => L("Nicht federn, nur bis zu einem leichten Ziehen dehnen, nie in den Schmerz. Vorsicht bei Schwangerschaft oder sehr beweglichen (überstreckbaren) Gelenken.", "Don't bounce, only stretch to a light pull, never into pain. Take care if you're pregnant or have very flexible (hypermobile) joints.");
+const CARDIO_SAFE = () => L("Starte locker und steigere dich langsam. Als Einsteiger lieber längere Pausen und ein Tempo, bei dem du noch sprechen kannst. Bei Schwindel, Atemnot oder Druck in der Brust sofort aufhören.", "Start easy and build up slowly. As a beginner, take longer rests and keep a pace where you can still talk. Stop immediately if you feel dizzy, short of breath or chest pressure.");
 const HINTS = () => [
   [L("Kein Ersatz für ärztlichen Rat", "Not a substitute for medical advice"), L("Muskelplan ist ein privates Hilfsmittel zum Planen und Mitschreiben. Es gibt keine medizinischen, physiotherapeutischen oder ernährungsbezogenen Empfehlungen und ersetzt keine Beratung durch Ärztin, Arzt, Physiotherapie oder qualifizierte Trainer.", "Muskelplan is a personal tool for planning and logging. It doesn't give medical, physiotherapy or nutrition advice and doesn't replace advice from a doctor, physiotherapist or qualified trainer.")],
   [L("Vor dem Start", "Before you start"), L("Wenn du Vorerkrankungen, Verletzungen, Schmerzen, Herz-Kreislauf-Probleme hast, schwanger bist oder länger nicht trainiert hast, lass dich vor dem Training ärztlich beraten.", "If you have pre-existing conditions, injuries, pain or heart and circulation problems, are pregnant, or haven't trained for a long time, get medical advice before training.")],
   [L("Sicher trainieren", "Train safely"), L("Wärm dich auf, steigere Gewichte langsam und achte auf saubere Technik. Hör sofort auf bei Schmerzen, Schwindel, Atemnot oder Druck in der Brust. Nutze bei schweren Gewichten eine Sicherung oder einen Trainingspartner.", "Warm up, increase weights gradually and focus on good technique. Stop immediately if you feel pain, dizziness, shortness of breath or chest pressure. Use safety bars or a spotter for heavy weights.")],
   [L("Werte sind Schätzungen", "Values are estimates"), L("Muskelzuordnungen, Alternativen für zu Hause, geschätzte Maximalgewichte, Kalorien, Tempo, Richtwerte für Sätze und die Muskel-Erholung sind vereinfachte Richtwerte und können ungenau oder falsch sein. Auch Körperfettwaagen und der BMI liefern nur grobe Schätzungen.", "Muscle assignments, home alternatives, estimated max weights, calories, pace, set guidelines and muscle recovery are simplified guidelines and can be inaccurate or wrong. Body fat scales and BMI are also only rough estimates.")],
-  [L("Automatische Auswertung", "Automatic analysis"), L("Beim Import können Übungen, Sätze oder Muskeln falsch erkannt werden. Prüfe das Ergebnis immer mit deinem Original. Wenn du „Mit Claude auswerten“ nutzt, wird der Inhalt deiner Datei dafür an Claude geschickt.", "When importing, exercises, sets or muscles can be recognised incorrectly. Always compare the result with your original. If you use “Analyse with Claude”, the content of your file is sent to Claude for this.")],
-  [L("Deine Daten", "Your data"), L("Pläne, Trainings, Notizen und Körperwerte werden in deinem Browser und in deinem Konto gespeichert und sind nur für dich sichtbar. Speichere regelmäßig eine Sicherung. Die Sicherungsdatei enthält auch deine Körperwerte, teile sie also nur bewusst.", "Plans, workouts, notes and body stats are stored in your browser and your account and are only visible to you. Save a backup regularly. The backup file also contains your body stats, so only share it deliberately.")],
+  [L("Automatische Auswertung", "Automatic analysis"), L("Beim Import können Übungen, Sätze oder Muskeln falsch erkannt werden. Prüfe das Ergebnis immer mit deinem Original." + (IN_CL() ? " Wenn du „Mit Claude auswerten“ nutzt, wird der Inhalt deiner Datei dafür an Claude geschickt." : ""), "When importing, exercises, sets or muscles can be recognised incorrectly. Always compare the result with your original." + (IN_CL() ? " If you use “Analyse with Claude”, the content of your file is sent to Claude for this." : ""))],
+  [L("Deine Daten", "Your data"), L((IN_CL() ? "Pläne, Trainings, Notizen und Körperwerte werden in deinem Browser und in deinem Claude-Konto gespeichert und sind nur für dich sichtbar." : "Pläne, Trainings, Notizen und Körperwerte werden nur in diesem Browser auf diesem Gerät gespeichert. Es gibt kein Konto, nichts wird an einen Server geschickt.") + " Speichere regelmäßig eine Sicherung. Die Sicherungsdatei enthält auch deine Körperwerte, teile sie also nur bewusst.", (IN_CL() ? "Plans, workouts, notes and body stats are stored in your browser and your Claude account and are only visible to you." : "Plans, workouts, notes and body stats are only stored in this browser on this device. There is no account and nothing is sent to a server.") + " Save a backup regularly. The backup file also contains your body stats, so only share it deliberately.")],
+  ...(YOGA ? [[L("Yoga und Dehnen", "Yoga and stretching"), YOGA_SAFE()]] : []),
+  [L("Cardio und HIIT", "Cardio and HIIT"), CARDIO_SAFE()],
   [L("Ohne Gewähr", "No guarantee"), L("Alle Inhalte werden ohne Gewähr bereitgestellt. Du trainierst auf eigene Verantwortung. Für Verletzungen, Schäden oder Datenverlust wird keine Haftung übernommen.", "All content is provided without guarantee. You train at your own risk. No liability is accepted for injuries, damage or data loss.")],
   [L("Unter 18?", "Under 18?"), L("Wenn du noch nicht volljährig bist, besprich dein Training mit deinen Eltern oder einer Trainerin bzw. einem Trainer.", "If you're under 18, talk about your training with your parents or a trainer.")]
 ];
@@ -9048,6 +9137,7 @@ const TOUR = [
   { sel: "#cardioX", view: "training", t: "Cardio", b: "Laufen, Radfahren oder Crosstrainer trägst du hier ganz oben jederzeit ein, auch wenn es nicht in deinem Plan steht." },
   { sel: "#sessBox", view: "training", t: "Training starten", b: "Im Gym startest du hier dein Training. Die App führt dich Übung für Übung durch und schlägt die Gewichte vom letzten Mal vor. „Mit Timer“ misst die Zeit und startet nach jedem Satz automatisch die Pause. Bei Ober-/Unterkörper zeigt „ist dran“, welcher Tag als Nächstes kommt." },
   { sel: "#sessBox", view: "training", t: "Notizen", b: "Zu jeder Übung kannst du eine Notiz speichern, zum Beispiel die Sitzhöhe an der Maschine. Sie wird bei jedem Training angezeigt und bleibt sogar erhalten, wenn du die Übung löschst und später wieder hinzufügst. Für das ganze Training gibt es zusätzlich eine eigene Notiz." },
+  { sel: "#sessBox .hsss", view: "training", t: "Supersätze", b: "Zwei Übungen im Wechsel: erst ein Satz der ersten, direkt danach ohne Pause ein Satz der zweiten, dann kommt die Pause. Das spart Zeit. Verbinden kannst du sie im Plan mit „⇅ Supersatz“ bei einer Übung, beim Start unter „⇅ Supersätze festlegen“ oder mitten im Training." },
   { sel: "#sessBox", view: "training", t: "Nach dem Training", b: "Wenn du fertig bist, siehst du eine Übersicht mit allem, was du heute gemacht hast. Dort kannst du noch Gewichte, Wiederholungen oder die Notiz korrigieren. Erst mit „Jetzt speichern“ wird das Training gespeichert." },
   { sel: "#tUnits", view: "training", t: "Einzeln eintragen", b: "Du willst nicht geführt trainieren? Dann trag hier jede Übung einzeln ein. Mit „Wie letztes Mal“ übernimmst du die Werte vom letzten Training." },
   { sel: "#progArrange", view: "fortschritt", t: "Fortschritt einrichten", b: "Mit „⇅ Anordnen“ bestimmst du selbst, in welcher Reihenfolge die Bereiche im Fortschritt stehen, und blendest aus, was du nicht brauchst." },
@@ -9453,26 +9543,31 @@ function renderDpFoot(){
   $("dpFoot").innerHTML = `<button type="button" class="dpaddex" data-dpf="own">+ ${L("Eigene Übung anlegen oder rechts aus der Bibliothek ziehen", "Create your own exercise or drag one from the library")}</button>
     <div class="dtiles">${tile(fmt(sets), L("Sätze an diesem Tag", "Sets on this day"))}${tile("≈ " + fmtDur(sec * 1000), L("geschätzte Dauer", "estimated time"))}${tile(fmt(ds.length || 1), ds.length ? L("Trainingstage", "Training days") : L("Liste ohne Tage", "List without days"))}${tile(fmt(p.units.length), L("Übungen im ganzen Plan", "Exercises in the whole plan"))}</div>`;
 }
+const YOGA_HINT = () => L("Dein Yoga-Plan: Wähle Posen und Dehnungen und füge sie mit + hinzu. Im Training läuft für jede Pose ein Halte-Timer.", "Your yoga plan: pick poses and stretches and add them with +. In the workout each pose gets a hold timer.");
 const DP_CHIPS_FLEX = [["c:Yoga", "Yoga"], ["c:Dehnen", "Dehnen"], ["m:beine", "Beine"], ["m:ruecken", "Rücken"], ["m:schultern", "Schultern"], ["m:brust", "Brust"], ["m:bauch", "Bauch"]];
 const DP_CHIPS = [["m:brust", "Brust"], ["m:ruecken", "Rücken"], ["m:schultern", "Schultern"], ["m:arme", "Arme"], ["m:beine", "Beine"], ["m:bauch", "Bauch"], ["g:Kabelzug", "Kabelzug"], ["g:Kurzhantel", "Kurzhantel"], ["g:Maschine", "Maschine"], ["g:Körpergewicht", "Körpergewicht"]];
 const DP_REG = { brust: /^brust/, ruecken: /latiss|rhomb|nacken|trapez|rueck|unterer_r/, schultern: /schulter/, arme: /bizeps|trizeps|unterarm/, beine: /quadri|beinbeug|oberschenkel|gesaess|wade|addukt|abdukt|hueft|schien/, bauch: /bauch|core|seitl/ };
 function renderDpLib(keep){
   const p = plan(); const cur = dpDayOf(p); const inPlan = new Set(p.units.map(u => norm(u.name)));
   const q = norm(dpLibQ.trim());
-  let list = LIB.map((x, i) => ({ x, i })).filter(({ x }) => libFit(x) && !inPlan.has(norm(x.n)) && !(x.en && inPlan.has(norm(x.en))));
-  if (q) list = list.map(o => (o.r = sRank(libNames(o.x), libNames(o.x) + " " + o.x.p.map(m => MUSCLES[m]?.n || "").join(" "), q), o)).filter(o => o.r).sort((a, b) => b.r - a.r || a.i - b.i);
+  const has = x => inPlan.has(norm(x.n)) || (x.en && inPlan.has(norm(x.en)));
+  const flexP = YOGA && ptype(p) === "beweglich";
+  let list = LIB.map((x, i) => ({ x, i })).filter(({ x }) => libFit(x));
+  if (q) list = list.map(o => (o.r = sRank(libNames(o.x), libNames(o.x) + " " + o.x.p.map(m => MUSCLES[m]?.n || "").join(" "), q, o.x), o)).filter(o => o.r).sort((a, b) => b.r - a.r || a.i - b.i);
+  else list = list.filter(({ x }) => !has(x));
   if (dpLibChip) { const [t, v] = dpLibChip.split(":"); list = list.filter(({ x }) => t === "c" ? x.cat === v : t === "g" ? x.g === v : x.p.some(m => DP_REG[v].test(m) || DP_REG[v].test(bm(m)))); }
   let sugg = false;
   if (!q && !dpLibChip) { const c = countMuscles(cur ? unitsFor(p, cur) : p.units); const reg = cur && isUpperLower(p) ? region(cur) : ORDER; const gap = new Set(reg.filter(m => !c[m]));
     if (gap.size) { sugg = true; list = list.filter(({ x }) => !x.cardio && x.p.some(m => gap.has(bm(m)) || gap.has(m))).sort((a, b) => b.x.p.filter(m => gap.has(bm(m))).length - a.x.p.filter(m => gap.has(bm(m))).length); } }
-  const res = list.slice(0, 6);
-  const items = res.length ? `<ul class="dplist">${res.map(({ x, i }) => `<li draggable="true" data-li="${i}"><div><b>${esc(xn(x))}</b>${akaLine(x, q)}<span class="hint">${esc(x.p.slice(0, 2).map(m => MUSCLES[m].n).join(" · "))} · ${esc(gearName(x.g))}</span></div><button type="button" class="dpplus" data-dl="add" data-i="${i}" aria-label="${esc(xn(x))} ${L("hinzufügen", "add")}">+</button></li>`).join("")}</ul>`
+  const DP_MAX = 40, res = list.slice(0, DP_MAX);
+  const items = res.length ? `<ul class="dplist">${res.map(({ x, i }) => `<li draggable="true" data-li="${i}"><div><b>${esc(xn(x))}${has(x) ? ` <span class="inplan"><span aria-hidden="true">✓ </span>${L("Im Plan", "In plan")}</span>` : ""}</b>${akaLine(x, q)}<span class="hint">${esc(x.p.slice(0, 2).map(m => MUSCLES[m].n).join(" · "))} · ${esc(gearName(x.g))}</span></div><button type="button" class="dpplus" data-dl="add" data-i="${i}" aria-label="${esc(xn(x))} ${L("hinzufügen", "add")}">+</button></li>`).join("")}</ul>`
     : `<p class="hint">${L("Nichts gefunden.", "Nothing found.")}</p>`;
-  const body = `${sugg ? `<p class="hint dpsugg">${L("Vorschläge für Muskeln, die an diesem Tag noch fehlen:", "Suggestions for muscles still missing on this day:")}</p>` : ""}${items}${list.length > 6 ? `<button type="button" class="ghost mini" data-dl="more">${L(`Alle ${list.length} in der Bibliothek ansehen`, `See all ${list.length} in the library`)} →</button>` : ""}`;
+  const body = `${sugg ? `<p class="hint dpsugg">${L("Vorschläge für Muskeln, die an diesem Tag noch fehlen:", "Suggestions for muscles still missing on this day:")}</p>` : ""}${items}${list.length > DP_MAX ? `<button type="button" class="ghost mini" data-dl="more">${L(`Alle ${list.length} in der Bibliothek ansehen`, `See all ${list.length} in the library`)} →</button>` : ""}`;
   if (keep && $("dpLibRes")) { $("dpLibRes").innerHTML = body; return; }
   $("dpLib").innerHTML = `<div class="dch"><h2>${L("Bibliothek", "Library")}</h2><span class="label">${LIB.length}+ ${L("Übungen", "exercises")}</span></div>
+    ${flexP ? `<p class="hint yogahint">🧘 ${YOGA_HINT()}<small>${YOGA_SAFE()}</small></p>` : ""}
     <input id="dpLibQ" type="search" value="${esc(dpLibQ)}" placeholder="⌕ ${L("Übung suchen …", "Search exercise …")}" aria-label="${L("Übung suchen", "Search exercise")}">
-    <div class="chips dpchips">${(YOGA && YOGA2 && ptype(p) === "beweglich" ? DP_CHIPS_FLEX : DP_CHIPS).map(([k, n]) => `<button type="button" class="chip" data-dl="chip" data-v="${k}" aria-pressed="${dpLibChip === k}">${k[0] === "g" ? esc(gearName(n)) : L(n, { Brust: "Chest", "Rücken": "Back", Schultern: "Shoulders", Arme: "Arms", Beine: "Legs", Bauch: "Core" }[n])}</button>`).join("")}</div>
+    <div class="chips dpchips">${(flexP ? DP_CHIPS_FLEX : DP_CHIPS).map(([k, n]) => `<button type="button" class="chip" data-dl="chip" data-v="${k}" aria-pressed="${dpLibChip === k}">${k[0] === "g" ? esc(gearName(n)) : L(n, { Brust: "Chest", "Rücken": "Back", Schultern: "Shoulders", Arme: "Arms", Beine: "Legs", Bauch: "Core" }[n])}</button>`).join("")}</div>
     <div id="dpLibRes">${body}</div>`;
 }
 function dpAddLib(i, beforeId, after){
@@ -9656,7 +9751,7 @@ const TS_TOPICS = () => ({
   ] },
   neu: { t: L(`Neu in ${APP_VERSION}`, `New in ${APP_VERSION}`), ic: "✨", hide: true, steps: [
     { sel: "#addSec", dsel: "#dpLib", view: "bauen", pre: () => { if (!DSK()) openAdd("lib"); }, t: L("Yoga und Dehnen", "Yoga and stretching"), b: L("In der Bibliothek gibt es jetzt 34 Yoga-Posen und Dehnübungen, mit Halte-Timer im Training.", "The library now has 34 yoga poses and stretches, with a hold timer in workouts.") },
-    { sel: ".planbar", dsel: "#planSel", view: "bauen", t: L("Planart „Beweglich“", "Plan type “Mobility”"), b: L("Über „+ Neuer Plan“ wählst du „Beweglich“ mit 6 fertigen Vorlagen, zum Beispiel Abend-Dehnen.", "With “+ New plan” pick “Mobility” with 6 ready templates, like evening stretch.") },
+    { sel: ".planbar", dsel: "#planSel", view: "bauen", t: L("Planart „Beweglich“", "Plan type “Mobility”"), b: L("Über „+ Neuer Plan“ wählst du „Beweglich“ und stellst dir deine Posen selbst aus der Bibliothek zusammen. Dazu gibt es YouTube-Videos zum Mitmachen, zum Beispiel Morning-Yoga.", "With “+ New plan” pick “Mobility” and put your poses together from the library. There are YouTube videos to follow along too, like morning yoga.") },
     { sel: "#flexSec", view: "fortschritt", t: L("Beweglichkeit", "Mobility"), b: L("Im Fortschritt zeigt „Beweglichkeit“ Serie, Minuten pro Woche und deine längsten Haltezeiten.", "In progress, “Mobility” shows streak, minutes per week and your longest holds.") }
   ] }
 });
@@ -9972,6 +10067,9 @@ function renderSet(){
   const seg = (k, opts, cur) => `<div class="setseg" role="group">${opts.map(([v, t]) => `<button type="button" data-set="${k}" data-v="${v}" aria-pressed="${v === cur}">${t}</button>`).join("")}</div>`;
   const locks = SKIN_LOCK && list.some(k => !skinOpen(k));
   const v0 = $("appVer"), home = document.querySelector("header .topright"); if (v0 && home && el.contains(v0)) home.appendChild(v0);
+  // Scrollstand von Panel und Skin-Liste halten, sonst springt es beim Skin-Wechsel nach oben
+  const sk0 = el.querySelector(".setskins"), st = el.scrollTop, sst = sk0 ? sk0.scrollTop : 0;
+  const keep = () => { el.scrollTop = st; const sk = el.querySelector(".setskins"); if (sk) sk.scrollTop = sst; }; requestAnimationFrame(keep);
   el.innerHTML = `<div class="setgrab" aria-hidden="true"></div>
     <div class="seth"><h2>${L("Einstellungen", "Settings")}</h2><button type="button" class="setx" data-set="close" aria-label="${L("Schließen", "Close")}">✕</button></div>
     <div class="setsec" id="setSecLang"><span class="label">${L("Sprache", "Language")}</span>${seg("lang", [["de", "🇩🇪 Deutsch"], ["en", "🇬🇧 English"]], LANG)}</div>
@@ -9982,9 +10080,11 @@ function renderSet(){
     <div class="setlinks">
       <button type="button" data-set="data"><span>💾 ${L("Daten & Sicherung", "Data & backup")}</span><i>›</i></button>
       <button type="button" data-set="help"><span>? ${L("Hilfe & Tour", "Help & tour")}</span><i>›</i></button>
+      ${TUT2 ? "" : `<details class="setfaq"><summary>⇅ ${L("Supersätze: so geht's", "Supersets: how it works")}</summary><p>${esc(SS_HOW())}</p><p>${esc(L("Verbinden kannst du zwei Übungen an drei Stellen: im Plan mit „⇅“ an der Übung, beim Start unter „⇅ Supersätze“ und mitten im Training, auch in der Pause, mit „⇅ Supersatz“. Lösen geht genauso. Hast du dich vertippt, hilft „Rückgängig“ im Hinweis unten.", "You can link two exercises in three places: in the plan with “⇅” on the exercise, at the start under “⇅ Supersets”, and during the workout, also in the rest, with “⇅ Superset”. Unlinking works the same way. If you tapped the wrong one, use “Undo” in the message at the bottom."))}</p><div class="ytrow">${ytLink("Supersätze richtig trainieren", "How to do supersets right", "Supersätze richtig trainieren", "how to do supersets correctly")}</div></details>`}
       <button type="button" data-set="notes"><span>ℹ ${L(`Hinweise & Version ${APP_VERSION}`, `Notes & version ${APP_VERSION}`)}</span><i>›</i></button>
     </div><div class="setver" id="setVer"></div>`;
   const v = $("appVer"); if (v) { $("setVer").appendChild(v); }
+  keep();
 }
 function setOpen(o){
   let el = $("setPanel");
@@ -10012,7 +10112,13 @@ function setClick(e){
   if (a === "lang") { setLang(v); renderSet(); return; }
   if (a === "theme") { applyTheme(v); renderSet(); return; }
   if (a === "all") { setAll = !setAll; renderSet(); return; }
-  if (a === "skin") { if (skinOpen(v)) applySkin(v); else previewSkin(v); renderSet(); return; }
+  if (a === "skin") { const y0 = b.getBoundingClientRect().top, st0 = $("setPanel").scrollTop, sk0 = $("setPanel").querySelector(".setskins"), sst0 = sk0 ? sk0.scrollTop : 0;
+    if (skinOpen(v)) applySkin(v); else previewSkin(v);
+    // Neuer Skin ändert Schriften und Höhen: angetippte Kachel an derselben Stelle halten
+    const el = $("setPanel"); el.scrollTop = st0; if (sk0) sk0.scrollTop = sst0; renderSet();
+    const pin = () => { const t = el.querySelector(`[data-set="skin"][data-v="${CSS.escape(v)}"]`); if (!t) return; const sk = el.querySelector(".setskins");
+      let d = t.getBoundingClientRect().top - y0; if (sk && sk.scrollHeight > sk.clientHeight) { const s1 = sk.scrollTop; sk.scrollTop += d; d -= sk.scrollTop - s1; } el.scrollTop += d; };
+    pin(); requestAnimationFrame(pin); return; }
   if (a === "data") { setGo("bkSec", "fortschritt"); return; }
   if (a === "notes") { if ($("notesBox").hidden) $("notesToggle").click(); setGo("notesToggle", "fortschritt"); return; }
   if (a === "help") { setOpen(false); if (typeof tsHelp === "function" && TUT2) tsHelp(true); else tourStart(); return; }
