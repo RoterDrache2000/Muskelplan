@@ -2759,6 +2759,7 @@ html:not(.fron) #tabs .frtab,html:not(.fron) .frshbtn{display:none!important}
 .admtiles{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
 .admid{font-size:.72rem;word-break:break-all;opacity:.7}
 .admlist li{align-items:center}
+.clid{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}.clid .admid{opacity:1;font-size:.8rem}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
@@ -10865,9 +10866,11 @@ function admMiniHTML(){
     : `<div class="frtiles admtiles">${tile(S.acc, L("Konten gesamt", "accounts in total"))}${tile(S.act, L("aktiv in 7 Tagen", "active in 7 days"))}${tile(S.today, L("neu heute", "new today"))}${tile(S.w, L("neu in 7 Tagen", "new in 7 days"))}${tile(S.m, L("neu in 30 Tagen", "new in 30 days"))}${tile(S.grp, L("Gruppen", "groups"))}${tile(S.duo, L("Freundschaften", "friendships"))}${tile(S.ban, L("gesperrt", "banned"))}</div>
       <p class="hint"><a href="https://console.firebase.google.com/project/${esc(fbCfg().projectId)}/firestore/usage" target="_blank" rel="noopener">${L("Server-Auslastung: Firebase → Nutzung", "Server load: Firebase → Usage")}</a></p>`;
   return `<div class="setsec" id="setSecAdm"><span class="label setskh">🛠 ${L("Developer-Statistiken", "Developer statistics")}${cloudOn() && !fbCfg().demo ? `<button type="button" class="setall" data-cl="admload"${A.busy ? " disabled" : ""}>↻ ${L("Aktualisieren", "Refresh")}</button>` : ""}</span>${body}
-    <div class="clrow"><button type="button" class="ghost" data-cl="adminfull">${L("Alles öffnen (Suchen & Sperren)", "Open all (search & ban)")} ›</button><button type="button" class="ghost" data-cl="admoff">${L("Ausblenden", "Hide")}</button></div></div>`;
+    <div class="clrow"><button type="button" class="ghost" data-cl="adminfull">${L("Alles öffnen (Suchen & Sperren)", "Open all (search & ban)")} ›</button>${C.acc && C.acc === ADM_ACC ? "" : `<button type="button" class="ghost" data-cl="admoff">${L("Ausblenden", "Hide")}</button>`}</div></div>`;
 }
-const admOn = () => { try { return localStorage.getItem("muskelplan.adm") === "1"; } catch(e) { return false; } };
+// Admin-Konto: dieselbe ID wie bei adminAcc() in firestore.rules. Damit sieht nur dieses Konto die Statistiken, auch ohne Code (normale Version hat kein Debug-Menü).
+const ADM_ACC = "HIER-DEINE-KONTO-ID";
+const admOn = () => { if (C.acc && C.acc === ADM_ACC) return true; try { return localStorage.getItem("muskelplan.adm") === "1"; } catch(e) { return false; } };
 function cloudStatusTxt(){
   if (!fbCfg()) return L("noch nicht eingerichtet", "not set up yet");
   if (!cloudOn()) return L("aus", "off");
@@ -10939,7 +10942,8 @@ function cloudHTML(){
       ${admOn() ? `<button type="button" data-cl="admin"><span>🛠 ${L("Admin-Bereich", "Admin area")}</span><i>›</i></button>` : ""}
       <button type="button" data-cl="wipe" class="cldanger"><span>🗑 ${L("Online-Konto löschen", "Delete online account")}</span><i>›</i></button>
     </div>
-    <p class="hint">${L("Das laufende Training, der gerade offene Plan und das Aussehen (Skin, Hell/Dunkel, Sprache) bleiben pro Gerät.", "The running workout, the open plan and the look (skin, light/dark, language) stay per device.")}</p>`;
+    <p class="hint">${L("Das laufende Training, der gerade offene Plan und das Aussehen (Skin, Hell/Dunkel, Sprache) bleiben pro Gerät.", "The running workout, the open plan and the look (skin, light/dark, language) stay per device.")}</p>
+    <div class="clid"><span class="hint">${L("Deine Konto-ID", "Your account ID")}: <span class="admid">${esc(C.acc || "")}</span></span><button type="button" class="ghost mini" data-cl="admcopy">${L("Kopieren", "Copy")}</button></div>`;
 }
 function cloudUI(){
   // nicht neu aufbauen, während jemand gerade einen Code eintippt
