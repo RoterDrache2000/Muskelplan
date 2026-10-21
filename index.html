@@ -2564,7 +2564,7 @@ html.dsk #dpLibRes{flex:1 1 auto;min-height:160px;overflow-y:auto;overscroll-beh
 .cldevs li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-top:1px solid var(--line)}
 .cldevs li > span{display:grid}
 .cllinks .cldanger span{color:#c0392b}
-.clrec summary{cursor:pointer;margin-top:12px;font-weight:600}
+.clrec summary,.clalt summary{cursor:pointer;margin-top:12px;font-weight:600}
 /* Freunde (echt, über das Online-Konto) */
 #tabs .wistab{display:none!important}
 html:not(.fron) #tabs .frtab,html:not(.fron) .frshbtn{display:none!important}
@@ -2731,6 +2731,10 @@ html:not(.fron) #tabs .frtab,html:not(.fron) .frshbtn{display:none!important}
   html.dsk .frhero .frback .dk{display:inline}
 }
 @media (min-width:1100px){ html.dsk body.view-fr .wrap{max-width:1480px} html.dsk body.view-fr .grid{max-width:none} html.dsk body.view-fr .frwrap{grid-template-columns:minmax(300px,360px) minmax(0,1fr) minmax(300px,380px)} }
+.clwho{margin:6px 0 4px;padding:8px 12px;border-radius:10px;background:var(--soft,rgba(127,127,127,.12))}
+.clsteps{margin:8px 0;padding-left:22px;display:grid;gap:10px}
+.clsteps li{line-height:1.4}
+.clsteps .clrow,.clsteps .clqr{margin-top:8px}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
@@ -10181,6 +10185,7 @@ function setSkinTile(k){
     <span class="sknm">${esc(skinName(k))}</span>${open ? "" : `<span class="lk" aria-hidden="true">🔒</span>`}</button>`;
 }
 function renderSet(){
+  try { pairGuard(); } catch(e) {}
   const el = $("setPanel"); if (!el || el.hidden) return;
   const all = [...document.querySelectorAll("#skinMenu [data-skin-set]")].map(b => b.dataset.skinSet);
   let list = setAll ? all : SET_SKINS.filter(k => all.includes(k));
@@ -10211,6 +10216,7 @@ function renderSet(){
   keep();
 }
 function setOpen(o){
+  if (!o) try { pairStop(); } catch(e) {}
   let el = $("setPanel");
   if (!el) {
     el = document.createElement("aside"); el.id = "setPanel"; el.className = "setpanel"; el.hidden = true; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Einstellungen");
@@ -10677,7 +10683,7 @@ async function pairShowMine(){
 let pairTimer = null;
 function pairWait(){
   clearTimeout(pairTimer); if (!cloudPair) return;
-  if (cloudPair.mode === "mine") { pairWaitMine(); return; }
+  if (cloudPair.mode === "mine") { if (Date.now() > cloudPair.exp) { cloudPair = null; cloudUI(); return; } pairWaitMine(); return; }
   if (Date.now() > cloudPair.exp) { cloudPair = null; cloudUI(); return; }
   pairTimer = setTimeout(async () => {
     try { const d = await fsGet(`pairing/${cloudPair.code}`);
@@ -10689,6 +10695,11 @@ function pairWait(){
     pairWait();
   }, 2000);
 }
+// Code-Anzeige endet, sobald die Seite verlassen oder ⚙ geschlossen wird (eine laufende Anfrage „req“ wartet weiter auf die Bestätigung)
+function pairStop(){ const p = cloudPair; if (!p || p.mode === "req") return; cloudPair = null; clearTimeout(pairTimer); fsCommit([wDel(`pairing/${p.code}`)]).catch(() => {}); }
+function pairGuard(){ const p = cloudPair; if (!p || p.mode === "req") return; const el = $("setPanel"); const on = el && !el.hidden && setPage === "cloud";
+  if (!on || cloudPage !== (p.mode === "mine" ? "add" : "join")) pairStop(); }
+function pairDropMine(){ const p = cloudPair; if (!p || p.mode !== "mine") return; cloudPair = null; clearTimeout(pairTimer); fsCommit([wDel(`pairing/${p.code}`)]).catch(() => {}); }
 // Verbundenes Gerät zeigt seinen Code: auf Anfragen warten und erst nach „Ja“ verbinden
 function pairWaitMine(){
   pairTimer = setTimeout(async () => { if (!cloudPair || cloudPair.mode !== "mine") return;
@@ -10763,15 +10774,21 @@ function cloudHTML(){
   if (cloudPage === "first") return back + msg + `<h3>${L("Fast fertig", "Almost done")}</h3><p class="hint">${L(`Verbunden mit dem Konto „${esc(C.name)}“. Auf diesem Gerät sind schon eigene Pläne oder Trainings. Was soll damit passieren?`, `Connected to the account “${esc(C.name)}”. This device already has its own plans or workouts. What should happen to them?`)}</p>
     <div class="clopts"><button type="button" class="primary" data-cl="merge"><b>${L("Zusammenführen", "Merge")}</b><span>${L("Empfohlen: Alles von hier und aus dem Konto bleibt erhalten.", "Recommended: everything from here and from the account is kept.")}</span></button>
     <button type="button" class="ghost" data-cl="replace"><b>${L("Durch das Konto ersetzen", "Replace with the account")}</b><span>${L("Die Daten dieses Geräts werden durch die aus dem Konto ersetzt. Eine Kopie bleibt im Gerät gespeichert.", "This device's data is replaced by the account's. A copy stays saved on the device.")}</span></button></div>`;
-  if (cloudPage === "ask" && cloudAsk) return back + msg + `<h3>${L(`„${esc(cloudAsk.name)}“ verbinden?`, `Connect “${esc(cloudAsk.name)}”?`)}</h3><p class="hint">${L("Dieses Gerät bekommt dann alle deine Pläne, Trainings und Körperwerte und kann sie ändern. Verbinde nur eigene Geräte.", "That device then gets all your plans, workouts and body stats and can change them. Only connect your own devices.")}</p>
+  if (cloudPage === "ask" && cloudAsk) return back + msg + `<h3>${L(`„${esc(cloudAsk.name)}“ verbinden?`, `Connect “${esc(cloudAsk.name)}”?`)}</h3><p class="hint">${L("Ein neues Gerät möchte sich mit deinem Konto verbinden. Es bekommt dann alle deine Pläne, Trainings und Körperwerte und kann sie ändern. Verbinde nur eigene Geräte.", "A new device wants to connect to your account. It then gets all your plans, workouts and body stats and can change them. Only connect your own devices.")}</p>
     <div class="clrow"><button type="button" class="primary" data-cl="askyes">${L("Ja, verbinden", "Yes, connect")}</button><button type="button" class="ghost" data-cl="askno">${L("Abbrechen", "Cancel")}</button></div>`;
   if (fp && !cloudOn()) return back + `<p class="hint">${L("Für Freunde brauchst du das Online-Konto. Es ist kostenlos, ohne E-Mail und ohne Passwort.", "Friends need the online account. It's free, without email or password.")}</p><button type="button" class="primary clgo" data-set="cloud">☁ ${L("Zum Online-Konto", "Go to online account")}</button>`;
   if (!cloudOn()) {
-    if (cloudPage === "join") return back + msg + `<h3>${L("Mit vorhandenem Konto verbinden", "Connect to an existing account")}</h3>
-      <p class="hint">${L("Öffne Muskelplan auf einem Gerät, das schon verbunden ist (z. B. dein Handy), und scanne dort diesen QR-Code mit der Kamera oder tippe den Code unter ⚙ → Online-Konto → „Gerät hinzufügen“ ein.", "Open Muskelplan on a device that is already connected (e.g. your phone) and scan this QR code with the camera there, or enter the code under ⚙ → Online account → “Add device”.")}</p>
-      ${cloudPair && cloudPair.mode === "req" ? `<p class="hint clwait">⏳ ${L("Bestätige die Verbindung jetzt auf dem anderen Gerät.", "Now confirm the connection on the other device.")}</p>` : ""}
-      ${cloudPair && cloudPair.mode === "new" ? qr(cloudPair) + `<p class="hint clwait">⏳ ${L("Warte auf Bestätigung …", "Waiting for confirmation …")}</p>` : `<button type="button" class="ghost" data-cl="shownew">${L("Code anzeigen", "Show code")}</button>`}
-      <div class="label">${L("Oder: Code vom verbundenen Gerät eingeben", "Or: enter the code from the connected device")}</div>${enter("K7Q2-X9PL", "enter")}
+    if (cloudPage === "join") return back + msg + `<h3>${L("Dieses Gerät mit deinem Konto verbinden", "Connect this device to your account")}</h3>
+      <p class="clwho">📲 ${L("Du bist gerade auf dem <b>neuen</b> Gerät.", "You are on the <b>new</b> device right now.")}</p>
+      <ol class="clsteps">
+        <li>${L("Nimm dein Gerät, das <b>schon angemeldet</b> ist (z. B. dein Handy). Öffne dort Muskelplan → ⚙ → Online-Konto → „Gerät hinzufügen“. Dort steht ein Code.", "Take your device that is <b>already signed in</b> (e.g. your phone). Open Muskelplan there → ⚙ → Online account → “Add device”. A code is shown there.")}</li>
+        <li>${L("Tippe diesen Code <b>hier</b> ein:", "Type that code in <b>here</b>:")}${enter("K7Q2-X9PL", "enter")}</li>
+        <li>${L("Tippe auf dem angemeldeten Gerät auf „Ja, verbinden“. Fertig.", "Tap “Yes, connect” on the signed-in device. Done.")}</li>
+      </ol>
+      ${cloudPair && cloudPair.mode === "req" ? `<p class="hint clwait">⏳ ${L("Jetzt auf dem angemeldeten Gerät „Ja, verbinden“ tippen.", "Now tap “Yes, connect” on the signed-in device.")}</p>` : ""}
+      <details class="clalt"${cloudPair && cloudPair.mode === "new" ? " open" : ""}><summary>${L("Anderer Weg: Code hier anzeigen", "Other way: show a code here")}</summary>
+        <p class="hint">${L("Hier erscheint ein Code. Gib ihn auf dem angemeldeten Gerät unter ⚙ → Online-Konto → „Gerät hinzufügen“ ein oder scanne den QR-Code dort mit der Handy-Kamera.", "A code appears here. Enter it on the signed-in device under ⚙ → Online account → “Add device”, or scan the QR code with the phone camera.")}</p>
+        ${cloudPair && cloudPair.mode === "new" ? qr(cloudPair) + `<p class="hint clwait">⏳ ${L("Warte auf Bestätigung …", "Waiting for confirmation …")}</p>` : `<button type="button" class="ghost" data-cl="shownew">${L("Code hier anzeigen", "Show code here")}</button>`}</details>
       <details class="clrec"${C.pendRec ? " open" : ""}><summary>${L("Kein Gerät mehr da? Wiederherstellungs-Code eingeben", "No device left? Enter the recovery code")}</summary>
         <div class="clrow"><input id="clRec" autocapitalize="characters" spellcheck="false" placeholder="MP-XXXX-XXXX-XXXX-XXXX" value="${esc(C.pendRec || "")}" aria-label="${L("Wiederherstellungs-Code", "Recovery code")}"><button type="button" class="primary" data-cl="rec">${L("Verbinden", "Connect")}</button></div></details>`;
     return back + msg + `<p>${L("Mit dem Online-Konto hast du deine Pläne, Trainings und Körperwerte auf Handy und PC gleichzeitig. Was du auf einem Gerät einträgst, ist ein paar Sekunden später auf dem anderen.", "With the online account you have your plans, workouts and body stats on your phone and PC at the same time. What you enter on one device shows up on the other a few seconds later.")}</p>
@@ -10781,11 +10798,15 @@ function cloudHTML(){
       <button type="button" class="ghost clgo" data-cl="join">${L("Ich habe schon ein Konto", "I already have an account")}</button>
       ${C.pendRec ? `<p class="hint">${L("In deiner Sicherung steckt ein Wiederherstellungs-Code. Tippe auf „Ich habe schon ein Konto“, um wieder zu verbinden.", "Your backup contains a recovery code. Tap “I already have an account” to reconnect.")}</p>` : ""}`;
   }
-  if (cloudPage === "add") return back + msg + `<h3>${L("Gerät hinzufügen", "Add device")}</h3>
-    <p class="hint">${L("Auf dem neuen Gerät (z. B. PC) Muskelplan öffnen → ⚙ → Online-Konto → „Ich habe schon ein Konto“. Es zeigt dir dort einen Code. Gib ihn hier ein oder scanne seinen QR-Code mit der Kamera.", "On the new device (e.g. PC) open Muskelplan → ⚙ → Online account → “I already have an account”. It shows you a code there. Enter it here or scan its QR code with the camera.")}</p>
-    ${enter("K7Q2-X9PL", "enter")}
-    <div class="label">${L("Oder andersherum: diesen Code auf dem neuen Gerät eingeben", "Or the other way round: enter this code on the new device")}</div>
-    ${cloudPair && cloudPair.mode === "mine" && cloudPair.exp > Date.now() ? qr(cloudPair) : `<button type="button" class="ghost" data-cl="showmine">${L("Code für das neue Gerät anzeigen", "Show code for the new device")}</button>`}`;
+  if (cloudPage === "add") return back + msg + `<h3>${L("Neues Gerät hinzufügen", "Add a new device")}</h3>
+    <p class="clwho">✅ ${L("Du bist gerade auf dem Gerät, das <b>schon angemeldet</b> ist.", "You are on the device that is <b>already signed in</b>.")}</p>
+    <ol class="clsteps">
+      <li>${L("Hier ist dein Code:", "Here is your code:")}${cloudPair && cloudPair.mode === "mine" && cloudPair.exp > Date.now() ? qr(cloudPair) : `<button type="button" class="ghost" data-cl="showmine">${L("Code anzeigen", "Show code")}</button>`}</li>
+      <li>${L("Öffne Muskelplan auf dem <b>neuen</b> Gerät (z. B. PC) → ⚙ → Online-Konto → „Ich habe schon ein Konto“ und tippe den Code dort ein. Mit einem Handy kannst du auch den QR-Code mit der Kamera scannen. Das öffnet aber den Browser: Nutzt du Muskelplan als App vom Home-Bildschirm, tippe den Code lieber in der App ein.", "Open Muskelplan on the <b>new</b> device (e.g. PC) → ⚙ → Online account → “I already have an account” and type the code in there. With a phone you can also scan the QR code with the camera. That opens the browser, though: if you use Muskelplan as an app from the home screen, better type the code into the app.")}</li>
+      <li>${L("Hier erscheint dann eine Frage. Tippe auf „Ja, verbinden“. Fertig.", "A question then appears here. Tap “Yes, connect”. Done.")}</li>
+    </ol>
+    <details class="clalt"><summary>${L("Das neue Gerät zeigt selbst einen Code?", "The new device shows a code itself?")}</summary>
+      <p class="hint">${L("Dann gib ihn hier ein:", "Then enter it here:")}</p>${enter("K7Q2-X9PL", "enter")}</details>`;
   if (cloudPage === "rec") return back + msg + `<h3>${L("Wiederherstellungs-Code", "Recovery code")}</h3>
     <p class="hint">${L("Damit kommst du wieder an deine Daten, wenn alle Geräte weg sind. Schreib ihn auf oder mach ein Foto davon und gib ihn niemandem.", "With it you get your data back if all your devices are gone. Write it down or take a photo and don't give it to anyone.")}</p>
     <p class="clreccode n">${esc(C.rec || "…")}</p>
@@ -10831,6 +10852,7 @@ async function cloudAct(b){
   const a = b.dataset.cl; cloudMsg = "";
   const run = async (fn, busy) => { b.disabled = true; if (busy) b.textContent = busy; try { await fn(); } catch(e) { cloudFail(e); } finally { b.disabled = false; cloudUI(); } };
   if (a === "back" && cloudPage === "who") { cloudPage = "friends"; frWho = null; renderSet(); return; }
+  if (a === "back" && cloudPage === "add") pairDropMine();
   if (a === "back") { if (cloudPage === "home" || cloudPage === "first" || cloudPage === "friends") setPage = ""; else cloudPage = "home"; cloudAsk = null; renderSet(); return; }
   if (a === "create") { const n = ($("clName").value || "").trim().slice(0, 24); if (!n) { cloudMsg = L("Gib zuerst einen Namen ein.", "Enter a name first."); cloudUI(); $("clName")?.focus(); return; }
     return run(async () => { await cloudCreate(n); cloudPage = "rec"; toast(L("Online-Konto ist an. Alles von diesem Gerät ist hochgeladen.", "Online account is on. Everything from this device is uploaded.")); }, L("Wird eingerichtet …", "Setting up …")); }
@@ -10839,10 +10861,10 @@ async function cloudAct(b){
   if (a === "showmine") return run(() => pairShowMine());
   if (a === "enter") { const v = $("clCode").value; return run(() => pairEnter(v)); }
   if (a === "rec") { if (!cloudOn()) { const v = $("clRec").value; return run(() => recJoin(v)); } cloudPage = "rec"; renderSet(); if (!C.rec) { await cloudRecLoad(); cloudUI(); } return; }
-  if (a === "askyes") return run(async () => { await pairConfirm(); cloudPage = "home"; });
+  if (a === "askyes") return run(async () => { pairDropMine(); await pairConfirm(); cloudPage = "home"; });
   if (a === "askno") { const k = cloudAsk; cloudAsk = null; cloudPage = "home"; renderSet(); if (k && k.mine) fsCommit([wDel(`pairing/${k.code}`)]).catch(() => {}); return; }
   if (a === "merge" || a === "replace") return run(async () => { await cloudFirstSync(a); cloudFirst = null; cloudPage = "home"; delete C.pendRec; cloudSave(); toast(L("Verbunden. Handy und PC sind jetzt auf demselben Stand.", "Connected. Your devices are now in sync.")); });
-  if (a === "add") { cloudPage = "add"; renderSet(); return; }
+  if (a === "add") { cloudPage = "add"; renderSet(); if (!(cloudPair && cloudPair.mode === "mine" && cloudPair.exp > Date.now())) pairShowMine().catch(cloudFail).finally(cloudUI); return; }
   if (a === "devs") { cloudPage = "devs"; renderSet(); cloudDevsLoad(); return; }
   if (a === "friends") { cloudPage = "friends"; frErr = ""; frRmAsk = null; renderSet(); frRefresh(true); return; }
   if (a === "rmdev") return run(async () => { await cloudRemoveDev(b.dataset.v); cloudDevsLoad(); });
