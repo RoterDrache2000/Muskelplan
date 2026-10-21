@@ -2735,6 +2735,30 @@ html:not(.fron) #tabs .frtab,html:not(.fron) .frshbtn{display:none!important}
 .clsteps{margin:8px 0;padding-left:22px;display:grid;gap:10px}
 .clsteps li{line-height:1.4}
 .clsteps .clrow,.clsteps .clqr{margin-top:8px}
+/* Liga */
+#frLiga .seg{margin:6px 0}
+#frLiga .lgart button,#frLiga .lgper button{flex:1}
+.lgyou{margin:8px 0;padding:8px 12px;border-radius:10px;background:var(--tagbg)}
+.lglb .lgrow{all:unset;cursor:pointer;display:block;min-width:0}
+.lglb .lgrow:focus-visible{outline:2px solid var(--pick);outline-offset:2px;border-radius:4px}
+.lgbr{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:4px;font-size:.85rem;color:var(--muted)}
+.lgbr b{color:var(--ink)}
+.lgpause .frkb{margin-left:4px}
+.lgfoot{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.lgstart{flex-wrap:wrap;margin-top:8px}
+.lgcheer{position:fixed;inset:0;display:grid;place-items:center;z-index:200;pointer-events:none;background:rgba(0,0,0,.25);animation:lgfade 3.2s ease forwards}
+.lgcheer>div{background:var(--panel);color:var(--ink);border-radius:18px;padding:22px 30px;text-align:center;display:grid;gap:6px;box-shadow:0 20px 50px -20px rgba(0,0,0,.5);animation:lgpop .6s cubic-bezier(.2,1.6,.4,1)}
+.lgcheer b{font-family:var(--display);font-size:1.8rem}
+.lgcheer span{color:var(--muted)}
+@keyframes lgpop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes lgfade{0%,80%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.lgcheer,.lgcheer>div{animation:none}}
+.lglb li{grid-template-columns:1.6em 32px minmax(0,1fr) auto auto}
+.lglb li>.n{white-space:nowrap}
+.lglb .lgbr{grid-column:3/-1}
+.admtiles{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+.admid{font-size:.72rem;word-break:break-all;opacity:.7}
+.admlist li{align-items:center}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
@@ -3048,6 +3072,17 @@ body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
       <button type="button" class="ghost" data-frdbg="rand">＋ 3 zufällige Freunde</button>
       <button type="button" class="danger" data-frdbg="reset">Demo komplett zurücksetzen</button>
     </div>
+    <div class="label">Liga testen (geht auch in der GitHub-Version, nur auf diesem Gerät, nichts wird hochgeladen)</div>
+    <p class="hint">Zeigt im Freunde-Tab ganz oben eine Test-Liga mit 6 erfundenen Leuten und dir. Deine eigenen Punkte sind echt (aus deinen Trainings). Du bist dort Gruppenleiter: Liga starten und beenden, Leute herausnehmen und wieder zulassen. Woche, Monat, Jahr, Fitness und Laufen lassen sich umschalten.</p>
+    <div class="formfoot">
+      <button type="button" class="primary" data-lgdbg="on">Test-Liga anzeigen</button>
+      <button type="button" class="ghost" data-lgdbg="rand">Neue Zufallswerte</button>
+      <button type="button" class="ghost" data-lgdbg="med">Sieger-Animation zeigen</button>
+      <button type="button" class="danger" data-lgdbg="off">Test-Liga aus</button>
+    </div>
+    <div class="label">Admin-Bereich (Server-Zahlen, Leute sperren)</div>
+    <p class="hint">Code eingeben. Funktioniert nur mit dem Online-Konto, das in den Firestore-Regeln als Admin eingetragen ist. Danach steht der Admin-Bereich auch unter ⚙ → Online-Konto.</p>
+    <div class="clrow"><input id="dbgAdm" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Code"><button type="button" class="primary" data-admin="1">Öffnen</button></div>
     <p class="hint" id="dbgMsg" aria-live="polite"></p>
   </section>
 </div>
@@ -8562,9 +8597,9 @@ Object.assign(I18N.ui, {"Diese PDF ist eingescannt und enthält keinen lesbaren 
 Object.assign(I18N.ui, {"Der Sägezahnmuskel zählt jetzt bei 69 Übungen mit, zum Beispiel bei Liegestützen, Bankdrücken, Schulterdrücken, Plank und Seitstütz. Deine Pläne werden automatisch ergänzt. Im Training gibt es den Video-Knopf jetzt auch in der Pause.": "The serratus now counts for 69 exercises, e.g. push-ups, bench press, shoulder press, plank and side plank. Your plans are updated automatically. During rest, the workout now also shows the video button."});
 Object.assign(I18N.ui, {"Training: Die Notiz zur Übung steht gut sichtbar unter dem Namen, auch in der Pause, und lässt sich mit ✎ direkt ändern. „Alternative“ ersetzt die Übung jetzt nur für heute, dein Plan bleibt gleich. Die Suche zeigt passende Übungen zuerst und findet sie auch mit anderer Schreibweise oder kleinem Tippfehler, zum Beispiel „Schulter drücken“ für „Schulterdrücken“. Viele Übungen findest du auch unter anderen Namen wie „Military Press“ oder „Stirndrücken“, darunter steht klein „auch bekannt als“. Das gilt auch beim Einlesen einer PDF. Die App öffnet beim Start den Plan, den du zuletzt offen hattest. Zeit-Übungen wie Plank fragen nach dem Stoppen der Stoppuhr „Übernehmen“, „Wiederholen“ oder „Anpassen“ und zeigen wie Körpergewicht-Übungen kein Gewicht mehr. Wer doch Gewicht nutzt, wählt beim Bearbeiten „Mit Zusatzgewicht“. Mit „⇅ Supersatz“ nimmst du, auch in der Pause, eine zweite Übung dazu: Beide machst du im Wechsel, die Pause kommt nach beiden. Supersätze legst du auch schon im Plan oder beim Start fest, eine kurze Erklärung steht jeweils dabei.": "Workout: your exercise note now sits clearly under the name, also during rest, and you can edit it right there with ✎. “Alternative” now replaces the exercise for today only, your plan stays the same. Search shows the best matches first and also finds exercises written differently or with a small typo, e.g. “shoulder-press” for “shoulder press”. Many exercises can also be found by other names such as “Military Press” or “skull crusher”, shown in small print as “also known as”. The same applies when importing a PDF. The app opens the plan you last had open. Timed exercises like the plank now ask “Keep time”, “Redo” or “Adjust” after you stop the stopwatch, and, like bodyweight exercises, no longer show a weight. If you do use weight, choose “With added weight” when editing. With “⇅ Superset” you can add a second exercise, even during rest: you alternate both, and the rest comes after both. You can also set supersets in the plan or when starting, each with a short explanation."});
 Object.assign(I18N.ui, {"Yoga und Dehnen: neue Übungsart „Halten“ mit 34 Posen und Dehnübungen, Planart „Beweglich“ zum eigenen Zusammenstellen aus der Bibliothek, mit YouTube-Videos zum Mitmachen, Halte-Timer mit Gong, Vibration und Atempunkten, Seitenwechsel, „Automatisch weiter“ und Steif/Okay/Locker nach jeder Übung. Unter „Fortschritt“ zeigt „Beweglichkeit“ Serie, Minuten pro Woche und längste Haltezeiten.": "Yoga and stretching: new exercise type “Hold” with 34 poses and stretches, plan type “Mobility” you put together yourself from the library, with YouTube videos to follow along, hold timer with gong, vibration and breathing dots, side switch, “Auto continue” and Stiff/Okay/Loose after each exercise. Under “Progress”, “Mobility” shows streak, minutes per week and longest holds."});
-Object.assign(I18N.ui, {"Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.": "On first launch and after an update a welcome screen appears: set language, brightness and look, choose whether to use an online account (offline works just as well), then continue with or without the tutorial.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.": "In the Friends tab, “My friends” and “What friends see” can be collapsed. Activity shows the last 10 entries.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.": "Tap a friend to see what they share. New to share: milestones (with an entry in the activity) and exercise history for “Compare”: your strength in one exercise as two lines, absolute or as progress in percent.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.":"Your own friends list: add friends directly with a friend code, no group needed. They're under ⚙ → “My friends” and in the Friends section.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.":"Fair leaderboard: besides “Absolute” there's “Fair” (weight moved relative to bodyweight, strength as DOTS points) and “Progress” in percent. New is also “Strength” from bench press, squat and deadlift. “Fair” only comes with the “Fair ranking” switch, your weight isn't uploaded.", "Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.": "Online account, optional and free, no password and no email: your plans, workouts and body stats on phone and PC. Connect devices with an 8-character code, with a recovery code for emergencies. Everything you already entered is kept. Only changes are sent, compressed, and on request only on Wi-Fi.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.": "New “Friends” section: groups via invite code or link (the creator accepts requests and can remove members), leaderboard, activity and “training now”. You decide what friends see, everything starts off. With “Share plan” you show your plan to a group or via link only, friends can view and copy it.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.": "The calculator is now under Progress (Stats | Calculator), so the bottom bar is less crowded.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken.": "Muscle recovery: note and video now also on PC and under Statistics."});
+Object.assign(I18N.ui, {"Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.": "On first launch and after an update a welcome screen appears: set language, brightness and look, choose whether to use an online account (offline works just as well), then continue with or without the tutorial.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.": "In the Friends tab, “My friends” and “What friends see” can be collapsed. Activity shows the last 10 entries.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.": "Tap a friend to see what they share. New to share: milestones (with an entry in the activity) and exercise history for “Compare”: your strength in one exercise as two lines, absolute or as progress in percent.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.":"Your own friends list: add friends directly with a friend code, no group needed. They're under ⚙ → “My friends” and in the Friends section.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.":"Fair leaderboard: besides “Absolute” there's “Fair” (weight moved relative to bodyweight, strength as DOTS points) and “Progress” in percent. New is also “Strength” from bench press, squat and deadlift. “Fair” only comes with the “Fair ranking” switch, your weight isn't uploaded.", "Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.": "Online account, optional and free, no password and no email: your plans, workouts and body stats on phone and PC. Connect devices with an 8-character code, with a recovery code for emergencies. Everything you already entered is kept. Only changes are sent, compressed, and on request only on Wi-Fi.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.": "New “Friends” section: groups via invite code or link (the creator accepts requests and can remove members), leaderboard, activity and “training now”. You decide what friends see, everything starts off. With “Share plan” you show your plan to a group or via link only, friends can view and copy it.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.": "The calculator is now under Progress (Stats | Calculator), so the bottom bar is less crowded.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken.": "Muscle recovery: note and video now also on PC and under Statistics.", "Liga im Freunde-Tab, freiwillig: Punkte für Einsatz (Trainingstage, Wochenziel, Steigerung, Bestwerte, Cardio, Serie) als Woche, Monat und Jahr, oder „Laufen“ nach Kilometern. Der Ersteller einer Gruppe startet die Liga und kann Leute herausnehmen. Wer vorne liegt, bekommt Medaillen.": "League in the Friends tab, optional: points for effort (training days, weekly goal, progress, PRs, cardio, streak) per week, month and year, or “Running” by kilometres. A group's creator starts the league and can remove people. Whoever is ahead gets medals."});
 const NOTES = [
-  ["1.3", "20.10.2026", ["Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.", "Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken."]],
+  ["1.3", "20.10.2026", ["Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.", "Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken.", "Liga im Freunde-Tab, freiwillig: Punkte für Einsatz (Trainingstage, Wochenziel, Steigerung, Bestwerte, Cardio, Serie) als Woche, Monat und Jahr, oder „Laufen“ nach Kilometern. Der Ersteller einer Gruppe startet die Liga und kann Leute herausnehmen. Wer vorne liegt, bekommt Medaillen."]],
   ["1.2", "19.10.2026", ["Einstellungen hinter dem ⚙ oben rechts: Sprache, Hell, Dunkel oder System, Skins mit kleiner Vorschau und Links zu Sicherung, Hilfe und Hinweisen.", "Yoga und Dehnen: neue Übungsart „Halten“ mit 34 Posen und Dehnübungen, Planart „Beweglich“ zum eigenen Zusammenstellen aus der Bibliothek, mit YouTube-Videos zum Mitmachen, Halte-Timer mit Gong, Vibration und Atempunkten, Seitenwechsel, „Automatisch weiter“ und Steif/Okay/Locker nach jeder Übung. Unter „Fortschritt“ zeigt „Beweglichkeit“ Serie, Minuten pro Woche und längste Haltezeiten.", "Training: Die Notiz zur Übung steht gut sichtbar unter dem Namen, auch in der Pause, und lässt sich mit ✎ direkt ändern. „Alternative“ ersetzt die Übung jetzt nur für heute, dein Plan bleibt gleich. Die Suche zeigt passende Übungen zuerst und findet sie auch mit anderer Schreibweise oder kleinem Tippfehler, zum Beispiel „Schulter drücken“ für „Schulterdrücken“. Viele Übungen findest du auch unter anderen Namen wie „Military Press“ oder „Stirndrücken“, darunter steht klein „auch bekannt als“. Das gilt auch beim Einlesen einer PDF. Die App öffnet beim Start den Plan, den du zuletzt offen hattest. Zeit-Übungen wie Plank fragen nach dem Stoppen der Stoppuhr „Übernehmen“, „Wiederholen“ oder „Anpassen“ und zeigen wie Körpergewicht-Übungen kein Gewicht mehr. Wer doch Gewicht nutzt, wählt beim Bearbeiten „Mit Zusatzgewicht“. Mit „⇅ Supersatz“ nimmst du, auch in der Pause, eine zweite Übung dazu: Beide machst du im Wechsel, die Pause kommt nach beiden. Supersätze legst du auch schon im Plan oder beim Start fest, eine kurze Erklärung steht jeweils dabei.", "Der Sägezahnmuskel zählt jetzt bei 69 Übungen mit, zum Beispiel bei Liegestützen, Bankdrücken, Schulterdrücken, Plank und Seitstütz. Deine Pläne werden automatisch ergänzt. Im Training gibt es den Video-Knopf jetzt auch in der Pause.", "Plan als PDF im neuen Design, wahlweise in Farbe oder Schwarz-Weiß, mit Muskel-Übersicht und Fortschritt je Übung. Die PDF lässt sich beim Plan-Erstellen wieder einlesen, und nach dem ersten Öffnen mit Internet geht das auch offline. Auch gekaufte Pläne mit einer Tabelle pro Übung werden samt Trainingstagen eingelesen, dazu kamen neue Übungen wie High Knees, Double Crunch und Plank Up-Down."]],
   ["1.1", "19.10.2026", ["Neues Design am Computer: Bereiche oben in einer Leiste und „Übersicht“ als Startseite mit Trainings und Volumen im Monat, Volumen pro Woche, Kraftentwicklung, Muskeln und Trainingstagen. Im Plan stehen die Tage links (direkt umbenennen und löschen), die Übungen als Tabelle zum direkten Ändern und Sortieren in der Mitte, Bibliothek und Abdeckung rechts. „▶ Training“ und die Einstellungen (⚙) sind oben rechts. Am Handy bleibt alles wie gewohnt.", "Rückblicke für Monat, halbes Jahr, Jahr und „Gesamt“ seit deinem ersten Training: Trainings, bewegtes Gewicht, Lieblingsübung, meisttrainierte Muskeln, wo du stärker geworden bist, Rhythmus, Cardio und Körpergewicht. Ist ein Zeitraum vorbei, erscheint auf der Startseite ein kleiner Hinweis. Am Computer findest du alle Rückblicke jederzeit unter „Fortschritt“.", "„Training starten“ am Handy fragt zuerst, welchen Tag du trainierst, zum Beispiel Ober- oder Unterkörper. Danach startet das Training sofort mit dem Gewichtsfeld.", "Zuhause-Version: Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt passende Körpergewichts-Übungen, ab Stufe 5 auch Handstand. Dazu 12 neue Übungen, zum Beispiel Liegestütze an der Wand, Muscle-ups, Front Lever und Dragon Flag.", "Handy: aufgeräumte Kopfzeile in einer Reihe und weniger Leerraum in der Tableiste unten."]],
   ["1.0", "19.10.2026", ["Großes Redesign, Muskelplan ist keine Beta mehr: neue Startseite mit deinen Trainingstagen und „Training starten“ (Stoppuhr, Pausen-Timer, Signalton), Tableiste unten am Handy und Seitenleiste am Computer, rundere Karten und Knöpfe.", "Die Muskelfigur auf der Startseite zeigt die Muskel-Erholung: was du frisch trainiert hast und was schon länger Pause hat.", "Neuer Trainings-Bildschirm: Satz-Kreise, große ± Knöpfe, Werte vom letzten Mal als Hinweis. Nach jedem Satz wählst du die nächste Übung, in der Pause siehst und bearbeitest du sie schon. „Noch ein Satz“ geht mit oder ohne Timer.", "Übungen auf Zeit wie Unterarmstütz (Plank) mit Stoppuhr und Ziel-Ring.", "Neuer Bildschirm „Training fertig!“ mit Dauer, Sätzen, bewegtem Gewicht, neuen Bestwerten und Vergleich zum letzten Mal.", "„⇄ Alternativen“ zeigt andere Übungen für dieselben Muskeln, im Training hilfreich, wenn ein Gerät besetzt ist. Übungen lassen sich auch mitten im Training hinzufügen.", "31 neue Übungen in der Bibliothek und passendere Wiederholungszahlen.", "Zuhause-Version: Du kannst jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Latzug oder Beinpresse.", "44 neue Meilensteine, jetzt 102 insgesamt.", "22 neue Skins, zum Beispiel Formel 1, Minecraft, Pokémon, Spotify und Rave, jeweils hell und dunkel.", "Fehler behoben: Eine geladene Sicherung wird nicht mehr überschrieben, und „Training starten“ verdeckt am Computer beim Scrollen nicht mehr die Muskelerholung."]],
@@ -9330,6 +9365,8 @@ function addTestPlan(key){
 }
 $("debugBox").addEventListener("click", e => {
   const fd = e.target.closest("[data-frdbg]"); if (fd) { demoDbg(fd.dataset.frdbg, fd); return; }
+  const ld = e.target.closest("[data-lgdbg]"); if (ld) { lgDbg(ld.dataset.lgdbg); return; }
+  if (e.target.closest("[data-admin]")) { if (!admOpen($("dbgAdm").value)) $("dbgMsg").textContent = "Falscher Code."; else $("dbgAdm").value = ""; return; }
   const b = e.target.closest("[data-test]"); if (!b) return;
   if (b.dataset.test === "clear") {
     const ids = new Set(state.plans.filter(p => p.test).map(p => p.id));
@@ -10209,7 +10246,7 @@ function renderSet(){
       <button type="button" data-set="help"><span>? ${L("Hilfe & Tour", "Help & tour")}</span><i>›</i></button>
       ${TUT2 ? "" : `<details class="setfaq"><summary>⇅ ${L("Supersätze: so geht's", "Supersets: how it works")}</summary><p>${esc(SS_HOW())}</p><p>${esc(L("Verbinden kannst du zwei Übungen an drei Stellen: im Plan mit „⇅“ an der Übung, beim Start unter „⇅ Supersätze“ und mitten im Training, auch in der Pause, mit „⇅ Supersatz“. Lösen geht genauso. Hast du dich vertippt, hilft „Rückgängig“ im Hinweis unten.", "You can link two exercises in three places: in the plan with “⇅” on the exercise, at the start under “⇅ Supersets”, and during the workout, also in the rest, with “⇅ Superset”. Unlinking works the same way. If you tapped the wrong one, use “Undo” in the message at the bottom."))}</p><div class="ytrow">${ytLink("Supersätze richtig trainieren", "How to do supersets right", "Supersätze richtig trainieren", "how to do supersets correctly")}</div></details>`}
       <button type="button" data-set="notes"><span>ℹ ${L(`Hinweise & Version ${APP_VERSION}`, `Notes & version ${APP_VERSION}`)}</span><i>›</i></button>
-    </div><div class="setver" id="setVer"></div>`;
+    </div>${admMiniHTML()}<div class="setver" id="setVer"></div>`;
   const v = $("appVer"); if (v) { $("setVer").appendChild(v); }
   keep();
 }
@@ -10225,7 +10262,7 @@ function setOpen(o){
   if (!o) { const v = $("appVer"), home = document.querySelector("header .topright"); if (v && home && el.contains(v)) home.appendChild(v); setPage = ""; }
   el.hidden = !o; $("setBg").hidden = !o || DSK(); document.body.classList.toggle("setopen", o && !DSK());
   ["setBtn", "dskGear"].forEach(id => { const b = $(id); if (b) { b.setAttribute("aria-expanded", String(o)); b.classList.toggle("on", o); } });
-  if (o) { setAll = false; try { checkUnlocks(true); } catch(e) {} renderSet(); requestAnimationFrame(() => el.querySelector('[aria-pressed="true"]')?.focus({ preventScroll: true })); }
+  if (o) { setAll = false; try { checkUnlocks(true); } catch(e) {} renderSet(); if (admOn() && !(adm && (adm.st || adm.err || adm.busy))) admLoad(); requestAnimationFrame(() => el.querySelector('[aria-pressed="true"]')?.focus({ preventScroll: true })); }
 }
 function setGo(id, view2){
   setOpen(false);
@@ -10342,9 +10379,9 @@ function demoSave(){ try { const o = {}; Object.entries(demoS).forEach(([k, v]) 
 const demoNow = () => new Date().toISOString();
 function demoPut(rel, o){ demoS[rel] = { f: fobj(o), t: demoNow() }; }
 const DEMO_PEOPLE = [
-  { a: "demo_lena", n: "Lena", s: { sh: "days,vol,cardio,streak,pr,kraft,fair,ms,prog,live,plans", msN: 23, msA: 80, msL: "days:25,pr:10,weeks:8,vol:50000,days:10", wd: 4, md: 14, wv: 18450, mv: 71200, wc: 60, mc: 240, streak: 9, wp: 3, mp: 7, wvr: 307.5, mvr: 1186.7, k3: 210, kd: 251, gd: 33, gdm: 17, gv: 12, gvm: 9, gc: 20, gcm: 14, kg3: 4 }, last: 0, live: { d: "Oberkörper", i: 3, n: 6 } },
-  { a: "demo_max", n: "Max", s: { sh: "days,vol,cardio,streak,pr,kraft,fair,prog,plans", wd: 3, md: 11, wv: 24100, mv: 90300, wc: 0, mc: 30, streak: 5, wp: 1, mp: 4, wvr: 267.8, mvr: 1003.3, k3: 380, kd: 244, gd: 0, gdm: 10, gv: -5, gvm: 3, gc: -100, gcm: -40, kg3: 2 }, last: 1 },
-  { a: "demo_sophie", n: "Sophie", s: { sh: "days,streak", wd: 2, md: 9, streak: 2, gd: -33, gdm: -10 }, last: 3 }
+  { a: "demo_lena", n: "Lena", s: { sh: "days,vol,cardio,streak,pr,kraft,fair,ms,prog,live,plans,liga", msN: 23, msA: 80, msL: "days:25,pr:10,weeks:8,vol:50000,days:10", wd: 4, md: 14, wv: 18450, mv: 71200, wc: 60, mc: 240, streak: 9, wp: 3, mp: 7, wvr: 307.5, mvr: 1186.7, k3: 210, kd: 251, gd: 33, gdm: 17, gv: 12, gvm: 9, gc: 20, gcm: 14, kg3: 4, lw: 88, lb: "40,15,12,5,6,10", lm: 312, ly: 2950, pw: 76, pm: 340, py: 3100, rw: 12.5, rm: 48.2, ry: 410, qw: 9.8, qm: 51, qy: 380 }, last: 0, live: { d: "Oberkörper", i: 3, n: 6 } },
+  { a: "demo_max", n: "Max", s: { sh: "days,vol,cardio,streak,pr,kraft,fair,prog,plans,liga", wd: 3, md: 11, wv: 24100, mv: 90300, wc: 0, mc: 30, streak: 5, wp: 1, mp: 4, wvr: 267.8, mvr: 1003.3, k3: 380, kd: 244, gd: 0, gdm: 10, gv: -5, gvm: 3, gc: -100, gcm: -40, kg3: 2, lw: 61, lb: "30,15,0,5,1,10", lm: 270, ly: 2400, pw: 81, pm: 300, py: 2600, rw: 0, rm: 6, ry: 120, qw: 3, qm: 10, qy: 90 }, last: 1 },
+  { a: "demo_sophie", n: "Sophie", s: { sh: "days,streak,liga", wd: 2, md: 9, streak: 2, gd: -33, gdm: -10, lw: 0, lb: "0,0,0,0,0,0", lm: 95, ly: 900, pw: 25, pm: 120, py: 1100, rw: 0, rm: 0, ry: 0, qw: 0, qm: 0, qy: 0 }, last: 3 }
 ];
 // Debug-Menü: Demo wieder einschalten, zurücksetzen, zufällige Test-Freunde
 async function demoDbg(a, btn){
@@ -10369,6 +10406,7 @@ async function demoDbg(a, btn){
         if (on("days")) Object.assign(s, { wd, md, gd: R(-60, 80), gdm: R(-40, 60) });
         if (on("vol")) Object.assign(s, { wv, mv, gv: R(-50, 90), gvm: R(-30, 60) }, on("fair") ? { wvr: Math.round(wv / bw * 10) / 10, mvr: Math.round(mv / bw * 10) / 10 } : {});
         if (on("cardio")) { const wc = R(0, 240); Object.assign(s, { wc, mc: wc * R(3, 5), gc: R(-80, 100), gcm: R(-50, 70) }); }
+        if (on("liga")) { const b6 = [R(0, 6) * 10, R(0, 1) * 15, R(0, 20), R(0, 3) * 5, R(0, 10), R(0, 5) * 2]; Object.assign(s, { lw: b6.reduce((x, y) => x + y, 0), lb: b6.join(","), lm: R(0, 520), ly: R(0, 5000), pw: R(0, 130), pm: R(0, 560), py: R(0, 5500), rw: R(0, 40), rm: R(0, 160), ry: R(0, 1500), qw: R(0, 40), qm: R(0, 160), qy: R(0, 1500) }); }
         if (on("streak")) s.streak = R(0, 40); if (on("pr")) Object.assign(s, { wp: R(0, 6), mp: R(0, 20) });
         if (on("kraft")) Object.assign(s, { k3, kg3: R(-10, 25) }, on("fair") ? { kd: Math.round(frDots(k3, bw, Math.random() < 0.5 ? "w" : "m") || 0) } : {});
         if (on("ms")) { const L5 = msIds.slice().sort(() => Math.random() - 0.5).slice(0, 5); Object.assign(s, { msN: R(5, Math.max(6, msIds.length - 5)), msA: msIds.length, msL: L5.join(",") }); }
@@ -10393,6 +10431,7 @@ function demoSeed(g, name, code, mine){
   const old = demoS[`groups/${g}`]; const cur = old ? fdecObj(old.f) : { name, owner: ppl[0].a, members: [], code, by: ppl[0].a, t: Date.now() };
   cur.members = [...new Set([...cur.members, ...ppl.map(p => p.a), ...mine])]; demoPut(`groups/${g}`, cur);
   if (g === "demogrp1" && !demoS[`codes/${code}`]) demoPut(`codes/${code}`, { g, n: name });
+  if (g === "demogrp1" && !demoS[`groups/${g}/liga/fit`]) demoPut(`groups/${g}/liga/fit`, { art: "fit", by: ppl[0].a, on: ppl.map(p => p.a), out: [], t: Date.now() });
   if (g !== "demogrp1") { demoPut(`groups/${g}/reqs/demo_sophie`, { n: "Sophie", jk: "", t: Date.now() }); demoPut(`groups/${g}/stats/demo_sophie`, Object.assign({ n: "Sophie", t: Date.now(), last: isoAdd(todayIso(), -3) }, DEMO_PEOPLE[2].s)); }
   ppl.forEach((p, k) => demoPerson(g, p, k));
 }
@@ -10585,7 +10624,7 @@ async function cloudSync(opts){
     // nach einem App-Update einmal alles holen, damit nichts liegen bleibt, was die alte Version übersprungen hat
     else { if (C.cv !== CLOUD_V) { await cloudPull(true); C.cv = CLOUD_V; } else await cloudPull(); await cloudPush(); }
     // einmal am Tag „zuletzt gesehen“ für die Geräteliste
-    if (!C.seen || Date.now() - C.seen > 864e5) { await fsCommit([wSet(`accounts/${C.acc}`, { joinKey: "", names: { [C.uid]: { n: C.dev || devName(), s: Date.now() } } }, { updateMask: { fieldPaths: ["joinKey", fpNames(C.uid)] } })]); C.seen = Date.now(); }
+    if (!C.seen || Date.now() - C.seen > 864e5) { await fsCommit([wSet(`accounts/${C.acc}`, { joinKey: "", la: Date.now(), names: { [C.uid]: { n: C.dev || devName(), s: Date.now() } } }, { updateMask: { fieldPaths: ["joinKey", "la", fpNames(C.uid)] } })]); C.seen = Date.now(); }
     cloudStat = "ok"; C.okT = Date.now(); C.err = "";
   } catch(e) {
     if (e.code === 403 || e.code === 404) { await cloudCheckGone(); }
@@ -10596,7 +10635,10 @@ async function cloudSync(opts){
 }
 // Wurde dieses Gerät entfernt oder das Konto gelöscht? Dann nur abmelden, die Daten bleiben auf dem Gerät.
 async function cloudCheckGone(){
-  try { const a = await fsGet(`accounts/${C.acc}`); if (a && (a.devices || []).includes(C.uid)) { cloudStat = "err"; return; } } catch(e) { if (e.code === 0) { cloudStat = "offline"; return; } }
+  try { const a = await fsGet(`accounts/${C.acc}`); if (a && (a.devices || []).includes(C.uid)) { cloudStat = "err";
+      // vom Admin gesperrt: Daten bleiben auf dem Gerät, nur der Abgleich geht nicht mehr
+      try { if (await fsGet(`bans/${C.acc}`)) { cloudStat = "ban"; cloudMsg = L("Dein Online-Konto wurde gesperrt. Deine Daten auf diesem Gerät bleiben, nur Abgleich und Freunde gehen nicht mehr.", "Your online account has been banned. Your data on this device stays; only sync and friends no longer work."); cloudStopPoll(); } } catch(e) {}
+      return; } } catch(e) { if (e.code === 0) { cloudStat = "offline"; return; } }
   cloudLeaveLocal(); cloudMsg = L("Dieses Gerät ist nicht mehr mit dem Online-Konto verbunden. Deine Daten bleiben auf dem Gerät.", "This device is no longer connected to the online account. Your data stays on the device."); toast(cloudMsg);
 }
 function cloudLeaveLocal(){ try { frData = {}; frUi = null; } catch(e) {} const keep = { uid: C.uid, refresh: C.refresh, tok: C.tok, exp: C.exp }; C = Object.assign(keep, { meta: {} }); cloudStat = ""; cloudSave(); cloudStopPoll(); cloudUI(); }
@@ -10618,7 +10660,7 @@ async function cloudCreate(name){
   await fbToken();
   try { localStorage.setItem("muskelplan.preCloud", JSON.stringify(state)); } catch(e) {}
   const acc = cRand(20, "abcdefghijkmnpqrstuvwxyz23456789"), rec = newRec(), rh = await recHash(rec);
-  await fsCommit([wSet(`accounts/${acc}`, { v: CLOUD_V, name, devices: [C.uid], names: { [C.uid]: { n: devName(), s: Date.now() } }, rec: rh, joinKey: "", t: Date.now() }, { currentDocument: { exists: false } })]);
+  try { await fsCommit([wSet(`accounts/${acc}`, { v: CLOUD_V, name, devices: [C.uid], names: { [C.uid]: { n: devName(), s: Date.now() } }, rec: rh, joinKey: "", t: Date.now(), c: Date.now(), la: Date.now() }, { currentDocument: { exists: false } })]); } catch(e) { if (e.code === 403 && await fsGet(`bandev/${C.uid}`).catch(() => null)) throw new CloudErr(L("Dieses Gerät ist für das Online-Konto gesperrt.", "This device is banned from the online account."), 400); throw e; }
   await fsCommit([wSet(`recovery/${rh}`, { acc })]);
   await fsCommit([wSet(`accounts/${acc}/docs/_rc`, { v: CLOUD_V, dev: C.uid, del: false, d: rec, kind: "rec" })]);
   Object.assign(C, { acc, name, rec, dev: devName(), meta: {}, pullT: null, seen: Date.now() }); cloudSave();
@@ -10754,10 +10796,82 @@ function cloudFail(e){ cloudMsg = e && e.code === 0 ? L("Keine Verbindung zum In
 
 
 // ----- Oberfläche: im ⚙-Menü unter „Online-Konto“ -----
+// ----- Admin-Bereich (nur für das Konto, das in den Firestore-Regeln als Admin steht; der Code hier öffnet nur die Seite) -----
+const ADM_CODE = "MP-ADMIN";
+let adm = null; // { st: Zahlen, list, q, ask, err, busy, bans }
+async function fsCount(coll, where){ const q = { from: [{ collectionId: coll }] }; if (where) q.where = where;
+  const j = await fsCall(`${dbRoot()}:runAggregationQuery`, { structuredAggregationQuery: { structuredQuery: q, aggregations: [{ alias: "n", count: {} }] } });
+  const f = j && j[0] && j[0].result && j[0].result.aggregateFields && j[0].result.aggregateFields.n; return f ? +(f.integerValue || 0) : 0; }
+const admGE = (k, v) => ({ fieldFilter: { field: { fieldPath: k }, op: "GREATER_THAN_OR_EQUAL", value: fv(v) } });
+const admEQ = (k, v) => ({ fieldFilter: { field: { fieldPath: k }, op: "EQUAL", value: fv(v) } });
+const admAcc = x => ({ id: frStr(x._id, 40), n: frStr(x.name, 24), c: frN(x.c, 9e15) || 0, la: frN(x.la, 9e15) || 0, dv: Array.isArray(x.devices) ? x.devices.length : 0 });
+async function admLoad(){
+  if (!cloudOn() || fbCfg().demo || (adm && adm.busy)) return; adm = Object.assign(adm || {}, { busy: true, err: "" }); cloudUI();
+  try { const t0 = new Date(); t0.setHours(0, 0, 0, 0); const d = n => Date.now() - n * 864e5;
+    const [acc, today, w, m, act, grp, duo, ban] = await Promise.all([fsCount("accounts"), fsCount("accounts", admGE("c", t0.getTime())), fsCount("accounts", admGE("c", d(7))), fsCount("accounts", admGE("c", d(30))),
+      fsCount("accounts", admGE("la", d(7))), fsCount("groups", admEQ("type", "")), fsCount("groups", admEQ("type", "duo")), fsCount("bans")]);
+    adm.st = { acc, today, w, m, act, grp, duo, ban };
+    adm.list = (await fsQuery("", "accounts", null, "la", 20, true)).map(admAcc);
+    adm.bans = (await fsQuery("", "bans", null, "t", 50, true)).map(x => ({ id: frStr(x._id, 40), n: frStr(x.n, 24), t: frN(x.t, 9e15) || 0 }));
+  } catch(e) { adm.err = e.code === 403 ? "noadmin" : e.code === 0 ? L("Keine Verbindung zum Internet.", "No internet connection.") : L("Laden hat nicht geklappt.", "Loading didn't work.") + " (" + e.message + ")"; }
+  adm.busy = false; cloudUI(); if (setIsOpen() && !setPage) renderSet();
+}
+function admHTML(back, msg){
+  const A = adm || {}, dt = ms => ms ? new Date(ms).toLocaleDateString(LOC(), { day: "2-digit", month: "2-digit", year: "2-digit" }) : "–";
+  const head = back + msg + `<h3>🛠 ${L("Admin-Bereich", "Admin area")}</h3>`;
+  if (!cloudOn()) return head + `<p class="hint">${L("Schalte zuerst das Online-Konto mit deinem Admin-Konto ein.", "First turn on the online account with your admin account.")}</p>`;
+  if (fbCfg().demo) return head + `<p class="hint">${L("Der Admin-Bereich geht nur mit dem echten Server (GitHub-Version), nicht in der Vorschau.", "The admin area only works with the real server (GitHub version), not in the preview.")}</p>`;
+  if (A.err === "noadmin") return head + `<p class="hint">${L("Dieses Konto ist kein Admin. Trag die Konto-ID unten in firestore.rules bei adminAcc() ein und veröffentliche die Regeln in Firebase neu.", "This account isn't an admin. Put the account ID below into firestore.rules at adminAcc() and publish the rules in Firebase again.")}</p>
+    <p class="clreccode n">${esc(C.acc)}</p><div class="clrow"><button type="button" class="ghost" data-cl="admcopy">${L("Konto-ID kopieren", "Copy account ID")}</button><button type="button" class="ghost" data-cl="admload">↻ ${L("Nochmal versuchen", "Try again")}</button></div>`;
+  if (!A.st) return head + `<p class="hint">${A.err ? esc(A.err) : L("Lädt …", "Loading …")}</p>${A.err ? `<button type="button" class="ghost" data-cl="admload">↻ ${L("Nochmal versuchen", "Try again")}</button>` : ""}`;
+  const S = A.st, tile = (v, l) => `<div class="frtile"><b class="big n">${fmt(v)}</b><span class="lab">${l}</span></div>`;
+  const row = x => `<li><span><b>${esc(x.n || L("Ohne Name", "No name"))}</b><span class="hint">${L(`seit ${dt(x.c)} · zuletzt ${dt(x.la)} · ${x.dv} Gerät${x.dv === 1 ? "" : "e"}`, `since ${dt(x.c)} · last ${dt(x.la)} · ${x.dv} device${x.dv === 1 ? "" : "s"}`)}</span><span class="hint admid">${esc(x.id)}</span></span>${x.id === C.acc ? `<span class="frtag">${L("du", "you")}</span>` : A.ask === x.id ? `<span class="frkick"><button type="button" class="danger mini" data-cl="admban" data-v="${esc(x.id)}" data-n="${esc(x.n)}">${L("Sperren", "Ban")}</button><button type="button" class="ghost mini" data-cl="admno">${L("Nein", "No")}</button></span>` : `<button type="button" class="ghost mini" data-cl="admask" data-v="${esc(x.id)}">${L("Sperren", "Ban")}</button>`}</li>`;
+  return head + `<p class="hint">${L("Zahlen direkt vom Server. Jedes Öffnen kostet nur ein paar Lesezugriffe.", "Numbers straight from the server. Each opening only costs a few reads.")}</p>
+    <div class="frtiles admtiles">${tile(S.acc, L("Konten gesamt", "accounts in total"))}${tile(S.act, L("aktiv in 7 Tagen", "active in 7 days"))}${tile(S.today, L("neu heute", "new today"))}${tile(S.w, L("neu in 7 Tagen", "new in 7 days"))}${tile(S.m, L("neu in 30 Tagen", "new in 30 days"))}${tile(S.grp, L("Gruppen", "groups"))}${tile(S.duo, L("Freundschaften", "friendships"))}${tile(S.ban, L("gesperrt", "banned"))}</div>
+    <p class="hint">${L("„Neu“ zählt Konten ab dieser Version. Wie ausgelastet der Server ist (Lese- und Schreibzugriffe, Speicher), zeigt nur die Firebase-Konsole:", "“New” counts accounts from this version on. How busy the server is (reads, writes, storage) is only shown in the Firebase console:")} <a href="https://console.firebase.google.com/project/${esc(fbCfg().projectId)}/firestore/usage" target="_blank" rel="noopener">${L("Firebase → Nutzung", "Firebase → Usage")}</a></p>
+    <div class="clrow"><button type="button" class="ghost" data-cl="admload"${A.busy ? " disabled" : ""}>↻ ${L("Aktualisieren", "Refresh")}</button></div>
+    <div class="label">${L("Konto suchen (genauer Name) oder Konto-ID", "Find account (exact name) or account ID")}</div>
+    <div class="clrow"><input id="admQ" maxlength="40" autocomplete="off" value="${esc(A.q || "")}" placeholder="${L("Name oder Konto-ID", "Name or account ID")}"><button type="button" class="primary" data-cl="admfind">${L("Suchen", "Search")}</button></div>
+    ${A.found ? `<ul class="cldevs admlist">${A.found.map(row).join("") || `<li class="hint">${L("Nichts gefunden.", "Nothing found.")}</li>`}</ul>` : ""}
+    <div class="label">${L("Zuletzt aktive Konten", "Recently active accounts")}</div><ul class="cldevs admlist">${(A.list || []).map(row).join("") || `<li class="hint">–</li>`}</ul>
+    <div class="label">${L("Gesperrt", "Banned")}</div><ul class="cldevs admlist">${(A.bans || []).map(b => `<li><span><b>${esc(b.n || b.id)}</b><span class="hint">${L(`gesperrt am ${dt(b.t)}`, `banned on ${dt(b.t)}`)}</span><span class="hint admid">${esc(b.id)}</span></span><button type="button" class="ghost mini" data-cl="admunban" data-v="${esc(b.id)}">${L("Entsperren", "Unban")}</button></li>`).join("") || `<li class="hint">${L("Niemand.", "Nobody.")}</li>`}</ul>
+    <p class="hint">${L("Gesperrte Konten kommen nicht mehr an ihre Online-Daten, Gruppen und Freunde. Die Daten auf ihren Geräten bleiben.", "Banned accounts can no longer reach their online data, groups and friends. The data on their devices stays.")}</p>`;
+}
+async function admAct(a, b){
+  adm ||= {};
+  if (a === "admload") return admLoad();
+  if (a === "admcopy") { try { await navigator.clipboard.writeText(C.acc || ""); toast(L("Kopiert.", "Copied.")); } catch(e) {} return; }
+  if (a === "admask") { adm.ask = b.dataset.v; renderSet(); return; }
+  if (a === "admno") { adm.ask = null; renderSet(); return; }
+  if (a === "admfind") { const q = ($("admQ").value || "").trim(); adm.q = q; if (!q) { adm.found = null; renderSet(); return; }
+    try { const byName = await fsQuery("", "accounts", admEQ("name", q), null, 20); let r = byName.map(admAcc);
+      if (/^[a-z0-9]{20}$/.test(q) && !r.some(x => x.id === q)) { const x = await fsGet(`accounts/${q}`).catch(() => null); if (x) r.push(admAcc(Object.assign(x, { _id: q }))); }
+      adm.found = r; } catch(e) { adm.err = e.message; } renderSet(); return; }
+  if (a === "admban") { const id = b.dataset.v; if (id === C.acc) return; b.disabled = true;
+    // auch die Geräte sperren, sonst legt man einfach ein neues Konto an
+    try { const x = await fsGet(`accounts/${id}`).catch(() => null), dv = (x && Array.isArray(x.devices) ? x.devices : []).filter(u => typeof u === "string").slice(0, 20);
+      await fsCommit([wSet(`bans/${id}`, { n: frStr(b.dataset.n, 24), t: Date.now(), by: C.acc, d: dv }), ...dv.map(u => wSet(`bandev/${u}`, { acc: id, t: Date.now() }))]); toast(L("Gesperrt.", "Banned.")); adm.ask = null; } catch(e) { toast(L("Sperren hat nicht geklappt.", "Banning didn't work.")); } return admLoad(); }
+  if (a === "admunban") { b.disabled = true; try { const x = await fsGet(`bans/${b.dataset.v}`).catch(() => null); await fsCommit([wDel(`bans/${b.dataset.v}`), ...((x && Array.isArray(x.d) ? x.d : []).filter(u => typeof u === "string").map(u => wDel(`bandev/${u}`)))]); toast(L("Entsperrt.", "Unbanned.")); } catch(e) { toast(L("Entsperren hat nicht geklappt.", "Unbanning didn't work.")); } return admLoad(); }
+}
+function admOpen(code){ if (String(code || "").trim().toUpperCase() !== ADM_CODE) return false; try { localStorage.setItem("muskelplan.adm", "1"); } catch(e) {} adm = null; setTimeout(() => { setOpen(true); setPage = ""; renderSet(); admLoad(); const el = $("setPanel"); requestAnimationFrame(() => { const t = $("setSecAdm"); if (el && t) el.scrollTop = t.offsetTop - 12; }); }, 0); return true; }
+// kurze Übersicht ganz unten im ⚙-Menü (lädt einmal pro Sitzung, ↻ holt neu)
+function admMiniHTML(){
+  if (!admOn()) return "";
+  const A = adm || {}, S = A.st, tile = (v, l) => `<div class="frtile"><b class="big n">${fmt(v)}</b><span class="lab">${l}</span></div>`;
+  const body = !cloudOn() ? `<p class="hint">${L("Schalte zuerst das Online-Konto mit deinem Admin-Konto ein.", "First turn on the online account with your admin account.")}</p>`
+    : fbCfg().demo ? `<p class="hint">${L("Statistiken gibt es nur mit dem echten Server (GitHub-Version).", "Statistics are only available with the real server (GitHub version).")}</p>`
+    : A.err === "noadmin" ? `<p class="hint">${L("Dieses Konto ist noch kein Admin. Unter „Alles öffnen“ steht deine Konto-ID für firestore.rules.", "This account isn't an admin yet. “Open all” shows your account ID for firestore.rules.")}</p>`
+    : !S ? `<p class="hint">${A.err ? esc(A.err) : L("Lädt …", "Loading …")}</p>`
+    : `<div class="frtiles admtiles">${tile(S.acc, L("Konten gesamt", "accounts in total"))}${tile(S.act, L("aktiv in 7 Tagen", "active in 7 days"))}${tile(S.today, L("neu heute", "new today"))}${tile(S.w, L("neu in 7 Tagen", "new in 7 days"))}${tile(S.m, L("neu in 30 Tagen", "new in 30 days"))}${tile(S.grp, L("Gruppen", "groups"))}${tile(S.duo, L("Freundschaften", "friendships"))}${tile(S.ban, L("gesperrt", "banned"))}</div>
+      <p class="hint"><a href="https://console.firebase.google.com/project/${esc(fbCfg().projectId)}/firestore/usage" target="_blank" rel="noopener">${L("Server-Auslastung: Firebase → Nutzung", "Server load: Firebase → Usage")}</a></p>`;
+  return `<div class="setsec" id="setSecAdm"><span class="label setskh">🛠 ${L("Developer-Statistiken", "Developer statistics")}${cloudOn() && !fbCfg().demo ? `<button type="button" class="setall" data-cl="admload"${A.busy ? " disabled" : ""}>↻ ${L("Aktualisieren", "Refresh")}</button>` : ""}</span>${body}
+    <div class="clrow"><button type="button" class="ghost" data-cl="adminfull">${L("Alles öffnen (Suchen & Sperren)", "Open all (search & ban)")} ›</button><button type="button" class="ghost" data-cl="admoff">${L("Ausblenden", "Hide")}</button></div></div>`;
+}
+const admOn = () => { try { return localStorage.getItem("muskelplan.adm") === "1"; } catch(e) { return false; } };
 function cloudStatusTxt(){
   if (!fbCfg()) return L("noch nicht eingerichtet", "not set up yet");
   if (!cloudOn()) return L("aus", "off");
-  return cloudStat === "sync" ? L("gleicht ab …", "syncing …") : cloudStat === "offline" ? L("offline, wird nachgeholt", "offline, will catch up") : cloudStat === "err" ? L("Fehler beim Abgleich", "sync error") : L("an", "on");
+  return cloudStat === "ban" ? L("gesperrt", "banned") : cloudStat === "sync" ? L("gleicht ab …", "syncing …") : cloudStat === "offline" ? L("offline, wird nachgeholt", "offline, will catch up") : cloudStat === "err" ? L("Fehler beim Abgleich", "sync error") : L("an", "on");
 }
 function cloudHTML(){
   const fp = cloudPage === "friends";
@@ -10809,6 +10923,7 @@ function cloudHTML(){
     <p class="hint">${L("Ein neuer Code macht den alten ungültig.", "A new code makes the old one invalid.")}</p>`;
   if (cloudPage === "who" && frWho) return `<div class="seth"><button type="button" class="setx cback" data-cl="back" aria-label="${L("Zurück", "Back")}">‹</button><h2>👥 ${esc(frWhoName())}</h2><button type="button" class="setx" data-set="close" aria-label="${L("Schließen", "Close")}">✕</button></div>` + frWhoHTML(true);
   if (fp) return back + msg + `<p class="hint">${L("Freunde direkt, ohne Gruppe.", "Friends directly, without a group.")}</p><div class="frset">${frMineSumHTML()}${frFriendsHTML(true)}</div>`;
+  if (cloudPage === "admin") return admHTML(back, msg);
   if (cloudPage === "devs") return back + msg + `<h3>${L("Verbundene Geräte", "Connected devices")}</h3><ul class="cldevs" id="clDevs">${cloudDevList ? cloudDevsHTML(cloudDevList) : `<li class="hint">${L("Lädt …", "Loading …")}</li>`}</ul>`;
   if (cloudPage === "wipe") return back + msg + `<h3>${L("Online-Konto löschen?", "Delete online account?")}</h3><p class="hint">${L("Alle deine Daten werden aus der Cloud gelöscht und alle Geräte getrennt. Auf den Geräten selbst bleibt alles erhalten.", "All your data is deleted from the cloud and all devices are disconnected. Everything stays on the devices themselves.")}</p>
     <div class="clrow"><button type="button" class="danger" data-cl="wipeyes">${L("Ja, alles aus der Cloud löschen", "Yes, delete everything from the cloud")}</button><button type="button" class="ghost" data-cl="back">${L("Abbrechen", "Cancel")}</button></div>`;
@@ -10821,6 +10936,7 @@ function cloudHTML(){
       <button type="button" data-cl="devs"><span>📱 ${L("Verbundene Geräte", "Connected devices")}</span><i>›</i></button>
       <button type="button" data-cl="rec"><span>🔑 ${L("Wiederherstellungs-Code", "Recovery code")}</span><i>›</i></button>
       <button type="button" data-cl="leave"><span>⏏ ${L("Dieses Gerät trennen", "Disconnect this device")}</span><i>›</i></button>
+      ${admOn() ? `<button type="button" data-cl="admin"><span>🛠 ${L("Admin-Bereich", "Admin area")}</span><i>›</i></button>` : ""}
       <button type="button" data-cl="wipe" class="cldanger"><span>🗑 ${L("Online-Konto löschen", "Delete online account")}</span><i>›</i></button>
     </div>
     <p class="hint">${L("Das laufende Training, der gerade offene Plan und das Aussehen (Skin, Hell/Dunkel, Sprache) bleiben pro Gerät.", "The running workout, the open plan and the look (skin, light/dark, language) stay per device.")}</p>`;
@@ -10848,7 +10964,7 @@ async function cloudAct(b){
   const run = async (fn, busy) => { b.disabled = true; if (busy) b.textContent = busy; try { await fn(); } catch(e) { cloudFail(e); } finally { b.disabled = false; cloudUI(); } };
   if (a === "back" && cloudPage === "who") { cloudPage = "friends"; frWho = null; renderSet(); return; }
   if (a === "back" && cloudPage === "add") pairDropMine();
-  if (a === "back") { if (cloudPage === "home" || cloudPage === "first" || cloudPage === "friends") setPage = ""; else cloudPage = "home"; cloudAsk = null; renderSet(); return; }
+  if (a === "back") { if (cloudPage === "home" || cloudPage === "first" || cloudPage === "friends" || (cloudPage === "admin" && admOn())) setPage = ""; else cloudPage = "home"; cloudAsk = null; renderSet(); return; }
   if (a === "create") { const n = ($("clName").value || "").trim().slice(0, 24); if (!n) { cloudMsg = L("Gib zuerst einen Namen ein.", "Enter a name first."); cloudUI(); $("clName")?.focus(); return; }
     return run(async () => { await cloudCreate(n); cloudPage = "rec"; toast(L("Online-Konto ist an. Alles von diesem Gerät ist hochgeladen.", "Online account is on. Everything from this device is uploaded.")); }, L("Wird eingerichtet …", "Setting up …")); }
   if (a === "join") { cloudPage = "join"; renderSet(); return; }
@@ -10867,6 +10983,10 @@ async function cloudAct(b){
   if (a === "recnew") return run(() => cloudRecNew());
   if (a === "leave") return run(async () => { await cloudRemoveDev(C.uid); cloudPage = "home"; toast(L("Dieses Gerät ist getrennt. Deine Daten bleiben hier.", "This device is disconnected. Your data stays here.")); });
   if (a === "wipe") { cloudPage = "wipe"; renderSet(); return; }
+  if (a === "admin") { cloudPage = "admin"; renderSet(); admLoad(); return; }
+  if (a === "adminfull") { setPage = "cloud"; cloudMsg = ""; cloudPage = "admin"; renderSet(); $("setPanel").scrollTop = 0; if (!(adm && adm.st)) admLoad(); return; }
+  if (a === "admoff") { try { localStorage.removeItem("muskelplan.adm"); } catch(e) {} adm = null; renderSet(); return; }
+  if (a.startsWith("adm")) return admAct(a, b);
   if (a === "wipeyes") return run(async () => { await cloudWipe(); cloudPage = "home"; toast(L("Online-Konto gelöscht. Deine Daten sind weiter auf diesem Gerät.", "Online account deleted. Your data is still on this device.")); });
   if (a === "sync") return run(() => cloudSync({ force: true }));
 }
@@ -10884,7 +11004,7 @@ setTimeout(cloudHash, 300);
 // ---------- Freunde: Gruppen mit Code, Bestenliste, Aktivität, geteilte Pläne (über das Online-Konto) ----------
 // Alles ist freiwillig: Jeder Punkt unter „Das sehen Freunde“ ist am Anfang aus. Was aus ist, wird gar nicht hochgeladen.
 // Körperwerte und Notizen sind nie teilbar. Die Einstellungen liegen in state.fr und werden mit den eigenen Geräten abgeglichen.
-const FR_SHARE = () => [["days", L("Trainingstage", "Training days")], ["vol", L("Bewegtes Gewicht", "Weight moved")], ["cardio", "Cardio"], ["streak", L("Wochen am Stück", "Weeks in a row")], ["pr", L("Bestwerte", "PRs")], ["kraft", L("Kraft (Bankdrücken, Kniebeugen, Kreuzheben)", "Strength (bench press, squat, deadlift)")], ["fair", L("Faire Wertung (mit Körpergewicht)", "Fair ranking (with bodyweight)")], ["ms", L("Meilensteine", "Milestones")], ["prog", L("Übungsverlauf (für „Vergleichen“)", "Exercise history (for “Compare”)")], ["live", L("„Trainiert gerade“", "“Training now”")], ["plans", L("Meine Pläne", "My plans")]];
+const FR_SHARE = () => [["days", L("Trainingstage", "Training days")], ["vol", L("Bewegtes Gewicht", "Weight moved")], ["cardio", "Cardio"], ["streak", L("Wochen am Stück", "Weeks in a row")], ["pr", L("Bestwerte", "PRs")], ["kraft", L("Kraft (Bankdrücken, Kniebeugen, Kreuzheben)", "Strength (bench press, squat, deadlift)")], ["fair", L("Faire Wertung (mit Körpergewicht)", "Fair ranking (with bodyweight)")], ["ms", L("Meilensteine", "Milestones")], ["prog", L("Übungsverlauf (für „Vergleichen“)", "Exercise history (for “Compare”)")], ["live", L("„Trainiert gerade“", "“Training now”")], ["plans", L("Meine Pläne", "My plans")], ["liga", L("Bei der Liga mitspielen", "Play in the league")]];
 const frSt = () => { state.fr ||= {}; const f = state.fr; f.share ||= {}; f.groups ||= []; f.shared ||= {}; f.pend ||= []; return f; };
 let frInvOpen = false, frPendJoin = null, lbMetric = "days", lbPeriod = "week", lbMode = "abs", frData = {}, frBusy = false, frErr = "", frUi = null, frTimer = null, frPollT = null, frLinkPlan = null;
 // „Freunde“ (_fr) ist keine echte Gruppe: sie fasst alle Freundschaften (type duo) zusammen
@@ -10925,7 +11045,7 @@ function frBig3(from, to){ const best = [0, 0, 0];
 function frDots(total, bw, sex){ if (!total || !bw) return null; const w = sex === "w" ? Math.min(150, Math.max(40, bw)) : Math.min(210, Math.max(40, bw));
   const c = sex === "w" ? [-57.96288, 13.6175032, -0.1126655495, 0.0005158568, -0.0000010706] : [-307.75076, 24.0900756, -0.1918759221, 0.0007391293, -0.000001093];
   return Math.round(total * 500 / (c[0] + c[1] * w + c[2] * w * w + c[3] * w ** 3 + c[4] * w ** 4) * 10) / 10; }
-const FR_LIM = {"wd":[0,7],"md":[0,31],"streak":[0,520],"kd":[0,1000],"k3":[0,1500],"wvr":[0,20000],"mvr":[0,80000],"wv":[0,2000000],"mv":[0,8000000],"wc":[0,10080],"mc":[0,44640],"wp":[0,1000],"mp":[0,4000],"msN":[0,2000],"msA":[0,2000],"gd":[-999,999],"gdm":[-999,999],"gv":[-999,999],"gvm":[-999,999],"gc":[-999,999],"gcm":[-999,999],"kg3":[-999,999]};
+const FR_LIM = {"wd":[0,7],"md":[0,31],"streak":[0,520],"kd":[0,1000],"k3":[0,1500],"wvr":[0,20000],"mvr":[0,80000],"wv":[0,2000000],"mv":[0,8000000],"wc":[0,10080],"mc":[0,44640],"wp":[0,1000],"mp":[0,4000],"msN":[0,2000],"msA":[0,2000],"gd":[-999,999],"gdm":[-999,999],"gv":[-999,999],"gvm":[-999,999],"gc":[-999,999],"gcm":[-999,999],"kg3":[-999,999],"lw":[0,130],"pw":[0,130],"lm":[0,600],"pm":[0,600],"ly":[0,6000],"py":[0,6000],"rw":[0,1000],"qw":[0,1000],"rm":[0,4000],"qm":[0,4000],"ry":[0,40000],"qy":[0,40000]};
 // Nur das hochladen, was freigegeben ist
 function frStatsDoc(over){
   const f = frSt(), s = over || f.share, w = frMine("week"), m = frMine("month"), o = { n: C.name || L("Ohne Name", "No name"), t: Date.now() };
@@ -10941,6 +11061,7 @@ function frStatsDoc(over){
     if (k3 > 0) { o.k3 = k3; put("kd", frDots(k3, bw, f.sex)); const both = now.map((v, i) => v && was[i] ? [v, was[i]] : null).filter(Boolean); if (both.length) put("kg3", frGrowth(both.reduce((a, x) => a + x[0], 0), both.reduce((a, x) => a + x[1], 0))); } }
   if (s.cardio) Object.assign(o, { wc: w.cmin, mc: m.cmin });
   if (s.streak) o.streak = w.streak;
+  if (s.liga) Object.assign(o, lgCalc());
   if (s.pr) Object.assign(o, { wp: w.pr, mp: m.pr });
   // welche Punkte freigegeben sind, damit Freunde sehen, was an und was aus ist
   const sh = FR_SHARE().map(x => x[0]).filter(k => s[k]).join(","); if (sh) o.sh = sh;
@@ -10995,6 +11116,156 @@ function frCopyPlan(d, by){
 }
 
 // ----- Fremde Daten säubern: alles, was von anderen kommt, hat nur erlaubte Felder und Typen -----
+// ----- Liga: Punkte für Einsatz, nicht für Kraft (Woche, Monat, Jahr). Jedes Gerät rechnet selbst, geteilt werden nur die Summen. -----
+const LG_RUN = /lauf|jogg|run/i, LG_LATE = 7 * 864e5;
+const lgMEnd = ym => { const [y, m] = ym.split("-").map(Number); return new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10); };
+const lgMPrev = ym => isoAdd(ym + "-01", -1).slice(0, 7);
+function lgCalc(){
+  const t = todayIso(), day = new Map(), add = (d, k, v) => { let o = day.get(d); if (!o) day.set(d, o = { sets: 0, cmin: 0, smin: 0, bmin: 0, vol: 0, km: 0 }); o[k] += v; };
+  // nachträglich eingetragen (mehr als 7 Tage später) zählt nicht, simulierte Einträge nie
+  const late = (d, ts) => ts && d && ts - new Date(d + "T23:59:59").getTime() > LG_LATE;
+  allEntries().forEach(({ u, e }) => { if (e.sim || !e.d || late(e.d, e.t)) return;
+    if (e.cardio) { add(e.d, "cmin", +e.cardio.min || 0); if (LG_RUN.test(u.name || "")) add(e.d, "km", +e.cardio.km || 0); }
+    else { add(e.d, "sets", setsOf(e).length); add(e.d, "vol", volume(e)); } });
+  state.plans.forEach(p => (p.sessions || []).forEach(s => { if (s.sim || s.manual || !s.timed || !s.d || !(s.end > s.start) || late(s.d, s.end)) return;
+    const m = Math.min(300, (s.end - s.start) / 60000); add(s.d, "smin", m); if (p.type === "beweglich") add(s.d, "bmin", m); }));
+  // Bestwerte nur bei Übungen, die man seit mindestens 2 Wochen macht
+  const prs = []; state.plans.forEach(p => p.units.forEach(u => { if (isCardio(u)) return; const Ls = sortedLog(u).filter(e => !e.cardio && !e.sim && !late(e.d, e.t)); if (Ls.length < 2) return;
+    let best = frTop(Ls[0]); Ls.slice(1).forEach(e => { const v = frTop(e); if (v > best) { if (Ls[0].d <= isoAdd(e.d, -14)) prs.push(e.d); best = v; } }); }));
+  const ap = state.plans.find(p => p.id === state.active), goal = Math.max(1, Math.min(7, (ap && (ap.days || []).length) || 3));
+  const W = new Map(), wk = mon => { if (W.has(mon)) return W.get(mon); const r = { days: 0, vol: 0, cb: 0, km: 0, n: 0 };
+    for (let i = 0; i < 7; i++) { const d = isoAdd(mon, i); if (d > t) break; r.n++; const o = day.get(d); if (!o) continue; if (o.sets >= 3 || o.cmin >= 20 || o.smin >= 20) r.days++; r.vol += o.vol; r.cb += o.cmin + o.bmin; r.km += o.km; }
+    W.set(mon, r); return r; };
+  const P = new Map(), pts = mon => { if (P.has(mon)) return P.get(mon); const w = wk(mon), base = [1, 2, 3, 4].reduce((n, k) => n + wk(isoAdd(mon, -7 * k)).vol, 0) / 4;
+    let st = 0; for (let m = mon; st < 5 && wk(m).days > 0; m = isoAdd(m, -7)) st++;
+    const end = isoAdd(mon, 6), b = [Math.min(60, 10 * w.days), w.days >= goal ? 15 : 0, base > 0 && w.vol > base ? Math.min(20, Math.round((w.vol - base) / base * 100)) : 0,
+      Math.min(15, 5 * prs.filter(d => d >= mon && d <= end && d <= t).length), Math.min(10, Math.floor(w.cb / 10)), Math.min(10, 2 * st)];
+    const r = { b, s: Math.min(130, b.reduce((x, y) => x + y, 0)) }; P.set(mon, r); return r; };
+  // Monat: Wochen am Monatsrand zählen anteilig nach Tagen; Jahr: die besten 10 Monate
+  const mon = ym => { let s = 0, km = 0; const a = ym + "-01", z = lgMEnd(ym);
+    for (let m = mondayOf(a); m <= z; m = isoAdd(m, 7)) { const w = wk(m); if (!w.n) continue; let inM = 0; for (let i = 0; i < w.n; i++) { const d = isoAdd(m, i); if (d >= a && d <= z) inM++; } s += pts(m).s * inM / w.n; }
+    day.forEach((o, d) => { if (d >= a && d <= z) km += o.km; }); return [Math.round(s), Math.round(km * 10) / 10]; };
+  const yr = y => { const M = []; for (let i = 1; i <= 12; i++) { const ym = y + "-" + String(i).padStart(2, "0"); if (ym > t.slice(0, 7)) break; M.push(mon(ym)); }
+    const top = k => Math.round(M.map(x => x[k]).sort((a, b) => b - a).slice(0, 10).reduce((a, b) => a + b, 0) * 10) / 10; return [top(0), top(1)]; };
+  const m0 = mondayOf(t), cw = pts(m0), pw = pts(isoAdd(m0, -7)), cm = mon(t.slice(0, 7)), pm = mon(lgMPrev(t.slice(0, 7))), y0 = +t.slice(0, 4), cy = yr(y0), py = yr(y0 - 1), r1 = v => Math.round(v * 10) / 10;
+  return { lw: cw.s, lb: cw.b.join(","), lm: cm[0], ly: cy[0], pw: pw.s, pm: pm[0], py: py[0], rw: r1(wk(m0).km), rm: cm[1], ry: cy[1], qw: r1(wk(isoAdd(m0, -7)).km), qm: pm[1], qy: py[1] };
+}
+const LG_F = ["lw", "lm", "ly", "pw", "pm", "py", "rw", "rm", "ry", "qw", "qm", "qy"];
+let lgArt = "fit", lgPer = "w", lgOpen = null, lgEnd = null;
+const lgDay = s => s && s.t ? frDayOf(s.t) : "";
+// gleicher Zeitraum wie heute? (sonst sind die geteilten Werte von einer früheren Woche / einem früheren Monat)
+const lgKey = (d, per, back) => { const t = todayIso(); if (per === "w") return mondayOf(d) === isoAdd(mondayOf(t), back ? -7 : 0); if (per === "m") return d.slice(0, 7) === (back ? lgMPrev(t.slice(0, 7)) : t.slice(0, 7)); return d.slice(0, 4) === String(+t.slice(0, 4) - (back ? 1 : 0)); };
+function lgVal(s, art, per){ const k = (art === "run" ? "r" : "l") + per; if (!s || s[k] == null) return null; const d = lgDay(s); return d && lgKey(d, per) ? +s[k] || 0 : 0; }
+function lgPrev(s, art, per){ if (!s || s[(art === "run" ? "r" : "l") + per] == null) return null; const d = lgDay(s); if (!d) return null;
+  return lgKey(d, per) ? +s[(art === "run" ? "q" : "p") + per] || 0 : lgKey(d, per, true) ? +s[(art === "run" ? "r" : "l") + per] || 0 : 0; }
+const lgParts = s => { const b = String(s && s.lb || "").split(",").map(Number); return b.length === 6 && b.every(Number.isFinite) ? b : null; };
+const lgShort = b => b ? [b[0] ? L(`${b[0] / 10} Tage`, `${b[0] / 10} days`) : "", b[1] ? L("Ziel", "goal") : "", b[2] ? `+${b[2]} %` : "", b[3] ? L(`${b[3] / 5} Bestwert${b[3] > 5 ? "e" : ""}`, `${b[3] / 5} PR${b[3] > 5 ? "s" : ""}`) : "", b[4] ? `${b[4] * 10} min` : "", b[5] ? L(`Serie ${b[5] / 2}`, `streak ${b[5] / 2}`) : ""].filter(Boolean).join(", ") : "";
+const LG_PN = () => [L("Trainingstage", "Training days"), L("Wochenziel", "Weekly goal"), L("Steigerung", "Progress"), L("Bestwerte", "PRs"), L("Cardio und Beweglichkeit", "Cardio and mobility"), L("Serie", "Streak")];
+// Wer spielt mit? Gruppe: wer „Mitspielen“ getippt hat und nicht herausgenommen wurde. Freunde: wer die Liga eingeschaltet hat.
+function lgPlayers(D, mem, art){
+  if (D.all) return mem.filter(m => m.me ? frSt().share.liga : m.s.lw != null);
+  const Lg = (D.liga || {})[art]; if (!Lg) return []; return mem.filter(m => Lg.on.includes(m.a) && !Lg.out.includes(m.a));
+}
+const lgFmt = (v, art) => art === "run" ? fmt(v) + " km" : fmt(v) + " " + L("Punkte", "pts");
+const lgMed = i => ["🥇", "🥈", "🥉"][i] || "";
+function lgHTML(G, D, mem){
+  const f = frSt(), own = D.grp.owner === C.acc && !D.all, Lg = D.liga || {}, arts = D.all ? ["fit", "run"] : ["fit", "run"].filter(a => Lg[a]);
+  const artN = a => a === "run" ? "🏃 " + L("Laufen", "Running") : "💪 Fitness";
+  if (!arts.includes(lgArt)) lgArt = arts[0] || "fit";
+  const start = own ? `<div class="clrow lgstart">${["fit", "run"].filter(a => !Lg[a]).map(a => `<button type="button" class="${arts.length ? "ghost" : "primary"} mini" data-lg="start" data-a="${a}">＋ ${L("Liga starten", "Start league")}: ${artN(a)}</button>`).join("")}</div>` : "";
+  const head = `<div class="frbh"><h3>🏆 ${L("Liga", "League")}</h3>${arts.length > 1 ? `<div class="seg lgart">${arts.map(a => `<button type="button" data-lgart="${a}" aria-pressed="${lgArt === a}">${artN(a)}</button>`).join("")}</div>` : arts.length ? `<span class="frkw">${artN(arts[0])}</span>` : ""}</div>`;
+  if (!arts.length) return `<div class="panel frbox" id="frLiga">${head}<p class="hint">${own ? L("Starte eine Liga für diese Gruppe. Wer mitmachen will, tippt danach selbst auf „Mitspielen“.", "Start a league for this group. Anyone who wants to join then taps “Play” themselves.") : L("In dieser Gruppe gibt es noch keine Liga. Der Ersteller der Gruppe kann eine starten.", "This group has no league yet. The group's creator can start one.")}</p>${start}</div>`;
+  const art = lgArt, per = lgPer, A = Lg[art], players = lgPlayers(D, mem, art), meIn = players.some(m => m.me), out = !D.all && A && A.out.includes(C.acc);
+  const rows = players.map(m => ({ ...m, v: lgVal(m.s, art, per) })), act = rows.filter(r => r.v > 0).sort((a, b) => b.v - a.v), pause = rows.filter(r => !(r.v > 0));
+  const max = Math.max(1, ...act.map(r => r.v)), myI = act.findIndex(r => r.me), my = act[myI];
+  const you = !meIn ? "" : my ? `<p class="lgyou"><b>${L("Du", "You")}: ${lgFmt(my.v, art)}</b> · ${L(`Platz ${myI + 1}`, `place ${myI + 1}`)}${myI > 0 ? ` · ${L(`noch ${fmt(Math.round((act[myI - 1].v - my.v) * 10) / 10 + (art === "run" ? 0.1 : 1))} bis Platz ${myI}`, `${fmt(Math.round((act[myI - 1].v - my.v) * 10) / 10 + (art === "run" ? 0.1 : 1))} more for place ${myI}`)}${art === "run" ? " km" : ""}` : act.length > 1 ? " 🎉" : ""}</p>` : `<p class="lgyou">${L("Du hast in diesem Zeitraum noch keine Punkte.", "You have no points in this period yet.")}</p>`;
+  const kick = m => own && !m.me ? (frUi && frUi.lgKick === m.a ? `<span class="frkick"><button type="button" class="danger mini" data-lg="kick" data-v="${esc(m.a)}">${L("Herausnehmen", "Remove")}</button><button type="button" class="ghost mini" data-lg="cancel">${L("Nein", "No")}</button></span>` : `<button type="button" class="ghost mini frkb" data-lg="kickask" data-v="${esc(m.a)}" aria-label="${L(`${esc(m.s.n)} aus der Liga nehmen`, `Remove ${esc(m.s.n)} from the league`)}">✕</button>`) : "";
+  const row = (r, i) => { const b = art === "fit" && per === "w" ? lgParts(r.s) : null, open = lgOpen === r.a && b;
+    return `<li class="${r.me ? "me" : ""}"><span class="rk">${lgMed(i) || i + 1}</span>${frAv(r.s.n, r.me)}<span class="frlbn"><button type="button" class="lgrow" data-lgw="${esc(r.a)}"${b ? ` aria-expanded="${!!open}"` : ""}><b>${esc(r.me ? L("Du", "You") : r.s.n)}</b>${b ? `<span class="hint"> · ${lgShort(b)}</span>` : ""}</button><span class="bar"><i style="width:${r.v / max * 100}%"></i></span></span><b class="n">${lgFmt(r.v, art)}</b>${kick(r)}${open ? `<span class="lgbr">${LG_PN().map((n, k) => b[k] ? `<span>${n} <b class="n">${b[k]}</b></span>` : "").join("")}</span>` : ""}</li>`; };
+  // Ergebnis des letzten Zeitraums (aus den geteilten Werten, damit es jeder gleich sieht)
+  const prevR = players.map(m => ({ ...m, v: lgPrev(m.s, art, per) })).filter(r => r.v > 0).sort((a, b) => b.v - a.v).slice(0, 3);
+  const perN = { w: L("Letzte Woche", "Last week"), m: L("Letzter Monat", "Last month"), y: L("Letztes Jahr", "Last year") }[per];
+  const last = prevR.length ? `<p class="hint lglast">${perN}: ${prevR.map((r, i) => `${per === "y" && !i ? "🏆" : lgMed(i)} ${esc(r.me ? L("Du", "You") : r.s.n)} ${lgFmt(r.v, art)}`).join(" · ")}</p>` : "";
+  const outL = own && A && A.out.length ? `<div class="label">${L("Aus der Liga genommen", "Removed from the league")}</div><ul class="frmem2">${A.out.map(a => { const m = mem.find(x => x.a === a); return `<li>${frAv(m ? m.s.n : "?")}<span><b>${esc(m ? m.s.n : L("Mitglied", "Member"))}</b></span><button type="button" class="ghost mini" data-lg="allow" data-v="${esc(a)}">${L("Wieder zulassen", "Allow again")}</button></li>`; }).join("")}</ul>` : "";
+  const joinB = out ? `<p class="hint">${L("Der Ersteller hat dich aus dieser Liga genommen.", "The creator removed you from this league.")}</p>` : !meIn ? `<button type="button" class="primary frbig" data-lg="join">🏆 ${L("Mitspielen", "Play")}</button>` : "";
+  const endB = own ? (lgEnd === art ? `<span class="frkick"><span class="hint">${L("Liga für alle beenden?", "End the league for everyone?")}</span><button type="button" class="danger mini" data-lg="end">${L("Ja, beenden", "Yes, end")}</button><button type="button" class="ghost mini" data-lg="cancel">${L("Nein", "No")}</button></span>` : `<button type="button" class="ghost mini" data-lg="endask">${L("Liga beenden", "End league")}</button>`) : "";
+  const medals = (f.med || []).length ? `<p class="hint lgmed">${L("Deine Medaillen", "Your medals")}: ${["w", "1", "2", "3", "y"].map(k => { const n = f.med.filter(x => (k === "w" ? x.p === "w" : k === "y" ? x.p === "y" : x.p === "m" && String(x.r) === k)).length; return n ? `${{ w: "🏅", 1: "🥇", 2: "🥈", 3: "🥉", y: "🏆" }[k]} ${n}` : ""; }).filter(Boolean).join(" · ")}</p>` : "";
+  const expl = art === "run" ? L("Gezählt werden gelaufene Kilometer (Laufen und Joggen). Monat = alle Läufe im Monat, Jahr = die besten 10 Monate.", "Counts kilometres run (running and jogging). Month = all runs in the month, year = the best 10 months.")
+    : L("Punkte gibt es für Einsatz, nicht für Kraft: 10 pro Trainingstag, 15 fürs Wochenziel, bis 20 für Steigerung, 5 pro Bestwert, 1 pro 10 min Cardio oder Beweglichkeit, 2 pro Woche Serie. Höchstens 130 pro Woche. Monat = Summe der Wochen, Jahr = die besten 10 Monate. Tippe auf einen Namen für die Aufschlüsselung.", "Points are for effort, not strength: 10 per training day, 15 for the weekly goal, up to 20 for progress, 5 per PR, 1 per 10 min of cardio or mobility, 2 per week of streak. At most 130 per week. Month = sum of the weeks, year = the best 10 months. Tap a name for the breakdown.");
+  return `<div class="panel frbox" id="frLiga">${head}
+    <div class="seg lgper" role="group" aria-label="${L("Zeitraum", "Period")}">${[["w", L("Woche", "Week")], ["m", L("Monat", "Month")], ["y", L("Jahr", "Year")]].map(([k, n]) => `<button type="button" data-lgper="${k}" aria-pressed="${per === k}">${n}</button>`).join("")}</div>
+    ${you}<ol class="frlb lglb">${act.map(row).join("") || `<li class="hint">${players.length ? L("Noch hat niemand Punkte in diesem Zeitraum.", "Nobody has points in this period yet.") : L("Noch spielt niemand mit.", "Nobody is playing yet.")}</li>`}</ol>
+    ${pause.length ? `<p class="hint lgpause">${L("Pause", "Resting")}: ${pause.map(r => `${esc(r.me ? L("Du", "You") : r.s.n)}${kick(r)}`).join(", ")}</p>` : ""}
+    ${last}${medals}${joinB}
+    <p class="hint">${expl}${D.all ? " " + L("Bei Freunden spielt jeder mit, der „Mitspielen“ getippt hat.", "Among friends, everyone who tapped “Play” takes part.") : ""}</p>
+    ${outL}<div class="lgfoot">${meIn ? `<button type="button" class="ghost mini" data-lg="leave">${L("Nicht mehr mitspielen", "Stop playing")}</button>` : ""}${endB}</div>${start}</div>`;
+}
+// Neuer Zeitraum: wer letzte Woche / letzten Monat / letztes Jahr vorne war, bekommt einmal eine Medaille
+function lgMedals(G, D, mem){
+  const f = frSt(), t = todayIso(); f.med ||= []; let won = null;
+  ["fit", "run"].forEach(art => { const players = lgPlayers(D, mem, art); if (players.length < 2 || !players.some(m => m.me)) return;
+    ["w", "m", "y"].forEach(per => { const R = players.map(m => ({ ...m, v: lgPrev(m.s, art, per) })).filter(r => r.v > 0).sort((a, b) => b.v - a.v);
+      const i = R.findIndex(r => r.me); if (i < 0 || R.length < 2 || i > (per === "w" ? 0 : 2)) return;
+      const id = per === "w" ? isoAdd(mondayOf(t), -7) : per === "m" ? lgMPrev(t.slice(0, 7)) : String(+t.slice(0, 4) - 1), key = [G.id, art, per, id].join(":");
+      if (f.med.some(x => x.k === key)) return; f.med.push({ k: key, p: per, r: i + 1, a: art, g: frStr(G.name, 40), d: t }); if (f.med.length > 300) f.med.splice(0, f.med.length - 300);
+      if (!won || { w: 1, m: 2, y: 3 }[per] > { w: 1, m: 2, y: 3 }[won.per]) won = { per, i, art, g: G.name }; }); });
+  if (!won) return; save();
+  const txt = won.per === "w" ? L("Wochensieger", "Winner of the week") : won.per === "m" ? L(`Platz ${won.i + 1} im Monat`, `Place ${won.i + 1} of the month`) : L(`Platz ${won.i + 1} im Jahr`, `Place ${won.i + 1} of the year`);
+  lgCheer((won.per === "y" ? "🏆" : won.per === "w" ? "🏅" : lgMed(won.i)) + " " + txt, (won.art === "run" ? L("Liga Laufen", "Running league") : L("Liga Fitness", "Fitness league")) + " · " + esc(won.g));
+}
+function lgCheer(a, b){ const el = document.createElement("div"); el.className = "lgcheer"; el.setAttribute("role", "status"); el.innerHTML = `<div><b>${a}</b><span>${b}</span></div>`; document.body.append(el); setTimeout(() => el.remove(), 3200); }
+async function lgAct(b){
+  if (lgTest && b.closest("#frLigaT")) { lgTestAct(b); return; }
+  const a = b.dataset.lg, G = frGroup(), D = G && frData[G.id]; if (!D) return; const art = b.dataset.a || lgArt, base = `groups/${G.id}/liga/${art}`, v = b.dataset.v;
+  if (a === "kickask") { frUi = Object.assign({}, frUi, { lgKick: v }); renderFriends(); return; }
+  if (a === "endask") { lgEnd = art; renderFriends(); return; }
+  if (a === "cancel") { lgEnd = null; if (frUi) delete frUi.lgKick; renderFriends(); return; }
+  const tr = (k, op, acc) => ({ fieldPath: k, [op]: { values: [fv(acc)] } }), up = trs => fsCommit([{ update: { name: docName(base), fields: fobj({ t: Date.now() }) }, updateMask: { fieldPaths: ["t"] }, updateTransforms: trs, currentDocument: { exists: true } }]);
+  b.disabled = true; frErr = "";
+  try {
+    if (a === "start") { await fsCommit([wSet(base, { art, by: C.acc, on: [C.acc], out: [], t: Date.now() }, { currentDocument: { exists: false } })]); lgArt = art; if (!frSt().share.liga) await frShareSet("liga", true); }
+    else if (a === "end") { await fsCommit([wDel(base)]); lgEnd = null; }
+    else if (a === "join") { if (!D.all) await up([tr("on", "appendMissingElements", C.acc)]); if (!frSt().share.liga) await frShareSet("liga", true); }
+    else if (a === "leave") { if (D.all) await frShareSet("liga", false); else await up([tr("on", "removeAllFromArray", C.acc)]); }
+    else if (a === "kick") { await up([tr("on", "removeAllFromArray", v), tr("out", "appendMissingElements", v)]); if (frUi) delete frUi.lgKick; }
+    else if (a === "allow") await up([tr("out", "removeAllFromArray", v)]);
+    await frRefresh(true);
+  } catch(e) { frErr = e && e.code === 0 ? L("Keine Verbindung zum Internet.", "No internet connection.") : L("Das hat nicht geklappt. Versuch es noch einmal.", "That didn't work. Please try again."); renderFriends(); }
+  b.disabled = false;
+}
+// ----- Debug: Test-Liga nur auf diesem Gerät (erfundene Leute, eigene Punkte echt), damit man die Liga ohne Freunde ausprobieren kann -----
+let lgTest = null;
+const lgTestMe = () => C.acc || "_me";
+function lgTestRand(){ const R = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+  return ["Jonas", "Mia", "Leon", "Emma", "Paul", "Lea"].map((n, i) => { const b6 = [R(0, 6) * 10, R(0, 1) * 15, R(0, 20), R(0, 3) * 5, R(0, 10), R(0, 5) * 2], rest = i === 5;
+    const s = rest ? { n, lw: 0, lb: "0,0,0,0,0,0", lm: 0, ly: R(0, 800), pw: 0, pm: R(0, 200), py: R(0, 900), rw: 0, rm: 0, ry: R(0, 50), qw: 0, qm: 0, qy: R(0, 60) }
+      : { n, lw: b6.reduce((x, y) => x + y, 0), lb: b6.join(","), lm: R(20, 520), ly: R(200, 5000), pw: R(0, 130), pm: R(0, 560), py: R(0, 5500), rw: R(0, 40), rm: R(0, 160), ry: R(0, 1500), qw: R(0, 40), qm: R(0, 160), qy: R(0, 1500) };
+    return { a: "_t" + i, s: Object.assign(s, { t: Date.now() }) }; }); }
+function lgTestData(){ const me = lgTestMe(), my = Object.assign({ n: C.name || L("Du", "You"), t: Date.now() }, lgCalc());
+  const mem = [{ a: me, me: true, s: my }].concat(lgTest.ppl.map(p => ({ a: p.a, me: false, s: p.s })));
+  return { G: { id: "_lgtest", name: L("Test-Liga", "Test league") }, D: { all: false, grp: { owner: me, members: mem.map(m => m.a) }, liga: lgTest.liga }, mem }; }
+function lgTestHTML(){ if (!lgTest) return ""; const { G, D, mem } = lgTestData(); const own = C.acc; C.acc = lgTestMe();
+  try { return `<div class="frlgtest"><p class="frdemo">🧪 ${L("Test-Liga aus dem Debug-Menü: nur auf diesem Gerät, die anderen sind erfunden.", "Test league from the debug menu: only on this device, the others are made up.")}</p>` + lgHTML(G, D, mem).replace('id="frLiga"', 'id="frLigaT"') + "</div>"; } finally { C.acc = own; } }
+function lgTestAct(b){ const a = b.dataset.lg, art = b.dataset.a || lgArt, v = b.dataset.v, me = lgTestMe(), Lg = lgTest.liga, A = Lg[art], rm = (x, k) => x.filter(y => y !== k);
+  if (a === "kickask") { frUi = Object.assign({}, frUi, { lgKick: v }); }
+  else if (a === "endask") lgEnd = art;
+  else if (a === "cancel") { lgEnd = null; if (frUi) delete frUi.lgKick; }
+  else if (a === "start") { Lg[art] = { on: [me], out: [] }; lgArt = art; }
+  else if (a === "end") { delete Lg[art]; lgEnd = null; }
+  else if (a === "join" && A) A.on = [...new Set([...A.on, me])];
+  else if (a === "leave" && A) A.on = rm(A.on, me);
+  else if (a === "kick" && A) { A.on = rm(A.on, v); A.out = [...new Set([...A.out, v])]; if (frUi) delete frUi.lgKick; }
+  else if (a === "allow" && A) { A.out = rm(A.out, v); A.on = [...new Set([...A.on, v])]; }
+  renderFriends(); }
+function lgDbg(a){ const msg = t => { $("dbgMsg").textContent = t; };
+  if (a === "off") { lgTest = null; msg("Test-Liga ist aus."); if (view === "freunde") renderFriends(); return; }
+  if (a === "med") { lgCheer("🏅 " + L("Wochensieger", "Winner of the week"), L("Liga Fitness · Test-Liga", "Fitness league · Test league")); return; }
+  const ppl = lgTestRand();
+  if (!lgTest || a === "on") lgTest = { ppl, liga: { fit: { on: [lgTestMe(), ...ppl.map(p => p.a)], out: [] }, run: { on: [lgTestMe(), ...ppl.slice(0, 4).map(p => p.a)], out: [] } } };
+  else lgTest.ppl = ppl;
+  msg(a === "rand" ? "Neue Zufallswerte in der Test-Liga." : "Test-Liga ist an. Sie steht im Freunde-Tab ganz oben.");
+  setView("freunde"); renderFriends(); }
+const frCleanLiga = (x, members) => { const A = v => (Array.isArray(v) ? v : []).map(a => frStr(a, 40)).filter(a => members.includes(a)).slice(0, 50); return { art: x._id === "run" ? "run" : "fit", by: frStr(x.by, 40), on: A(x.on), out: A(x.out) }; };
 const frN = (v, max) => { const n = +v; return Number.isFinite(n) ? Math.max(0, Math.min(max || 1e9, Math.round(n * 10) / 10)) : undefined; };
 const frStr = (v, max) => typeof v === "string" ? v.slice(0, max || 60) : typeof v === "number" && isFinite(v) ? String(v).slice(0, max || 60) : "";
 function frCleanStats(s){
@@ -11004,6 +11275,8 @@ function frCleanStats(s){
   if (typeof s.last === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s.last)) o.last = s.last;
   ["msN", "msA"].forEach(k => { const n = frN(s[k], 9999); if (n !== undefined && s[k] != null) o[k] = n; });
   if (s.msL != null) o.msL = frMsIds(s.msL);
+  LG_F.forEach(k => { const n = frN(s[k], 40000); if (n !== undefined && s[k] != null) o[k] = n; });
+  if (typeof s.lb === "string" && /^\d{1,3}(,\d{1,3}){5}$/.test(s.lb)) o.lb = s.lb;
   if (typeof s.sh === "string") o.sh = s.sh.split(",").filter(k => FR_SHARE().some(x => x[0] === k));
   if (s.live && typeof s.live === "object") o.live = { d: frStr(s.live.d, 40), i: frN(s.live.i, 999) || 0, n: frN(s.live.n, 999) || 0, t: frN(s.live.t, 9e15) || 0 };
   return o;
@@ -11028,11 +11301,12 @@ async function frLoad(g){
   if (!grp) { const f = frSt(); f.groups = f.groups.filter(x => x.id !== g.id); Object.values(f.shared).forEach(sh => { sh.g = (sh.g || []).filter(x => x !== g.id); }); if (f.g === g.id) f.g = f.groups[0]?.id || null; delete frData[g.id]; C.frH = null; save(); return; }
   const since = new Date(Date.now() - 30 * 864e5).toISOString();
   const reqs = grp.owner === C.acc && !g.duo ? await fsQuery(base, "reqs").catch(() => []) : [];
-  const [stats, feed, plans] = await Promise.all([fsQuery(base, "stats"), fsQuery(base, "feed", { fieldFilter: { field: { fieldPath: "ts" }, op: "GREATER_THAN", value: { timestampValue: since } } }, "ts", 40, true), fsQuery(base, "plans")]);
+  const [stats, feed, plans, liga] = await Promise.all([fsQuery(base, "stats"), fsQuery(base, "feed", { fieldFilter: { field: { fieldPath: "ts" }, op: "GREATER_THAN", value: { timestampValue: since } } }, "ts", 40, true), fsQuery(base, "plans"), g.duo ? [] : fsQuery(base, "liga").catch(() => [])]);
   if (g.duo) { if (!g.fa) g.fa = frStr((grp.members || []).find(m => m !== C.acc), 40); const fs = stats.find(x => x._id === g.fa), fn = fs && frStr(fs.n, 24); if (fn && fn !== g.name) { g.name = fn; save(); } }
   else if (grp.name && grp.name !== g.name) { g.name = frStr(grp.name, 40); save(); }
   frData[g.id] = { grp: { name: frStr(grp.name, 40), code: /^MP-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(grp.code) ? grp.code : "", owner: frStr(grp.owner, 40), members: (grp.members || []).map(m => frStr(m, 40)), ban: Object.fromEntries(Object.entries(grp.ban && typeof grp.ban === "object" ? grp.ban : {}).slice(0, 100).map(([k, v]) => [frStr(k, 40), frStr(v, 24)])) },
     stats: stats.map(frCleanStats), feed: feed.map(frCleanFeed), plans: plans.map(frCleanPlanDoc), reqs: reqs.map(q => ({ a: frStr(q._id, 40), n: frStr(q.n, 24) })), at: Date.now() };
+  const mm = frData[g.id].grp.members; frData[g.id].liga = Object.fromEntries(liga.filter(x => x._id === "fit" || x._id === "run").map(x => [x._id, frCleanLiga(x, mm)]));
 }
 async function frPush(){
   if (!cloudOn()) return; const f = frSt(); if (!f.groups.length) return;
@@ -11127,7 +11401,7 @@ async function frDelFeed(gids, k){ const W = []; for (const gid of gids) (await 
 async function frDeleteGroup(gid){
   const d = frData[gid], base = `groups/${gid}`;
   // erst alle Einträge der Gruppe löschen, damit nichts liegen bleibt
-  for (const coll of ["stats", "feed", "plans", "prog", "reqs"]) { const R = await fsQuery(base, coll, null, null, 500).catch(() => []); await fsCommitG(R.map(x => wDel(`${base}/${coll}/${x._id}`)), true); } if (d && d.grp.code) try { await fsCommit([wDel(`codes/${d.grp.code}`)]); } catch(e) {}
+  for (const coll of ["stats", "feed", "plans", "prog", "reqs", "liga"]) { const R = await fsQuery(base, coll, null, null, 500).catch(() => []); await fsCommitG(R.map(x => wDel(`${base}/${coll}/${x._id}`)), true); } if (d && d.grp.code) try { await fsCommit([wDel(`codes/${d.grp.code}`)]); } catch(e) {}
   await fsCommit([wDel(`groups/${gid}`)]);
   const f = frSt(); f.groups = f.groups.filter(g => g.id !== gid); Object.values(f.shared).forEach(sh => { sh.g = (sh.g || []).filter(x => x !== gid); }); if (f.g === gid) f.g = f.groups[0]?.id || null; delete frData[gid]; C.frH = null; save();
 }
@@ -11382,7 +11656,7 @@ const frMeAll = () => frCleanStats(Object.assign({ _id: C.acc }, frStatsDoc(Obje
 function frWhoHTML(inSet){
   const { D, s, plans } = frWhoData(), w = frWho, self = !!w.self, me = self ? null : frMeAll();
   // ältere App-Versionen schicken keine Liste: dann an den Werten erkennen
-  const has = k => s.sh ? s.sh.includes(k) : { days: s.wd != null, vol: s.wv != null, cardio: s.wc != null, streak: s.streak != null, pr: s.wp != null, kraft: s.k3 != null, fair: s.wvr != null || s.kd != null, live: !!s.live, plans: plans.length > 0, ms: s.msN != null, prog: false }[k];
+  const has = k => s.sh ? s.sh.includes(k) : { days: s.wd != null, vol: s.wv != null, cardio: s.wc != null, streak: s.streak != null, pr: s.wp != null, kraft: s.k3 != null, fair: s.wvr != null || s.kd != null, live: !!s.live, plans: plans.length > 0, ms: s.msN != null, prog: false, liga: s.lw != null }[k];
   const MS = has("ms") ? frMsAll().byId : null, lv = frLive(s), nm = self ? L("Du", "You") : s.n;
   const du = v => me && v != null ? `<span class="frdu">${L("Du", "You")}: ${v}</span>` : "";
   const tile = (big, lab, sub, mine) => `<div class="frtile"><b class="big n">${big}</b><span class="lab">${lab}</span>${sub ? `<span class="hint">${sub}</span>` : ""}${du(mine)}</div>`;
@@ -11397,6 +11671,7 @@ function frWhoHTML(inSet){
     ms: () => tile(`🏅 ${+s.msN || 0}`, L(`von ${+s.msA || 0} Meilensteinen`, `of ${+s.msA || 0} milestones`), "", me && (frMsAll().done.length)),
     live: () => tile(lv ? "●" : "–", lv ? L("trainiert gerade", "training now") : L("trainiert gerade nicht", "not training right now"), lv ? `${esc(lv.d)} · ${L(`Übung ${+lv.i || 0} von ${+lv.n || 0}`, `exercise ${+lv.i || 0} of ${+lv.n || 0}`)}` : "", null),
     plans: () => tile(plans.length, L("geteilte Pläne", "shared plans"), "", null),
+    liga: () => tile(`🏆 ${fmt(lgVal(s, "fit", "w") || 0)}`, L("Liga-Punkte diese Woche", "league points this week"), L(`${fmt(lgVal(s, "fit", "m") || 0)} im Monat · ${fmt(lgVal(s, "run", "m") || 0)} km gelaufen`, `${fmt(lgVal(s, "fit", "m") || 0)} this month · ${fmt(lgVal(s, "run", "m") || 0)} km run`), me && fmt(me.lw || 0)),
     prog: () => tile("📈", L("Übungsverlauf", "Exercise history"), self ? L("Freunde können sich mit dir vergleichen", "friends can compare with you") : L("unten vergleichen", "compare below"), null) };
   const on = FR_SHARE().filter(([k]) => has(k)), off = FR_SHARE().filter(([k]) => !has(k));
   const short = n => n.replace(/ \(.*\)$/, "");
@@ -11485,7 +11760,7 @@ function frShareHTML(tab){
   if (tab && frFolded("share")) { const onL = FR_SHARE().filter(([k]) => s[k]);
     return `<div class="panel frbox frfolded" id="frShareBox">${frFoldHead("share", title, `<span class="frcnt">${L(`${non} von ${FR_SHARE().length} an`, `${non} of ${FR_SHARE().length} on`)}</span>`, true)}<div class="frshchips">${onL.map(([, n]) => `<span class="frshc on">✓ ${esc(n.replace(/ \(.*\)$/, ""))}</span>`).join("")}<span class="frshc">${onL.length ? L(`+ ${FR_SHARE().length - onL.length} aus`, `+ ${FR_SHARE().length - onL.length} off`) : L("Alles aus. Freunde sehen nur deinen Namen.", "All off. Friends only see your name.")}</span></div></div>`; }
   return `<div class="panel frbox" id="frShareBox">${tab ? frFoldHead("share", title, `<span class="frtag">${L("freiwillig", "optional")}</span>`, false) : `<div class="frbh"><h3>${title}</h3><span class="frtag">${L("freiwillig", "optional")}</span></div>`}
-    ${FR_SHARE().map(([k, n]) => `<label class="frtg"><span>${n}${k === "plans" ? `<span class="hint">${L("pro Plan über „Plan teilen“", "per plan via “Share plan”")}</span>` : k === "fair" ? `<span class="hint">${L("Für „Fair“ in der Bestenliste. Dein Gewicht wird nicht hochgeladen, Freunde können es aber aus den fairen Werten grob ausrechnen (auf 5 kg genau).", "For “Fair” in the leaderboard. Your weight isn't uploaded, but friends can roughly work it out from the fair values (to within 5 kg).")}</span>` : ""}</span><input type="checkbox" class="tgl" data-frs="${k}" ${s[k] ? "checked" : ""}></label>${k === "kraft" && s.kraft ? `<label class="frtg frsub"><span>${L("DOTS-Formel für", "DOTS formula for")}<span class="hint">${L("Für die faire Kraft-Wertung. Wird nicht geteilt.", "For the fair strength ranking. Not shared.")}</span></span><select data-frsex aria-label="${L("DOTS-Formel", "DOTS formula")}"><option value="m" ${frSt().sex !== "w" ? "selected" : ""}>${L("Männer", "Men")}</option><option value="w" ${frSt().sex === "w" ? "selected" : ""}>${L("Frauen", "Women")}</option></select></label>` : ""}`).join("")}
+    ${FR_SHARE().map(([k, n]) => `<label class="frtg"><span>${n}${k === "plans" ? `<span class="hint">${L("pro Plan über „Plan teilen“", "per plan via “Share plan”")}</span>` : k === "liga" ? `<span class="hint">${L("Punkte für Einsatz pro Woche, Monat und Jahr. Geteilt werden nur deine Punkte und gelaufenen Kilometer.", "Effort points per week, month and year. Only your points and kilometres run are shared.")}</span>` : k === "fair" ? `<span class="hint">${L("Für „Fair“ in der Bestenliste. Dein Gewicht wird nicht hochgeladen, Freunde können es aber aus den fairen Werten grob ausrechnen (auf 5 kg genau).", "For “Fair” in the leaderboard. Your weight isn't uploaded, but friends can roughly work it out from the fair values (to within 5 kg).")}</span>` : ""}</span><input type="checkbox" class="tgl" data-frs="${k}" ${s[k] ? "checked" : ""}></label>${k === "kraft" && s.kraft ? `<label class="frtg frsub"><span>${L("DOTS-Formel für", "DOTS formula for")}<span class="hint">${L("Für die faire Kraft-Wertung. Wird nicht geteilt.", "For the fair strength ranking. Not shared.")}</span></span><select data-frsex aria-label="${L("DOTS-Formel", "DOTS formula")}"><option value="m" ${frSt().sex !== "w" ? "selected" : ""}>${L("Männer", "Men")}</option><option value="w" ${frSt().sex === "w" ? "selected" : ""}>${L("Frauen", "Women")}</option></select></label>` : ""}`).join("")}
     <p class="hint">${L("Am Anfang ist alles aus. Was aus ist, wird nicht hochgeladen. Körperwerte und Notizen sind nie teilbar.", "Everything starts off. What's off isn't uploaded. Body stats and notes can never be shared.")}</p></div>`;
 }
 function frGroupsBar(){
@@ -11529,7 +11804,7 @@ function frWhoClose(){ frWho = null; frUi = null; renderFriends(); }
 addEventListener("keydown", e => { if (e.key === "Escape" && frUi && frUi.who && frWho && view === "freunde" && !document.querySelector("#setPanel:not([hidden])")) { if (!mpLayerBack("who")) frWhoClose(); } });
 addEventListener("popstate", () => { if (frUi && frUi.who && frWho && !(history.state && history.state.mpLayer === "who")) frWhoClose(); });
 function renderFriends(){
-  const box = $("frSec"); if (!box) return; renderFriends0(); if (box.firstChild && !box.querySelector(".frview")) box.insertAdjacentHTML("afterbegin", frDemoH());
+  const box = $("frSec"); if (!box) return; renderFriends0(); if (box.firstChild && !box.querySelector(".frview")) box.insertAdjacentHTML("afterbegin", frDemoH() + lgTestHTML());
 }
 function renderFriends0(){
   const box = $("frSec"); if (!box) return;
@@ -11585,11 +11860,13 @@ function renderFriends0(){
       return `<li><span><b>${esc(x.name)}</b><span class="hint">${mine ? L("von dir", "by you") : L(`von ${esc(x.n)}`, `by ${esc(x.n)}`)} · ${(d.days || []).length ? L(`${d.days.length} Tage`, `${d.days.length} days`) + " · " : ""}${L(`${(d.units || []).length} Übungen`, `${(d.units || []).length} exercises`)}</span></span><button type="button" class="ghost mini" data-fr="${mine ? "editshare" : "view"}" data-v="${esc(x._id)}">${mine ? L("Ändern", "Edit") : L("Ansehen", "View")}</button></li>`; }).join("") || `<li class="hint">${L("Noch hat niemand einen Plan geteilt.", "Nobody has shared a plan yet.")}</li>`}</ul>
     <button type="button" class="primary frbig" data-fr="share">↗ ${L("Meinen Plan teilen", "Share my plan")}</button></div>`;
   const week = frWeekHTML(mem, D);
+  try { lgMedals(G, D, mem); } catch(e) {}
+  const liga = lgHTML(G, D, mem);
   const liveB = live.map(m => `<div class="panel frlive">${frAv(m.s.n)}<span><b><span class="frdot"></span>${L(`${esc(m.s.n)} trainiert gerade`, `${esc(m.s.n)} is training`)}</b><span class="hint">${esc(m.s.live.d)} · ${L(`Übung ${+m.s.live.i || 0} von ${+m.s.live.n || 0}`, `exercise ${+m.s.live.i || 0} of ${+m.s.live.n || 0}`)}</span></span></div>`).join("");
   const liveW = liveB ? `<div id="frLiveW" class="frcolx">${liveB}</div>` : "";
-  if (D.all) { box.innerHTML = head + `<div class="frwrap"><div class="frcol">${frFriendsHTML(false)}${frShareHTML(true)}</div><div class="frcol">${liveW}${week}${lb}</div><div class="frcol">${feed}${plans}</div></div>` + frSideHTML(); return; }
+  if (D.all) { box.innerHTML = head + `<div class="frwrap"><div class="frcol">${frFriendsHTML(false)}${frShareHTML(true)}</div><div class="frcol">${liveW}${liga}${week}${lb}</div><div class="frcol">${feed}${plans}</div></div>` + frSideHTML(); return; }
   const leave = `<div class="frfoot">${frUi === "leave" ? `<span class="hint">${own ? L(`„${esc(G.name)}“ für alle löschen? Du hast die Gruppe erstellt, deshalb wird sie ganz gelöscht.`, `Delete “${esc(G.name)}” for everyone? You created the group, so it gets deleted completely.`) : L(`„${esc(G.name)}“ wirklich verlassen?`, `Really leave “${esc(G.name)}”?`)}</span><button type="button" class="danger mini" data-fr="leaveyes">${own ? L("Ja, löschen", "Yes, delete") : L("Ja, verlassen", "Yes, leave")}</button><button type="button" class="ghost mini" data-fr="cancel">${L("Abbrechen", "Cancel")}</button>` : `<button type="button" class="ghost mini" data-fr="leave">${own ? L("Gruppe löschen", "Delete group") : L("Gruppe verlassen", "Leave group")}</button>`}</div>`;
-  box.innerHTML = head + `<div class="frwrap"><div class="frcol">${members}${invite}${frShareHTML(true)}</div><div class="frcol">${liveW}${week}${lb}</div><div class="frcol">${feed}${plans}${leave}</div></div>` + frSideHTML();
+  box.innerHTML = head + `<div class="frwrap"><div class="frcol">${members}${invite}${frShareHTML(true)}</div><div class="frcol">${liveW}${liga}${week}${lb}</div><div class="frcol">${feed}${plans}${leave}</div></div>` + frSideHTML();
 }
 async function frAct(b){
   const a = b.dataset.fr; frErr = "";
@@ -11631,6 +11908,10 @@ $("frSec").addEventListener("click", e => {
   const fw = e.target.closest("[data-fw]"); if (fw) { frWhoAct(fw); return; }
   const fo = e.target.closest("[data-frfold]"); if (fo) { const f = frSt(), k = fo.dataset.frfold; f.fold = Object.assign({}, f.fold, { [k]: !frFolded(k) }); if (k === "list" && frData._fr) f.fold.rk = frData._fr.reqs.map(q => q.a).sort().join(); cloudSilent = true; save(); cloudSilent = false; renderFriends(); $("frSec").querySelector(`[data-frfold="${k}"]`)?.focus({ preventScroll: true }); return; }
   const ff = e.target.closest("[data-ff]"); if (ff) { frFfAct(ff); return; }
+  const lg = e.target.closest("[data-lg]"); if (lg) { lgAct(lg); return; }
+  const la = e.target.closest("[data-lgart]"); if (la) { lgArt = la.dataset.lgart; lgOpen = null; renderFriends(); return; }
+  const lp = e.target.closest("[data-lgper]"); if (lp) { lgPer = lp.dataset.lgper; lgOpen = null; renderFriends(); return; }
+  const lw = e.target.closest("[data-lgw]"); if (lw) { lgOpen = lgOpen === lw.dataset.lgw ? null : lw.dataset.lgw; renderFriends(); return; }
   const b = e.target.closest("[data-fr]"); if (b) { frAct(b); return; }
   const g = e.target.closest("[data-frg]"); if (g) { frSt().g = g.dataset.frg; frUi = null; cloudSilent = true; save(); cloudSilent = false; renderFriends(); if (!frData[g.dataset.frg] || Date.now() - frData[g.dataset.frg].at > 30000) frRefresh(); return; }
   const m = e.target.closest("[data-frm]"); if (m) { lbMetric = m.dataset.frm; renderFriends(); return; }
