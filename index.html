@@ -10866,11 +10866,11 @@ function admMiniHTML(){
     : `<div class="frtiles admtiles">${tile(S.acc, L("Konten gesamt", "accounts in total"))}${tile(S.act, L("aktiv in 7 Tagen", "active in 7 days"))}${tile(S.today, L("neu heute", "new today"))}${tile(S.w, L("neu in 7 Tagen", "new in 7 days"))}${tile(S.m, L("neu in 30 Tagen", "new in 30 days"))}${tile(S.grp, L("Gruppen", "groups"))}${tile(S.duo, L("Freundschaften", "friendships"))}${tile(S.ban, L("gesperrt", "banned"))}</div>
       <p class="hint"><a href="https://console.firebase.google.com/project/${esc(fbCfg().projectId)}/firestore/usage" target="_blank" rel="noopener">${L("Server-Auslastung: Firebase → Nutzung", "Server load: Firebase → Usage")}</a></p>`;
   return `<div class="setsec" id="setSecAdm"><span class="label setskh">🛠 ${L("Developer-Statistiken", "Developer statistics")}${cloudOn() && !fbCfg().demo ? `<button type="button" class="setall" data-cl="admload"${A.busy ? " disabled" : ""}>↻ ${L("Aktualisieren", "Refresh")}</button>` : ""}</span>${body}
-    <div class="clrow"><button type="button" class="ghost" data-cl="adminfull">${L("Alles öffnen (Suchen & Sperren)", "Open all (search & ban)")} ›</button>${C.acc && C.acc === ADM_ACC ? "" : `<button type="button" class="ghost" data-cl="admoff">${L("Ausblenden", "Hide")}</button>`}</div></div>`;
+    <div class="clrow"><button type="button" class="ghost" data-cl="adminfull">${L("Alles öffnen (Suchen & Sperren)", "Open all (search & ban)")} ›</button>${admIs() ? "" : `<button type="button" class="ghost" data-cl="admoff">${L("Ausblenden", "Hide")}</button>`}</div></div>`;
 }
-// Admin-Konto: dieselbe ID wie bei adminAcc() in firestore.rules. Damit sieht nur dieses Konto die Statistiken, auch ohne Code (normale Version hat kein Debug-Menü).
-const ADM_ACC = "HIER-DEINE-KONTO-ID";
-const admOn = () => { if (C.acc && C.acc === ADM_ACC) return true; try { return localStorage.getItem("muskelplan.adm") === "1"; } catch(e) { return false; } };
+// Admin-Konto: Prüfsumme der ID aus adminAcc() in firestore.rules (die ID selbst steht nicht im Code). Echte Rechte prüfen nur die Regeln.
+const ADM_H = "6isi3c1yk2ubb", admIs = () => !!C.acc && cHash("mp-adm:" + C.acc) === ADM_H;
+const admOn = () => { if (admIs()) return true; try { return localStorage.getItem("muskelplan.adm") === "1"; } catch(e) { return false; } };
 function cloudStatusTxt(){
   if (!fbCfg()) return L("noch nicht eingerichtet", "not set up yet");
   if (!cloudOn()) return L("aus", "off");
