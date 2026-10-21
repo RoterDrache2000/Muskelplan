@@ -2760,6 +2760,7 @@ html:not(.fron) #tabs .frtab,html:not(.fron) .frshbtn{display:none!important}
 .admid{font-size:.72rem;word-break:break-all;opacity:.7}
 .admlist li{align-items:center}
 .clid{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}.clid .admid{opacity:1;font-size:.8rem}
+.frstat.ban{color:var(--bad,#c0392b)}.admlist li{gap:8px;flex-wrap:wrap}.admlist li>span:first-child{min-width:0;flex:1 1 160px}.admlist li>span:first-child b,.admlist .admid{overflow-wrap:anywhere}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
@@ -10625,7 +10626,8 @@ async function cloudSync(opts){
     // nach einem App-Update einmal alles holen, damit nichts liegen bleibt, was die alte Version übersprungen hat
     else { if (C.cv !== CLOUD_V) { await cloudPull(true); C.cv = CLOUD_V; } else await cloudPull(); await cloudPush(); }
     // einmal am Tag „zuletzt gesehen“ für die Geräteliste
-    if (!C.seen || Date.now() - C.seen > 864e5) { await fsCommit([wSet(`accounts/${C.acc}`, { joinKey: "", la: Date.now(), names: { [C.uid]: { n: C.dev || devName(), s: Date.now() } } }, { updateMask: { fieldPaths: ["joinKey", "la", fpNames(C.uid)] } })]); C.seen = Date.now(); }
+    if (!C.seen || Date.now() - C.seen > 864e5 || !C.mt) { await fsCommit([wSet(`accounts/${C.acc}`, { joinKey: "", la: Date.now(), names: { [C.uid]: { n: C.dev || devName(), s: Date.now() } } }, { updateMask: { fieldPaths: ["joinKey", "la", fpNames(C.uid)] } })]); C.seen = Date.now();
+      try { await cloudMeta(await fsGet(`accounts/${C.acc}`)); C.mt = 1; } catch(e) {} }
     cloudStat = "ok"; C.okT = Date.now(); C.err = "";
   } catch(e) {
     if (e.code === 403 || e.code === 404) { await cloudCheckGone(); }
@@ -10665,8 +10667,12 @@ async function cloudCreate(name){
   await fsCommit([wSet(`recovery/${rh}`, { acc })]);
   await fsCommit([wSet(`accounts/${acc}/docs/_rc`, { v: CLOUD_V, dev: C.uid, del: false, d: rec, kind: "rec" })]);
   Object.assign(C, { acc, name, rec, dev: devName(), meta: {}, pullT: null, seen: Date.now() }); cloudSave();
+  try { await cloudMeta({ name, devices: [C.uid], c: Date.now() }); C.mt = 1; } catch(e) {}
   await cloudPush(); cloudStat = "ok"; C.okT = Date.now(); cloudSave(); cloudStartPoll();
 }
+// Kurzinfo für den Admin-Bereich (meta/{Konto}): nur Name, Daten und Geräte, nie der Wiederherstellungs-Code
+async function cloudMeta(a){ if (!a) return; const n = String(a.name || "").slice(0, 40);
+  await fsCommit([wSet(`meta/${C.acc}`, { n, nl: n.toLowerCase(), c: +a.c || Date.now(), la: Date.now(), d: (Array.isArray(a.devices) ? a.devices : []).filter(u => typeof u === "string").slice(0, 20) })]); }
 // Wiederherstellungs-Code liegt im Klartext, aber nur für verbundene Geräte lesbar, im Konto (Dokument _rc) und lokal
 async function cloudRecLoad(){ try { const d = await fsGet(`accounts/${C.acc}/docs/_rc`); if (d && d.d) { C.rec = d.d; cloudSave(); } } catch(e) {} }
 async function cloudRecNew(){
@@ -10790,6 +10796,7 @@ async function cloudWipe(){
   const R = await fsQuery(`accounts/${C.acc}`, "docs", null, null, 1000); const a = await fsGet(`accounts/${C.acc}`);
   for (let i = 0; i < R.length; i += 300) await fsCommit(R.slice(i, i + 300).map(r => wDel(`accounts/${C.acc}/docs/${r._id}`)));
   if (a && a.rec) { try { await fsCommit([wDel(`recovery/${a.rec}`)]); } catch(e) {} }
+  try { await fsCommit([wDel(`meta/${C.acc}`)]); } catch(e) {}
   await fsCommit([wDel(`accounts/${C.acc}`)]);
   cloudLeaveLocal();
 }
@@ -10805,14 +10812,15 @@ async function fsCount(coll, where){ const q = { from: [{ collectionId: coll }] 
   const f = j && j[0] && j[0].result && j[0].result.aggregateFields && j[0].result.aggregateFields.n; return f ? +(f.integerValue || 0) : 0; }
 const admGE = (k, v) => ({ fieldFilter: { field: { fieldPath: k }, op: "GREATER_THAN_OR_EQUAL", value: fv(v) } });
 const admEQ = (k, v) => ({ fieldFilter: { field: { fieldPath: k }, op: "EQUAL", value: fv(v) } });
-const admAcc = x => ({ id: frStr(x._id, 40), n: frStr(x.name, 24), c: frN(x.c, 9e15) || 0, la: frN(x.la, 9e15) || 0, dv: Array.isArray(x.devices) ? x.devices.length : 0 });
+const admAcc = x => ({ id: frStr(x._id, 40), n: frStr(x.n, 24), c: frN(x.c, 9e15) || 0, la: frN(x.la, 9e15) || 0, dv: Array.isArray(x.d) ? x.d.length : 0 });
 async function admLoad(){
   if (!cloudOn() || fbCfg().demo || (adm && adm.busy)) return; adm = Object.assign(adm || {}, { busy: true, err: "" }); cloudUI();
   try { const t0 = new Date(); t0.setHours(0, 0, 0, 0); const d = n => Date.now() - n * 864e5;
-    const [acc, today, w, m, act, grp, duo, ban] = await Promise.all([fsCount("accounts"), fsCount("accounts", admGE("c", t0.getTime())), fsCount("accounts", admGE("c", d(7))), fsCount("accounts", admGE("c", d(30))),
-      fsCount("accounts", admGE("la", d(7))), fsCount("groups", admEQ("type", "")), fsCount("groups", admEQ("type", "duo")), fsCount("bans")]);
-    adm.st = { acc, today, w, m, act, grp, duo, ban };
-    adm.list = (await fsQuery("", "accounts", null, "la", 20, true)).map(admAcc);
+    // Gruppen ohne Feld "type" zählt Firestore bei type == "" nicht mit: alle minus Freundschaften minus Freundes-Codes
+    const [acc, today, w, m, act, all, duo, fr, ban] = await Promise.all([fsCount("meta"), fsCount("meta", admGE("c", t0.getTime())), fsCount("meta", admGE("c", d(7))), fsCount("meta", admGE("c", d(30))),
+      fsCount("meta", admGE("la", d(7))), fsCount("groups"), fsCount("groups", admEQ("type", "duo")), fsCount("groups", admEQ("type", "fr")), fsCount("bans")]);
+    adm.st = { acc, today, w, m, act, grp: Math.max(0, all - duo - fr), duo, ban };
+    adm.list = (await fsQuery("", "meta", null, "la", 20, true)).map(admAcc);
     adm.bans = (await fsQuery("", "bans", null, "t", 50, true)).map(x => ({ id: frStr(x._id, 40), n: frStr(x.n, 24), t: frN(x.t, 9e15) || 0 }));
   } catch(e) { adm.err = e.code === 403 ? "noadmin" : e.code === 0 ? L("Keine Verbindung zum Internet.", "No internet connection.") : L("Laden hat nicht geklappt.", "Loading didn't work.") + " (" + e.message + ")"; }
   adm.busy = false; cloudUI(); if (setIsOpen() && !setPage) renderSet();
@@ -10843,12 +10851,12 @@ async function admAct(a, b){
   if (a === "admask") { adm.ask = b.dataset.v; renderSet(); return; }
   if (a === "admno") { adm.ask = null; renderSet(); return; }
   if (a === "admfind") { const q = ($("admQ").value || "").trim(); adm.q = q; if (!q) { adm.found = null; renderSet(); return; }
-    try { const byName = await fsQuery("", "accounts", admEQ("name", q), null, 20); let r = byName.map(admAcc);
-      if (/^[a-z0-9]{20}$/.test(q) && !r.some(x => x.id === q)) { const x = await fsGet(`accounts/${q}`).catch(() => null); if (x) r.push(admAcc(Object.assign(x, { _id: q }))); }
+    try { const byName = await fsQuery("", "meta", admEQ("nl", q.toLowerCase()), null, 20); let r = byName.map(admAcc);
+      if (/^[a-z0-9]{20}$/.test(q) && !r.some(x => x.id === q)) { const x = await fsGet(`meta/${q}`).catch(() => null); if (x) r.push(admAcc(Object.assign(x, { _id: q }))); }
       adm.found = r; } catch(e) { adm.err = e.message; } renderSet(); return; }
   if (a === "admban") { const id = b.dataset.v; if (id === C.acc) return; b.disabled = true;
     // auch die Geräte sperren, sonst legt man einfach ein neues Konto an
-    try { const x = await fsGet(`accounts/${id}`).catch(() => null), dv = (x && Array.isArray(x.devices) ? x.devices : []).filter(u => typeof u === "string").slice(0, 20);
+    try { const x = await fsGet(`meta/${id}`).catch(() => null), dv = (x && Array.isArray(x.d) ? x.d : []).filter(u => typeof u === "string").slice(0, 20);
       await fsCommit([wSet(`bans/${id}`, { n: frStr(b.dataset.n, 24), t: Date.now(), by: C.acc, d: dv }), ...dv.map(u => wSet(`bandev/${u}`, { acc: id, t: Date.now() }))]); toast(L("Gesperrt.", "Banned.")); adm.ask = null; } catch(e) { toast(L("Sperren hat nicht geklappt.", "Banning didn't work.")); } return admLoad(); }
   if (a === "admunban") { b.disabled = true; try { const x = await fsGet(`bans/${b.dataset.v}`).catch(() => null); await fsCommit([wDel(`bans/${b.dataset.v}`), ...((x && Array.isArray(x.d) ? x.d : []).filter(u => typeof u === "string").map(u => wDel(`bandev/${u}`)))]); toast(L("Entsperrt.", "Unbanned.")); } catch(e) { toast(L("Entsperren hat nicht geklappt.", "Unbanning didn't work.")); } return admLoad(); }
 }
@@ -11339,13 +11347,16 @@ async function frPush(){
 }
 // Regeln brauchen „dieses Gerät gehört zu Konto X“ (devs/{uid}), einmal pro Gerät
 async function frDev(){ if (C.devAcc === C.acc) return; await fsCommit([wSet(`devs/${C.uid}`, { acc: C.acc })]); C.devAcc = C.acc; cloudSave(); }
+// nach einem Fehlschlag nicht sofort wieder laden (sonst Dauerschleife über renderFriends), erst nach 60 s oder per Knopf
+let frFailT = 0;
 async function frRefresh(force){
-  if (!cloudOn() || frBusy || !navigator.onLine) return; const f = frSt();
+  if (!cloudOn() || frBusy || !navigator.onLine || cloudStat === "ban") return; if (!force && frFailT && Date.now() - frFailT < 60000) return; const f = frSt();
   const all = frGroup().all || (setPage === "cloud" && (cloudPage === "friends" || cloudPage === "who"));
   if (!f.groups.length && !f.pend.length && !all) return;
   frBusy = true; frErr = "";
   try { await frDev(); if (f.pend.length) await frCheckPend(); await frPush(); const G = frGroup(); for (const g of f.groups.slice()) if (!g.duo && (force || g === G || !frData[g.id])) await frLoad(g); if (all) await frLoadAll(); }
-  catch(e) { frErr = e.code === 0 ? L("Keine Verbindung. Du siehst den letzten Stand.", "No connection. You're seeing the last state.") : L("Konnte die Gruppe nicht laden.", "Couldn't load the group.") + ` (${e.message})`; }
+  catch(e) { frFailT = Date.now(); frErr = e.code === 0 ? L("Keine Verbindung. Du siehst den letzten Stand.", "No connection. You're seeing the last state.") : e.code === 429 ? L("Der Server ist gerade ausgelastet. Versuch es später noch einmal.", "The server is busy right now. Please try again later.") : e.code === 403 ? L("Kein Zugriff auf diese Gruppe.", "No access to this group.") : L("Konnte die Gruppe nicht laden.", "Couldn't load the group.") + (e.code ? ` (${e.code})` : ""); }
+  if (!frErr) frFailT = 0;
   frBusy = false; frRender2();
 }
 // Freunde-Seiten in ⚙ nur neu aufbauen, wenn sich dort Inhalte geändert haben, und nicht während eines Tipps auf einen Schalter
@@ -11817,9 +11828,11 @@ function renderFriends0(){
   // Freundes-Karte: am Handy ein eigener Screen, am PC eine Seitenleiste rechts (siehe frSideHTML)
   if (frUi && frUi.who && frWho && !DSK()) { box.innerHTML = `<div class="frview frcard">${frWhoHTML(false)}</div>`; return; }
   const G = frGroup(), D = G && frData[G.id];
-  const head = `<div class="frtop"><h2 class="frh">${L("Freunde", "Friends")}</h2><span class="frtopr"><button type="button" class="ghost frtopshare" data-fr="share">↗ ${L("Meinen Plan teilen", "Share my plan")}</button><span class="frstat ${cloudStat}">● ${cloudStat === "offline" ? L("Offline", "Offline") : L("Online", "Online")}</span></span></div>${frGroupsBar()}${frSt().pend.filter(p => !p.fr).map(p => `<p class="frpend">⏳ ${L(`Anfrage an „${esc(p.name)}“ wartet auf Zustimmung des Erstellers.`, `Request to “${esc(p.name)}” is waiting for the creator to accept.`)} <button type="button" class="ghost mini" data-fr="unpend" data-v="${esc(p.id)}">${L("Zurückziehen", "Withdraw")}</button></p>`).join("")}${frErr ? `<p class="clmsg">${esc(frErr)}</p>` : ""}`;
+  const head = `<div class="frtop"><h2 class="frh">${L("Freunde", "Friends")}</h2><span class="frtopr"><button type="button" class="ghost frtopshare" data-fr="share">↗ ${L("Meinen Plan teilen", "Share my plan")}</button><span class="frstat ${cloudStat}">● ${cloudStat === "ban" ? L("Gesperrt", "Banned") : cloudStat === "offline" ? L("Offline", "Offline") : L("Online", "Online")}</span></span></div>${frGroupsBar()}${frSt().pend.filter(p => !p.fr).map(p => `<p class="frpend">⏳ ${L(`Anfrage an „${esc(p.name)}“ wartet auf Zustimmung des Erstellers.`, `Request to “${esc(p.name)}” is waiting for the creator to accept.`)} <button type="button" class="ghost mini" data-fr="unpend" data-v="${esc(p.id)}">${L("Zurückziehen", "Withdraw")}</button></p>`).join("")}${frErr ? `<p class="clmsg">${esc(frErr)}</p>` : ""}`;
   if (!G || frUi === "newg") { box.innerHTML = head + `<div class="frwrap"><div class="frcol">${frNewHTML()}</div><div class="frcol">${frShareHTML(true)}</div></div>`; return; }
-  if (!D) { box.innerHTML = head + `<p class="hint">${L("Lädt …", "Loading …")}</p>`; if (!frBusy) frRefresh(); return; }
+  if (!D) { if (cloudStat === "ban") { box.innerHTML = head + `<p class="hint">${L("Dein Online-Konto wurde gesperrt. Freunde und Gruppen gehen nicht mehr.", "Your online account has been banned. Friends and groups no longer work.")}</p>`; return; }
+    if (frErr && frFailT) { box.innerHTML = head + `<p class="hint">${esc(frErr)}</p><button type="button" class="ghost" data-fr="retry">↻ ${L("Nochmal versuchen", "Try again")}</button>`; return; }
+    box.innerHTML = head + `<p class="hint">${L("Lädt …", "Loading …")}</p>`; if (!frBusy) frRefresh(); return; }
   const S = D.stats, me = C.acc, byAcc = Object.fromEntries(S.map(s => [s._id, s]));
   const mem = D.grp.members.map(a => ({ a, s: byAcc[a] || { n: L("Mitglied", "Member") }, me: a === me }));
   const live = mem.filter(m => !m.me && frLive(m.s));
@@ -11872,6 +11885,7 @@ function renderFriends0(){
 }
 async function frAct(b){
   const a = b.dataset.fr; frErr = "";
+  if (a === "retry") { frFailT = 0; renderFriends(); return; }
   const run = async fn => { b.disabled = true; try { await fn(); } catch(e) { frErr = e.code === 400 || e.code === 404 ? e.message : e.code === 0 ? L("Keine Verbindung zum Internet.", "No internet connection.") : e.code === 429 ? L("Der Server ist gerade ausgelastet. Versuch es später noch einmal.", "The server is busy right now. Please try again later.") : L("Das hat nicht geklappt.", "That didn't work.") + ` (${e.message})`; } b.disabled = false; renderFriends(); };
   if (a === "on") { const n = ($("frName").value || "").trim().slice(0, 24); if (!n) { frErr = L("Gib zuerst einen Namen ein.", "Enter a name first."); renderFriends(); return; }
     return run(async () => { await cloudCreate(n); toast(L("Du bist online. Deine Daten sind jetzt auch im Online-Konto. Freunde sehen noch nichts.", "You're online. Your data is now in the online account too. Friends don't see anything yet."));
