@@ -2893,6 +2893,125 @@ html:not(.bkon) #bkSec:has(.bkslim:not(.ok)){background:color-mix(in srgb,#E2B53
   html.dsk .pt-days,html.dsk .pt-sets,html.dsk .pt-vol,html.dsk .pt-cmin{order:6}
   html.dsk .pfigs svg{max-height:220px}
 }
+/* ---------- Neues Design (27.10., nur Dev: html.nui) ---------- */
+/* Look A „Feinschliff“: nur Standard-Skin */
+html.nui:not([data-skin]){--r:20px;--shadow:0 1px 2px rgba(23,32,28,.06),0 8px 24px -14px rgba(23,32,28,.25);--hero:linear-gradient(150deg,#FFE9E4 0%,var(--panel) 60%);--heroline:#F6CFC7;--panel2:#F3F6F4}
+@media (prefers-color-scheme:dark){html.nui:not([data-skin]):not([data-theme="light"]){--bg:#111714;--panel:#19211D;--line:#2A3530;--ink:#ECF1EE;--muted:#93A29B;--shadow:0 1px 0 rgba(255,255,255,.04) inset,0 10px 30px -18px rgba(0,0,0,.8);--hero:linear-gradient(150deg,#3A1C19 0%,#1D2420 55%);--heroline:#4A2824;--panel2:#212B26}}
+html.nui:not([data-skin])[data-theme="dark"]{--bg:#111714;--panel:#19211D;--line:#2A3530;--ink:#ECF1EE;--muted:#93A29B;--shadow:0 1px 0 rgba(255,255,255,.04) inset,0 10px 30px -18px rgba(0,0,0,.8);--hero:linear-gradient(150deg,#3A1C19 0%,#1D2420 55%);--heroline:#4A2824;--panel2:#212B26}
+@media (prefers-color-scheme:dark){html.nui:not([data-skin]):not([data-theme="light"]) body{background:radial-gradient(120% 50% at 50% -10%,#1E2A24 0%,var(--bg) 60%) no-repeat,var(--bg)}}
+html.nui:not([data-skin])[data-theme="dark"] body{background:radial-gradient(120% 50% at 50% -10%,#1E2A24 0%,var(--bg) 60%) no-repeat,var(--bg)}
+html.nui:not([data-skin]) :is(.panel,.rxcard,.ptile,.phero,.hday,.hstart,.unit,.dash > *,#progSec > section){border-radius:var(--r);box-shadow:var(--shadow);border-color:var(--line)}
+html.nui:not([data-skin]) :is(.phero,.nuitoday,.rvhero){background:var(--hero)!important;border-color:var(--heroline)!important}
+html.nui:not([data-skin]) button.primary,html.nui:not([data-skin]) .primary{border-radius:16px}
+html.nui:not([data-skin]) button.ghost{border-radius:14px}
+html.nui .delta.down{color:var(--muted)!important;background:transparent!important}
+/* Handy: kompakte Kopfzeile (Logo, Plan als Pille, ⚙) */
+@media (max-width:1099px){
+  html.nui header{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding-bottom:10px;margin-bottom:12px;border-bottom:0}
+  html.nui header > div:not(.topright):not(.planbar) .label{display:none}
+  html.nui header h1{font-size:1.65rem;margin:0;line-height:1}
+  html.nui header > div:has(> h1){grid-column:1;grid-row:1}
+  html.nui header .planbar{grid-column:2;grid-row:1;margin:0;padding:0;border:0;min-width:0;display:flex;gap:6px;align-items:center;justify-content:flex-end}
+  html.nui header .planbar > .label{display:none}
+  html.nui header #planSel{flex:0 1 auto;min-width:0;max-width:100%;border-radius:999px;padding:6px 28px 6px 12px;font-size:.88rem;min-height:36px}
+  html.nui header .topright{grid-column:3;grid-row:1;margin:0;position:static;display:flex;align-items:center;gap:6px}
+  html.nui header .topright .bkchip:not([hidden]){max-width:36px;overflow:hidden;white-space:nowrap;padding:6px 8px}
+  html.nui body.view-bauen header .planbar{grid-column:1/-1;grid-row:2;justify-content:flex-start;flex-wrap:wrap}
+  html.nui body.view-bauen header .planbar #planSel{flex:1 1 200px}
+}
+/* Home = „Heute“ */
+.nuitoday{display:grid;gap:6px}
+.nuitoday h2{font-size:clamp(2.1rem,10vw,2.8rem);line-height:1;margin:2px 0}
+.nuitoday .hint{margin:0}
+.nuitoday .pweek{margin-top:6px}
+html.nui .hstart .hsquick{display:grid;gap:12px}
+html.nui .hstart .hsquick:has(.nuitoday){background:var(--hero,var(--panel));border:1.5px solid var(--heroline,var(--line));border-radius:var(--r,18px);padding:16px;box-shadow:var(--shadow,none)}
+html.nui .hsquick .hsgo{min-height:54px;font-size:1.1rem}
+.nuichips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.nuichips .hsset{width:auto!important;flex:0 1 auto;padding:7px 14px;font-size:.88rem;min-height:0;margin:0}
+html.nui:not(.dsk) body.view-home .hstart:not(.open) .hsquick:has(.nuitoday){padding:16px}
+/* Navigation am Handy: Technik ins ⚙-Menü, Training groß in der Mitte */
+@media (max-width:760px){
+  html.nui #tabs .wiptab{display:none!important}
+  html.nui.lay2 body .tabs button{justify-content:flex-end!important}
+  html.nui.lay2 body .tabs button[data-view="training"]{border-top-color:transparent!important;position:relative;overflow:visible}
+  html.nui.lay2 body .tabs button[data-view="training"] .ti{width:48px;height:48px;display:grid;place-items:center;border-radius:50%;background:var(--sel);color:var(--sel-ink);font-size:1.05rem;line-height:1;padding-left:3px;box-sizing:border-box;margin:-22px 0 1px;border:4px solid var(--panel);box-shadow:0 4px 12px -4px color-mix(in srgb,var(--sel) 60%,transparent);transition:transform .15s ease}
+  html.nui.lay2 body .tabs button[data-view="training"]:active .ti{transform:scale(.94)}
+  html.nui.lay2 body .tabs button[data-view="training"][aria-selected="true"]{color:var(--sel)}
+  /* Training als Vollbild: Kopfzeile und Tableiste weg */
+  html.nui body.running header,html.nui body.running .tabs,html.nui body.running #tabs{display:none!important}
+  html.nui.lay2 body.running .wrap{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 24px)}
+  html.nui body.running .rxend{display:none}
+}
+.nuirun{display:none}
+html.nui body.running .nuirun{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+html.nui .nuirun .label{flex:1;font-family:var(--display);font-size:1.9rem;font-weight:800;letter-spacing:.02em;color:var(--ink);text-transform:uppercase}
+html.nui .nuirun .nuihome{min-width:40px;min-height:40px;padding:0;border-radius:50%;font-size:1.1rem}
+html.nui .nuirun .nuiend{color:var(--sel);border-color:color-mix(in srgb,var(--sel) 45%,var(--line));padding:7px 14px;min-height:0}
+@media (min-width:761px){html.nui body.running .nuirun .label{display:none}html.nui body.running .nuirun{justify-content:flex-end}html.nui body.running .nuirun .nuihome{display:none}}
+html.nui .sess.rx > .rxcard:not(.rxrest):not(.runpanel):not(.rxnextcard):first-of-type{background:var(--hero,var(--panel));border-color:var(--heroline,var(--line))}
+html.nui .rxcard .nick.big{font-size:clamp(2.2rem,10vw,3rem);line-height:1}
+html.nui .rxbar{height:6px;border-radius:3px}
+html.nui .rxrest{position:relative}
+html.nui .rxrest .ring{transform:scale(1.08)}
+.nuitick{position:absolute;top:12px;right:14px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--good);color:#fff;font-weight:800;animation:nuiPop .5s cubic-bezier(.2,1.6,.4,1) both}
+/* Abschluss */
+.nuifin{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;align-items:center;margin-top:6px}
+.nuifin .pring{width:78px;height:78px}.nuifin .pring b{font-size:1.4rem}
+.nuifin .hint{margin:0}
+.nuifin .nuishare{grid-column:1/-1}
+html.nui .rvhero .stats .hl{animation:nuiPop .6s .2s cubic-bezier(.2,1.6,.4,1) both}
+html.nui .rvhero .stats .hl b::after{content:" 🏆"}
+html.nui .rvhero h2.big{animation:nuiUp .35s ease both}
+/* Weniger Erklärtext: ⓘ */
+html.nui p.hint.nuimore:not(.on){display:none}
+.nuiinfo{display:inline-flex;align-items:center;gap:4px;background:none;border:0;padding:2px 0;min-height:0;color:var(--muted);font-size:.84rem;font-weight:600;cursor:pointer;width:auto;justify-self:start;align-self:flex-start}
+.nuiinfo:hover{color:var(--ink)}
+.nuiinfo[aria-expanded="true"]{color:var(--ink)}
+/* Sanfte Bewegung */
+@keyframes nuiUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes nuiPop{0%{opacity:0;transform:scale(.6)}100%{opacity:1;transform:none}}
+html.nui body.nuiin .grid > :not([hidden]){animation:nuiUp .22s ease both}
+html.nui body.nuiin .grid > :not([hidden]):nth-child(2){animation-delay:.03s}
+html.nui body.nuiin .grid > :not([hidden]):nth-child(3){animation-delay:.06s}
+@media (prefers-reduced-motion:reduce){html.nui *{animation:none!important}}
+/* Neues Design: Feinschliff Kopfzeile Handy */
+@media (max-width:1099px){
+  html.nui header #planSel{width:auto;flex:1 1 auto;max-width:230px}
+  html.nui header .topright .bkchip:not([hidden]){position:relative;width:36px!important;min-width:36px;max-width:36px;height:36px;padding:0!important;border-radius:50%;overflow:hidden;text-indent:200px;white-space:nowrap}
+  html.nui header .topright .bkchip:not([hidden])::before{content:"💾";position:absolute;inset:0;display:grid;place-items:center;text-indent:0;font-size:1rem}
+  html.nui body.view-bauen header .planbar #planSel{max-width:none}
+}
+/* PC: Heute-Karte links oben im Überblick */
+.dtoday{display:none}
+@media (min-width:1100px){
+  html.nui.dsk .dash{grid-template-columns:minmax(340px,420px) minmax(0,1fr);grid-template-areas:"h k" "h v" "m v" "m s" "c s"}
+  html.nui.dsk .dash.hastodo{grid-template-areas:"h k" "t v" "m v" "m s" "c s"}
+  html.nui .dtoday{display:grid;gap:12px;grid-area:h;align-self:start;background:var(--hero,var(--panel));border:1.5px solid var(--heroline,var(--line));border-radius:var(--r,18px);padding:18px;box-shadow:var(--shadow,none)}
+  html.nui .dtoday .hsgo{min-height:52px;font-size:1.08rem;width:100%}
+  html.nui.dsk .dkpis{align-self:start}
+  /* Training am PC: links Übungen, Mitte aktuelle Übung, rechts Pause und Notizen */
+  html.nui.dsk body.running .grid{max-width:1180px}
+  html.nui.dsk body.running .right{max-width:none}
+  html.nui.dsk body.running .sess.rx:not(.rvw){grid-template-columns:280px minmax(0,1fr) 330px;align-items:start;column-gap:20px;grid-auto-flow:row dense}
+  html.nui.dsk body.running .sess.rx:not(.rvw) > :is(.nuirun,.rxtop,.rxbar){grid-column:1/-1}
+  html.nui.dsk body.running .sess.rx:not(.rvw) > .rxlist{grid-column:1;grid-row:4/span 4}
+  html.nui.dsk body.running .sess.rx:not(.rvw) > .rxcard:not(.rxlist):not(.runpanel):not(.rxrest){grid-column:2;grid-row:4}
+  html.nui.dsk body.running .sess.rx:not(.rvw) > .rxrest{grid-column:3;grid-row:4}
+  html.nui.dsk body.running .sess.rx:not(.rvw) > .runpanel{grid-column:3}
+  html.nui body.running .sess.rx > .rxend{display:none}
+  html.nui.dsk body.running .nuirun{margin-bottom:-6px}
+}
+html.nui body.running #trainSec > .planhead{display:flex;justify-content:flex-end;align-items:center;margin:0 0 6px;padding:0;border:0;min-height:0}
+html.nui body.running #trainSec > .planhead h2{display:none}
+html.nui body.running #trainSec > .planhead .label{display:none}
+html.nui body.running #trainSec > .planhead input{min-height:34px;padding:4px 10px;font-size:.85rem;border-radius:999px}
+@media (min-width:1100px){html.nui.dsk .rxrest .ring{transform:none}html.nui.dsk .rxrest .rxrestrow{gap:6px}html.nui.dsk .rxrest .rxround{width:48px;height:48px;min-width:48px}}
+html.nui .nuirun .label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html.nui .nuirun > button{flex:none}
+html.nui[data-skin="arcade"] .nuirun .label{font-size:1.1rem}
+@media (max-width:1099px){html.nui header > div:has(> h1){min-width:0}html.nui[data-skin="arcade"] header h1{font-size:1.05rem}}
+.rvonce{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px}.rvonce .hint{margin:0;font-size:.82rem}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
@@ -3246,6 +3365,8 @@ body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 const YOGA = true;
 const TUT2 = false;
 const LIGA = false; // Liga in Gruppen: nur in der Dev-Version (Vincent 26.10.)
+const NEWUI = false; // neues Design (Skin A Feinschliff, Training als Vollbild …): erst nur in der Dev-Version (Vincent 27.10.)
+if (NEWUI) document.documentElement.classList.add("nui");
 const YOGA2 = false; // Yoga & Stretching (Übungsart „Halten“, Planart „Beweglich“): erst nur in der Testversion
 const LAY2 = true; // neues Layout: Home-Bildschirm, Tableiste unten (Handy), Seitenleiste (Desktop)
 // ---------- Sprache (Deutsch / Englisch) ----------
@@ -3632,7 +3753,9 @@ const hasDays = p => daysOf(p).length > 0;
 const dayName = (p, id) => daysOf(p).find(d => d.id === id)?.name || DAYS[id] || "Training";
 const dayNameH = (p, id) => esc(dayName(p, id));
 function dayIdOf(p, u){ const ds = daysOf(p); return ds.some(d => d.id === u.day) ? u.day : ds[0]?.id; }
-function unitsFor(p, day){ return day && day !== "alle" ? p.units.filter(u => dayIdOf(p, u) === day) : p.units; }
+// Übungen, die im Training nur für diese eine Einheit dazukamen (u.once), gehören nicht zum Plan; ihr Verlauf bleibt
+function planUnits(p){ return p.units.filter(u => !u.once); }
+function unitsFor(p, day){ return day && day !== "alle" ? p.units.filter(u => !u.once && dayIdOf(p, u) === day) : planUnits(p); }
 const isUpperLower = p => ptype(p) === "split" && daysOf(p).some(d => d.id === "oben") && daysOf(p).some(d => d.id === "unten");
 function countMuscles(units){
   const c = {}; ORDER.forEach(m => c[m] = 0);
@@ -3640,7 +3763,7 @@ function countMuscles(units){
   SUBDEF.forEach(([id]) => { c[id] = units.filter(u => hitsSub(u, id)).length; });
   return c;
 }
-function coverage(){ const p = plan(); return countMuscles(hasDays(p) ? unitsFor(p, dayFilter) : p.units); }
+function coverage(){ const p = plan(); return countMuscles(hasDays(p) ? unitsFor(p, dayFilter) : planUnits(p)); }
 function region(day){ return day === "oben" ? UPPER.concat(CORE) : LOWER.concat(CORE); }
 
 function currentDay(){
@@ -3843,11 +3966,11 @@ function renderUnits(){
     }).join("");
     return;
   }
-  $("units").innerHTML = p.units.map((u, i) => unitCard(u, i, i > 0)).join("");
+  $("units").innerHTML = planUnits(p).map((u, i) => unitCard(u, i, i > 0)).join("");
 }
 
 function renderPlans(){
-  $("planSel").innerHTML = state.plans.map(p => `<option value="${p.id}" ${p.id===state.active?"selected":""}>${esc(p.name)} · ${TYPES[ptype(p)]} (${p.units.length})</option>`).join("");
+  $("planSel").innerHTML = state.plans.map(p => `<option value="${p.id}" ${p.id===state.active?"selected":""}>${esc(p.name)} · ${TYPES[ptype(p)]} (${planUnits(p).length})</option>`).join("");
 }
 
 // Bibliotheksfilter passt sich beim Planwechsel an die Planart an (Yoga-Plan: Yoga, Gym-Plan: alles)
@@ -4615,7 +4738,7 @@ function renderStart(){
     return `<div class="hday" data-open="${open ? 1 : 0}"><button type="button" class="hdh" data-hw="day" data-day="${d.id}" aria-expanded="${open}"><span class="nmw"><span class="nm">${esc(d.name)}</span>${d.id === nd && list.length ? `<span class="due">${L("ist dran", "up next")}</span>` : ""}</span><span class="cnt">${list.length} ${list.length === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")}</span><span class="car" aria-hidden="true">▼</span></button>
       ${open ? (list.length ? `<ol>${list.map(homeRow).join("")}</ol>` : `<p class="hint" style="padding:10px 16px;margin:0">${L("An diesem Tag sind noch keine Übungen.", "No exercises on this day yet.")}</p>`) + `<div class="hdfoot">${list.length ? `<button type="button" class="primary" data-hw="go" data-day="${d.id}">▶ ${L("Diesen Tag starten", "Start this day")}</button>` : ""}<button type="button" class="ghost" data-hw="edit" data-day="${d.id}">${L("Bearbeiten", "Edit")}</button></div>` : ""}
     </div>`;
-  }).join("") : `<div class="hday" data-open="1"><div class="hdh"><span class="nm">${L("Alle Übungen", "All exercises")}</span><span class="cnt">${p.units.length} ${p.units.length === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")}</span></div><ol>${p.units.map(homeRow).join("")}</ol><div class="hdfoot"><button type="button" class="ghost" data-hw="edit">${L("Bearbeiten", "Edit")}</button></div></div>`;
+  }).join("") : `<div class="hday" data-open="1"><div class="hdh"><span class="nm">${L("Alle Übungen", "All exercises")}</span><span class="cnt">${planUnits(p).length} ${planUnits(p).length === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")}</span></div><ol>${planUnits(p).map(homeRow).join("")}</ol><div class="hdfoot"><button type="button" class="ghost" data-hw="edit">${L("Bearbeiten", "Edit")}</button></div></div>`;
   w.innerHTML = `${(() => { try { return rbBanner(); } catch(e) { return ""; } })()}<div class="hwhead"><div><div class="label">${L("Deine Workouts", "Your workouts")} · ${esc(p.homeOf ? L("Zuhause", "Home") : p.name)}</div><h2>${run ? L("Training läuft", "Workout running") : L("Bereit fürs Training", "Ready to train")}</h2></div>${hasDays(p) && ds.length > 1 ? `<button type="button" class="ghost" data-hw="all">${anyOpen ? L("Alle zuklappen", "Collapse all") : L("Alle aufklappen", "Expand all")}</button>` : ""}</div>${cards}<div class="hwadd"><button type="button" class="ghost" data-hw="add">＋ ${L("Übungen einfügen oder Plan importieren", "Add exercises or import a plan")}</button></div>`;
   // Start-Bereich
   if (run) {
@@ -4631,13 +4754,47 @@ function renderStart(){
       ${pickDays.map(d => `<button type="button" class="${d.id === nd ? "primary" : "ghost"} hsday" data-hs="qday" data-day="${d.id}"><span>${esc(d.name)}</span><small>${unitsFor(p, d.id).length} ${unitsFor(p, d.id).length === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")}${d.id === nd ? " · " + L("ist dran", "up next") : ""}</small></button>`).join("")}<button type="button" class="ghost mini hssspre" data-hs="sspre">⇅ ${L("Vorher Supersätze festlegen", "Set supersets first")}</button></div>`;
     return;
   }
-  hs.innerHTML = `<div class="hsquick" ${hsOpen ? "hidden" : ""}><button type="button" class="primary hsgo" data-hs="quick">▶ ${L("Training starten", "Start workout")}${qd ? `<small>${esc(dayNameH(p, qd))}</small>` : ""}</button>
-      <button type="button" class="ghost hsset" data-hs="toggle" aria-expanded="${hsOpen}">⚙ ${L("Tag, Stoppuhr und Pausen einstellen", "Set day, stopwatch and rests")}</button>${p.units.filter(ssOk).length > 1 ? `<button type="button" class="ghost hsset" data-hs="sspre">⇅ ${L("Supersätze festlegen", "Set supersets")}</button>` : ""}</div>
+  hs.innerHTML = `<div class="hsquick" ${hsOpen ? "hidden" : ""}>${NEWUI ? todayHead(p, qd) : ""}<button type="button" class="primary hsgo" data-hs="quick">▶ ${L("Training starten", "Start workout")}${qd && !NEWUI ? `<small>${esc(dayNameH(p, qd))}</small>` : ""}</button>
+      ${NEWUI ? `<div class="nuichips">` : ""}<button type="button" class="ghost hsset" data-hs="toggle" aria-expanded="${hsOpen}" title="${L("Tag, Stoppuhr und Pausen einstellen", "Set day, stopwatch and rests")}">⚙ ${NEWUI ? L("Tag & Pausen", "Day & rests") : L("Tag, Stoppuhr und Pausen einstellen", "Set day, stopwatch and rests")}</button>${p.units.filter(ssOk).length > 1 ? `<button type="button" class="ghost hsset" data-hs="sspre" title="${L("Supersätze festlegen", "Set supersets")}">⇅ ${NEWUI ? L("Supersätze", "Supersets") : L("Supersätze festlegen", "Set supersets")}</button>` : ""}${NEWUI ? `</div>` : ""}</div>
     <div class="hsbody" ${hsOpen ? "" : 'data-closed="1"'}>
       ${startBody(p, "home")}
     </div>`;
   if (!hsOpen) hs.querySelector(".hsbody").hidden = !window.matchMedia("(min-width:1100px)").matches;
 }
+// Neues Design: Kopf der Start-Karte „Heute · Pull“ mit Dauer und Wochenstreifen
+function todayHead(p, qd){
+  const W = weekInfo(p), list = qd ? unitsFor(p, qd) : p.units, st = settings();
+  const min = Math.max(5, Math.round(list.reduce((n, u) => n + (isCardio(u) ? (parseFloat(u.reps) || 20) * 60 : setsNum(u) * (40 + (u.rest || st.restSet || 90))), 0) / 300) * 5);
+  const wd = LANG === "en" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : WD;
+  const strip = [...Array(7)].map((_, i) => { const d = isoAdd(W.mon, i), on = W.doneD.has(d), pl = !on && W.plan7[d];
+    return `<div><span>${wd[i]}</span><i class="${on ? "done" : pl ? "plan" : ""}${d === W.t ? " today" : ""}" title="${fmtD(d)}">${on ? "✓" : pl ? esc(pl) : ""}</i></div>`; }).join("");
+  const nEx = list.length;
+  return `<div class="nuitoday"><span class="label">${L("Als Nächstes dran", "Up next")}</span><h2>${L("Heute", "Today")}${qd ? ` · <span>${esc(dayNameH(p, qd))}</span>` : ""}</h2>
+    <p class="hint">${nEx} ${nEx === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")} · ${L("ca.", "approx.")} ${min} min · ${LANG === "en" ? `${W.done} of ${W.goal} this week` : `${W.done} von ${W.goal} diese Woche`}</p>
+    <div class="pweek">${strip}</div></div>`;
+}
+// Neues Design: Zahlen kurz hochzählen (nur ganze Zahlen, ohne Bewegung bei „Bewegung reduzieren“)
+function nuiCount(els){
+  if (!NEWUI || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  els.forEach(el => { const tn = [...el.childNodes].find(n => n.nodeType === 3 && /(^|[^\d.,])\d+([^\d.,]|$)/.test(n.textContent)); if (!tn) return;
+    const m = tn.textContent.match(/(^|[^\d.,])(\d+)(?=[^\d.,]|$)/); const to = +m[2]; if (!(to > 1) || to > 100000) return;
+    const pre = tn.textContent.slice(0, m.index + m[1].length), post = tn.textContent.slice(m.index + m[0].length), t0 = performance.now();
+    const step = now => { const f = Math.min(1, (now - t0) / 450); tn.textContent = pre + Math.round(to * (1 - Math.pow(1 - f, 3))) + post; if (f < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step); });
+}
+// Neues Design: lange Erklärtexte hinter ein ⓘ (der Text bleibt erhalten, ein Tipp klappt ihn auf)
+const nuiOpenTx = new Set();
+function nuiInfo(root){
+  if (!NEWUI) return;
+  (root || document).querySelectorAll(".grid :is(p,div).hint:not([id]):not(.nuimore):not(.nuiok)").forEach(el => {
+    if (el.closest("#setPanel, .rvhero, .phero, .ptile, .pprev, .nuitoday, .nuifin, .bkask, .bkslim, [role=status], [aria-live], .err, .rxlast, .restown, .stats, .dash")) { el.classList.add("nuiok"); return; }
+    const tx = el.textContent.trim(); if (tx.length < 84 || /^(Noch kein|No |Nothing)/.test(tx) || el.children.length > 2 || el.querySelector("input, button, select, a, textarea")) { el.classList.add("nuiok"); return; }
+    const k = tx.slice(0, 60); el.classList.add("nuimore"); if (nuiOpenTx.has(k)) el.classList.add("on");
+    const b = document.createElement("button"); b.type = "button"; b.className = "nuiinfo"; b.textContent = "ⓘ " + L("Mehr dazu", "More info"); b.setAttribute("aria-expanded", String(nuiOpenTx.has(k)));
+    b.addEventListener("click", () => { const on = !el.classList.contains("on"); el.classList.toggle("on", on); b.setAttribute("aria-expanded", String(on)); on ? nuiOpenTx.add(k) : nuiOpenTx.delete(k); });
+    el.before(b); });
+}
+if (NEWUI) { let q = 0; new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; try { nuiInfo(); } catch(e) {} }); }).observe(document.body, { childList: true, subtree: true }); }
 // Handy: nach dem Start sofort das Eingabefeld fürs Gewicht öffnen (Tastatur geht auf, muss direkt im Tipp passieren)
 function focusEntry(){
   if (!state.run || matchMedia("(hover:hover) and (pointer:fine)").matches) return;
@@ -4704,7 +4861,7 @@ function initLay2(){
   const tabs = $("tabs");
   const hb = document.createElement("button"); hb.type = "button"; hb.setAttribute("role", "tab"); hb.dataset.view = "home"; hb.setAttribute("aria-selected", "true"); hb.textContent = "Home";
   tabs.insertBefore(hb, tabs.firstChild);
-  const IC = { home: "⌂", bauen: "☰", training: "◷", fortschritt: "↗", freunde: "☺", technik: "▶", wissen: "⚖" };
+  const IC = { home: "⌂", bauen: "☰", training: NEWUI ? "▶\uFE0E" : "◷", fortschritt: "↗", freunde: "☺", technik: "▶", wissen: "⚖" };
   tabs.querySelectorAll("button[data-view]").forEach(b => { const i = document.createElement("span"); i.className = "ti"; i.setAttribute("aria-hidden", "true"); i.textContent = IC[b.dataset.view] || "•"; b.insertBefore(i, b.firstChild); });
   wireHome();
   // Plan: aktueller Plan + Zuhause-Version nach oben, Figur darunter; Training: „Training starten“ nach oben
@@ -4740,6 +4897,8 @@ function setView(v){
   // Nicht nach ganz oben springen: nur wenn die Tabs schon aus dem Bild gescrollt sind, die Tabs oben ins Bild holen
   try { const tb = $("tabs"); const pad = parseFloat(getComputedStyle(document.documentElement).paddingTop) || 0; const top = tb.getBoundingClientRect().top + window.scrollY - pad - 6; if (window.scrollY > top) window.scrollTo({ top: Math.max(0, top), behavior: "auto" }); } catch(e) {}
   renderAll();
+  if (NEWUI) { const bd = document.body; bd.classList.remove("nuiin"); void bd.offsetWidth; bd.classList.add("nuiin");
+    if (v === "fortschritt") requestAnimationFrame(() => nuiCount([...document.querySelectorAll("#weekSec .n, #progSec .pnums b, .pring b")])); }
 }
 $("progSeg").addEventListener("click", e => { const b = e.target.closest("[data-pv]"); if (b && view !== b.dataset.pv) setView(b.dataset.pv); });
 $("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { setView(b.dataset.view); if (LAY2) window.scrollTo({ top: 0, behavior: "auto" }); } });
@@ -4753,7 +4912,7 @@ function sessRow(p, s){
 }
 let tickInt = null;
 let audioCtx = null;
-const orderedUnits = (p, day) => hasDays(p) ? (day ? unitsFor(p, day) : daysOf(p).flatMap(d => unitsFor(p, d.id))) : p.units;
+const orderedUnits = (p, day) => hasDays(p) ? (day ? unitsFor(p, day) : daysOf(p).flatMap(d => unitsFor(p, d.id))) : planUnits(p);
 const fmtDur = ms => { const m = Math.max(0, Math.round(ms / 60000)); return m >= 60 ? `${Math.floor(m / 60)} h ${m % 60} min` : `${m} min`; };
 const clock = ms => { const t = Math.max(0, Math.floor(ms / 1000)); const h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), s = t % 60; return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(s).padStart(2, "0"); };
 const settings = () => (state.settings ||= { clock: true, rest: false, restSet: 90, restEx: 120 });
@@ -4854,6 +5013,13 @@ function draftStats(d){
     rows.forEach(r => { const kg = parseKg(r.kg), rp = it.time ? 0 : parseInt(r.reps, 10); if (it.time ? parseSec(r.sec) > 0 : rp > 0) { sets++; if (kg > 0 && rp > 0) vol += kg * rp; } });
   });
   return { ex, sets, vol, cmin, hsec, kgEx };
+}
+function nuiFinish(){
+  const W = weekInfo(plan()), R = 42, C = 2 * Math.PI * R, f = Math.min(1, W.done / W.goal);
+  const fr = document.documentElement.classList.contains("fron") && typeof frSt === "function" && (() => { try { return frSt().groups.length > 0; } catch(e) { return false; } })();
+  return `<div class="nuifin"><div class="pring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="${R}" class="trk"/><circle cx="50" cy="50" r="${R}" class="val" stroke-dasharray="${(C * f).toFixed(1)} ${C.toFixed(1)}"/></svg><b>${W.done}/${W.goal}<small>${L("Woche", "Week")}</small></b></div>
+    <p class="hint">${W.rest ? (LANG === "en" ? `${W.rest} more to your weekly goal.` : `Noch ${W.rest} bis zu deinem Wochenziel.`) : L("Wochenziel geschafft! 🎉", "Weekly goal reached! 🎉")}${W.streak > 1 ? ` · 🔥 ${LANG === "en" ? `${W.streak} weeks streak` : `${W.streak} Wochen Serie`}` : ""}</p>
+    ${fr ? `<button type="button" class="ghost nuishare" data-s="nuishare">↗ ${L("Speichern & mit Freunden teilen", "Save & share with friends")}</button>` : ""}</div>`;
 }
 function revStatsHtml(){
   const d = editDraft; if (!d) return "";
@@ -5032,7 +5198,7 @@ function holdCard(p, run, u, nextU){
 function rxHead(p, run, u){
   const planned = setsNum(u); const k = Math.min(run.cur.length, planned);
   const pct = Math.round((run.idx + (isCardio(u) ? 0 : k / planned)) / Math.max(1, run.order.length) * 100);
-  return `<div class="rxtop"><span class="rxday">${run.day ? dayNameH(p, run.day) : L("Training", "Workout")}</span><span class="rxcount n">${L("Übung", "Exercise")} ${Math.min(run.idx + 1, run.order.length)}/${run.order.length}</span>${run.clock ? `<span class="rxclock n" id="sTimer" title="${L("Trainingsdauer", "Workout time")}">${clock(Date.now() - run.start)}</span>` : ""}</div>
+  return `${NEWUI ? `<div class="nuirun"><button type="button" class="ghost nuihome" data-s="nuihome" aria-label="${L("Zur Übersicht (Training läuft weiter)", "To overview (workout keeps running)")}" title="${L("Zur Übersicht (Training läuft weiter)", "To overview (workout keeps running)")}">⌂</button><span class="label">${L("Training", "Workout")}</span><button type="button" class="ghost nuiend" data-s="end">${L("Beenden", "End")}</button></div>` : ""}<div class="rxtop"><span class="rxday">${run.day ? dayNameH(p, run.day) : L("Training", "Workout")}</span><span class="rxcount n">${L("Übung", "Exercise")} ${Math.min(run.idx + 1, run.order.length)}/${run.order.length}</span>${run.clock ? `<span class="rxclock n" id="sTimer" title="${L("Trainingsdauer", "Workout time")}">${clock(Date.now() - run.start)}</span>` : ""}</div>
     <div class="rxbar"><i style="width:${pct}%"></i></div>`;
 }
 function rxGoal(u, run){
@@ -5122,7 +5288,7 @@ function rxAddList(p, run){
   const q = norm((runAdd && runAdd.q || "").trim());
   const open = new Set(run.order.slice(run.idx));
   const planN = new Set(p.units.map(u => norm(u.name)));
-  const own = p.units.filter(u => !open.has(u.id) && (!q || sHit(u.name + " " + (u.nick || "") + " " + u.muscles.map(m => MUSCLES[m]?.n || "").join(" "), q))).slice(0, 8);
+  const own = p.units.filter(u => !u.once && !open.has(u.id) && (!q || sHit(u.name + " " + (u.nick || "") + " " + u.muscles.map(m => MUSCLES[m]?.n || "").join(" "), q))).slice(0, 8);
   // Treffer sortieren: Name vor Hauptmuskel vor Nebenmuskel
   const mHit = ms => sHit(ms.map(m => MUSCLES[m].n + " " + MUSCLES_DE[m]).join(" "), q, false);
   const flexP = YOGA && ptype(p) === "beweglich";
@@ -5136,7 +5302,7 @@ function rxAddList(p, run){
     return `<li class="hint rxnone">${L(`Wähle die Übung, die du im Wechsel mit ${unitNm(cu)} machst. Nach jedem Satz geht es ohne Pause zur anderen Übung, die Pause kommt nach beiden. Oder such oben eine neue.`, `Pick the exercise to alternate with ${unitNm(cu)}. After each set you go straight to the other one, rest comes after both. Or search for a new one above.`)}</li>`
       + op.map(x => li(`data-s="addU" data-id="${x.id}"`, unitNm(x), `${setsNum(x)} × ${esc(x.reps || "")}`)).join(""); }
   if (!q && runAdd && runAdd.alt) { const cu = curUnit(p, run); const al = cu ? altsFor(cu, 6) : [];
-    if (al.length) return `<li class="hint rxnone">${L(`Gerät besetzt? Diese Übungen trainieren dieselben Muskeln wie ${unitNm(cu)}. Die gewählte ersetzt sie nur heute, dein Plan bleibt gleich.`, `Machine taken? These train the same muscles as ${unitNm(cu)}. Your pick replaces it for today, your plan stays the same.`)}</li>` + al.map(({ x, i, inPlan }) => { const pu = inPlan && p.units.find(y => norm(y.name) === norm(x.n) || (x.en && norm(y.name) === norm(x.en)));
+    if (al.length) return `<li class="hint rxnone">${L(`Gerät besetzt? Diese Übungen trainieren dieselben Muskeln wie ${unitNm(cu)}. Die gewählte ersetzt sie nur heute, dein Plan bleibt gleich.`, `Machine taken? These train the same muscles as ${unitNm(cu)}. Your pick replaces it for today, your plan stays the same.`)}</li>` + al.map(({ x, i, inPlan }) => { const pu = inPlan && p.units.find(y => !y.once && norm(y.name) === norm(x.n) || (x.en && norm(y.name) === norm(x.en)));
       return li(pu ? `data-s="addU" data-id="${pu.id}" data-now="1"` : `data-s="addL" data-i="${i}" data-now="1"`, esc(xn(x)), `${esc(gearName(x.g))} · ${x.p.map(m => MUSCLES[m].n).join(", ")}${pu ? " · " + L("schon im Plan", "already in plan") : ""}`); }).join(""); }
   const h = own.map(u => li(`data-s="addU" data-id="${u.id}"`, unitNm(u), `${L("aus deinem Plan", "from your plan")}${hasDays(p) && u.day && u.day !== run.day ? " · " + dayNameH(p, dayIdOf(p, u)) : ""}`)).join("")
     + lib.map(x => li(`data-s="addL" data-i="${LIB.indexOf(x)}"`, esc(xn(x)) + (inP(x) ? ` <span class="inplan"><span aria-hidden="true">✓ </span>${L("Im Plan", "In plan")}</span>` : "") + akaLine(x, q), `${esc(gearName(x.g))} · ${x.p.map(m => MUSCLES[m].n).join(", ")}`)).join("");
@@ -5169,7 +5335,7 @@ function renderSession(){
       const setRest = run.rest.kind === "set";
       const reachedR = !isCardio(u) && k >= planned && run.more !== u.id;
       box.innerHTML = `<div class="sess rx">${head}
-        <section class="rxcard rxrest">
+        <section class="rxcard rxrest">${NEWUI && Date.now() - (run.rest.until - run.rest.total * 1000) < 1500 ? `<span class="nuitick" aria-hidden="true">✓</span>` : ""}
           <div class="rxrestrow">
             <button type="button" class="rxround" data-s="radj" data-d="-15" aria-label="${L("15 Sekunden weniger", "15 seconds less")}">−15</button>
             <div class="ring" id="sRing" style="--p:${left / run.rest.total}"><span class="label">${L("Pause", "Rest")}</span><b class="n" id="sRest">${clock(left * 1000)}</b></div>
@@ -5272,10 +5438,11 @@ function renderSession(){
         <h2 class="big">${L("Training fertig!", "Workout done!")} <span aria-hidden="true">💪</span></h2>
         <p class="hint">${d.items.every(it => isHold(p.units.find(x => x.id === it.u))) ? L("Schau kurz drüber. Die Haltezeiten kannst du hier noch ändern. Wenn alles stimmt, tippe unten auf „Training speichern“.", "Have a quick look. You can still change the hold times here. When everything is right, tap “Save workout” below.") : L("Schau kurz drüber. Mit „✎ Ändern“ korrigierst du einzelne Sätze. Wenn alles stimmt, tippe unten auf „Training speichern“.", "Have a quick look. Use “✎ Edit” to fix single sets. When everything is right, tap “Save workout” below.")}</p>
         <div class="stats" id="revStats">${revStatsHtml()}</div>
+        ${NEWUI ? nuiFinish() : ""}
       </section>` : `<section class="rxcard"><div class="sesstop"><h2>${L("Training bearbeiten", "Edit workout")}</h2></div>${timeFields}</section>`}
       ${d.items.map((it, ii) => {
         const u = p.units.find(x => x.id === it.u); if (!u) return "";
-        const head = `<div class="rvhead"><div class="nick sm">${unitNm(u)}${it.cardio ? ` <span class="ctag">Cardio</span>` : ""}</div><span class="badges">${badge(it)}</span></div>`;
+        const head = `<div class="rvhead"><div class="nick sm">${unitNm(u)}${it.cardio ? ` <span class="ctag">Cardio</span>` : ""}</div><span class="badges">${badge(it)}</span></div>${u.once ? `<div class="rvonce"><span class="hint">${L("Nur für dieses Training dazugenommen.", "Added for this workout only.")}</span><button type="button" class="ghost mini" data-s="keepU" data-id="${esc(u.id)}">＋ ${L("In den Plan übernehmen", "Add to plan")}</button></div>` : ""}`;
         if (it.cardio) return `<section class="rxcard rvitem">${head}${lastTxt(it)}
           <div class="cfields">${["min", "km", "kcal"].map(k => `<div class="field"><label class="label">${k === "min" ? L("Dauer (min)", "Duration (min)") : k === "km" ? L("Strecke (km)", "Distance (km)") : "kcal"}</label><input data-ii="${ii}" data-ec="${k}" inputmode="decimal" value="${esc(it.cardio[k])}" placeholder="${k === "min" ? L("leer = übersprungen", "empty = skipped") : L("optional", "optional")}"></div>`).join("")}</div></section>`;
         const tU = it.time;
@@ -5522,6 +5689,8 @@ $("sessBox").addEventListener("click", e => {
     st[key] = Math.max(5, Math.min(600, v)); save(); renderSession(); return;
   }
   const act = b.dataset.s; const p = plan();
+  if (act === "keepU") { const u = p.units.find(x => x.id === b.dataset.id); if (u) { delete u.once; save(); toast(L(`${u.nick || u.name} ist jetzt in deinem Plan.`, `${u.nick || u.name} is now in your plan.`)); renderSession(); } return; }
+  if (act === "nuishare") { const sv = document.querySelector('#sessBox [data-s="eSave"]'); if (sv) { sv.click(); setTimeout(() => setView("freunde"), 80); } return; }
   if (act === "pickday") { startDay = b.dataset.day; renderSession(); return; }
   if (act === "start") { startSession(hasDays(p) ? (startDay || nextDay(p)) : null, b.dataset.timer === "1"); return; }
   if (act === "show") { summaryId = b.dataset.id; fromHist = b.dataset.from === "hist"; histOpen = false; renderSession(); return; }
@@ -5602,6 +5771,7 @@ $("sessBox").addEventListener("click", e => {
     }
   }
   const run = state.run; if (!run) return;
+  if (act === "nuihome") { setView("home"); window.scrollTo({ top: 0, behavior: "auto" }); return; }
   if (act === "end") { finishSession(); return; }
   if (act === "goto") { goTo(p, run, b.dataset.id); save(); renderSession(); window.scrollTo({ top: Math.max(0, $("sessBox").getBoundingClientRect().top + window.scrollY - 70), behavior: "smooth" }); return; }
   if (act === "addOpen") { runAdd = { q: "", alt: b.dataset.alt === "1" }; renderSession(); if (!runAdd.alt) setTimeout(() => $("runAddQ")?.focus(), 0); else $("runAddL")?.scrollIntoView({ block: "nearest", behavior: "smooth" }); return; }
@@ -5612,13 +5782,18 @@ $("sessBox").addEventListener("click", e => {
     let id = b.dataset.id;
     if (act === "addL") {
       const x = LIB[+b.dataset.i]; if (!x) return;
-      const nu = { id: uid(), name: xn(x), nick: "", sets: x.sets, reps: x.reps, muscles: libMuscles(x) };
-      if (x.cardio) nu.kind = "cardio";
-      if (hasDays(p)) nu.day = run.day || currentDay();
       const cu0 = runAdd && runAdd.alt && !runAdd.ss && curUnit(p, run);
-      if (cu0) { nu.spare = true; nu.altOf = cu0.nick || cu0.name; }
-      p.units.push(nu); id = nu.id;
-      if (!cu0) toast(L(`${xn(x)} ist jetzt auch in deinem Plan.`, `${xn(x)} is now in your plan too.`));
+      // Neu im Training dazugenommen: gilt nur für diese Einheit (u.once). Gab es die Übung so schon einmal, wird sie wiederverwendet (Verlauf bleibt zusammen).
+      const old = !cu0 && p.units.find(u => u.once && norm(u.name) === norm(xn(x)));
+      if (old) { if (hasDays(p)) old.day = run.day || currentDay(); id = old.id; }
+      else {
+        const nu = { id: uid(), name: xn(x), nick: "", sets: x.sets, reps: x.reps, muscles: libMuscles(x) };
+        if (x.cardio) nu.kind = "cardio";
+        if (hasDays(p)) nu.day = run.day || currentDay();
+        if (cu0) { nu.spare = true; nu.altOf = cu0.nick || cu0.name; } else nu.once = true;
+        p.units.push(nu); id = nu.id;
+      }
+      if (!cu0) toast(L(`${xn(x)} gilt nur für dieses Training. Dein Plan bleibt gleich.`, `${xn(x)} is only for this workout. Your plan stays the same.`));
     }
     if (runAdd && runAdd.ss) { const cu = curUnit(p, run); runAdd = null; if (cu && cu.id !== id) ssStart(p, run, cu, id); save(); renderSession(); return; }
     // Alternative: ersetzt die aktuelle Übung nur für heute
@@ -6551,7 +6726,7 @@ function renderLib(quick){
   const box = $("libSec"); if (!box) return;
   const head = "";
   if (box.hidden) return;
-  const inPlan = new Set(plan().units.map(u => norm(u.name)));
+  const inPlan = new Set(planUnits(plan()).map(u => norm(u.name)));
   let list = libFiltered();
   if (libMatch && selection.size) { const sel = [...selection].map(m => bm(m)); const sc = x => sel.some(m => x.p.includes(m)) ? 0 : 1; list = list.map((x, i) => [x, i]).sort((a, b) => sc(a[0]) - sc(b[0]) || a[1] - b[1]).map(a => a[0]); }
   const flexP = YOGA && ptype(plan()) === "beweglich";
@@ -8063,9 +8238,8 @@ function perLabel(k, from){
   return from ? L(`seit ${fmtD(from)}`, `since ${fmtD(from)}`) : "";
 }
 let wkEdit = false;
-function renderWeek(){
-  const box = $("weekSec"); if (!box) return;
-  const A = allEntries(), p = plan(), t = todayIso(), mon = mondayOf(t), end = isoAdd(mon, 7);
+function weekInfo(p){
+  const A = allEntries(), t = todayIso(), mon = mondayOf(t), end = isoAdd(mon, 7);
   const doneD = new Set(A.filter(x => x.e.d >= mon && x.e.d < end).map(x => x.e.d)), done = doneD.size;
   const ds = hasDays(p) ? daysOf(p).filter(d => unitsFor(p, d.id).length) : [];
   // eigener Wochenplan (freiwillig): p.wk = 7 Einträge Mo–So, "" = frei, "*" = Training, sonst Tag-ID
@@ -8078,7 +8252,12 @@ function renderWeek(){
   const k0 = Math.max(0, ds.findIndex(d => d.id === nd));
   if (wk) free.forEach(d => { const v = wk[daysBetween(mon, d)]; if (v) plan7[d] = v === "*" ? "•" : dayNameH(p, v); });
   else for (let i = 0; i < Math.min(rest, free.length); i++) { const d = free[Math.min(free.length - 1, Math.floor((i + .5) * free.length / Math.min(rest, free.length)))]; if (!plan7[d]) plan7[d] = ds.length ? dayNameH(p, ds[(k0 + i) % ds.length].id) : "•"; }
-  const wd = LANG === "en" ? ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"] : WD;
+  return { A, t, mon, doneD, done, ds, wk, goal, rest, wkNext, nd, streak, plan7 };
+}
+function renderWeek(){
+  const box = $("weekSec"); if (!box) return;
+  const p = plan(), { A, t, mon, doneD, done, ds, wk, goal, rest, wkNext, nd, streak, plan7 } = weekInfo(p);
+  const wd = LANG === "en" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : WD;
   const strip = [...Array(7)].map((_, i) => { const d = isoAdd(mon, i), on = doneD.has(d), pl = !on && plan7[d];
     if (wkEdit) { const v = wk ? wk[i] : ""; return `<div><span>${wd[i]}</span><select class="pwsel" data-i="${i}" aria-label="${wd[i]}"><option value="">${L("frei", "rest")}</option>${ds.length ? ds.map(x => `<option value="${esc(x.id)}"${v === x.id ? " selected" : ""}>${esc(dayNameH(p, x.id))}</option>`).join("") : `<option value="*"${v === "*" ? " selected" : ""}>${L("Training", "Workout")}</option>`}</select></div>`; }
     return `<div><span>${wd[i]}</span><i class="${on ? "done" : pl ? "plan" : ""}${d === t ? " today" : ""}" title="${fmtD(d)}">${on ? "✓" : pl ? esc(pl) : ""}</i></div>`; }).join("");
@@ -8893,7 +9072,7 @@ $("copyClose").addEventListener("click", () => { $("copyBox").hidden = true; });
 })();
 
 // ---------- Patch Notes ----------
-Object.assign(I18N.ui, {"Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf (die Woche kannst du auf Wunsch selbst einteilen), Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.": "New statistics: week card with ring, next workout and start button (you can plan your week yourself if you like), tiles with the last 8 weeks, months or years, compact previews instead of collapsed cards. Wider on PC. Backup and update are now under ⚙ Settings.", "„Noch ein Satz“ fragt jetzt kurz „Mit Timer“ oder „Ohne Timer“. Mit Timer läuft erst die Pause, danach trägst du den Extra-Satz ein.": "“One more set” now briefly asks “With timer” or “No timer”. With timer, the rest runs first, then you log the extra set."});
+Object.assign(I18N.ui, {"Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten.": "Exercises you add during a workout are only for that workout. At the end you can keep them with “Add to plan”.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf (die Woche kannst du auf Wunsch selbst einteilen), Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.": "New statistics: week card with ring, next workout and start button (you can plan your week yourself if you like), tiles with the last 8 weeks, months or years, compact previews instead of collapsed cards. Wider on PC. Backup and update are now under ⚙ Settings.", "„Noch ein Satz“ fragt jetzt kurz „Mit Timer“ oder „Ohne Timer“. Mit Timer läuft erst die Pause, danach trägst du den Extra-Satz ein.": "“One more set” now briefly asks “With timer” or “No timer”. With timer, the rest runs first, then you log the extra set."});
 Object.assign(I18N.ui, {"Geräte":"Machines","Kabelzug / Seilzug":"Cable station","Multipresse (Smith-Maschine)":"Smith machine","Latzug-Station":"Lat pulldown station","Butterfly / Brustpresse":"Pec deck / chest press","Beinpresse":"Leg press","Beinstrecker / Beinbeuger":"Leg extension / leg curl","Rückenstrecker-Bank":"Back extension bench","Kraftstation (Multi-Gym)":"Home gym (multi-station)"});
 Object.assign(I18N.ui, {"Auto": "Car", "Formel 1": "Formula 1", "Busch": "Bush", "Graslandschaft": "Grassland", "Nintendo Retro": "Nintendo retro", "Mittelalter": "Medieval", "Rap-Stil": "Rap style", "2000er-Stil": "2000s style", "Sommer": "Summer", "22 neue Skins: Auto, Formel 1, Minecraft, Project Zomboid, Busch, Graslandschaft, Windows 11, Steam, iPhone / Android, DJ, Breaking Bad, Pokémon, Nintendo, Nintendo Retro, Mittelalter, Spider-Man, Superman, Rap-Stil, 2000er-Stil, Spotify, Sommer und Rave. Jeder hat eigene Farben, Schrift und Hintergrund, hell und dunkel. Es sind nachempfundene Designs ohne Original-Logos oder Bilder.": "22 new skins: car, Formula 1, Minecraft, Project Zomboid, bush, grassland, Windows 11, Steam, iPhone / Android, DJ, Breaking Bad, Pokémon, Nintendo, Nintendo retro, medieval, Spider-Man, Superman, rap style, 2000s style, Spotify, summer and rave. Each has its own colors, font and background, light and dark. They are inspired designs without original logos or images.", "Fehler behoben: Am Computer ist der Bereich „Training starten“ auf der Startseite beim Runterscrollen mitgewandert und hat die Muskelerholung verdeckt. Jetzt bleibt er an seinem Platz.": "Bug fixed: on computers, the “Start workout” area on the home page moved along when scrolling down and covered the muscle recovery. It now stays in place."});
 Object.assign(I18N.ui, {"Am Handy startet „Training starten“ jetzt sofort das Training mit dem nächsten Tag und öffnet direkt das Feld fürs Gewicht, die Tastatur geht gleich auf. Tag, Stoppuhr und Pausen stellst du bei Bedarf vorher über den kleinen Knopf darunter ein.": "On phones, “Start workout” now starts the workout with the next day right away and opens the weight field directly, so the keyboard comes up at once. If needed, set the day, stopwatch and rests first with the small button below.", "Tag, Stoppuhr und Pausen einstellen": "Set day, stopwatch and rests"});
@@ -8923,7 +9102,7 @@ Object.assign(I18N.ui, {"Beim ersten Start und nach einem Update kommt ein Willk
 Object.assign(I18N.ui, {"Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.": "On the PC, the muscle map in the plan shows either the selected training day or the whole plan."});
 Object.assign(I18N.ui, {"Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.": "Replace exercises in your plan: “⇄ Replace” with a search of the whole library, even if the exercise already has entries (your history is kept). Plus and minus for the weight during training change it by 1 kg. Searching the library runs more smoothly on phones."});
 const NOTES = [
-  ["1.3", "20.10.2026", ["Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.", "Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken.", "Liga in Gruppen, freiwillig: Punkte für Einsatz (Trainingstage, Wochenziel, Steigerung, Bestwerte, Cardio, Serie) als Woche, Monat und Jahr, oder „Laufen“ nach Kilometern. Der Ersteller einer Gruppe startet die Liga und kann Leute herausnehmen. Wer vorne liegt, bekommt Medaillen.", "Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.", "Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf (die Woche kannst du auf Wunsch selbst einteilen), Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen."]],
+  ["1.3", "20.10.2026", ["Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.", "Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken.", "Liga in Gruppen, freiwillig: Punkte für Einsatz (Trainingstage, Wochenziel, Steigerung, Bestwerte, Cardio, Serie) als Woche, Monat und Jahr, oder „Laufen“ nach Kilometern. Der Ersteller einer Gruppe startet die Liga und kann Leute herausnehmen. Wer vorne liegt, bekommt Medaillen.", "Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.", "Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf (die Woche kannst du auf Wunsch selbst einteilen), Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.", "Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten."]],
   ["1.2", "19.10.2026", ["Einstellungen hinter dem ⚙ oben rechts: Sprache, Hell, Dunkel oder System, Skins mit kleiner Vorschau und Links zu Sicherung, Hilfe und Hinweisen.", "Yoga und Dehnen: neue Übungsart „Halten“ mit 34 Posen und Dehnübungen, Planart „Beweglich“ zum eigenen Zusammenstellen aus der Bibliothek, mit YouTube-Videos zum Mitmachen, Halte-Timer mit Gong, Vibration und Atempunkten, Seitenwechsel, „Automatisch weiter“ und Steif/Okay/Locker nach jeder Übung. Unter „Fortschritt“ zeigt „Beweglichkeit“ Serie, Minuten pro Woche und längste Haltezeiten.", "Training: Die Notiz zur Übung steht gut sichtbar unter dem Namen, auch in der Pause, und lässt sich mit ✎ direkt ändern. „Alternative“ ersetzt die Übung jetzt nur für heute, dein Plan bleibt gleich. Die Suche zeigt passende Übungen zuerst und findet sie auch mit anderer Schreibweise oder kleinem Tippfehler, zum Beispiel „Schulter drücken“ für „Schulterdrücken“. Viele Übungen findest du auch unter anderen Namen wie „Military Press“ oder „Stirndrücken“, darunter steht klein „auch bekannt als“. Das gilt auch beim Einlesen einer PDF. Die App öffnet beim Start den Plan, den du zuletzt offen hattest. Zeit-Übungen wie Plank fragen nach dem Stoppen der Stoppuhr „Übernehmen“, „Wiederholen“ oder „Anpassen“ und zeigen wie Körpergewicht-Übungen kein Gewicht mehr. Wer doch Gewicht nutzt, wählt beim Bearbeiten „Mit Zusatzgewicht“. Mit „⇅ Supersatz“ nimmst du, auch in der Pause, eine zweite Übung dazu: Beide machst du im Wechsel, die Pause kommt nach beiden. Supersätze legst du auch schon im Plan oder beim Start fest, eine kurze Erklärung steht jeweils dabei.", "Der Sägezahnmuskel zählt jetzt bei 69 Übungen mit, zum Beispiel bei Liegestützen, Bankdrücken, Schulterdrücken, Plank und Seitstütz. Deine Pläne werden automatisch ergänzt. Im Training gibt es den Video-Knopf jetzt auch in der Pause.", "Plan als PDF im neuen Design, wahlweise in Farbe oder Schwarz-Weiß, mit Muskel-Übersicht und Fortschritt je Übung. Die PDF lässt sich beim Plan-Erstellen wieder einlesen, und nach dem ersten Öffnen mit Internet geht das auch offline. Auch gekaufte Pläne mit einer Tabelle pro Übung werden samt Trainingstagen eingelesen, dazu kamen neue Übungen wie High Knees, Double Crunch und Plank Up-Down."]],
   ["1.1", "19.10.2026", ["Neues Design am Computer: Bereiche oben in einer Leiste und „Übersicht“ als Startseite mit Trainings und Volumen im Monat, Volumen pro Woche, Kraftentwicklung, Muskeln und Trainingstagen. Im Plan stehen die Tage links (direkt umbenennen und löschen), die Übungen als Tabelle zum direkten Ändern und Sortieren in der Mitte, Bibliothek und Abdeckung rechts. „▶ Training“ und die Einstellungen (⚙) sind oben rechts. Am Handy bleibt alles wie gewohnt.", "Rückblicke für Monat, halbes Jahr, Jahr und „Gesamt“ seit deinem ersten Training: Trainings, bewegtes Gewicht, Lieblingsübung, meisttrainierte Muskeln, wo du stärker geworden bist, Rhythmus, Cardio und Körpergewicht. Ist ein Zeitraum vorbei, erscheint auf der Startseite ein kleiner Hinweis. Am Computer findest du alle Rückblicke jederzeit unter „Fortschritt“.", "„Training starten“ am Handy fragt zuerst, welchen Tag du trainierst, zum Beispiel Ober- oder Unterkörper. Danach startet das Training sofort mit dem Gewichtsfeld.", "Zuhause-Version: Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt passende Körpergewichts-Übungen, ab Stufe 5 auch Handstand. Dazu 12 neue Übungen, zum Beispiel Liegestütze an der Wand, Muscle-ups, Front Lever und Dragon Flag.", "Handy: aufgeräumte Kopfzeile in einer Reihe und weniger Leerraum in der Tableiste unten."]],
   ["1.0", "19.10.2026", ["Großes Redesign, Muskelplan ist keine Beta mehr: neue Startseite mit deinen Trainingstagen und „Training starten“ (Stoppuhr, Pausen-Timer, Signalton), Tableiste unten am Handy und Seitenleiste am Computer, rundere Karten und Knöpfe.", "Die Muskelfigur auf der Startseite zeigt die Muskel-Erholung: was du frisch trainiert hast und was schon länger Pause hat.", "Neuer Trainings-Bildschirm: Satz-Kreise, große ± Knöpfe, Werte vom letzten Mal als Hinweis. Nach jedem Satz wählst du die nächste Übung, in der Pause siehst und bearbeitest du sie schon. „Noch ein Satz“ geht mit oder ohne Timer.", "Übungen auf Zeit wie Unterarmstütz (Plank) mit Stoppuhr und Ziel-Ring.", "Neuer Bildschirm „Training fertig!“ mit Dauer, Sätzen, bewegtem Gewicht, neuen Bestwerten und Vergleich zum letzten Mal.", "„⇄ Alternativen“ zeigt andere Übungen für dieselben Muskeln, im Training hilfreich, wenn ein Gerät besetzt ist. Übungen lassen sich auch mitten im Training hinzufügen.", "31 neue Übungen in der Bibliothek und passendere Wiederholungszahlen.", "Zuhause-Version: Du kannst jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Latzug oder Beinpresse.", "44 neue Meilensteine, jetzt 102 insgesamt.", "22 neue Skins, zum Beispiel Formel 1, Minecraft, Pokémon, Spotify und Rave, jeweils hell und dunkel.", "Fehler behoben: Eine geladene Sicherung wird nicht mehr überschrieben, und „Training starten“ verdeckt am Computer beim Scrollen nicht mehr die Muskelerholung."]],
@@ -9227,7 +9406,7 @@ function sheetSets(u){
 // Baut ein A4-Blatt und verkleinert die Schrift so lange, bis alles auf die Seite passt.
 function buildSheet(target, mode, day){
   const col = PRINT_COLORS[mode]; const p = plan(); const t = ptype(p); const sw = mode === "sw";
-  const list = day ? unitsFor(p, day) : p.units;
+  const list = day ? unitsFor(p, day) : planUnits(p);
   const c = countMuscles(list);
   const hit = ORDER.filter(m => c[m]), miss = ORDER.filter(m => !c[m]);
   const date = new Date().toLocaleDateString(LOC(), { day:"2-digit", month:"long", year:"numeric" });
@@ -9874,7 +10053,7 @@ function renderDash(){
   const recentH = recent.length ? `<ul class="drec">${recent.map(({ p, s }) => { const v = sessionVolume(p, s); const nm = s.manual ? L("Einzeln eingetragen", "Logged singly") : s.day ? dayName(p, s.day) : L("Training", "Workout");
       return `<li><b>${esc(nm)}</b><span class="n">${fmtDs(s.d)}${s.timed === false || s.manual || !(s.end > s.start) ? "" : " · " + fmtDur(s.end - s.start)}${v ? " · " + fmt(Math.round(v)) + " kg" : ""}</span></li>`; }).join("")}</ul><button type="button" class="ghost mini dmore" data-dsh="hist">${L("Alle Trainings", "All workouts")} →</button>`
     : `<p class="hint">${L("Noch keine Trainings. Starte oben rechts mit ▶ Training.", "No workouts yet. Start top right with ▶ Workout.")}</p>`;
-  box.innerHTML = `<div class="dkpis">${kpis}</div>
+  box.innerHTML = `${NEWUI ? dshToday() : ""}<div class="dkpis">${kpis}</div>
     <section class="panel dcard dvol"><div class="dch"><h2>${L("Volumen pro Woche", "Volume per week")}</h2>${segH("metric", dshMetric, [["kg", "kg"], ["sets", L("Sätze", "Sets")], ["min", L("Dauer", "Time")]])}</div><div class="dbars">${bars}</div></section>
     <section class="panel dcard dmus"><div class="dch"><h2>${L("Muskeln", "Muscles")}</h2>${segH("mus", dshMus, [["m", L("Monat", "Month")], ["w", L("Woche", "Week")]])}</div>
       <div class="heatfigs"><div>${heatFigure("front", share)}</div><div>${heatFigure("back", share)}</div></div>
@@ -9885,8 +10064,18 @@ function renderDash(){
     <section class="panel dcard dcal"><div class="dch"><h2>${L("Trainingstage", "Training days")}</h2><span class="label">${L("12 Wochen", "12 weeks")}</span></div><div class="dcells">${cells}</div>
       <div class="label dsub">${L("Letzte Trainings", "Recent workouts")}</div>${recentH}</section>`;
 }
+function dshToday(){
+  const p = plan(); if (!p.units.length) return "";
+  const run = state.run && state.run.planId === p.id ? state.run : null, ds = daysOf(p);
+  const qd = hasDays(p) ? ((startDay && ds.some(d => d.id === startDay && unitsFor(p, d.id).length)) ? startDay : nextDay(p)) : null;
+  return `<section class="dtoday">${todayHead(p, run ? run.day : qd)}${run ? `<button type="button" class="primary hsgo" data-dsh="cont">▶ ${L("Training fortsetzen", "Continue workout")} · ${run.idx + 1}/${run.order.length}</button>`
+    : `<button type="button" class="primary hsgo" data-dsh="go"${qd ? ` data-day="${esc(qd)}"` : ""}>▶ ${L("Training starten", "Start workout")}</button><div class="nuichips"><button type="button" class="ghost hsset" data-dsh="opts" title="${L("Tag, Stoppuhr und Pausen einstellen", "Set day, stopwatch and rests")}">⚙ ${L("Tag & Pausen", "Day & rests")}</button>${p.units.filter(ssOk).length > 1 ? `<button type="button" class="ghost hsset" data-dsh="opts" title="${L("Supersätze festlegen", "Set supersets")}">⇅ ${L("Supersätze", "Supersets")}</button>` : ""}</div>`}</section>`;
+}
 function dshClick(e){
   const b = e.target.closest("[data-dsh]"); if (!b) return; const g = b.dataset.dsh;
+  if (g === "go") { b.dataset.day ? homeGo(b.dataset.day) : homeGo(); return; }
+  if (g === "cont") { setView("training"); window.scrollTo({ top: 0, behavior: "auto" }); return; }
+  if (g === "opts") { e.stopPropagation(); $("dskTrain")?.click(); return; }
   if (g === "metric") { dshMetric = b.dataset.v; renderDash(); }
   if (g === "mus") { dshMus = b.dataset.v; renderDash(); }
   if (g === "hist") { histOpen = true; setView("training"); window.scrollTo({ top: 0, behavior: "auto" }); }
@@ -9947,7 +10136,7 @@ function renderDpHead(){
     <div class="dpsub"><span class="hint">${L("Ziehen am Griff ⠿ zum Sortieren · Sätze und Wiederholungen direkt anklicken und ändern", "Drag the ⠿ handle to reorder · click sets and reps to change them")}</span><span class="dpsaved" id="dpSaved">✓ ${L("Automatisch gespeichert", "Saved automatically")}</span></div>`;
 }
 function dpUnitsHTML(p){
-  const cur = dpDayOf(p); const list = cur ? unitsFor(p, cur) : p.units;
+  const cur = dpDayOf(p); const list = cur ? unitsFor(p, cur) : planUnits(p);
   const lastKg = u => { const L0 = sortedLog(u); const e = L0[L0.length - 1]; if (!e) return "–"; if (e.cardio) return e.cardio.min ? fmtMin(e.cardio.min) : "–"; const t = topSet(e); return t.kg ? fmt(t.kg) : t.sec != null ? secTxt(t.sec) : t.reps ? `${t.reps}×` : "–"; };
   const gear = u => { const x = LIB.find(x => norm(x.n) === norm(u.name) || (x.en && norm(x.en) === norm(u.name))); return x ? gearName(x.g) : isCardio(u) ? "Cardio" : ""; };
   const row = (u, i) => { const tg = musShort(u);
@@ -9980,7 +10169,7 @@ const DP_CHIPS_FLEX = [["c:Yoga", "Yoga"], ["c:Dehnen", "Dehnen"], ["m:beine", "
 const DP_CHIPS = [["m:brust", "Brust"], ["m:ruecken", "Rücken"], ["m:schultern", "Schultern"], ["m:arme", "Arme"], ["m:beine", "Beine"], ["m:bauch", "Bauch"], ["g:Kabelzug", "Kabelzug"], ["g:Kurzhantel", "Kurzhantel"], ["g:Maschine", "Maschine"], ["g:Körpergewicht", "Körpergewicht"]];
 const DP_REG = { brust: /^brust/, ruecken: /latiss|rhomb|nacken|trapez|rueck|unterer_r/, schultern: /schulter/, arme: /bizeps|trizeps|unterarm/, beine: /quadri|beinbeug|oberschenkel|gesaess|wade|addukt|abdukt|hueft|schien/, bauch: /bauch|core|seitl/ };
 function renderDpLib(keep){
-  const p = plan(); const cur = dpDayOf(p); const inPlan = new Set(p.units.map(u => norm(u.name)));
+  const p = plan(); const cur = dpDayOf(p); const inPlan = new Set(planUnits(p).map(u => norm(u.name)));
   const q = norm(dpLibQ.trim());
   const has = x => inPlan.has(norm(x.n)) || (x.en && inPlan.has(norm(x.en)));
   const flexP = YOGA && ptype(p) === "beweglich";
@@ -10576,7 +10765,7 @@ function renderSet(){
     <div class="setlinks">
       <button type="button" data-set="cloud"><span>☁ ${L("Online-Konto", "Online account")}</span><i>${cloudStatusTxt()} ›</i></button>
       <button type="button" data-set="friends"><span>👥 ${L("Meine Freunde", "My friends")}</span><i>${(typeof frDuos === "function" && cloudOn() && frDuos().length) || ""} ›</i></button>
-      <button type="button" data-set="data"><span>💾 ${L("Daten & Sicherung", "Data & backup")}</span><i>›</i></button>
+      <button type="button" data-set="data"><span>💾 ${L("Daten & Sicherung", "Data & backup")}</span><i>›</i></button>${NEWUI && document.querySelector("#tabs .wiptab") ? `<button type="button" data-set="tech"><span>🚧 ${L("Technik", "Technique")}</span><i>›</i></button>` : ""}
       <button type="button" data-set="help"><span>? ${L("Hilfe & Tour", "Help & tour")}</span><i>›</i></button>
       ${TUT2 ? "" : `<details class="setfaq"><summary>⇅ ${L("Supersätze: so geht's", "Supersets: how it works")}</summary><p>${esc(SS_HOW())}</p><p>${esc(L("Verbinden kannst du zwei Übungen an drei Stellen: im Plan mit „⇅“ an der Übung, beim Start unter „⇅ Supersätze“ und mitten im Training, auch in der Pause, mit „⇅ Supersatz“. Lösen geht genauso. Hast du dich vertippt, hilft „Rückgängig“ im Hinweis unten.", "You can link two exercises in three places: in the plan with “⇅” on the exercise, at the start under “⇅ Supersets”, and during the workout, also in the rest, with “⇅ Superset”. Unlinking works the same way. If you tapped the wrong one, use “Undo” in the message at the bottom."))}</p><div class="ytrow">${ytLink("Supersätze richtig trainieren", "How to do supersets right", "Supersätze richtig trainieren", "how to do supersets correctly")}</div></details>`}
       <button type="button" data-set="notes"><span>ℹ ${L(`Hinweise & Version ${APP_VERSION}`, `Notes & version ${APP_VERSION}`)}</span><i>›</i></button>
@@ -10624,6 +10813,7 @@ function setClick(e){
       let d = t.getBoundingClientRect().top - y0; if (sk && sk.scrollHeight > sk.clientHeight) { const s1 = sk.scrollTop; sk.scrollTop += d; d -= sk.scrollTop - s1; } el.scrollTop += d; };
     pin(); requestAnimationFrame(pin); return; }
   if (a === "data") { setGo("bkSec", "fortschritt"); return; }
+  if (a === "tech") { setOpen(false); setView("technik"); window.scrollTo({ top: 0, behavior: "auto" }); return; }
   if (a === "friends") { setPage = "cloud"; cloudMsg = ""; cloudPage = "friends"; frInvOpen = false; frErr = ""; frRmAsk = null; renderSet(); $("setPanel").scrollTop = 0; if (cloudOn()) frRefresh(true); return; }
   if (a === "cloud") { setPage = "cloud"; cloudMsg = ""; cloudPage = cloudFirst ? "first" : "home"; renderSet(); $("setPanel").scrollTop = 0; return; }
   if (a === "notes") { if ($("notesBox").hidden) $("notesToggle").click(); setGo("notesToggle", "fortschritt"); return; }
@@ -11498,7 +11688,7 @@ async function frProgGet(gid, acc){ const k = gid + "/" + acc, c = frProgC[k]; i
 // Geteilten Plan zusammenstellen: Übungen und Tage immer, Sätze/Wdh., Gewichte und Häufigkeit nur, wenn gewählt
 function frPlanDoc(p, o){
   const ds = daysOf(p);
-  const units = p.units.filter(u => !u.spare).map(u => { const x = { n: u.name, k: u.nick || "", m: u.muscles || [], d: u.day || "" }; if (u.kind) x.kind = u.kind; if (u.mode) x.mode = u.mode;
+  const units = p.units.filter(u => !u.spare && !u.once).map(u => { const x = { n: u.name, k: u.nick || "", m: u.muscles || [], d: u.day || "" }; if (u.kind) x.kind = u.kind; if (u.mode) x.mode = u.mode;
     if (o.sets) { x.s = u.sets || ""; x.r = u.reps || ""; } if (o.kg && !isCardio(u)) { const e = sortedLog(u).filter(e => !e.cardio && !e.sim).pop(); if (e) x.kg = frTop(e); } return x; });
   const d = { name: p.name, type: p.type || "frei", days: ds.map(x => ({ id: x.id, name: x.name })), units };
   if (o.freq) d.cnt = (p.sessions || []).filter(s => !s.sim && s.d >= isoAdd(todayIso(), -29)).length;
@@ -11981,7 +12171,7 @@ function frWeekHTML(mem, D){
     else if (has(m, "days")) { set = new Set(); D.feed.forEach(e => { if (e.acc === m.a && e.k === "train" && e.ts) { const d = frDayOf(e.ts); if (d >= mon) set.add(d); } }); }
     return { m, set }; });
   rows.sort((a, b) => (b.m.me - a.m.me));
-  const tot = rows.reduce((k, r) => k + (r.set ? r.set.size : 0), 0), dn = LANG === "en" ? ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"] : ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+  const tot = rows.reduce((k, r) => k + (r.set ? r.set.size : 0), 0), dn = LANG === "en" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
   return `<div class="panel frbox" id="frWeek"><div class="frbh"><h3>${L("Diese Woche", "This week")}</h3><span class="frkw">${L("KW", "CW")} ${kw} · ${fmtD(days[0])}–${fmtD(days[6])}${days[6].slice(5, 7)}.</span></div>
     <div class="frwk" role="table" aria-label="${L("Trainingstage diese Woche", "Training days this week")}"><div class="frwkr frwkh" role="row"><span></span>${dn.map(x => `<span role="columnheader">${x}</span>`).join("")}<span role="columnheader" aria-label="${L("Summe", "Total")}">Σ</span></div>
     ${rows.map(({ m, set }) => `<div class="frwkr" role="row"><span class="frwkn" role="rowheader">${frAv(m.s.n, m.me)}<b>${esc(m.me ? L("Du", "You") : m.s.n)}</b></span>${days.map(d => `<span role="cell" class="frwkc${set && set.has(d) ? " on" : ""}${d === t ? " today" : ""}${d > t ? " fut" : ""}" aria-label="${set ? (set.has(d) ? L("trainiert", "trained") : L("kein Training", "no workout")) : L("nicht geteilt", "not shared")}"></span>`).join("")}<b class="n frwks">${set ? set.size : "–"}</b></div>`).join("")}</div>
