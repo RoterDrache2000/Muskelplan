@@ -4537,9 +4537,11 @@ function tcard(u){
   const L = sortedLog(u); const last = L[L.length - 1]; const open = openT.has(u.id);
   const metric = metricKey(u);
   let summary = "";
-  if (L.length > 1) {
-    const f = L[0]; const ft = topSet(f), lt = topSet(last); const dk = (lt.kg || 0) - (ft.kg || 0);
-    const best = L.reduce((m, e) => better(e, m) ? e : m, L[0]);
+  const S3 = L.filter(e => !e.cardio).slice(ST3);
+  if (L.length > 1 && S3.length < 2) summary = `<p class="hint">${Lx("Prozente und Bestwerte zählen ab dem 3. Training dieser Übung. Die ersten zwei sind zum Einpendeln.", "Percentages and bests count from the 3rd workout of this exercise. The first two are for settling in.")}</p>`;
+  else if (L.length > 1) {
+    const f = S3[0]; const ft = topSet(f), lt = topSet(last); const dk = (lt.kg || 0) - (ft.kg || 0);
+    const best = S3.reduce((m, e) => better(e, m) ? e : m, S3[0]);
     summary = `<div class="stats">
       <div><span class="label">Schwerster Satz seit Start</span><b class="n">${dk > 0 ? "+" : dk < 0 ? "−" : "±"}${fmt(Math.abs(dk))} kg</b><span class="hint n">${ft.kg ? pctTxt(ft.kg, lt.kg || 0).trim().replace(/[()]/g, "") : "–"}</span></div>
       <div><span class="label">Volumen pro Training</span><b class="n">${fmt(Math.round(volume(last)))} kg</b><span class="hint n">${volume(f) ? pctTxt(volume(f), volume(last)).trim().replace(/[()]/g, "") + " seit Start" : "–"}</span></div>
@@ -4962,7 +4964,12 @@ function pruneSessions(p){
   });
 }
 function prevEntry(u, e){ const L = sortedLog(u); const i = L.findIndex(x => x.id === e.id); return i > 0 ? L[i - 1] : null; }
-function isRecord(u, e){ const L = sortedLog(u); const i = L.findIndex(x => x.id === e.id); return i >= 1 && L.slice(0, i).every(x => better(e, x)); }
+// Statistik ab dem 3. Mal: die ersten zwei Einträge einer Übung sind Einpendeln und zählen nicht für Bestwerte und Prozente
+const ST3 = 2;
+const warmIdx = (u, e) => { const L = sortedLog(u).filter(x => !x.cardio); const i = L.indexOf(e); return i < 0 ? L.findIndex(x => x.id === e.id) : i; };
+function warmSet(){ const S = new Set(); state.plans.forEach(p => p.units.forEach(u => sortedLog(u).filter(e => !e.cardio).slice(0, ST3).forEach(e => S.add(e)))); return S; }
+function warmBadge(u, e){ if (e.cardio) return ""; const i = warmIdx(u, e); return i === 1 ? `<span class="delta">${Lx("Einpendeln", "Settling in")}</span>` : i === ST3 ? `<span class="delta">${Lx("Startwert", "Baseline")}</span>` : ""; }
+function isRecord(u, e){ const L = sortedLog(u); const i = L.findIndex(x => x.id === e.id); return i > ST3 && L.slice(ST3, i).every(x => better(e, x)); }
 function sessionVolume(p, s){
   return s.items.reduce((sum, it) => { const u = p.units.find(x => x.id === it.u); const e = u && (u.log || []).find(x => x.id === it.e); return e ? sum + volume(e) : sum; }, 0);
 }
@@ -5426,7 +5433,7 @@ function renderSession(){
     const lastTxt = it => { const u = p.units.find(x => x.id === it.u); const e = entryOf(it); const pe = e ? prevEntry(u, e) : (u ? sortedLog(u).slice(-1)[0] : null); return pe ? `<p class="rxlast">${L("Letztes Mal", "Last time")} <span class="hint">(${fmtD(pe.d)}):</span> ${pe.cardio ? `<span>${cardioTxt(pe)}</span>` : setsOf(pe).map(x => `<span>${setShort(x)}</span>`).join("")}</p>` : ""; };
     const badge = it => { const u = p.units.find(x => x.id === it.u); const e = entryOf(it); if (!e) return ""; const pe = prevEntry(u, e);
       if (!pe) return `<span class="delta">${L("erstes Mal", "first time")}</span>`;
-      return (isRecord(u, e) && !e.cardio ? `<span class="delta rec">★ ${L("Bestwert", "Best")}</span>` : "") + (e.cardio && pe.cardio ? cardioDelta(pe, e) : e.cardio || pe.cardio ? "" : deltaBadge([pe, e])); };
+      return (isRecord(u, e) && !e.cardio ? `<span class="delta rec">★ ${L("Bestwert", "Best")}</span>` : "") + (e.cardio && pe.cardio ? cardioDelta(pe, e) : e.cardio || pe.cardio ? "" : warmBadge(u, e) || deltaBadge([pe, e])); };
     const timeFields = `<div class="etime">
         <div class="field"><label class="label" for="eDate">${L("Datum", "Date")}</label><input type="date" id="eDate" value="${esc(d.d)}"></div>
         <div class="field"><label class="label" for="eStart">${L("Startzeit", "Start time")}</label><input type="time" id="eStart" value="${esc(d.start)}"></div>
@@ -5487,7 +5494,7 @@ function renderSession(){
       if (it.skip) return `<li><span class="nick sm">${esc(u.nick || u.name)}</span><span class="hint">übersprungen</span><span></span></li>`;
       const e = (u.log || []).find(x => x.id === it.e); if (!e) return "";
       const pe = prevEntry(u, e);
-      const badge = pe ? (e.cardio && pe.cardio ? cardioDelta(pe, e) : deltaBadge([pe, e])) : `<span class="delta">erstes Mal</span>`;
+      const badge = pe ? (e.cardio && pe.cardio ? cardioDelta(pe, e) : warmBadge(u, e) || deltaBadge([pe, e])) : `<span class="delta">erstes Mal</span>`;
       return `<li><span class="nick sm">${esc(u.nick || u.name)}</span><span class="n sets">${entryHtml(e)}</span><span class="badges">${badge}${isRecord(u, e) ? `<span class="delta rec">Bestwert</span>` : ""}</span></li>`;
     }).join("");
     const done = s.items.filter(i => !i.skip).length;
@@ -6168,19 +6175,19 @@ function renderGStats(){
     plans.forEach(p => p.units.forEach(u => {
       if (isCardio(u)) return;
       const L = sortedLog(u).filter(e => !e.cardio && topSet(e).kg > 0); if (!L.length) return;
-      const f = L[0], l = L[L.length - 1];
-      const bestE = Math.max(...L.map(bestE1)), fE = bestE1(f), lE = bestE1(l);
-      const best = L.reduce((m, e) => better(e, m) ? e : m, L[0]);
-      rows.push({ u, n: L.length, a: topSet(f).kg, b: topSet(l).kg, fE, lE, bestE, best, pct: fE ? (lE - fE) / fE * 100 : 0 });
+      const S3 = L.length > ST3 ? L.slice(ST3) : L, c = L.length - ST3, f = S3[0], l = L[L.length - 1];
+      const bestE = Math.max(...S3.map(bestE1)), fE = bestE1(f), lE = bestE1(l);
+      const best = S3.reduce((m, e) => better(e, m) ? e : m, S3[0]);
+      rows.push({ u, n: L.length, c, a: topSet(f).kg, b: topSet(l).kg, fE, lE, bestE, best, pct: c > 1 && fE ? (lE - fE) / fE * 100 : 0 });
     }));
     rows.sort((x, y) => y.pct - x.pct);
-    const avg = rows.filter(r => r.n > 1);
+    const avg = rows.filter(r => r.c > 1);
     body = rows.length ? `<div class="stats">
-        <div><span class="label">Ø Kraftzuwachs</span><b class="n">${avg.length ? (avg.reduce((n, r) => n + r.pct, 0) / avg.length >= 0 ? "+" : "−") + fmt(Math.abs(Math.round(avg.reduce((n, r) => n + r.pct, 0) / avg.length * 10) / 10)) + " %" : "–"}</b><span class="hint n">geschätztes Maximalgewicht, erster → letzter Eintrag</span></div>
+        <div><span class="label">Ø Kraftzuwachs</span><b class="n">${avg.length ? (avg.reduce((n, r) => n + r.pct, 0) / avg.length >= 0 ? "+" : "−") + fmt(Math.abs(Math.round(avg.reduce((n, r) => n + r.pct, 0) / avg.length * 10) / 10)) + " %" : "–"}</b><span class="hint n">${L("geschätztes Maximalgewicht, ab dem 3. Training → letzter Eintrag", "estimated max weight, from the 3rd workout → last entry")}</span></div>
         <div><span class="label">Übungen gesteigert</span><b class="n">${avg.filter(r => r.pct > 0).length} von ${avg.length}</b></div>
       </div>
       <div class="tablewrap"><table class="ktab"><thead><tr><th>Übung</th><th>Schwerster Satz</th><th>Max. geschätzt</th><th>Steigerung</th></tr></thead><tbody>
-      ${rows.map(r => `<tr><td><b>${esc(r.u.nick || r.u.name)}</b><br><span class="hint">${r.n} Trainings · Bestwert ${setTxt(topSet(r.best))}</span></td><td class="n">${fmt(r.a)} → ${fmt(r.b)} kg</td><td class="n">${fmt(Math.round(r.lE))} kg<br><span class="hint">Bestwert ${fmt(Math.round(r.bestE))} kg</span></td><td class="n ${r.pct < 0 ? "neg" : "pos"}">${r.n > 1 ? (r.pct >= 0 ? "+" : "−") + fmt(Math.abs(Math.round(r.pct * 10) / 10)) + " %" : "–"}</td></tr>`).join("")}
+      ${rows.map(r => `<tr><td><b>${esc(r.u.nick || r.u.name)}</b><br><span class="hint">${r.n} Trainings · Bestwert ${setTxt(topSet(r.best))}</span></td><td class="n">${fmt(r.a)} → ${fmt(r.b)} kg</td><td class="n">${fmt(Math.round(r.lE))} kg<br><span class="hint">Bestwert ${fmt(Math.round(r.bestE))} kg</span></td><td class="n ${r.pct < 0 ? "neg" : "pos"}">${r.c > 1 ? (r.pct >= 0 ? "+" : "−") + fmt(Math.abs(Math.round(r.pct * 10) / 10)) + " %" : "–"}</td></tr>`).join("")}
       </tbody></table></div>
       <p class="hint">„Max. geschätzt“ ist das Gewicht, das du ungefähr einmal schaffen würdest. Es wird aus Gewicht und Wiederholungen deines besten Satzes berechnet (Epley-Formel) und macht Sätze mit unterschiedlichen Wiederholungen vergleichbar.</p>
       <p class="disc">${Lx("Das geschätzte Maximalgewicht ist nur eine Rechengröße. Versuch kein Maximalgewicht ohne Sicherung, Aufwärmen und Erfahrung.", "The estimated max is only a calculated value. Don't attempt a one-rep max without safety equipment, a warm-up and experience.")}</p>`
@@ -6218,7 +6225,7 @@ function renderGStats(){
     const bigDay = days.reduce((m, d) => !m || byDay[d].v > byDay[m].v ? d : m, null);
     const longest = timed.reduce((m, x) => !m || (x.s.end - x.s.start) > (m.s.end - m.s.start) ? x : m, null);
     const prs = [];
-    plans.forEach(p => p.units.forEach(u => { if (isCardio(u)) return; const L = sortedLog(u).filter(e => !e.cardio); L.forEach((e, i) => { if (i > 0 && L.slice(0, i).every(x => better(e, x))) prs.push({ u, e }); }); }));
+    plans.forEach(p => p.units.forEach(u => { if (isCardio(u)) return; const L = sortedLog(u).filter(e => !e.cardio); L.forEach((e, i) => { if (i > ST3 && L.slice(ST3, i).every(x => better(e, x))) prs.push({ u, e }); }); }));
     prs.sort((a, b) => a.e.d < b.e.d ? 1 : a.e.d > b.e.d ? -1 : 0);
     const cut = isoAdd(today, -30);
     body = `<div class="stats">
@@ -8082,16 +8089,16 @@ function exProgressHtml(u){
   }
   const L = sortedLog(u).filter(e => !e.cardio); if (!L.length) return `<p class="hint">Für diese Übung gibt es noch keine Einträge. Trag sie unter „Training“ ein.</p>`;
   const metric = metricKey(u);
-  const f = L[0], l = L[L.length - 1]; const best = L.reduce((m, e) => better(e, m) ? e : m, L[0]);
-  const ft = topSet(f).kg || 0, lt = topSet(l).kg || 0;
-  const e1 = bestE1(l), e1f = bestE1(f);
+  const S3 = L.slice(ST3), ok3 = S3.length > 1; const f = ok3 ? S3[0] : L[0], l = L[L.length - 1]; const best = (S3.length ? S3 : L).reduce((m, e) => better(e, m) ? e : m, (S3.length ? S3 : L)[0]);
+  const ft = ok3 ? topSet(f).kg || 0 : 0, lt = topSet(l).kg || 0;
+  const e1 = bestE1(l), e1f = ok3 ? bestE1(f) : 0;
   return `<div class="seg" role="group">${Object.entries(metricsOf(u)).map(([k, [n]]) => `<button type="button" data-pm="${k}" aria-pressed="${metric === k}">${n}</button>`).join("")}</div>
     <div class="chart">${chartSvg(u)}</div>
     <div class="stats">
       <div><span class="label">Bestwert</span><b class="n">${setTxt(topSet(best))}</b><span class="hint n">${fmtD(best.d)}</span></div>
       <div ${noKg(u) || (isTimeU(u) && !lt && !ft) ? "hidden" : ""}><span class="label">Schwerster Satz</span><b class="n">${fmt(lt)} kg</b><span class="hint n">${ft ? `${lt - ft >= 0 ? "+" : "−"}${fmt(Math.abs(lt - ft))} kg seit Start ${pctTxt(ft, lt).trim().replace(/[()]/g, "")}` : "–"}</span></div>
       ${e1 ? `<div><span class="label">Max. geschätzt</span><b class="n">${fmt(Math.round(e1))} kg</b><span class="hint n">${e1f ? pctTxt(e1f, e1).trim().replace(/[()]/g, "") + " seit Start" : ""}</span></div>` : ""}
-      <div><span class="label">Trainings</span><b class="n">${L.length}</b><span class="hint n">seit ${fmtD(f.d)}</span></div>
+      <div><span class="label">Trainings</span><b class="n">${L.length}</b><span class="hint n">seit ${fmtD(L[0].d)}</span></div>
     </div>`;
 }
 function renderExProgress(){
@@ -8226,7 +8233,7 @@ function sparkLine(vals, cls){
 function prList(){
   const out = [];
   state.plans.forEach(p => p.units.forEach(u => { if (isCardio(u) || (YOGA2 && isHold(u))) return; const Ls = sortedLog(u).filter(e => !e.cardio);
-    Ls.forEach((e, i) => { if (i > 0 && Ls.slice(0, i).every(x => better(e, x))) out.push({ d: e.d, n: u.nick || u.name, kg: topSet(e).kg || 0 }); }); }));
+    Ls.forEach((e, i) => { if (i > ST3 && Ls.slice(ST3, i).every(x => better(e, x))) out.push({ d: e.d, n: u.nick || u.name, kg: topSet(e).kg || 0 }); }); }));
   return out.sort((a, b) => a.d < b.d ? -1 : 1);
 }
 function weekStreak(A){
@@ -8349,11 +8356,11 @@ function exPreview(units){
   const cut = isoAdd(todayIso(), -56);
   const rows = units.map(x => { const Ls = sortedLog(x.u).filter(e => !e.cardio); return { ...x, Ls, last: Ls[Ls.length - 1] }; }).filter(x => x.last)
     .sort((a, b) => a.last.d < b.last.d ? 1 : -1).slice(0, 5).map(({ p, u, Ls, last }) => {
-      const tm = isTimeU(u), val = e => tm ? Math.max(0, ...setsOf(e).map(z => z.sec || 0)) : (topSet(e).kg || 0), R = Ls.filter(e => e.d >= cut), base = (R.length > 1 ? R : Ls.slice(-8));
-      const a = val(base[0]), b = val(base[base.length - 1]), pct = a ? Math.round((b - a) / a * 100) : 0;
+      const tm = isTimeU(u), val = e => tm ? Math.max(0, ...setsOf(e).map(z => z.sec || 0)) : (topSet(e).kg || 0), C3 = Ls.slice(ST3), R = C3.filter(e => e.d >= cut), base = (R.length > 1 ? R : C3.slice(-8));
+      const a = base.length > 1 ? val(base[0]) : 0, b = base.length ? val(base[base.length - 1]) : 0, pct = a ? Math.round((b - a) / a * 100) : 0;
       const sub = [u.day && hasDays(p) ? dayNameH(p, u.day) : "", tm ? durTxt(val(last)) : val(last) ? `${fmt(val(last))} kg` : ""].filter(Boolean).join(" · ");
-      return `<button type="button" class="pex" data-ex="pick" data-id="${u.id}"><span><b>${esc(u.nick || u.name)}</b><small class="hint">${esc(sub)}</small></span>${sparkLine(Ls.slice(-8).map(val), pct > 0 ? "pgood" : pct < 0 ? "pbad" : "")}<span class="n ${pct > 0 ? "pup" : pct < 0 ? "pdn2" : "hint"}">${pct > 0 ? "+" : pct < 0 ? "−" : "±"}${Math.abs(pct)} %</span></button>`; }).join("");
-  return `<div class="libhead"><h2>${L("Fortschritt pro Übung", "Progress per exercise")}</h2><button type="button" class="ghost mini pmore" data-ex="toggle" aria-expanded="false">${LANG === "en" ? `All ${units.length} ›` : `Alle ${units.length} ›`}</button></div><div class="pexlist">${rows}</div><p class="hint">${L("Linie = schwerster Satz pro Training · % = Steigerung in 8 Wochen", "Line = heaviest set per workout · % = change in 8 weeks")}</p>`;
+      return `<button type="button" class="pex" data-ex="pick" data-id="${u.id}"><span><b>${esc(u.nick || u.name)}</b><small class="hint">${esc(sub)}</small></span>${sparkLine(Ls.slice(-8).map(val), pct > 0 ? "pgood" : pct < 0 ? "pbad" : "")}<span class="n ${pct > 0 ? "pup" : pct < 0 ? "pdn2" : "hint"}">${base.length < 2 ? "–" : `${pct > 0 ? "+" : pct < 0 ? "−" : "±"}${Math.abs(pct)} %`}</span></button>`; }).join("");
+  return `<div class="libhead"><h2>${L("Fortschritt pro Übung", "Progress per exercise")}</h2><button type="button" class="ghost mini pmore" data-ex="toggle" aria-expanded="false">${LANG === "en" ? `All ${units.length} ›` : `Alle ${units.length} ›`}</button></div><div class="pexlist">${rows}</div><p class="hint">${L("Linie = schwerster Satz pro Training · % = Steigerung in 8 Wochen, ab dem 3. Training", "Line = heaviest set per workout · % = change in 8 weeks, from the 3rd workout")}</p>`;
 }
 function calPrevHTML(A){ const cp = calPreview(A); return pHead(cp.name, "cal", false, LANG === "en" ? `${cp.n} training ${cp.n === 1 ? "day" : "days"} ›` : `${cp.n} ${cp.n === 1 ? "Trainingstag" : "Trainingstage"} ›`) + pPrev("cal", cp.html); }
 function recPrevHTML(last, long){
@@ -8495,7 +8502,7 @@ function msData(){
   const cminByDay = perDay(A.filter(x => x.e.cardio), e => e.cardio.min || 0);
   const sess = state.plans.flatMap(p => p.sessions || []);
   const timeByDay = {}; sess.forEach(s => { if (!s.manual && s.end > s.start) timeByDay[s.d] = (timeByDay[s.d] || 0) + Math.min(240, (s.end - s.start) / 60000); });
-  const prs = []; state.plans.forEach(p => p.units.forEach(u => { if (isCardio(u)) return; const Ls = sortedLog(u).filter(e => !e.cardio); Ls.forEach((e, i) => { if (i > 0 && Ls.slice(0, i).every(x => better(e, x))) prs.push(e.d); }); })); prs.sort();
+  const prs = []; state.plans.forEach(p => p.units.forEach(u => { if (isCardio(u)) return; const Ls = sortedLog(u).filter(e => !e.cardio); Ls.forEach((e, i) => { if (i > ST3 && Ls.slice(ST3, i).every(x => better(e, x))) prs.push(e.d); }); })); prs.sort();
   const weekSet = [...new Set(days.map(mondayOf))].sort(); let best = 0, run = 0, prev = null;
   weekSet.forEach(w => { run = prev && daysBetween(prev, w) === 7 ? run + 1 : 1; if (run > best) best = run; prev = w; });
   const firstEx = {}; S.forEach(x => { const k = norm(x.u.name || ""); if (k && (!firstEx[k] || x.e.d < firstEx[k])) firstEx[k] = x.e.d; });
@@ -8665,10 +8672,10 @@ function rbData(per){
   // Stärker geworden: bester Wert im Zeitraum gegen alles davor
   const gains = []; let prs = 0; let heavy = null;
   state.plans.forEach(p => p.units.forEach(u => {
-    if (isCardio(u)) return; const Lg = sortedLog(u).filter(e => !e.cardio); const inP = Lg.filter(e => inR(e.d)); if (!inP.length) return;
+    if (isCardio(u)) return; const La = sortedLog(u).filter(e => !e.cardio), Lg = La.slice(ST3); const inP = La.filter(e => inR(e.d)); if (!inP.length) return;
     inP.forEach(e => { if (isRecord(u, e)) prs++; setsOf(e).forEach(s => { if ((s.kg || 0) > 0 && (!heavy || s.kg > heavy.kg)) heavy = { kg: s.kg, reps: s.reps, name: u.nick || u.name }; }); });
     // Gesamt: erstes Mal gegen bestes Mal, sonst: Zeitraum gegen alles davor
-    const before = per.all ? Lg.slice(0, 1) : Lg.filter(e => e.d < per.from); const after = per.all ? Lg.slice(1) : inP; if (!before.length || !after.length) return;
+    const before = per.all ? Lg.slice(0, 1) : Lg.filter(e => e.d < per.from); const after = per.all ? Lg.slice(1) : Lg.filter(e => inR(e.d)); if (!before.length || !after.length) return;
     const best = arr => arr.reduce((m, e) => Math.max(m, ...setsOf(e).map(s => e1rm(s) || (s.kg || 0))), 0);
     const b0 = best(before), b1 = best(after);
     if (b0 > 0 && b1 > b0) gains.push({ name: u.nick || u.name, pct: (b1 - b0) / b0 * 100, from: topSetOf(before), to: topSetOf(after) });
@@ -9072,6 +9079,7 @@ $("copyClose").addEventListener("click", () => { $("copyBox").hidden = true; });
 })();
 
 // ---------- Patch Notes ----------
+Object.assign(I18N.ui, {"Statistik ab dem 3. Mal: Die ersten zwei Trainings einer Übung sind zum Einpendeln. Prozente, Steigerungen und Bestwerte rechnen ab dem dritten, im Verlauf bleiben alle sichtbar.": "Stats from the 3rd time: the first two workouts of an exercise are for settling in. Percentages, progress and bests count from the third; all stay visible in the history."});
 Object.assign(I18N.ui, {"Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten.": "Exercises you add during a workout are only for that workout. At the end you can keep them with “Add to plan”.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf (die Woche kannst du auf Wunsch selbst einteilen), Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.": "New statistics: week card with ring, next workout and start button (you can plan your week yourself if you like), tiles with the last 8 weeks, months or years, compact previews instead of collapsed cards. Wider on PC. Backup and update are now under ⚙ Settings.", "„Noch ein Satz“ fragt jetzt kurz „Mit Timer“ oder „Ohne Timer“. Mit Timer läuft erst die Pause, danach trägst du den Extra-Satz ein.": "“One more set” now briefly asks “With timer” or “No timer”. With timer, the rest runs first, then you log the extra set."});
 Object.assign(I18N.ui, {"Geräte":"Machines","Kabelzug / Seilzug":"Cable station","Multipresse (Smith-Maschine)":"Smith machine","Latzug-Station":"Lat pulldown station","Butterfly / Brustpresse":"Pec deck / chest press","Beinpresse":"Leg press","Beinstrecker / Beinbeuger":"Leg extension / leg curl","Rückenstrecker-Bank":"Back extension bench","Kraftstation (Multi-Gym)":"Home gym (multi-station)"});
 Object.assign(I18N.ui, {"Auto": "Car", "Formel 1": "Formula 1", "Busch": "Bush", "Graslandschaft": "Grassland", "Nintendo Retro": "Nintendo retro", "Mittelalter": "Medieval", "Rap-Stil": "Rap style", "2000er-Stil": "2000s style", "Sommer": "Summer", "22 neue Skins: Auto, Formel 1, Minecraft, Project Zomboid, Busch, Graslandschaft, Windows 11, Steam, iPhone / Android, DJ, Breaking Bad, Pokémon, Nintendo, Nintendo Retro, Mittelalter, Spider-Man, Superman, Rap-Stil, 2000er-Stil, Spotify, Sommer und Rave. Jeder hat eigene Farben, Schrift und Hintergrund, hell und dunkel. Es sind nachempfundene Designs ohne Original-Logos oder Bilder.": "22 new skins: car, Formula 1, Minecraft, Project Zomboid, bush, grassland, Windows 11, Steam, iPhone / Android, DJ, Breaking Bad, Pokémon, Nintendo, Nintendo retro, medieval, Spider-Man, Superman, rap style, 2000s style, Spotify, summer and rave. Each has its own colors, font and background, light and dark. They are inspired designs without original logos or images.", "Fehler behoben: Am Computer ist der Bereich „Training starten“ auf der Startseite beim Runterscrollen mitgewandert und hat die Muskelerholung verdeckt. Jetzt bleibt er an seinem Platz.": "Bug fixed: on computers, the “Start workout” area on the home page moved along when scrolling down and covered the muscle recovery. It now stays in place."});
@@ -9102,7 +9110,7 @@ Object.assign(I18N.ui, {"Beim ersten Start und nach einem Update kommt ein Willk
 Object.assign(I18N.ui, {"Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.": "On the PC, the muscle map in the plan shows either the selected training day or the whole plan."});
 Object.assign(I18N.ui, {"Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.": "Replace exercises in your plan: “⇄ Replace” with a search of the whole library, even if the exercise already has entries (your history is kept). Plus and minus for the weight during training change it by 1 kg. Searching the library runs more smoothly on phones."});
 const NOTES = [
-  ["1.3", "20.10.2026", ["Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.", "Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken.", "Liga in Gruppen, freiwillig: Punkte für Einsatz (Trainingstage, Wochenziel, Steigerung, Bestwerte, Cardio, Serie) als Woche, Monat und Jahr, oder „Laufen“ nach Kilometern. Der Ersteller einer Gruppe startet die Liga und kann Leute herausnehmen. Wer vorne liegt, bekommt Medaillen.", "Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.", "Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf (die Woche kannst du auf Wunsch selbst einteilen), Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.", "Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten."]],
+  ["1.3", "20.10.2026", ["Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.", "Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken.", "Liga in Gruppen, freiwillig: Punkte für Einsatz (Trainingstage, Wochenziel, Steigerung, Bestwerte, Cardio, Serie) als Woche, Monat und Jahr, oder „Laufen“ nach Kilometern. Der Ersteller einer Gruppe startet die Liga und kann Leute herausnehmen. Wer vorne liegt, bekommt Medaillen.", "Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.", "Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf (die Woche kannst du auf Wunsch selbst einteilen), Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.", "Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten.", "Statistik ab dem 3. Mal: Die ersten zwei Trainings einer Übung sind zum Einpendeln. Prozente, Steigerungen und Bestwerte rechnen ab dem dritten, im Verlauf bleiben alle sichtbar."]],
   ["1.2", "19.10.2026", ["Einstellungen hinter dem ⚙ oben rechts: Sprache, Hell, Dunkel oder System, Skins mit kleiner Vorschau und Links zu Sicherung, Hilfe und Hinweisen.", "Yoga und Dehnen: neue Übungsart „Halten“ mit 34 Posen und Dehnübungen, Planart „Beweglich“ zum eigenen Zusammenstellen aus der Bibliothek, mit YouTube-Videos zum Mitmachen, Halte-Timer mit Gong, Vibration und Atempunkten, Seitenwechsel, „Automatisch weiter“ und Steif/Okay/Locker nach jeder Übung. Unter „Fortschritt“ zeigt „Beweglichkeit“ Serie, Minuten pro Woche und längste Haltezeiten.", "Training: Die Notiz zur Übung steht gut sichtbar unter dem Namen, auch in der Pause, und lässt sich mit ✎ direkt ändern. „Alternative“ ersetzt die Übung jetzt nur für heute, dein Plan bleibt gleich. Die Suche zeigt passende Übungen zuerst und findet sie auch mit anderer Schreibweise oder kleinem Tippfehler, zum Beispiel „Schulter drücken“ für „Schulterdrücken“. Viele Übungen findest du auch unter anderen Namen wie „Military Press“ oder „Stirndrücken“, darunter steht klein „auch bekannt als“. Das gilt auch beim Einlesen einer PDF. Die App öffnet beim Start den Plan, den du zuletzt offen hattest. Zeit-Übungen wie Plank fragen nach dem Stoppen der Stoppuhr „Übernehmen“, „Wiederholen“ oder „Anpassen“ und zeigen wie Körpergewicht-Übungen kein Gewicht mehr. Wer doch Gewicht nutzt, wählt beim Bearbeiten „Mit Zusatzgewicht“. Mit „⇅ Supersatz“ nimmst du, auch in der Pause, eine zweite Übung dazu: Beide machst du im Wechsel, die Pause kommt nach beiden. Supersätze legst du auch schon im Plan oder beim Start fest, eine kurze Erklärung steht jeweils dabei.", "Der Sägezahnmuskel zählt jetzt bei 69 Übungen mit, zum Beispiel bei Liegestützen, Bankdrücken, Schulterdrücken, Plank und Seitstütz. Deine Pläne werden automatisch ergänzt. Im Training gibt es den Video-Knopf jetzt auch in der Pause.", "Plan als PDF im neuen Design, wahlweise in Farbe oder Schwarz-Weiß, mit Muskel-Übersicht und Fortschritt je Übung. Die PDF lässt sich beim Plan-Erstellen wieder einlesen, und nach dem ersten Öffnen mit Internet geht das auch offline. Auch gekaufte Pläne mit einer Tabelle pro Übung werden samt Trainingstagen eingelesen, dazu kamen neue Übungen wie High Knees, Double Crunch und Plank Up-Down."]],
   ["1.1", "19.10.2026", ["Neues Design am Computer: Bereiche oben in einer Leiste und „Übersicht“ als Startseite mit Trainings und Volumen im Monat, Volumen pro Woche, Kraftentwicklung, Muskeln und Trainingstagen. Im Plan stehen die Tage links (direkt umbenennen und löschen), die Übungen als Tabelle zum direkten Ändern und Sortieren in der Mitte, Bibliothek und Abdeckung rechts. „▶ Training“ und die Einstellungen (⚙) sind oben rechts. Am Handy bleibt alles wie gewohnt.", "Rückblicke für Monat, halbes Jahr, Jahr und „Gesamt“ seit deinem ersten Training: Trainings, bewegtes Gewicht, Lieblingsübung, meisttrainierte Muskeln, wo du stärker geworden bist, Rhythmus, Cardio und Körpergewicht. Ist ein Zeitraum vorbei, erscheint auf der Startseite ein kleiner Hinweis. Am Computer findest du alle Rückblicke jederzeit unter „Fortschritt“.", "„Training starten“ am Handy fragt zuerst, welchen Tag du trainierst, zum Beispiel Ober- oder Unterkörper. Danach startet das Training sofort mit dem Gewichtsfeld.", "Zuhause-Version: Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt passende Körpergewichts-Übungen, ab Stufe 5 auch Handstand. Dazu 12 neue Übungen, zum Beispiel Liegestütze an der Wand, Muscle-ups, Front Lever und Dragon Flag.", "Handy: aufgeräumte Kopfzeile in einer Reihe und weniger Leerraum in der Tableiste unten."]],
   ["1.0", "19.10.2026", ["Großes Redesign, Muskelplan ist keine Beta mehr: neue Startseite mit deinen Trainingstagen und „Training starten“ (Stoppuhr, Pausen-Timer, Signalton), Tableiste unten am Handy und Seitenleiste am Computer, rundere Karten und Knöpfe.", "Die Muskelfigur auf der Startseite zeigt die Muskel-Erholung: was du frisch trainiert hast und was schon länger Pause hat.", "Neuer Trainings-Bildschirm: Satz-Kreise, große ± Knöpfe, Werte vom letzten Mal als Hinweis. Nach jedem Satz wählst du die nächste Übung, in der Pause siehst und bearbeitest du sie schon. „Noch ein Satz“ geht mit oder ohne Timer.", "Übungen auf Zeit wie Unterarmstütz (Plank) mit Stoppuhr und Ziel-Ring.", "Neuer Bildschirm „Training fertig!“ mit Dauer, Sätzen, bewegtem Gewicht, neuen Bestwerten und Vergleich zum letzten Mal.", "„⇄ Alternativen“ zeigt andere Übungen für dieselben Muskeln, im Training hilfreich, wenn ein Gerät besetzt ist. Übungen lassen sich auch mitten im Training hinzufügen.", "31 neue Übungen in der Bibliothek und passendere Wiederholungszahlen.", "Zuhause-Version: Du kannst jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Latzug oder Beinpresse.", "44 neue Meilensteine, jetzt 102 insgesamt.", "22 neue Skins, zum Beispiel Formel 1, Minecraft, Pokémon, Spotify und Rave, jeweils hell und dunkel.", "Fehler behoben: Eine geladene Sicherung wird nicht mehr überschrieben, und „Training starten“ verdeckt am Computer beim Scrollen nicht mehr die Muskelerholung."]],
@@ -9389,11 +9397,11 @@ function sheetCss(){
 // Fortschritt einer Übung: erster und letzter Eintrag (kg, sonst Wdh. oder Zeit)
 function sheetProg(u){
   const Ls = sortedLog(u); if (!Ls.length) return "–";
-  const f = Ls[0], l = Ls[Ls.length - 1];
+  const C3 = Ls.filter(e => !e.cardio).slice(ST3), f = C3[0] || Ls[0], l = Ls[Ls.length - 1];
   if (l.cardio) return esc(cardioTxt(l));
   const val = e => { const t = topSet(e); if (!noKg(u) && t.kg) return { v: t.kg, u: "kg" }; const sec = Math.max(0, ...setsOf(e).map(z => z.sec || 0)); return sec ? { v: sec, u: "s" } : { v: Math.max(0, ...setsOf(e).map(z => z.reps || 0)), u: L("Wdh.", "reps") }; };
   const a = val(f), b = val(l);
-  return Ls.length > 1 && a.u === b.u && a.v !== b.v ? `<span class="kg">${fmt(a.v)} → <b>${fmt(b.v)} ${b.u}</b></span>` : `<span class="kg"><b>${fmt(b.v)} ${b.u}</b></span>`;
+  return C3.length > 1 && a.u === b.u && a.v !== b.v ? `<span class="kg">${fmt(a.v)} → <b>${fmt(b.v)} ${b.u}</b></span>` : `<span class="kg"><b>${fmt(b.v)} ${b.u}</b></span>`;
 }
 
 // Sätze × Wdh. wie in der App: bei Zeit „3 × 60 s“, bei Halten „30 s halten“
@@ -10020,9 +10028,9 @@ function renderDash(){
   const bars = weeks.map(w => `<div class="dbar${w.cur ? " cur" : ""}" title="${L("Woche ab", "Week from")} ${fmtD(w.mon)}: ${wlab(w)}${w.cur ? " · " + L("läuft noch", "in progress") : ""}"><div class="bw"><span class="v n">${wv(w) ? wlab(w).replace(/ (Sätze|sets)$/, "") : ""}</span><i style="height:${Math.max(wv(w) ? 2 : 0, wv(w) / wmax * 84)}%"></i></div><span class="k">${L("KW", "W")} ${isoWeekNo(w.mon)}</span></div>`).join("");
   const segH = (g, cur, o) => `<div class="seg" role="group">${o.map(([k, n]) => `<button type="button" data-dsh="${g}" data-v="${k}" aria-pressed="${cur === k}">${n}</button>`).join("")}</div>`;
   // Kraftentwicklung (8 Wochen)
-  const from = isoAdd(thisMon, -49); const grp = {};
-  K.forEach(x => { if (isTimeU(x.u) || x.e.d < from) return; const k = norm(x.u.name); (grp[k] ||= { u: x.u, list: [] }).list.push(x.e); });
-  const allBest = {}; K.forEach(x => { const k = norm(x.u.name); allBest[k] = Math.max(allBest[k] || 0, topSet(x.e).kg || 0); });
+  const from = isoAdd(thisMon, -49); const grp = {}, W3 = warmSet();
+  K.forEach(x => { if (isTimeU(x.u) || x.e.d < from || W3.has(x.e)) return; const k = norm(x.u.name); (grp[k] ||= { u: x.u, list: [] }).list.push(x.e); });
+  const allBest = {}; K.forEach(x => { if (W3.has(x.e)) return; const k = norm(x.u.name); allBest[k] = Math.max(allBest[k] || 0, topSet(x.e).kg || 0); });
   const rows = Object.entries(grp).map(([k, g]) => {
     const byD = {}; g.list.forEach(e => { const t = topSet(e); const v = t.kg || 0; byD[e.d] = Math.max(byD[e.d] || 0, v); });
     const kg = Object.values(byD).some(v => v > 0);
@@ -11611,7 +11619,7 @@ function frMine(per){
   const days = new Set(W.map(x => x.e.d)).size;
   const vol = Math.round(W.reduce((n, x) => n + (x.e.cardio ? 0 : volume(x.e)), 0));
   const cmin = Math.round(W.reduce((n, x) => n + (x.e.cardio ? (x.e.cardio.min || 0) : 0), 0));
-  let pr = 0; state.plans.forEach(p => p.units.forEach(u => { if (isCardio(u)) return; const Ls = sortedLog(u).filter(e => !e.cardio && !e.sim); Ls.forEach((e, i) => { if (i > 0 && e.d >= from && e.d <= t && frTop(e) > Math.max(...Ls.slice(0, i).map(frTop))) pr++; }); }));
+  let pr = 0; state.plans.forEach(p => p.units.forEach(u => { if (isCardio(u)) return; const Ls = sortedLog(u).filter(e => !e.cardio && !e.sim); Ls.forEach((e, i) => { if (i > ST3 && e.d >= from && e.d <= t && frTop(e) > Math.max(...Ls.slice(ST3, i).map(frTop))) pr++; }); }));
   const weeks = new Set(A.filter(x => !x.e.sim).map(x => mondayOf(x.e.d))); let w = mondayOf(t); if (!weeks.has(w)) w = isoAdd(w, -7); let streak = 0; while (weeks.has(w)) { streak++; w = isoAdd(w, -7); }
   const last = A.filter(x => !x.e.sim).map(x => x.e.d).sort().pop() || "";
   return { days, vol, cmin, pr, streak, last };
@@ -11672,9 +11680,9 @@ function frExKey(name){ const r = typeof libFind === "function" ? libFind(name) 
 const frExName = k => { const x = LIB_N.get(k); return x ? L(x.n, x.en || x.n) : k; };
 function frProg(){
   const t = todayIso(), from = isoAdd(t, -364);
-  const ex = {};
+  const ex = {}, W3 = warmSet();
   state.plans.forEach(p => p.units.forEach(u => { if (isCardio(u) || u.mode === "zeit" || u.mode === "halten") return; const k = frExKey(u.name); if (!k) return;
-    (u.log || []).forEach(e => { if (e.sim || e.cardio || e.d < from || e.d > t) return; const v = frE1(e); if (!(v > 0)) return; const w = mondayOf(e.d); ex[k] ||= {}; if (!ex[k][w] || v > ex[k][w]) ex[k][w] = v; }); }));
+    (u.log || []).forEach(e => { if (e.sim || e.cardio || W3.has(e) || e.d < from || e.d > t) return; const v = frE1(e); if (!(v > 0)) return; const w = mondayOf(e.d); ex[k] ||= {}; if (!ex[k][w] || v > ex[k][w]) ex[k][w] = v; }); }));
   const out = {}; Object.entries(ex).sort((a, b) => Object.keys(b[1]).length - Object.keys(a[1]).length).slice(0, 40).forEach(([k, W]) => {
     out[k] = Object.keys(W).sort().map(w => [w, Math.round(W[w] * 10) / 10]); });
   return out;
@@ -11722,7 +11730,7 @@ function lgCalc(){
   state.plans.forEach(p => (p.sessions || []).forEach(s => { if (s.sim || s.manual || !s.timed || !s.d || !(s.end > s.start) || late(s.d, s.end)) return;
     const m = Math.min(300, (s.end - s.start) / 60000); add(s.d, "smin", m); if (p.type === "beweglich") add(s.d, "bmin", m); }));
   // Bestwerte nur bei Übungen, die man seit mindestens 2 Wochen macht
-  const prs = []; state.plans.forEach(p => p.units.forEach(u => { if (isCardio(u)) return; const Ls = sortedLog(u).filter(e => !e.cardio && !e.sim && !late(e.d, e.t)); if (Ls.length < 2) return;
+  const prs = []; state.plans.forEach(p => p.units.forEach(u => { if (isCardio(u)) return; const Ls = sortedLog(u).filter(e => !e.cardio && !e.sim && !late(e.d, e.t)).slice(ST3); if (Ls.length < 2) return;
     let best = frTop(Ls[0]); Ls.slice(1).forEach(e => { const v = frTop(e); if (v > best) { if (Ls[0].d <= isoAdd(e.d, -14)) prs.push(e.d); best = v; } }); }));
   const ap = state.plans.find(p => p.id === state.active), goal = Math.max(1, Math.min(7, (ap && (ap.days || []).length) || 3));
   const W = new Map(), wk = mon => { if (W.has(mon)) return W.get(mon); const r = { days: 0, vol: 0, cb: 0, km: 0, n: 0 };
