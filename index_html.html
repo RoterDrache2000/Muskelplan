@@ -2885,7 +2885,7 @@ html:not(.bkon) #bkSec:has(.bkslim:not(.ok)){background:color-mix(in srgb,#E2B53
   html.dsk .pherobtn{grid-column:3;grid-row:1;flex-direction:column;min-width:170px;max-width:220px}
   html.dsk .pherobtn .pgo{flex:none}
   html.dsk .pherobtn .pplan{display:block}
-  html.dsk .pweek,html.dsk .pwkbar{grid-column:1/-1;max-width:560px;margin-left:142px}
+  html.dsk #weekSec .pweek,html.dsk #weekSec .pwkbar{grid-column:1/-1;max-width:560px;margin-left:142px}
   html.dsk .pt-streak,html.dsk .pt-days{display:grid}
   html.dsk .pside{grid-column:span 2;align-content:center;order:0}
   html.dsk .pside .n{font-size:2.1rem}
@@ -3051,6 +3051,153 @@ html.homec body.view-home #hcBtn{display:inline-block}
 .hcbtns{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .hcbtns button{min-width:36px}
 .nuicardio{margin:2px 0 0;font-weight:600;font-size:.9rem}
+.pweek .pwsel2{height:30px;font-size:.66rem;border-style:dashed}
+/* zwei Einheiten an einem Tag: untereinander (29.10.) */
+.pweek i.two{display:flex;flex-direction:column;justify-content:center;gap:1px;line-height:1.05;font-size:.62rem;padding:0 2px}
+.pweek i.two span{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hwkbox{display:grid;gap:8px;margin-top:4px}
+.hwkbox .pwkbar,.nuitoday .pwkbar{margin:0}
+.pweek i.two{height:auto;min-height:38px;padding:3px 2px}
+.pweek i.two.n3,.pweek i.two.n4{font-size:.56rem}
+.ytrow .vidlink{max-width:100%;white-space:normal}
+/* alte PC-Übersicht: Woche oben (29.10.) */
+@media (min-width:1100px){
+  html.dsk:not(.nui) .dash:has(> .dweek){grid-template-areas:"w w" "k m" "v m" "s c"}
+  html.dsk:not(.nui) .dash.hastodo:has(> .dweek){grid-template-areas:"w w" "k t" "v t" "s m" "c m"}
+  .dweek{grid-area:w}
+  .dweekrow{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .dweekrow .pweek{flex:1 1 420px;max-width:620px}
+  .dweekrow .pwkbar{margin:0;flex:1 1 200px}
+}
+#setPanel .fdbcnt{display:block;text-align:right;margin:-8px 0 12px;font-size:.78rem}
+/* ---------- Neuer Plan-Bereich (02.11., nur Dev: html.pl2) ---------- */
+html.pl2{--mf0:color-mix(in srgb,var(--muscle) 55%,transparent);--mfsil:color-mix(in srgb,var(--skin) 55%,transparent);--mfp:var(--sel);--mfs:color-mix(in srgb,var(--sel) 45%,var(--muscle))}
+.mfig{display:inline-flex;gap:1px;flex:none;width:44px;height:44px;padding:3px;border-radius:10px;background:var(--tagbg);align-items:center;justify-content:center}
+.mfig svg{width:19px;height:38px;display:block}
+.mfig.cov{width:auto;height:auto;padding:6px;gap:4px;background:transparent}
+.mfig.cov svg{width:40px;height:80px}
+/* Bibliothek: Mini-Figur links */
+html.pl2 .libitem .libmain{display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:12px;align-items:start}
+html.pl2 .libitem .libmain > .mfig{grid-row:1 / span 4}
+html.pl2 .libitem .libmain > :not(.mfig){grid-column:2}
+html.pl2 .dplist li{justify-content:flex-start}
+html.pl2 .dplist li > div{flex:1;min-width:0}
+/* Handy */
+html.pl2:not(.dsk) body.view-bauen :is(#planSec .planhead,#printBox){display:none!important}
+html.pl2:not(.dsk) body.view-bauen #dayMgr:not(.pl2on){display:none!important}
+html.pl2:not(.dsk) #newPlan,html.pl2:not(.dsk) #planMenu{display:none!important}
+html.dsk .pl2pmb,html:not(.pl2) .pl2pmb{display:none!important}
+.pl2pmb{min-width:44px;font-weight:700;font-size:1.1rem;padding:6px 10px}
+html.pl2:not(.dsk) body.view-bauen #units{display:grid;gap:12px}
+.pl2card{display:flex;align-items:center;gap:8px;padding:12px 14px;background:var(--panel);border:1.5px solid var(--line);border-radius:var(--r,16px)}
+.pl2card > div{display:grid;gap:2px;flex:1;min-width:0}
+.pl2card .label{margin:0}
+.pl2card .hint{margin:0;font-size:.8rem}
+.pl2card button{white-space:nowrap}
+.pl2tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.pl2tabs::-webkit-scrollbar{display:none}
+.pl2tabs button{flex:none;min-height:44px;padding:8px 16px;border-radius:12px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font-weight:700;white-space:nowrap}
+.pl2tabs button .n{color:var(--muted);font-weight:600;font-size:.8rem;margin-left:2px}
+.pl2tabs button[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pl2tabs button[aria-selected=true] .n{color:inherit;opacity:.7}
+.pl2tabs .pl2tb{min-width:44px;padding:8px 12px;color:var(--muted)}
+.pl2tabs .pl2tb[aria-expanded=true]{border-color:var(--pick);color:var(--pick)}
+.pl2day{background:var(--panel);border:1.5px solid var(--line);border-radius:var(--r,16px);padding:14px 14px 12px;display:grid}
+.pl2dh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-bottom:6px}
+.pl2dh h3{margin:0;font-family:var(--display,inherit);font-size:1.5rem;text-transform:uppercase;letter-spacing:.01em;line-height:1.1}
+.pl2dh .due{background:var(--sel);color:var(--sel-ink);border-radius:999px;padding:2px 9px;font-size:.72rem;font-weight:700}
+.pl2dh .hint{margin:0 0 0 auto;font-size:.82rem}
+html.pl2:not(.dsk) #units .unit.pl2u{display:grid!important;grid-template-columns:28px minmax(0,1fr) auto 40px;align-items:center;gap:10px;padding:12px 0 12px 4px!important;margin:0!important;border:0!important;border-top:1px solid var(--line)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;position:relative}
+html.pl2:not(.dsk) #units .unit.pl2u.ss{box-shadow:inset 3px 0 0 var(--pick)!important;padding-left:10px!important}
+html.pl2:not(.dsk) #units .unit.pl2u.on{background:color-mix(in srgb,var(--pick) 8%,transparent)!important}
+.pl2u .pl2no,.pl2shh .pl2no{width:28px;height:28px;border-radius:8px;background:var(--tagbg);display:grid;place-items:center;font-weight:700;font-size:.8rem}
+.pl2nm{display:grid;min-width:0;gap:1px}
+.pl2nm b{font-weight:600;font-size:1rem;overflow-wrap:anywhere}
+.pl2nm .hint{margin:0;font-size:.8rem}
+.pl2nm .ssl{color:var(--pick);font-weight:700}
+.pl2sr{display:grid;justify-items:end;gap:1px}
+.pl2sr b{font-size:1.02rem;white-space:nowrap}
+.pl2sr .hint{margin:0;font-size:.74rem;white-space:nowrap}
+.pl2more{width:40px;height:40px;min-height:40px;padding:0;border-radius:10px;border:1.5px solid var(--line);background:var(--panel2,var(--tagbg));color:var(--ink);font-weight:700;font-size:1.05rem;display:grid;place-items:center}
+.pl2u > :is(.altbox,.sspanel,.pl2ask){grid-column:1 / -1}
+.pl2ask{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:8px 10px;border-radius:10px;background:color-mix(in srgb,var(--bad) 10%,transparent)}
+.pl2ask span{flex:1 1 140px;font-weight:600}
+.pl2add{margin-top:8px;min-height:48px;border:1.5px dashed var(--line);border-radius:12px;background:transparent;color:var(--ink);font-weight:700}
+.pl2cov{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;text-align:left;padding:10px 14px;background:var(--panel);border:1.5px solid var(--line);border-radius:var(--r,16px);color:var(--ink)}
+.pl2covt{display:grid;gap:2px;min-width:0}
+.pl2covt .label{margin:0}
+.pl2covt b{font-size:1.05rem}
+.pl2covt .hint{margin:0;font-size:.8rem}
+.pl2cov > i{font-style:normal;color:var(--muted);font-size:1.3rem}
+/* Blätter von unten */
+.pl2sh{position:fixed;inset:0;z-index:300}
+.pl2sh[hidden]{display:none}
+.pl2bd{position:fixed;inset:0;background:rgba(0,0,0,.5)}
+.pl2pan{position:absolute;left:0;right:0;bottom:0;max-height:88vh;overflow:auto;background:var(--panel);border-radius:22px 22px 0 0;padding:10px 18px calc(18px + env(safe-area-inset-bottom,0px));display:grid;gap:10px;box-shadow:0 -10px 40px rgba(0,0,0,.35);overscroll-behavior:contain}
+.pl2grab{justify-self:center;width:44px;height:5px;border-radius:9px;background:var(--line)}
+.pl2x{position:absolute;right:10px;top:10px;width:44px;height:44px;min-height:44px;padding:0;border:0;background:transparent;color:var(--muted);font-size:1.1rem}
+.pl2shh{display:flex;gap:10px;align-items:center;padding-right:44px}
+.pl2shh h3,.pl2sht{margin:0;font-family:var(--display,inherit);font-size:1.4rem;text-transform:uppercase;line-height:1.1;padding-right:44px}
+.pl2shh .hint{margin:0}
+.pl2pan .tags{display:flex;flex-wrap:wrap;gap:6px}
+.pl2pan .tags .tag{margin:0}
+.pl2list{display:grid}
+.pl2it{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;align-items:center;width:100%;min-height:56px;padding:8px 2px;border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;color:var(--ink);text-align:left;text-decoration:none;font:inherit}
+.pl2it i{font-style:normal;width:36px;height:36px;border-radius:10px;background:var(--tagbg);display:grid;place-items:center}
+.pl2it span{display:grid;gap:1px}
+.pl2it b{font-weight:600}
+.pl2it small{color:var(--muted);font-size:.8rem}
+.pl2it.dang{color:var(--bad)}
+.pl2it.dang i{background:color-mix(in srgb,var(--bad) 14%,transparent)}
+body.pl2open{overflow:hidden}
+/* „Übung hinzufügen“ als Blatt */
+#pl2AddBd{display:none;z-index:290}
+.pl2addh{display:none}
+html.pl2:not(.dsk) body.view-bauen:not(.pl2add) #addSec{display:none!important}
+html.pl2:not(.dsk) body.view-bauen.pl2add #pl2AddBd{display:block}
+html.pl2:not(.dsk) body.view-bauen.pl2add #addSec{display:grid!important;position:fixed;left:0;right:0;bottom:0;z-index:295;max-height:90vh;overflow:auto;margin:0!important;border-radius:22px 22px 0 0!important;padding:10px 16px calc(18px + env(safe-area-inset-bottom,0px))!important;box-shadow:0 -10px 40px rgba(0,0,0,.35);overscroll-behavior:contain}
+html.pl2:not(.dsk) body.view-bauen.pl2add #addSec > :is(.libhead,#addHint){display:none!important}
+html.pl2:not(.dsk) body.view-bauen.pl2add .pl2addh{display:grid;grid-template-columns:minmax(0,1fr);position:relative;gap:6px}
+.pl2addh h2{margin:0}
+.pl2addh .hint{margin:0}
+html.pl2:not(.dsk) body.pl2add{overflow:hidden}
+/* große Körperkarte als Vollbild */
+.pl2maph{display:none}
+html.pl2:not(.dsk) body.view-bauen:not(.pl2map) .mapcol{display:none!important}
+html.pl2:not(.dsk) body.view-bauen.pl2map .mapcol{display:grid!important;position:fixed!important;inset:0;z-index:280;overflow:auto;background:var(--bg);padding:14px 16px calc(24px + env(safe-area-inset-bottom,0px));top:0!important;align-content:start}
+html.pl2:not(.dsk) body.view-bauen.pl2map .pl2maph{display:flex;align-items:center;justify-content:space-between;position:relative;min-height:44px}
+.pl2maph h2{margin:0}
+.pl2maph .pl2x{position:static}
+html.pl2:not(.dsk) body.view-bauen.pl2map{overflow:hidden}
+/* PC */
+@media (min-width:1px){
+  html.pl2.dsk body.view-bauen .grid{grid-template-columns:330px minmax(0,1fr) 340px;grid-template-rows:auto 1fr}
+  html.pl2.dsk body.view-bauen #dpDays{grid-row:1;position:static}
+  html.pl2.dsk body.view-bauen .mapcol{grid-column:1;grid-row:2}
+  html.pl2.dsk body.view-bauen #dpLib{grid-column:3;grid-row:1 / span 2;position:sticky;top:88px;max-height:calc(100vh - 100px);overflow:auto}
+  html.pl2.dsk body.view-bauen .mapcol .figs svg{max-height:340px}
+  html.pl2.dsk body.view-bauen .mapcol .legend{font-size:.78rem}
+  html.pl2 #dpDays :is(.dpadd ~ .label,.dpacts){display:none!important}
+  html.pl2.dsk #units .dpt{--dcols:20px 32px minmax(0,1fr) 62px 76px 62px 38px 38px}
+  html.pl2.dsk .drow .pl2v{width:36px;height:36px;min-height:36px;padding:0;display:grid;place-items:center;font-size:0;border-radius:10px;border:1.5px solid var(--line)!important;background:transparent!important;color:var(--ink)!important;box-shadow:none!important}
+  html.pl2.dsk .drow .pl2v .play{font-size:.85rem;margin:0}
+  html.pl2 #dpFoot .dtiles{display:none}
+  html.pl2 #dpHead{position:relative}
+  .pl2hx{display:flex;flex-wrap:wrap-reverse;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:12px}
+  .pl2top{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;order:2}
+  .pl2more{position:relative}
+  .pl2more summary{list-style:none;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;min-height:34px;padding:6px 12px;border:1.5px solid var(--line);border-radius:999px;font-weight:600;font-size:.85rem}
+  .pl2more summary::-webkit-details-marker{display:none}
+  .pl2pop{position:absolute;right:0;top:40px;z-index:30;display:grid;gap:6px;min-width:210px;padding:8px;background:var(--panel);border:1.5px solid var(--line);border-radius:12px;box-shadow:0 18px 36px -14px rgba(0,0,0,.35)}
+  .pl2pop > *{width:100%;justify-content:flex-start;text-align:left}
+  .pl2st{display:flex;gap:22px;order:1}
+  .pl2st div{display:grid}
+  .pl2st b{font-size:1.4rem;font-family:var(--display,inherit)}
+  .pl2st span{color:var(--muted);font-size:.78rem}
+  .pl2pick{display:inline-block;background:var(--pick);color:var(--pick-ink,#fff);border-radius:999px;padding:3px 10px;font-weight:700;font-size:.82rem;margin-bottom:4px}
+  .pl2mc{background:var(--pick)!important;color:var(--pick-ink,#fff)!important;border-color:var(--pick)!important}
+}
+html.pl2:not(.dsk) #addSec :is(.libtaphint,.libhint){display:none!important}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
@@ -3405,8 +3552,10 @@ const YOGA = true;
 const TUT2 = false;
 const LIGA = false; // Liga in Gruppen: nur in der Dev-Version (Vincent 26.10.)
 const HOMEC = false; // Startseite anpassen: nur in der Dev-Version (Vincent 28.10.)
-const NEWUI = false; // neues Design (Skin A Feinschliff, Training als Vollbild …): erst nur in der Dev-Version (Vincent 27.10.)
+const PLAN2 = false; // neuer Plan-Bereich (Handy: ein Tag, ⋯-Menüs; PC: große Muskel-Figur): nur in der Dev-Version (Vincent 02.11.)
+const NEWUI = true; // neues Design (Skin A Feinschliff, Training als Vollbild …): für alle freigegeben (Vincent 29.10.)
 if (NEWUI) document.documentElement.classList.add("nui");
+const FXREC = true; // Yoga-Empfehlungen (fxRec) mit Schalter: freigegeben für alle (Vincent 29.10.)
 const YOGA2 = false; // Yoga & Stretching (Übungsart „Halten“, Planart „Beweglich“): erst nur in der Testversion
 const LAY2 = true; // neues Layout: Home-Bildschirm, Tableiste unten (Handy), Seitenleiste (Desktop)
 // ---------- Sprache (Deutsch / Englisch) ----------
@@ -3996,6 +4145,7 @@ function renderUnits(){
     return;
   }
   if (DSK()) { $("units").innerHTML = dpUnitsHTML(p); return; }
+  if (PLAN2) { $("units").innerHTML = pl2UnitsHTML(p); $("dayMgr").classList.toggle("pl2on", dayMgrOpen); return; }
   if (hasDays(p)) {
     $("units").innerHTML = daysOf(p).map(dd => { const d = dd.id;
       const list = unitsFor(p, d);
@@ -4061,6 +4211,7 @@ function toggle(m, label){
   renderChips(); renderDayUI(); renderMap(); renderUnits(); renderLib();
   const nLib = libOn && selection.size ? libFiltered().length : null;
   $("tip").textContent = selection.size ? `Ausgewählt: ${[...selection].map(x => MUSCLES[x].n).join(", ")}${nLib !== null ? (LANG === "en" ? ` · ${nLib} matching exercises in the library` : ` · ${nLib} passende Übungen in der Bibliothek`) : ""}` : TIP0;
+  pl2MapPick();
 }
 function bindFigure(){ document.querySelectorAll(".fig .m").forEach(g => {
   const ms = () => g.dataset.ms ? g.dataset.ms.split(" ") : g.dataset.m;
@@ -4731,9 +4882,9 @@ function homeRow(u, i){
   return `<li><button type="button" data-hw="ex" data-id="${u.id}" aria-pressed="${focusId === u.id}"><span class="no n">${i + 1}</span><span class="t"><b>${esc(u.nick || u.name)}</b><span class="n">${sub}</span></span></button></li>`;
 }
 function startBody(p, mode){
-  const ds = daysOf(p); const nd = hasDays(p) ? nextDay(p) : null;
+  const ds = daysOf(p); const nd = hasDays(p) ? dueDay(p) : null;
   const st = settings(); const auto = st.autoRest !== false;
-  if (hasDays(p)) { if (!startDay || !ds.some(d => d.id === startDay && unitsFor(p, d.id).length)) startDay = nd; }
+  if (hasDays(p)) { if (!startDayUser || !startDay || !ds.some(d => d.id === startDay && unitsFor(p, d.id).length)) startDay = nd; }
   const step = (k, val) => `<div class="reststep"><button type="button" class="ghost" data-hs="step" data-k="${k}" data-d="-15" aria-label="${L("15 Sekunden weniger", "15 seconds less")}">−15</button><button type="button" class="ghost" data-hs="step" data-k="${k}" data-d="-1" aria-label="${L("1 Sekunde weniger", "1 second less")}">−1</button><b class="n">${secTxt(val)}</b><button type="button" class="ghost" data-hs="step" data-k="${k}" data-d="1" aria-label="${L("1 Sekunde mehr", "1 second more")}">+1</button><button type="button" class="ghost" data-hs="step" data-k="${k}" data-d="15" aria-label="${L("15 Sekunden mehr", "15 seconds more")}">+15</button></div>
     <div class="restchips">${[45, 60, 90, 120, 180].map(o => `<button type="button" class="chip" data-hs="set" data-k="${k}" data-v="${o}" aria-pressed="${o === val}">${secTxt(o)}</button>`).join("")}</div>`;
   return `<div class="hshead"><h2>${L("Training starten", "Start workout")}</h2>${mode === "home" ? `<button type="button" class="ghost x" data-hs="toggle" aria-label="${L("Einklappen", "Collapse")}">×</button>` : ""}</div>
@@ -4764,7 +4915,7 @@ function renderHomeRec(){
 function renderStart(){
   const p = plan(); const w = $("hWork"), hs = $("hStart"); if (!w || !hs) return;
   try { renderHomeRec(); } catch(e) {}
-  const ds = daysOf(p); const nd = hasDays(p) ? nextDay(p) : null;
+  const ds = daysOf(p); const nd = hasDays(p) ? dueDay(p) : null;
   const run = state.run && state.run.planId === p.id ? state.run : null;
   if (!p.units.length) {
     w.innerHTML = `<div class="hwhead"><div><div class="label">${L("Deine Workouts", "Your workouts")} · ${esc(p.homeOf ? L("Zuhause", "Home") : p.name)}</div><h2>${L("Noch leer", "Still empty")}</h2></div></div>
@@ -4789,15 +4940,16 @@ function renderStart(){
     return;
   }
   hs.classList.toggle("open", hsOpen);
-  const qd = hasDays(p) ? ((startDay && ds.some(d => d.id === startDay && unitsFor(p, d.id).length)) ? startDay : nd) : null;
+  const qd = hasDays(p) ? ((startDayUser && startDay && ds.some(d => d.id === startDay && unitsFor(p, d.id).length)) ? startDay : nd) : null;
   const pickDays = hasDays(p) ? ds.filter(d => unitsFor(p, d.id).length) : [];
   if (hsPick && pickDays.length > 1 && !hsOpen) {
     hs.innerHTML = `<div class="hsquick hspick"><div class="hspickh"><b>${L("Was trainierst du heute?", "What are you training today?")}</b><button type="button" class="ghost mini" data-hs="pickno">${L("Abbrechen", "Cancel")}</button></div>
       ${pickDays.map(d => `<button type="button" class="${d.id === nd ? "primary" : "ghost"} hsday" data-hs="qday" data-day="${d.id}"><span>${esc(d.name)}</span><small>${unitsFor(p, d.id).length} ${unitsFor(p, d.id).length === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")}${d.id === nd ? " · " + L("ist dran", "up next") : ""}</small></button>`).join("")}<button type="button" class="ghost mini hssspre" data-hs="sspre">⇅ ${L("Vorher Supersätze festlegen", "Set supersets first")}</button></div>`;
     return;
   }
+  const hwk = NEWUI ? "" : (() => { const W = weekInfo(p); return `<div class="hwkbox"><span class="label">${L("Diese Woche", "This week")}</span><div class="pweek${wkEdit ? " pwedit" : ""}">${wkStripHTML(p, W, wkEdit)}</div>${wkBarHTML(p, W.wk)}</div>`; })();
   hs.innerHTML = `<div class="hsquick" ${hsOpen ? "hidden" : ""}>${NEWUI ? todayHead(p, qd) : ""}<button type="button" class="primary hsgo" data-hs="quick">▶ ${L("Training starten", "Start workout")}${qd && !NEWUI ? `<small>${esc(dayNameH(p, qd))}</small>` : ""}</button>
-      ${NEWUI ? `<div class="nuichips">` : ""}<button type="button" class="ghost hsset" data-hs="toggle" aria-expanded="${hsOpen}" title="${L("Tag, Stoppuhr und Pausen einstellen", "Set day, stopwatch and rests")}">⚙ ${NEWUI ? L("Tag & Pausen", "Day & rests") : L("Tag, Stoppuhr und Pausen einstellen", "Set day, stopwatch and rests")}</button>${p.units.filter(ssOk).length > 1 ? `<button type="button" class="ghost hsset" data-hs="sspre" title="${L("Supersätze festlegen", "Set supersets")}">⇅ ${NEWUI ? L("Supersätze", "Supersets") : L("Supersätze festlegen", "Set supersets")}</button>` : ""}${NEWUI ? `</div>` : ""}</div>
+      ${NEWUI ? `<div class="nuichips">` : ""}<button type="button" class="ghost hsset" data-hs="toggle" aria-expanded="${hsOpen}" title="${L("Tag, Stoppuhr und Pausen einstellen", "Set day, stopwatch and rests")}">⚙ ${NEWUI ? L("Tag & Pausen", "Day & rests") : L("Tag, Stoppuhr und Pausen einstellen", "Set day, stopwatch and rests")}</button>${p.units.filter(ssOk).length > 1 ? `<button type="button" class="ghost hsset" data-hs="sspre" title="${L("Supersätze festlegen", "Set supersets")}">⇅ ${NEWUI ? L("Supersätze", "Supersets") : L("Supersätze festlegen", "Set supersets")}</button>` : ""}${NEWUI ? `</div>` : ""}${hwk}</div>
     <div class="hsbody" ${hsOpen ? "" : 'data-closed="1"'}>
       ${startBody(p, "home")}
     </div>`;
@@ -4807,13 +4959,11 @@ function renderStart(){
 function todayHead(p, qd){
   const W = weekInfo(p), list = qd ? unitsFor(p, qd) : p.units, st = settings();
   const min = Math.max(5, Math.round(list.reduce((n, u) => n + (isCardio(u) ? (parseFloat(u.reps) || 20) * 60 : setsNum(u) * (40 + (u.rest || st.restSet || 90))), 0) / 300) * 5);
-  const wd = LANG === "en" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : WD;
-  const strip = [...Array(7)].map((_, i) => { const d = isoAdd(W.mon, i), on = W.doneD.has(d), pl = !on && W.plan7[d];
-    return `<div><span>${wd[i]}</span><i class="${on ? "done" : pl ? "plan" : ""}${d === W.t ? " today" : ""}" title="${fmtD(d)}">${on ? "✓" : pl ? esc(pl) : ""}</i></div>`; }).join("");
+  const strip = wkStripHTML(p, W, wkEdit);
   const nEx = list.length;
-  return `<div class="nuitoday"><span class="label">${L("Als Nächstes dran", "Up next")}</span><h2>${L("Heute", "Today")}${qd ? ` · <span>${esc(dayNameH(p, qd))}</span>` : ""}</h2>${W.cToday ? `<p class="nuicardio">🏃 ${L("Laut deiner Woche steht heute Cardio an.", "Your week has cardio planned for today.")}</p>` : ""}
+  return `<div class="nuitoday"><span class="label">${L("Als Nächstes dran", "Up next")}</span><h2>${L("Heute", "Today")}${qd ? ` · <span>${esc(dayNameH(p, qd))}</span>` : ""}</h2>${W.cToday ? `<p class="nuicardio">${L(`Laut deiner Woche ${W.doneD.has(W.t) ? "heute noch" : "heute auch"}: ${W.cToday}`, `Your week ${W.doneD.has(W.t) ? "still has today" : "also has today"}: ${W.cToday}`)}</p>` : ""}
     <p class="hint">${nEx} ${nEx === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")} · ${L("ca.", "approx.")} ${min} min · ${LANG === "en" ? `${W.done} of ${W.goal} this week` : `${W.done} von ${W.goal} diese Woche`}</p>
-    <div class="pweek">${strip}</div></div>`;
+    <div class="pweek${wkEdit ? " pwedit" : ""}">${strip}</div>${wkBarHTML(p, W.wk)}</div>`;
 }
 // Neues Design: Zahlen kurz hochzählen (nur ganze Zahlen, ohne Bewegung bei „Bewegung reduzieren“)
 function nuiCount(els){
@@ -4859,7 +5009,7 @@ function focusEntry(){
 }
 function homeGo(day){
   const p = plan(); const st = settings(); const auto = st.autoRest !== false;
-  startSession(hasDays(p) ? (day || startDay || nextDay(p)) : null, auto);
+  startSession(hasDays(p) ? (day || (startDayUser && startDay) || dueDay(p)) : null, auto);
   if (state.run) { state.run.clock = !!st.clock; state.run.restOn = auto; state.run.sound = auto && state.run.sound; save(); }
   hsOpen = false; hsPick = false; setView("training"); window.scrollTo({ top: 0, behavior: "auto" });
 }
@@ -4870,7 +5020,7 @@ function wireHome(){
     if (a === "day") { const open = !homeDayOpen(p, b.dataset.day); homeSetDay(p, b.dataset.day, open); dayFilter = open ? b.dataset.day : (daysOf(p).find(d => homeDayOpen(p, d.id))?.id || "alle"); focusId = null; renderDayUI(); renderMap(); renderStart(); return; }
     if (a === "all") { const anyOpen = daysOf(p).some(d => homeDayOpen(p, d.id)); daysOf(p).forEach(d => homeSetDay(p, d.id, !anyOpen)); dayFilter = anyOpen ? "alle" : "alle"; renderDayUI(); renderMap(); renderStart(); return; }
     if (a === "ex") { const u = p.units.find(x => x.id === b.dataset.id); if (!u) return; focusId = focusId === u.id ? null : u.id; $("tip").textContent = focusId ? `${u.nick || u.name}: ${u.muscles.map(m => MUSCLES[m]?.n).join(", ")}` : L("Tippe auf einen Muskel, um zu sehen, welche Übungen ihn trainieren", "Tap a muscle to see which exercises train it"); renderMap(); renderStart(); return; }
-    if (a === "go") { startDay = b.dataset.day; homeGo(b.dataset.day); focusEntry(); return; }
+    if (a === "go") { startDay = b.dataset.day; startDayUser = true; homeGo(b.dataset.day); focusEntry(); return; }
     if (a === "edit") { if (b.dataset.day) dayFilter = b.dataset.day; setView("bauen"); window.scrollTo({ top: 0, behavior: "auto" }); return; }
     if (a === "toplan") { setView("bauen"); return; }
     if (a === "rb") { rbOpenView(rbPeriod(b.dataset.k, 1)); return; }
@@ -4881,12 +5031,12 @@ function wireHome(){
   const hsClick = e => {
     const b = e.target.closest("[data-hs]"); if (!b || b.tagName === "INPUT") return; const a = b.dataset.hs; const st = settings();
     if (a === "toggle") { hsPick = false; hsOpen = !hsOpen; renderStart(); if (hsOpen) setTimeout(() => $("hStart").scrollIntoView({ behavior: "smooth", block: "nearest" }), 30); return; }
-    if (a === "day") { startDay = b.dataset.day; rer(); return; }
+    if (a === "day") { startDay = b.dataset.day; startDayUser = true; rer(); return; }
     if (a === "step" || a === "set") { const k = b.dataset.k; const v = a === "set" ? +b.dataset.v : (st[k] || (k === "restSet" ? 90 : 120)) + (+b.dataset.d); st[k] = Math.max(5, Math.min(600, v)); save(); rer(); return; }
     if (a === "quick") { const p = plan(); if (hasDays(p) && daysOf(p).filter(d => unitsFor(p, d.id).length).length > 1) { hsPick = true; renderStart(); return; } homeGo(); focusEntry(); return; }
-    if (a === "qday") { hsPick = false; startDay = b.dataset.day; homeGo(b.dataset.day); focusEntry(); return; }
+    if (a === "qday") { hsPick = false; startDay = b.dataset.day; startDayUser = true; homeGo(b.dataset.day); focusEntry(); return; }
     if (a === "pickno") { hsPick = false; renderStart(); return; }
-    if (a === "sspre") { hsPick = false; hsOpen = true; hsSsAdd = true; if (b.dataset.day) startDay = b.dataset.day; if (DSK() && !document.body.classList.contains("hspop")) dskPop(true); else renderStart(); setTimeout(() => document.querySelector(".hsss")?.scrollIntoView({ behavior: "smooth", block: "center" }), 40); return; }
+    if (a === "sspre") { hsPick = false; hsOpen = true; hsSsAdd = true; if (b.dataset.day) { startDay = b.dataset.day; startDayUser = true; } if (DSK() && !document.body.classList.contains("hspop")) dskPop(true); else renderStart(); setTimeout(() => document.querySelector(".hsss")?.scrollIntoView({ behavior: "smooth", block: "center" }), 40); return; }
     if (a === "ssadd") { hsSsAdd = !hsSsAdd; rer(); return; }
     if (a === "ssoff") { const p = plan(), u = p.units.find(x => x.id === b.dataset.id); if (u) { ssUnlink(p, u); save(); } rer(); return; }
     if (a === "sslink") { const p = plan(), x = p.units.find(u => u.id === $("hsSsA")?.value), y = p.units.find(u => u.id === $("hsSsB")?.value);
@@ -4936,6 +5086,7 @@ initLay2();
 function setView(v){
   nuiMasonGo(); if (HOMEC) try { hcApply(); } catch(e) {}
   if (v !== view) document.documentElement.classList.remove("bkon");
+  if (PLAN2 && v !== "bauen") { if (document.body.classList.contains("pl2add")) pl2Add(false); document.body.classList.remove("pl2map"); pl2Close(); }
   view = v; document.body.classList.remove("hspop"); document.querySelector("header")?.classList.remove("gearopen");
   document.body.classList.toggle("running", v === "training" && !!state.run && state.run.planId === state.active);
   document.body.classList.toggle("view-prog", v === "fortschritt" || v === "freunde" || v === "technik" || v === "wissen"); document.body.classList.toggle("view-fr", v === "freunde");
@@ -4983,7 +5134,8 @@ function nextDay(p){
   const i = last ? ds.findIndex(d => d.id === last.day) : -1;
   return ds[(i + 1) % ds.length].id;
 }
-let startDay = null;
+let startDay = null, startDayUser = false; // startDayUser: selbst gewählt, sonst gilt der fällige Tag aus der Woche
+const dueDay = p => (hasDays(p) && weekInfo(p).nd) || nextDay(p);
 
 function beep(){
   try {
@@ -5613,7 +5765,7 @@ function renderSession(){
   }
   let dayPick = "";
   if (hasDays(p)) {
-    const nd = nextDay(p); if (!startDay || !daysOf(p).some(d => d.id === startDay)) startDay = nd;
+    const nd = dueDay(p); if (!startDayUser || !startDay || !daysOf(p).some(d => d.id === startDay)) startDay = nd;
     dayPick = `<div class="field"><span class="label">Welcher Tag?</span><div class="seg" role="group" aria-label="Trainingstag">${daysOf(p).map(d => `<button type="button" data-s="pickday" data-day="${d.id}" aria-pressed="${startDay === d.id}" ${unitsFor(p, d.id).length ? "" : "disabled"}>${esc(d.name)}${d.id === nd ? " · ist dran" : ""}</button>`).join("")}</div></div>`;
   }
   const opt = (id, val) => `<div class="reststep" data-rs="${id}"><button type="button" class="ghost" data-s="rstep" data-k="${id}" data-d="-15" aria-label="${Lx("15 Sekunden weniger", "15 seconds less")}">−15</button><button type="button" class="ghost" data-s="rstep" data-k="${id}" data-d="-1" aria-label="${Lx("1 Sekunde weniger", "1 second less")}">−1</button><b class="n" id="${id}">${secTxt(val)}</b><button type="button" class="ghost" data-s="rstep" data-k="${id}" data-d="1" aria-label="${Lx("1 Sekunde mehr", "1 second more")}">+1</button><button type="button" class="ghost" data-s="rstep" data-k="${id}" data-d="15" aria-label="${Lx("15 Sekunden mehr", "15 seconds more")}">+15</button></div>
@@ -5752,10 +5904,10 @@ $("sessBox").addEventListener("click", e => {
   const act = b.dataset.s; const p = plan();
   if (act === "keepU") { const u = p.units.find(x => x.id === b.dataset.id); if (u) { delete u.once; save(); toast(L(`${u.nick || u.name} ist jetzt in deinem Plan.`, `${u.nick || u.name} is now in your plan.`)); renderSession(); } return; }
   if (act === "nuishare") { const sv = document.querySelector('#sessBox [data-s="eSave"]'); if (sv) { sv.click(); setTimeout(() => setView("freunde"), 80); } return; }
-  if (act === "pickday") { startDay = b.dataset.day; renderSession(); return; }
-  if (act === "start") { startSession(hasDays(p) ? (startDay || nextDay(p)) : null, b.dataset.timer === "1"); return; }
+  if (act === "pickday") { startDay = b.dataset.day; startDayUser = true; renderSession(); return; }
+  if (act === "start") { startSession(hasDays(p) ? (startDay || dueDay(p)) : null, b.dataset.timer === "1"); return; }
   if (act === "show") { summaryId = b.dataset.id; fromHist = b.dataset.from === "hist"; histOpen = false; renderSession(); return; }
-  if (act === "close") { const fh = fromHist; summaryId = null; startDay = null; histOpen = fh; fromHist = false; if (!fh && returnFromHome()) return; renderSession(); return; }
+  if (act === "close") { const fh = fromHist; summaryId = null; startDay = null; startDayUser = false; histOpen = fh; fromHist = false; if (!fh && returnFromHome()) return; renderSession(); return; }
   if (act === "hist") { histOpen = true; renderSession(); return; }
   if (act === "histClose") { histOpen = false; renderSession(); return; }
   if (act === "edit") {
@@ -6801,7 +6953,7 @@ function renderLib(quick){
     const i = LIB.indexOf(x); const on = libPick === i;
     const has = inPlan.has(norm(x.n)) || (x.en && inPlan.has(norm(x.en)));
     return `<li class="libitem ${on ? "on" : ""}">
-      <button type="button" class="libmain" data-l="pick" data-i="${i}" aria-pressed="${on}">
+      <button type="button" class="libmain" data-l="pick" data-i="${i}" aria-pressed="${on}">${PLAN2 ? mfig(x.p, x.s) : ""}
         <span class="libname">${esc(xn(x))}${has ? ` <span class="inplan"><span aria-hidden="true">✓ </span>im Plan</span>` : ""}</span>${akaLine(x, libQ.trim(), true)}
         <span class="libmeta">${x.cardio ? `<span class="ctag">Cardio</span> ` : ""}${x.g === "Cardio" ? L("Ausdauer", "Endurance") : gearName(x.g)}${libCat === "alle" ? "" : ` · ${x.cat}`}</span>
         <span class="libmus">${x.p.map(m => `<span class="tag prim">${MUSCLES[m].n}</span>`).join("")}${x.s.length ? `<span class="libsec">+ ${x.s.map(m => MUSCLES[m].n).join(", ")}</span>` : ""}</span>
@@ -8303,32 +8455,49 @@ function weekInfo(p){
   const A = allEntries(), t = todayIso(), mon = mondayOf(t), end = isoAdd(mon, 7);
   const doneD = new Set(A.filter(x => x.e.d >= mon && x.e.d < end).map(x => x.e.d)), done = doneD.size;
   const ds = hasDays(p) ? daysOf(p).filter(d => unitsFor(p, d.id).length) : [];
-  // eigener Wochenplan (freiwillig): p.wk = 7 Einträge Mo–So, "" = frei, "*" = Training, "c" = Cardio, sonst Tag-ID
-  const wk = Array.isArray(p.wk) && p.wk.length === 7 ? p.wk.map(v => v === "*" || v === "c" || ds.some(d => d.id === v) ? v : "") : null;
+  // eigener Wochenplan (freiwillig): p.wk = 7 Einträge Mo–So, "" = frei, "*" = Training, "c" = Cardio, "y" = Yoga, sonst Tag-ID; zwei an einem Tag mit „+“ (z. B. "d1+c")
+  const wkOk = v => v === "*" || v === "c" || v === "y" || ds.some(d => d.id === v);
+  const wk = WKPLAN && Array.isArray(p.wk) && p.wk.length === 7 ? p.wk.map(v => [...new Set(String(v || "").split("+").filter(wkOk))].slice(0, WK_MAX).join("+")) : null;
+  const wkDay = v => (v || "").split("+").find(x => x && x !== "*" && x !== "c" && x !== "y");
   const goal = wk ? Math.max(1, wk.filter(Boolean).length) : Math.max(1, Math.min(7, ds.length || 3)), rest = Math.max(0, goal - done);
-  const wkNext = wk ? [...Array(7)].map((_, i) => i).find(i => wk[i] && wk[i] !== "*" && wk[i] !== "c" && isoAdd(mon, i) >= t && !doneD.has(isoAdd(mon, i))) : undefined;
-  const nd = wkNext !== undefined ? wk[wkNext] : ds.length ? nextDay(p) : null, streak = weekStreak(A);
+  const wkNext = wk ? [...Array(7)].map((_, i) => i).find(i => wkDay(wk[i]) && isoAdd(mon, i) >= t && !doneD.has(isoAdd(mon, i))) : undefined;
+  const nd = wkNext !== undefined ? wkDay(wk[wkNext]) : ds.length ? nextDay(p) : null, streak = weekStreak(A);
   // geplante Tage: die noch fehlenden Trainings gleichmäßig auf die freien Tage ab heute verteilen
   const free = [...Array(7)].map((_, i) => isoAdd(mon, i)).filter(d => d >= t && !doneD.has(d)), plan7 = {};
   const k0 = Math.max(0, ds.findIndex(d => d.id === nd));
-  if (wk) free.forEach(d => { const v = wk[daysBetween(mon, d)]; if (v) plan7[d] = v === "*" ? "•" : v === "c" ? "🏃" : dayNameH(p, v); });
+  if (wk) free.forEach(d => { const v = wk[daysBetween(mon, d)]; if (v) plan7[d] = v.split("+").map(x => x === "*" ? "•" : x === "c" ? "🏃" : x === "y" ? "🧘" : dayNameH(p, x)).join(" + "); });
   else for (let i = 0; i < Math.min(rest, free.length); i++) { const d = free[Math.min(free.length - 1, Math.floor((i + .5) * free.length / Math.min(rest, free.length)))]; if (!plan7[d]) plan7[d] = ds.length ? dayNameH(p, ds[(k0 + i) % ds.length].id) : "•"; }
-  const cToday = !!wk && wk[daysBetween(mon, t)] === "c" && !doneD.has(t);
-  return { A, t, mon, doneD, done, ds, wk, goal, rest, wkNext, nd, streak, plan7, cToday };
+  // Cardio/Yoga für heute: auch nach dem Krafttraining noch zeigen, bis es eingetragen ist
+  const anyToday = f => state.plans.some(q => q.units.some(u => f(u) && (u.log || []).some(e => e.d === t)));
+  const tp = wk ? wk[daysBetween(mon, t)].split("+").filter(x => !(x === "c" && anyToday(isCardio)) && !(x === "y" && anyToday(isHold))) : [];
+  const cToday = tp.includes("c") ? (tp.includes("y") ? "🏃 Cardio + 🧘 Yoga" : "🏃 Cardio") : tp.includes("y") ? "🧘 Yoga" : "", cLab = doneD.has(t) ? L("Heute noch", "Still today") : L("Heute", "Today");
+  return { A, t, mon, doneD, done, ds, wk, goal, rest, wkNext, nd, streak, plan7, cToday, cLab };
+}
+// Wochenstreifen Mo–So (Fortschritt und Startseite): ansehen oder einteilen, zwei Einheiten an einem Tag untereinander
+const WKPLAN = false; // Woche einteilen ausgebaut (Vincent 01.11.2026), Code bleibt für später
+const WK_MAX = 4; // Einheiten pro Tag beim Woche einteilen
+function wkCell(pl){ const parts = String(pl).split(" + "); return parts.length > 1 ? parts.map(x => `<span>${esc(x)}</span>`).join("") : esc(pl); }
+function wkStripHTML(p, W, edit){
+  const { t, mon, doneD, ds, wk, plan7 } = W, wd = LANG === "en" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : WD;
+  return [...Array(7)].map((_, i) => { const d = isoAdd(mon, i), on = doneD.has(d), pl = !on && plan7[d];
+    if (edit) { const vs = (wk ? wk[i] : "").split("+").filter(Boolean);
+      const opts = (cur, first) => `<option value="">${first ? L("frei", "rest") : "＋"}</option>${ds.length ? ds.map(x => `<option value="${esc(x.id)}"${cur === x.id ? " selected" : ""}>${esc(dayNameH(p, x.id))}</option>`).join("") : `<option value="*"${cur === "*" ? " selected" : ""}>${L("Training", "Workout")}</option>`}<option value="c"${cur === "c" ? " selected" : ""}>🏃 Cardio</option><option value="y"${cur === "y" ? " selected" : ""}>🧘 Yoga</option>`;
+      // bis zu WK_MAX Einheiten: nach jedem belegten Feld kommt ein weiteres „＋“
+      return `<div><span>${wd[i]}</span><select class="pwsel" data-i="${i}" aria-label="${wd[i]}">${opts(vs[0] || "", 1)}</select>${[...Array(Math.min(WK_MAX - 1, vs.length))].map((_, k) => `<select class="pwsel pwsel2" data-i="${i}" data-k="${k + 1}" aria-label="${wd[i]}: ${L(`Einheit ${k + 2}`, `session ${k + 2}`)}">${opts(vs[k + 1] || "", 0)}</select>`).join("")}</div>`; }
+    return `<div><span>${wd[i]}</span><i class="${on ? "done" : pl ? "plan" : ""}${pl && pl.includes(" + ") ? " two n" + pl.split(" + ").length : ""}${d === t ? " today" : ""}" title="${fmtD(d)}${pl ? ": " + esc(pl) : ""}">${on ? "✓" : pl ? wkCell(pl) : ""}</i></div>`; }).join("");
+}
+function wkBarHTML(p, wk){
+  return !WKPLAN || !p.units.length ? "" : wkEdit ? `<div class="pwkbar"><span class="hint">${L("Gilt jede Woche. Leer lassen geht auch, dann verteilt die App die Trainings selbst.", "Repeats every week. You can also leave it empty, then the app spreads the workouts itself.")}</span>${wk ? `<button type="button" class="ghost small" data-pw="wkauto">${L("Automatisch", "Automatic")}</button>` : ""}<button type="button" class="primary small" data-pw="wkdone">${L("Fertig", "Done")}</button></div>`
+    : `<div class="pwkbar"><button type="button" class="ghost small" data-pw="wkedit">✎ ${wk ? L("Woche anpassen", "Edit week") : L("Woche einteilen", "Plan your week")}</button>${wk ? "" : `<span class="hint">${L("freiwillig", "optional")}</span>`}</div>`;
 }
 function renderWeek(){
   const box = $("weekSec"); if (!box) return;
-  const p = plan(), { A, t, mon, doneD, done, ds, wk, goal, rest, wkNext, nd, streak, plan7, cToday } = weekInfo(p);
-  const wd = LANG === "en" ? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] : WD;
-  const strip = [...Array(7)].map((_, i) => { const d = isoAdd(mon, i), on = doneD.has(d), pl = !on && plan7[d];
-    if (wkEdit) { const v = wk ? wk[i] : ""; return `<div><span>${wd[i]}</span><select class="pwsel" data-i="${i}" aria-label="${wd[i]}"><option value="">${L("frei", "rest")}</option>${ds.length ? ds.map(x => `<option value="${esc(x.id)}"${v === x.id ? " selected" : ""}>${esc(dayNameH(p, x.id))}</option>`).join("") : `<option value="*"${v === "*" ? " selected" : ""}>${L("Training", "Workout")}</option>`}<option value="c"${v === "c" ? " selected" : ""}>🏃 Cardio</option></select></div>`; }
-    return `<div><span>${wd[i]}</span><i class="${on ? "done" : pl ? "plan" : ""}${d === t ? " today" : ""}" title="${fmtD(d)}">${on ? "✓" : pl ? esc(pl) : ""}</i></div>`; }).join("");
-  const wkBar = !p.units.length ? "" : wkEdit ? `<div class="pwkbar"><span class="hint">${L("Gilt jede Woche. Leer lassen geht auch, dann verteilt die App die Trainings selbst.", "Repeats every week. You can also leave it empty, then the app spreads the workouts itself.")}</span>${wk ? `<button type="button" class="ghost small" data-pw="wkauto">${L("Automatisch", "Automatic")}</button>` : ""}<button type="button" class="primary small" data-pw="wkdone">${L("Fertig", "Done")}</button></div>`
-    : `<div class="pwkbar"><button type="button" class="ghost small" data-pw="wkedit">✎ ${wk ? L("Woche anpassen", "Edit week") : L("Woche einteilen", "Plan your week")}</button>${wk ? "" : `<span class="hint">${L("freiwillig", "optional")}</span>`}</div>`;
+  const p = plan(), { A, t, mon, doneD, done, ds, wk, goal, rest, wkNext, nd, streak, plan7, cToday, cLab } = weekInfo(p);
+  const strip = wkStripHTML(p, weekInfo(p), wkEdit), wkBar = wkBarHTML(p, wk);
   const R = 42, C = 2 * Math.PI * R, frac = Math.min(1, done / goal);
   const ring = `<div class="pring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="${R}" class="trk"/><circle cx="50" cy="50" r="${R}" class="val" stroke-dasharray="${(C * frac).toFixed(1)} ${C.toFixed(1)}"/></svg><b>${done}/${goal}<small>${L("Trainings", "Workouts")}</small></b></div>`;
   const title = rest ? (LANG === "en" ? `${rest} more ${rest === 1 ? "workout" : "workouts"}` : `Noch ${rest} ${rest === 1 ? "Training" : "Trainings"}`) : L("Wochenziel geschafft", "Weekly goal reached");
-  const nextTxt = (cToday ? `${L("Heute", "Today")}: <b>🏃 Cardio</b>${nd ? " · " : ""}` : "") + (nd ? `${L("Als Nächstes dran", "Up next")}: <b>${esc(dayNameH(p, nd))}</b>` : "");
+  const nextTxt = (cToday ? `${cLab}: <b>${cToday}</b>${nd ? " · " : ""}` : "") + (nd ? `${L("Als Nächstes dran", "Up next")}: <b>${esc(dayNameH(p, nd))}</b>` : "");
   const startB = state.run ? `<button type="button" class="primary pgo" data-pw="run">▶ ${L("Training fortsetzen", "Continue workout")}</button>`
     : p.units.length ? `<button type="button" class="primary pgo" data-pw="start"${wkNext !== undefined ? ` data-day="${esc(nd)}"` : ""}>▶ ${nd ? (LANG === "en" ? `Start <span>${esc(dayNameH(p, nd))}</span>` : `<span>${esc(dayNameH(p, nd))}</span> starten`) : L("Training starten", "Start workout")}</button>`
     : `<button type="button" class="primary pgo" data-pw="plan">${L("Plan anlegen", "Create a plan")}</button>`;
@@ -8367,9 +8536,15 @@ function progClick(e){
   if (a === "flexplan") { setView("bauen"); $("newPlan").click(); if (YOGA) { newType = "beweglich"; renderTypes(); } return; }
 }
 $("weekSec").addEventListener("click", progClick);
-$("weekSec").addEventListener("change", e => { const sl = e.target.closest(".pwsel"); if (!sl) return; const p = plan();
-  const wk = Array.isArray(p.wk) && p.wk.length === 7 ? p.wk.slice() : ["", "", "", "", "", "", ""]; wk[+sl.dataset.i] = sl.value;
-  if (wk.some(Boolean)) p.wk = wk; else delete p.wk; save(); renderWeek(); });
+// Woche einteilen geht im Fortschritt und auf der Startseite (Handy und PC): beide Stellen neu zeichnen
+function wkRedraw(){ renderWeek(); if (view === "home") renderAll(); }
+document.addEventListener("click", e => { const b = e.target.closest('[data-pw^="wk"]'); if (!b || b.closest("#weekSec")) return; e.stopPropagation(); const a = b.dataset.pw;
+  if (a === "wkedit") wkEdit = true; else if (a === "wkdone") wkEdit = false; else if (a === "wkauto") { delete plan().wk; save(); wkEdit = false; } wkRedraw(); });
+document.addEventListener("change", e => { const sl = e.target.closest(".pwsel"); if (!sl) return; const p = plan();
+  const wk = Array.isArray(p.wk) && p.wk.length === 7 ? p.wk.slice() : ["", "", "", "", "", "", ""], i = +sl.dataset.i, cur = (wk[i] || "").split("+");
+  if (sl.dataset.k) cur[+sl.dataset.k] = sl.value; else { cur[0] = sl.value; if (!sl.value) cur.length = 0; }
+  wk[i] = [...new Set(cur.filter(Boolean))].slice(0, WK_MAX).join("+");
+  if (wk.some(Boolean)) p.wk = wk; else delete p.wk; save(); wkRedraw(); });
 $("pPerBox").addEventListener("click", progClick);
 $("flexSec").addEventListener("click", progClick);
 // Vorschau antippen = Details öffnen (auch mit Tastatur)
@@ -9135,10 +9310,10 @@ $("copyClose").addEventListener("click", () => { $("copyBox").hidden = true; });
 
 // ---------- Patch Notes ----------
 Object.assign(I18N.ui, {"Die Yoga-Empfehlungen (welche Dehnübungen zu deinem Training passen) kannst du unter ⚙ Einstellungen oder direkt an der Empfehlung ausschalten.": "You can turn off the yoga suggestions (which stretches fit your training) under ⚙ Settings or right on the suggestion."});
-Object.assign(I18N.ui, {"Woche einteilen: Du kannst jetzt auch Cardio-Tage eintragen, zum Beispiel „🏃 Cardio“ am Mittwoch zum Laufen. Sie zählen zum Wochenziel.": "Plan your week: you can now add cardio days too, for example “🏃 Cardio” on Wednesday for a run. They count toward your weekly goal."});
+Object.assign(I18N.ui, {"Neues Design: ruhigere Farben, große Heute-Karte mit Wochenstreifen, Training im Vollbild, am PC Übersicht mit Heute-Karte. Alle Funktionen sind geblieben.": "New design: calmer colours, a big Today card with the week strip, full-screen workouts, and on the PC an overview with the Today card. All features are still there.", "Yoga-Empfehlungen: Die App schlägt passende Dehnübungen zu deinem Training vor. Ausschalten unter ⚙ Einstellungen oder direkt an der Empfehlung.": "Yoga suggestions: the app suggests stretches that fit your training. Turn them off under ⚙ Settings or right on the suggestion."});
 Object.assign(I18N.ui, {"Feedback senden: Unter ⚙ schickst du Fehler, Wünsche oder Lob direkt an den Entwickler, auch ohne Online-Konto. Antworten siehst du unter „Meine Nachrichten“.": "Send feedback: under ⚙ you can send bugs, wishes or praise straight to the developer, even without an online account. Replies show up under “My messages”."});
 Object.assign(I18N.ui, {"Statistik ab dem 3. Mal: Die ersten zwei Trainings einer Übung sind zum Einpendeln. Prozente, Steigerungen und Bestwerte rechnen ab dem dritten, im Verlauf bleiben alle sichtbar.": "Stats from the 3rd time: the first two workouts of an exercise are for settling in. Percentages, progress and bests count from the third; all stay visible in the history."});
-Object.assign(I18N.ui, {"Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten.": "Exercises you add during a workout are only for that workout. At the end you can keep them with “Add to plan”.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf (die Woche kannst du auf Wunsch selbst einteilen), Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.": "New statistics: week card with ring, next workout and start button (you can plan your week yourself if you like), tiles with the last 8 weeks, months or years, compact previews instead of collapsed cards. Wider on PC. Backup and update are now under ⚙ Settings.", "„Noch ein Satz“ fragt jetzt kurz „Mit Timer“ oder „Ohne Timer“. Mit Timer läuft erst die Pause, danach trägst du den Extra-Satz ein.": "“One more set” now briefly asks “With timer” or “No timer”. With timer, the rest runs first, then you log the extra set."});
+Object.assign(I18N.ui, {"Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten.": "Exercises you add during a workout are only for that workout. At the end you can keep them with “Add to plan”.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf, Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.": "New statistics: week card with ring, next workout and start button, tiles with the last 8 weeks, months or years, compact previews instead of collapsed cards. Wider on PC. Backup and update are now under ⚙ Settings.", "„Noch ein Satz“ fragt jetzt kurz „Mit Timer“ oder „Ohne Timer“. Mit Timer läuft erst die Pause, danach trägst du den Extra-Satz ein.": "“One more set” now briefly asks “With timer” or “No timer”. With timer, the rest runs first, then you log the extra set."});
 Object.assign(I18N.ui, {"Geräte":"Machines","Kabelzug / Seilzug":"Cable station","Multipresse (Smith-Maschine)":"Smith machine","Latzug-Station":"Lat pulldown station","Butterfly / Brustpresse":"Pec deck / chest press","Beinpresse":"Leg press","Beinstrecker / Beinbeuger":"Leg extension / leg curl","Rückenstrecker-Bank":"Back extension bench","Kraftstation (Multi-Gym)":"Home gym (multi-station)"});
 Object.assign(I18N.ui, {"Auto": "Car", "Formel 1": "Formula 1", "Busch": "Bush", "Graslandschaft": "Grassland", "Nintendo Retro": "Nintendo retro", "Mittelalter": "Medieval", "Rap-Stil": "Rap style", "2000er-Stil": "2000s style", "Sommer": "Summer", "22 neue Skins: Auto, Formel 1, Minecraft, Project Zomboid, Busch, Graslandschaft, Windows 11, Steam, iPhone / Android, DJ, Breaking Bad, Pokémon, Nintendo, Nintendo Retro, Mittelalter, Spider-Man, Superman, Rap-Stil, 2000er-Stil, Spotify, Sommer und Rave. Jeder hat eigene Farben, Schrift und Hintergrund, hell und dunkel. Es sind nachempfundene Designs ohne Original-Logos oder Bilder.": "22 new skins: car, Formula 1, Minecraft, Project Zomboid, bush, grassland, Windows 11, Steam, iPhone / Android, DJ, Breaking Bad, Pokémon, Nintendo, Nintendo retro, medieval, Spider-Man, Superman, rap style, 2000s style, Spotify, summer and rave. Each has its own colors, font and background, light and dark. They are inspired designs without original logos or images.", "Fehler behoben: Am Computer ist der Bereich „Training starten“ auf der Startseite beim Runterscrollen mitgewandert und hat die Muskelerholung verdeckt. Jetzt bleibt er an seinem Platz.": "Bug fixed: on computers, the “Start workout” area on the home page moved along when scrolling down and covered the muscle recovery. It now stays in place."});
 Object.assign(I18N.ui, {"Am Handy startet „Training starten“ jetzt sofort das Training mit dem nächsten Tag und öffnet direkt das Feld fürs Gewicht, die Tastatur geht gleich auf. Tag, Stoppuhr und Pausen stellst du bei Bedarf vorher über den kleinen Knopf darunter ein.": "On phones, “Start workout” now starts the workout with the next day right away and opens the weight field directly, so the keyboard comes up at once. If needed, set the day, stopwatch and rests first with the small button below.", "Tag, Stoppuhr und Pausen einstellen": "Set day, stopwatch and rests"});
@@ -9168,7 +9343,7 @@ Object.assign(I18N.ui, {"Beim ersten Start und nach einem Update kommt ein Willk
 Object.assign(I18N.ui, {"Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.": "On the PC, the muscle map in the plan shows either the selected training day or the whole plan."});
 Object.assign(I18N.ui, {"Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.": "Replace exercises in your plan: “⇄ Replace” with a search of the whole library, even if the exercise already has entries (your history is kept). Plus and minus for the weight during training change it by 1 kg. Searching the library runs more smoothly on phones."});
 const NOTES = [
-  ["1.3", "20.10.2026", ["Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.", "Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken.", "Liga in Gruppen, freiwillig: Punkte für Einsatz (Trainingstage, Wochenziel, Steigerung, Bestwerte, Cardio, Serie) als Woche, Monat und Jahr, oder „Laufen“ nach Kilometern. Der Ersteller einer Gruppe startet die Liga und kann Leute herausnehmen. Wer vorne liegt, bekommt Medaillen.", "Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.", "Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf (die Woche kannst du auf Wunsch selbst einteilen), Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.", "Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten.", "Statistik ab dem 3. Mal: Die ersten zwei Trainings einer Übung sind zum Einpendeln. Prozente, Steigerungen und Bestwerte rechnen ab dem dritten, im Verlauf bleiben alle sichtbar.", "Feedback senden: Unter ⚙ schickst du Fehler, Wünsche oder Lob direkt an den Entwickler, auch ohne Online-Konto. Antworten siehst du unter „Meine Nachrichten“.", "Woche einteilen: Du kannst jetzt auch Cardio-Tage eintragen, zum Beispiel „🏃 Cardio“ am Mittwoch zum Laufen. Sie zählen zum Wochenziel."]],
+  ["1.3", "20.10.2026", ["Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.", "Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken.", "Liga in Gruppen, freiwillig: Punkte für Einsatz (Trainingstage, Wochenziel, Steigerung, Bestwerte, Cardio, Serie) als Woche, Monat und Jahr, oder „Laufen“ nach Kilometern. Der Ersteller einer Gruppe startet die Liga und kann Leute herausnehmen. Wer vorne liegt, bekommt Medaillen.", "Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.", "Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf, Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.", "Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten.", "Statistik ab dem 3. Mal: Die ersten zwei Trainings einer Übung sind zum Einpendeln. Prozente, Steigerungen und Bestwerte rechnen ab dem dritten, im Verlauf bleiben alle sichtbar.", "Feedback senden: Unter ⚙ schickst du Fehler, Wünsche oder Lob direkt an den Entwickler, auch ohne Online-Konto. Antworten siehst du unter „Meine Nachrichten“.", "Neues Design: ruhigere Farben, große Heute-Karte mit Wochenstreifen, Training im Vollbild, am PC Übersicht mit Heute-Karte. Alle Funktionen sind geblieben.", "Yoga-Empfehlungen: Die App schlägt passende Dehnübungen zu deinem Training vor. Ausschalten unter ⚙ Einstellungen oder direkt an der Empfehlung."]],
   ["1.2", "19.10.2026", ["Einstellungen hinter dem ⚙ oben rechts: Sprache, Hell, Dunkel oder System, Skins mit kleiner Vorschau und Links zu Sicherung, Hilfe und Hinweisen.", "Yoga und Dehnen: neue Übungsart „Halten“ mit 34 Posen und Dehnübungen, Planart „Beweglich“ zum eigenen Zusammenstellen aus der Bibliothek, mit YouTube-Videos zum Mitmachen, Halte-Timer mit Gong, Vibration und Atempunkten, Seitenwechsel, „Automatisch weiter“ und Steif/Okay/Locker nach jeder Übung. Unter „Fortschritt“ zeigt „Beweglichkeit“ Serie, Minuten pro Woche und längste Haltezeiten.", "Training: Die Notiz zur Übung steht gut sichtbar unter dem Namen, auch in der Pause, und lässt sich mit ✎ direkt ändern. „Alternative“ ersetzt die Übung jetzt nur für heute, dein Plan bleibt gleich. Die Suche zeigt passende Übungen zuerst und findet sie auch mit anderer Schreibweise oder kleinem Tippfehler, zum Beispiel „Schulter drücken“ für „Schulterdrücken“. Viele Übungen findest du auch unter anderen Namen wie „Military Press“ oder „Stirndrücken“, darunter steht klein „auch bekannt als“. Das gilt auch beim Einlesen einer PDF. Die App öffnet beim Start den Plan, den du zuletzt offen hattest. Zeit-Übungen wie Plank fragen nach dem Stoppen der Stoppuhr „Übernehmen“, „Wiederholen“ oder „Anpassen“ und zeigen wie Körpergewicht-Übungen kein Gewicht mehr. Wer doch Gewicht nutzt, wählt beim Bearbeiten „Mit Zusatzgewicht“. Mit „⇅ Supersatz“ nimmst du, auch in der Pause, eine zweite Übung dazu: Beide machst du im Wechsel, die Pause kommt nach beiden. Supersätze legst du auch schon im Plan oder beim Start fest, eine kurze Erklärung steht jeweils dabei.", "Der Sägezahnmuskel zählt jetzt bei 69 Übungen mit, zum Beispiel bei Liegestützen, Bankdrücken, Schulterdrücken, Plank und Seitstütz. Deine Pläne werden automatisch ergänzt. Im Training gibt es den Video-Knopf jetzt auch in der Pause.", "Plan als PDF im neuen Design, wahlweise in Farbe oder Schwarz-Weiß, mit Muskel-Übersicht und Fortschritt je Übung. Die PDF lässt sich beim Plan-Erstellen wieder einlesen, und nach dem ersten Öffnen mit Internet geht das auch offline. Auch gekaufte Pläne mit einer Tabelle pro Übung werden samt Trainingstagen eingelesen, dazu kamen neue Übungen wie High Knees, Double Crunch und Plank Up-Down."]],
   ["1.1", "19.10.2026", ["Neues Design am Computer: Bereiche oben in einer Leiste und „Übersicht“ als Startseite mit Trainings und Volumen im Monat, Volumen pro Woche, Kraftentwicklung, Muskeln und Trainingstagen. Im Plan stehen die Tage links (direkt umbenennen und löschen), die Übungen als Tabelle zum direkten Ändern und Sortieren in der Mitte, Bibliothek und Abdeckung rechts. „▶ Training“ und die Einstellungen (⚙) sind oben rechts. Am Handy bleibt alles wie gewohnt.", "Rückblicke für Monat, halbes Jahr, Jahr und „Gesamt“ seit deinem ersten Training: Trainings, bewegtes Gewicht, Lieblingsübung, meisttrainierte Muskeln, wo du stärker geworden bist, Rhythmus, Cardio und Körpergewicht. Ist ein Zeitraum vorbei, erscheint auf der Startseite ein kleiner Hinweis. Am Computer findest du alle Rückblicke jederzeit unter „Fortschritt“.", "„Training starten“ am Handy fragt zuerst, welchen Tag du trainierst, zum Beispiel Ober- oder Unterkörper. Danach startet das Training sofort mit dem Gewichtsfeld.", "Zuhause-Version: Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt passende Körpergewichts-Übungen, ab Stufe 5 auch Handstand. Dazu 12 neue Übungen, zum Beispiel Liegestütze an der Wand, Muscle-ups, Front Lever und Dragon Flag.", "Handy: aufgeräumte Kopfzeile in einer Reihe und weniger Leerraum in der Tableiste unten."]],
   ["1.0", "19.10.2026", ["Großes Redesign, Muskelplan ist keine Beta mehr: neue Startseite mit deinen Trainingstagen und „Training starten“ (Stoppuhr, Pausen-Timer, Signalton), Tableiste unten am Handy und Seitenleiste am Computer, rundere Karten und Knöpfe.", "Die Muskelfigur auf der Startseite zeigt die Muskel-Erholung: was du frisch trainiert hast und was schon länger Pause hat.", "Neuer Trainings-Bildschirm: Satz-Kreise, große ± Knöpfe, Werte vom letzten Mal als Hinweis. Nach jedem Satz wählst du die nächste Übung, in der Pause siehst und bearbeitest du sie schon. „Noch ein Satz“ geht mit oder ohne Timer.", "Übungen auf Zeit wie Unterarmstütz (Plank) mit Stoppuhr und Ziel-Ring.", "Neuer Bildschirm „Training fertig!“ mit Dauer, Sätzen, bewegtem Gewicht, neuen Bestwerten und Vergleich zum letzten Mal.", "„⇄ Alternativen“ zeigt andere Übungen für dieselben Muskeln, im Training hilfreich, wenn ein Gerät besetzt ist. Übungen lassen sich auch mitten im Training hinzufügen.", "31 neue Übungen in der Bibliothek und passendere Wiederholungszahlen.", "Zuhause-Version: Du kannst jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Latzug oder Beinpresse.", "44 neue Meilensteine, jetzt 102 insgesamt.", "22 neue Skins, zum Beispiel Formel 1, Minecraft, Pokémon, Spotify und Rave, jeweils hell und dunkel.", "Fehler behoben: Eine geladene Sicherung wird nicht mehr überschrieben, und „Training starten“ verdeckt am Computer beim Scrollen nicht mehr die Muskelerholung."]],
@@ -10013,6 +10188,7 @@ function dskPop(o){
 }
 function dskApply(first){
   const on = DSK(), hd = document.querySelector("header");
+  if (PLAN2 && on && document.body.classList.contains("pl2add")) pl2Add(false);
   document.documentElement.classList.toggle("dsk", on);
   if (on) { const lg = hd.querySelector(".dsklogo"); lg.after($("tabs")); $("dskBar").insertBefore($("bkChip"), $("dskTrain")); }
   else { dskHome.tabs.parent.insertBefore($("tabs"), dskHome.tabs.next); dskHome.bk.parent.insertBefore($("bkChip"), dskHome.bk.next); dskGear(false); if (document.body.classList.contains("hspop")) dskPop(false); }
@@ -10119,7 +10295,7 @@ function renderDash(){
   const recentH = recent.length ? `<ul class="drec">${recent.map(({ p, s }) => { const v = sessionVolume(p, s); const nm = s.manual ? L("Einzeln eingetragen", "Logged singly") : s.day ? dayName(p, s.day) : L("Training", "Workout");
       return `<li><b>${esc(nm)}</b><span class="n">${fmtDs(s.d)}${s.timed === false || s.manual || !(s.end > s.start) ? "" : " · " + fmtDur(s.end - s.start)}${v ? " · " + fmt(Math.round(v)) + " kg" : ""}</span></li>`; }).join("")}</ul><button type="button" class="ghost mini dmore" data-dsh="hist">${L("Alle Trainings", "All workouts")} →</button>`
     : `<p class="hint">${L("Noch keine Trainings. Starte oben rechts mit ▶ Training.", "No workouts yet. Start top right with ▶ Workout.")}</p>`;
-  box.innerHTML = `${NEWUI ? dshToday() : ""}<div class="dkpis">${kpis}</div>
+  box.innerHTML = `${NEWUI ? dshToday() : dshWeek()}<div class="dkpis">${kpis}</div>
     <section class="panel dcard dvol"><div class="dch"><h2>${L("Volumen pro Woche", "Volume per week")}</h2>${segH("metric", dshMetric, [["kg", "kg"], ["sets", L("Sätze", "Sets")], ["min", L("Dauer", "Time")]])}</div><div class="dbars">${bars}</div></section>
     <section class="panel dcard dmus"><div class="dch"><h2>${L("Muskeln", "Muscles")}</h2>${segH("mus", dshMus, [["m", L("Monat", "Month")], ["w", L("Woche", "Week")]])}</div>
       <div class="heatfigs"><div>${heatFigure("front", share)}</div><div>${heatFigure("back", share)}</div></div>
@@ -10130,10 +10306,13 @@ function renderDash(){
     <section class="panel dcard dcal"><div class="dch"><h2>${L("Trainingstage", "Training days")}</h2><span class="label">${L("12 Wochen", "12 weeks")}</span></div><div class="dcells">${cells}</div>
       <div class="label dsub">${L("Letzte Trainings", "Recent workouts")}</div>${recentH}</section>`;
 }
+// alte PC-Übersicht: Woche ansehen und einteilen (das neue Design hat sie in der Heute-Karte)
+function dshWeek(){ const p = plan(); if (!p.units.length) return ""; const W = weekInfo(p);
+  return `<section class="panel dcard dweek"><div class="dch"><h2>${L("Diese Woche", "This week")}</h2><span class="label">${LANG === "en" ? `${W.done} of ${W.goal}` : `${W.done} von ${W.goal}`}${W.cToday ? ` · ${W.cLab}: ${W.cToday}` : ""}</span></div><div class="dweekrow"><div class="pweek${wkEdit ? " pwedit" : ""}">${wkStripHTML(p, W, wkEdit)}</div>${wkBarHTML(p, W.wk)}</div></section>`; }
 function dshToday(){
   const p = plan(); if (!p.units.length) return "";
   const run = state.run && state.run.planId === p.id ? state.run : null, ds = daysOf(p);
-  const qd = hasDays(p) ? ((startDay && ds.some(d => d.id === startDay && unitsFor(p, d.id).length)) ? startDay : nextDay(p)) : null;
+  const qd = hasDays(p) ? ((startDayUser && startDay && ds.some(d => d.id === startDay && unitsFor(p, d.id).length)) ? startDay : dueDay(p)) : null;
   return `<section class="dtoday">${todayHead(p, run ? run.day : qd)}${run ? `<button type="button" class="primary hsgo" data-dsh="cont">▶ ${L("Training fortsetzen", "Continue workout")} · ${run.idx + 1}/${run.order.length}</button>`
     : `<button type="button" class="primary hsgo" data-dsh="go"${qd ? ` data-day="${esc(qd)}"` : ""}>▶ ${L("Training starten", "Start workout")}</button><div class="nuichips"><button type="button" class="ghost hsset" data-dsh="opts" title="${L("Tag, Stoppuhr und Pausen einstellen", "Set day, stopwatch and rests")}">⚙ ${L("Tag & Pausen", "Day & rests")}</button>${p.units.filter(ssOk).length > 1 ? `<button type="button" class="ghost hsset" data-dsh="opts" title="${L("Supersätze festlegen", "Set supersets")}">⇅ ${L("Supersätze", "Supersets")}</button>` : ""}</div>`}</section>`;
 }
@@ -10175,7 +10354,7 @@ function renderDpDays(){
 }
 function dpDaysClick(e){
   const b = e.target.closest("[data-dp]"); if (!b) return; const a = b.dataset.dp;
-  if (a === "ren") { dpRen = b.dataset.day; dpAsk = null; renderDpDays(); const i = $("dpDays").querySelector(".dpren"); if (i) { i.focus(); i.select(); } return; }
+  if (a === "ren" && b.dataset.day) { dpRen = b.dataset.day; dpAsk = null; renderDpDays(); const i = $("dpDays").querySelector(".dpren"); if (i) { i.focus(); i.select(); } return; }
   if (a === "ask") { dpAsk = b.dataset.day; dpRen = null; renderDpDays(); return; }
   if (a === "noask") { dpAsk = null; renderDpDays(); return; }
   if (a === "delday") { const id = b.dataset.day; const p = plan(); const ds = daysOf(p).map(d => ({ ...d })); dpAsk = null;
@@ -10199,26 +10378,25 @@ function renderDpHead(){
   if (document.activeElement && document.activeElement.id === "dpName") return;
   $("dpHead").innerHTML = `<div class="dpkick label">${L("Plan bearbeiten", "Edit plan")} · ${esc(p.name)}${ds.length ? ` · ${L(`Tag ${i + 1} von ${ds.length}`, `Day ${i + 1} of ${ds.length}`)}` : ""}</div>
     ${ds.length ? `<input id="dpName" class="dpname" value="${esc(dayName(p, cur))}" maxlength="30" aria-label="${L("Name des Trainingstags", "Name of the training day")}" title="${L("Zum Umbenennen anklicken", "Click to rename")}">` : `<h2 class="dpname">${L("Alle Übungen", "All exercises")}</h2>`}
-    <div class="dpsub"><span class="hint">${L("Ziehen am Griff ⠿ zum Sortieren · Sätze und Wiederholungen direkt anklicken und ändern", "Drag the ⠿ handle to reorder · click sets and reps to change them")}</span><span class="dpsaved" id="dpSaved">✓ ${L("Automatisch gespeichert", "Saved automatically")}</span></div>`;
+    <div class="dpsub"><span class="hint">${L("Ziehen am Griff ⠿ zum Sortieren · Sätze und Wiederholungen direkt anklicken und ändern", "Drag the ⠿ handle to reorder · click sets and reps to change them")}</span><span class="dpsaved" id="dpSaved">✓ ${L("Automatisch gespeichert", "Saved automatically")}</span></div>${PLAN2 ? pl2HeadX(p) : ""}`;
 }
 function dpUnitsHTML(p){
   const cur = dpDayOf(p); const list = cur ? unitsFor(p, cur) : planUnits(p);
-  const lastKg = u => { const L0 = sortedLog(u); const e = L0[L0.length - 1]; if (!e) return "–"; if (e.cardio) return e.cardio.min ? fmtMin(e.cardio.min) : "–"; const t = topSet(e); return t.kg ? fmt(t.kg) : t.sec != null ? secTxt(t.sec) : t.reps ? `${t.reps}×` : "–"; };
   const gear = u => { const x = LIB.find(x => norm(x.n) === norm(u.name) || (x.en && norm(x.en) === norm(u.name))); return x ? gearName(x.g) : isCardio(u) ? "Cardio" : ""; };
   const row = (u, i) => { const tg = musShort(u);
     return `<article class="unit drow${u.id === focusId ? " on" : ""}${altOpen === u.id ? " alt" : ""}" data-id="${u.id}" tabindex="0" draggable="false" aria-label="${esc(u.nick || u.name)}">
       <span class="dh" title="${L("Ziehen zum Sortieren", "Drag to reorder")}" aria-hidden="true">⠿</span>
       <span class="dno n">${i + 1}</span>
-      <div class="dnm"><b>${esc(u.nick || u.name)}</b><span class="hint">${esc([u.nick ? u.name : "", gear(u)].filter(Boolean).join(" · "))}${exNote(u.name) ? " · 📝" : ""}</span>${ssBadge(u)}</div>
-      <div class="dtags">${tg.slice(0, 2).map(m => `<span class="tag">${esc(m)}</span>`).join("")}${tg.length > 2 ? `<span class="tag more">+${tg.length - 2}</span>` : ""}</div>
+      <div class="dnm"><b>${esc(u.nick || u.name)}</b><span class="hint">${esc(PLAN2 ? tg.slice(0, 2).join(" · ") : [u.nick ? u.name : "", gear(u)].filter(Boolean).join(" · "))}${exNote(u.name) ? " · 📝" : ""}</span>${ssBadge(u)}</div>
+      ${PLAN2 ? "" : `<div class="dtags">${tg.slice(0, 2).map(m => `<span class="tag">${esc(m)}</span>`).join("")}${tg.length > 2 ? `<span class="tag more">+${tg.length - 2}</span>` : ""}</div>`}
       ${isCardio(u) ? `<span class="dna">–</span>` : `<input class="dnum n" data-f="sets" value="${esc(u.sets || "")}" inputmode="numeric" maxlength="3" aria-label="${L("Sätze", "Sets")}">`}
       <input class="dnum n" data-f="reps" value="${esc(u.reps || "")}" maxlength="12" aria-label="${isCardio(u) ? L("Dauer", "Duration") : isTimeU(u) ? L("Sekunden", "Seconds") : L("Wiederholungen", "Reps")}">
-      <span class="dlast n" title="${L("Zuletzt", "Last time")}">${lastKg(u)}</span>
+      <span class="dlast n" title="${L("Zuletzt", "Last time")}">${dpLastKg(u)}</span>
       ${u._ask ? `<span class="dask"><button type="button" class="danger mini" data-act="delyes">${L("Löschen", "Delete")}</button><button type="button" class="ghost mini" data-act="nodel" aria-label="${L("Abbrechen", "Cancel")}">×</button></span>`
-        : `<details class="dmenu"><summary aria-label="${L("Weitere Aktionen", "More actions")}">⋯</summary><div class="dmpop">${vidLinkFor(u.name, "sm")}<button type="button" class="ghost mini" data-act="alt">⇄ ${L("Ersetzen", "Replace")}</button>${ssOk(u) ? `<button type="button" class="ghost mini" data-act="ss">⇅ ${L("Supersatz", "Superset")}</button>` : ""}<button type="button" class="ghost mini" data-act="edit">${L("Bearbeiten", "Edit")}</button>${i > 0 ? `<button type="button" class="ghost mini" data-act="up">↑ ${L("Nach oben", "Move up")}</button>` : ""}<button type="button" class="danger mini" data-act="del">${L("Löschen", "Delete")}</button></div></details>`}
+        : `${PLAN2 ? vidLinkFor(u.name, "sm pl2v") : ""}<details class="dmenu"><summary aria-label="${L("Weitere Aktionen", "More actions")}">⋯</summary><div class="dmpop">${PLAN2 ? "" : vidLinkFor(u.name, "sm")}<button type="button" class="ghost mini" data-act="alt">⇄ ${L("Ersetzen", "Replace")}</button>${ssOk(u) ? `<button type="button" class="ghost mini" data-act="ss">⇅ ${L("Supersatz", "Superset")}</button>` : ""}<button type="button" class="ghost mini" data-act="edit">${L("Bearbeiten", "Edit")}</button>${i > 0 ? `<button type="button" class="ghost mini" data-act="up">↑ ${L("Nach oben", "Move up")}</button>` : ""}<button type="button" class="danger mini" data-act="del">${L("Löschen", "Delete")}</button></div></details>`}
       ${altOpen === u.id ? altPanel(u) : ""}${ssOpenId === u.id ? ssPanel(u) : ""}
     </article>`; };
-  return `<div class="dpt"><div class="dphd"><span></span><span></span><span>${L("Übung", "Exercise")}</span><span>${L("Muskeln", "Muscles")}</span><span>${L("Sätze", "Sets")}</span><span>${L("Wdh.", "Reps")}</span><span>${L("Zuletzt", "Last")}</span><span></span></div>
+  return `<div class="dpt"><div class="dphd"><span></span><span></span><span>${L("Übung", "Exercise")}</span>${PLAN2 ? "" : `<span>${L("Muskeln", "Muscles")}</span>`}<span>${L("Sätze", "Sets")}</span><span>${L("Wdh.", "Reps")}</span><span>${L("Zuletzt", "Last")}</span><span></span>${PLAN2 ? "<span></span>" : ""}</div>
     ${list.length ? list.map(row).join("") : `<div class="empty">${L("Noch keine Übungen für diesen Tag. Wähle rechts aus der Bibliothek oder leg unten eine eigene an.", "No exercises for this day yet. Pick from the library on the right or add your own below.")}</div>`}</div>`;
 }
 function renderDpFoot(){
@@ -10242,19 +10420,20 @@ function renderDpLib(keep){
   let list = LIB.map((x, i) => ({ x, i })).filter(({ x }) => libFit(x));
   if (q) list = list.map(o => (o.r = sRank(libNames(o.x), libNames(o.x) + " " + o.x.p.map(m => MUSCLES[m]?.n || "").join(" "), q, o.x), o)).filter(o => o.r).sort((a, b) => b.r - a.r || a.i - b.i);
   else list = list.filter(({ x }) => !has(x));
+  if (PLAN2 && selection.size) { const sel = [...selection].map(bm); list = list.filter(({ x }) => x.p.concat(x.s).some(m => sel.includes(bm(m)))); }
   if (dpLibChip) { const [t, v] = dpLibChip.split(":"); list = list.filter(({ x }) => t === "c" ? x.cat === v : t === "g" ? x.g === v : x.p.some(m => DP_REG[v].test(m) || DP_REG[v].test(bm(m)))); }
   let sugg = false;
-  if (!q && !dpLibChip) { const c = countMuscles(cur ? unitsFor(p, cur) : p.units); const reg = cur && isUpperLower(p) ? region(cur) : ORDER; const gap = new Set(reg.filter(m => !c[m]));
+  if (!q && !dpLibChip && !(PLAN2 && selection.size)) { const c = countMuscles(cur ? unitsFor(p, cur) : p.units); const reg = cur && isUpperLower(p) ? region(cur) : ORDER; const gap = new Set(reg.filter(m => !c[m]));
     if (gap.size) { sugg = true; list = list.filter(({ x }) => !x.cardio && x.p.some(m => gap.has(bm(m)) || gap.has(m))).sort((a, b) => b.x.p.filter(m => gap.has(bm(m))).length - a.x.p.filter(m => gap.has(bm(m))).length); } }
   const DP_MAX = 40, res = list.slice(0, DP_MAX);
-  const items = res.length ? `<ul class="dplist">${res.map(({ x, i }) => `<li draggable="true" data-li="${i}"><div><b>${esc(xn(x))}${has(x) ? ` <span class="inplan"><span aria-hidden="true">✓ </span>${L("Im Plan", "In plan")}</span>` : ""}</b>${akaLine(x, q)}<span class="hint">${esc(x.p.slice(0, 2).map(m => MUSCLES[m].n).join(" · "))} · ${esc(gearName(x.g))}</span></div><button type="button" class="dpplus" data-dl="add" data-i="${i}" aria-label="${esc(xn(x))} ${L("hinzufügen", "add")}">+</button></li>`).join("")}</ul>`
+  const items = res.length ? `<ul class="dplist">${res.map(({ x, i }) => `<li draggable="true" data-li="${i}">${PLAN2 ? mfig(x.p, x.s) : ""}<div><b>${esc(xn(x))}${has(x) ? ` <span class="inplan"><span aria-hidden="true">✓ </span>${L("Im Plan", "In plan")}</span>` : ""}</b>${akaLine(x, q)}<span class="hint">${esc(x.p.slice(0, 2).map(m => MUSCLES[m].n).join(" · "))} · ${esc(gearName(x.g))}</span></div><button type="button" class="dpplus" data-dl="add" data-i="${i}" aria-label="${esc(xn(x))} ${L("hinzufügen", "add")}">+</button></li>`).join("")}</ul>`
     : `<p class="hint">${L("Nichts gefunden.", "Nothing found.")}</p>`;
   const body = `${sugg ? `<p class="hint dpsugg">${L("Vorschläge für Muskeln, die an diesem Tag noch fehlen:", "Suggestions for muscles still missing on this day:")}</p>` : ""}${items}${list.length > DP_MAX ? `<button type="button" class="ghost mini" data-dl="more">${L(`Alle ${list.length} in der Bibliothek ansehen`, `See all ${list.length} in the library`)} →</button>` : ""}`;
   if (keep && $("dpLibRes")) { $("dpLibRes").innerHTML = body; return; }
   $("dpLib").innerHTML = `<div class="dch"><h2>${L("Bibliothek", "Library")}</h2><span class="label">${LIB.length}+ ${L("Übungen", "exercises")}</span></div>
     ${flexP ? `<p class="hint yogahint">🧘 ${YOGA_HINT()}<small>${YOGA_SAFE()}</small></p>` : ""}
     <input id="dpLibQ" type="search" value="${esc(dpLibQ)}" placeholder="⌕ ${L("Übung suchen …", "Search exercise …")}" aria-label="${L("Übung suchen", "Search exercise")}">
-    <div class="chips dpchips">${(flexP ? DP_CHIPS_FLEX : DP_CHIPS).map(([k, n]) => `<button type="button" class="chip" data-dl="chip" data-v="${k}" aria-pressed="${dpLibChip === k}">${k[0] === "g" ? esc(gearName(n)) : L(n, { Brust: "Chest", "Rücken": "Back", Schultern: "Shoulders", Arme: "Arms", Beine: "Legs", Bauch: "Core" }[n])}</button>`).join("")}</div>
+    <div class="chips dpchips">${PLAN2 && selection.size ? `<button type="button" class="chip pl2mc" data-dl="mus" aria-pressed="true" aria-label="${L("Muskel-Filter entfernen", "Remove muscle filter")}">${esc([...selection].map(m => MUSCLES[m].n).join(", "))} ✕</button>` : ""}${(flexP ? DP_CHIPS_FLEX : DP_CHIPS).map(([k, n]) => `<button type="button" class="chip" data-dl="chip" data-v="${k}" aria-pressed="${dpLibChip === k}">${k[0] === "g" ? esc(gearName(n)) : L(n, { Brust: "Chest", "Rücken": "Back", Schultern: "Shoulders", Arme: "Arms", Beine: "Legs", Bauch: "Core" }[n])}</button>`).join("")}</div>
     <div id="dpLibRes">${body}</div>`;
 }
 function dpAddLib(i, beforeId, after){
@@ -10268,10 +10447,168 @@ function dpAddLib(i, beforeId, after){
 function dpLibClick(e){
   const b = e.target.closest("[data-dl]"); if (!b) return; const a = b.dataset.dl;
   if (a === "chip") { dpLibChip = dpLibChip === b.dataset.v ? "" : b.dataset.v; renderDpLib(); return; }
+  if (a === "mus") { $("clearSel").click(); renderDpLib(); return; }
   if (a === "add") { dpAddLib(+b.dataset.i); return; }
   if (a === "more") { openAdd("lib"); dskScrollTo($("addSec")); }
 }
 function dpFlash(){ const s = $("dpSaved"); if (!s) return; s.classList.remove("fl"); void s.offsetWidth; s.classList.add("fl"); }
+// ---------- Neuer Plan-Bereich (nur Dev, Vincent 02.11.2026): html.pl2 ----------
+// Handy: ein Tag auf einmal mit Reitern, Übung = eine Zeile mit ⋯-Menü von unten, „Übung hinzufügen“ als Blatt, Plan-Menü ⋯, kleine Abdeckungs-Karte.
+// PC: große anklickbare Muskel-Figur links (filtert die Bibliothek), Plan-Knöpfe oben, Kennzahlen im Tageskopf. Überall: Mini-Figur bei jeder Übung in der Bibliothek.
+const pl2Fb = () => { try { return fbCfg(); } catch(e) { return null; } }; // beim ersten Zeichnen gibt es fbCfg noch nicht
+const MF_BASE = ORDER.filter(m => !MUSCLES[m].parent);
+if (PLAN2) {
+  document.documentElement.classList.add("pl2");
+  const sym = side => `<symbol id="mf-${side}" viewBox="0 0 200 400">${SIL.replace('<g class="sil">', '<g style="fill:var(--mfsil);stroke:var(--mfsil)">')}${SHAPES[side].map(([id, s]) => { const t = s.replace(/<path class="cut" d="[^"]*"\/>/g, ""); return `<g style="fill:var(--m-${id},var(--mf0))">${t}${MIRROR(t)}</g>`; }).join("")}</symbol>`;
+  const d = document.createElement("div"); d.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">${sym("front")}${sym("back")}</svg>`; document.body.appendChild(d.firstChild);
+}
+function mfFig(vars, cls){ return `<span class="mfig${cls ? " " + cls : ""}" style="${vars}" aria-hidden="true"><svg viewBox="0 0 200 400"><use href="#mf-front"/></svg><svg viewBox="0 0 200 400"><use href="#mf-back"/></svg></span>`; }
+// Mini-Figur einer Übung: Hauptmuskeln rot, Nebenmuskeln schwächer
+function mfig(p, s){ const v = m => [...new Set((m || []).map(bm))]; return mfFig(v(s).map(m => `--m-${m}:var(--mfs)`).concat(v(p).map(m => `--m-${m}:var(--mfp)`)).join(";")); }
+function covFig(c){ return mfFig(MF_BASE.filter(m => c[m]).map(m => `--m-${m}:var(--cov${Math.min(c[m], 4)})`).join(";"), "cov"); }
+function dpLastKg(u){ const L0 = sortedLog(u); const e = L0[L0.length - 1]; if (!e) return "–"; if (e.cardio) return e.cardio.min ? fmtMin(e.cardio.min) : "–"; const t = topSet(e); return t.kg ? fmt(t.kg) : t.sec != null ? secTxt(t.sec) : t.reps ? `${t.reps}×` : "–"; }
+function pl2Stats(list){ const st = settings();
+  const sets = list.filter(u => !isCardio(u)).reduce((n, u) => n + (parseInt(u.sets, 10) || 0), 0);
+  const sec = list.reduce((n, u) => { if (isCardio(u)) return n + (parseFloat(String(u.reps).replace(",", ".")) || 0) * 60; const s = parseInt(u.sets, 10) || 0; return n + s * (45 + (st.restSet || 90)) + (st.restEx || 120); }, 0);
+  const c = countMuscles(list); return { sets, sec, groups: MF_BASE.filter(m => c[m]).length, c }; }
+const pl2Ex = n => LANG === "en" ? `${n} ${n === 1 ? "exercise" : "exercises"}` : `${n} ${n === 1 ? "Übung" : "Übungen"}`;
+function pl2Row(p, u, i, hasPrev){
+  const tg = musShort(u).slice(0, 2), ss = !!ssPartner(p, u), nm = u.nick || u.name;
+  const sr = isCardio(u) ? esc(u.reps || "–") : `${esc(u.sets || "–")} × ${esc(u.reps || "–")}`, kg = dpLastKg(u);
+  return `<article class="unit pl2u${u.id === focusId ? " on" : ""}${ss ? " ss" : ""}" data-id="${u.id}" tabindex="0" aria-label="${esc(nm)}">
+    <span class="pl2no n">${i + 1}</span>
+    <div class="pl2nm"><b>${esc(nm)}</b><span class="hint">${esc(tg.join(" · "))}${ss ? ` · <span class="ssl">${L("Supersatz", "Superset")}</span>` : ""}${exNote(u.name) ? " · 📝" : ""}</span>${u.spare ? `<span class="hint">${L(`Ersatz für ${esc(u.altOf || "")}`, `Stand-in for ${esc(u.altOf || "")}`)} <button type="button" class="ghost mini" data-act="unspare">${L("Fest einplanen", "Keep in plan")}</button></span>` : ""}</div>
+    <div class="pl2sr"><b class="n">${sr}</b>${kg !== "–" ? `<span class="hint n">${esc(kg)}${/^[\d,.]+$/.test(kg) ? " kg" : ""}</span>` : ""}</div>
+    <button type="button" class="pl2more" data-pl2="umenu" aria-haspopup="dialog" aria-label="${esc(L(`Aktionen für ${nm}`, `Actions for ${nm}`))}">⋯</button>
+    <div class="acts" hidden>${hasPrev ? `<button type="button" data-act="up">↑</button>` : ""}<button type="button" data-act="alt">⇄</button>${ssOk(u) ? `<button type="button" data-act="ss">⇅</button>` : ""}<button type="button" data-act="edit">✎</button><button type="button" data-act="del">×</button></div>
+    ${u._ask ? `<div class="pl2ask"><span>${esc(L(`${nm} löschen?`, `Delete ${nm}?`))}</span><button type="button" class="danger mini" data-act="delyes">${L("Ja, löschen", "Yes, delete")}</button><button type="button" class="ghost mini" data-act="nodel">${L("Abbrechen", "Cancel")}</button></div>` : ""}
+    ${altOpen === u.id ? altPanel(u) : ""}${ssOpenId === u.id ? ssPanel(u) : ""}
+  </article>`;
+}
+function pl2UnitsHTML(p){
+  const ds = hasDays(p) ? daysOf(p) : [], cur = ds.length ? dpDayOf(p) : null, nd = ds.length ? nextDay(p) : null;
+  const list = cur ? unitsFor(p, cur) : planUnits(p), st = pl2Stats(list), n = planUnits(p).length;
+  const card = `<div class="pl2card"><div><span class="label">${L("Dein Plan", "Your plan")}${ds.length ? " · " + L(`${ds.length} Tage`, `${ds.length} days`) : ""} · ${pl2Ex(n)}</span><span class="hint">${L("Automatisch gespeichert", "Saved automatically")}</span></div>${pl2Fb() ? `<button type="button" class="ghost mini" data-pl2="share">↗ ${L("Teilen", "Share")}</button>` : ""}<button type="button" class="ghost mini" data-pl2="pv">⎙ PDF</button></div>`;
+  const tabs = ds.length ? `<div class="pl2tabs" role="tablist" aria-label="${L("Trainingstage", "Training days")}">${ds.map(d => `<button type="button" role="tab" data-pl2="day" data-day="${esc(d.id)}" aria-selected="${d.id === cur}">${esc(d.name)} <span class="n">${unitsFor(p, d.id).length}</span></button>`).join("")}<button type="button" class="pl2tb" data-pl2="addday" title="${L("Tag hinzufügen", "Add day")}" aria-label="${L("Tag hinzufügen", "Add day")}">＋</button><button type="button" class="pl2tb" data-pl2="days" title="${L("Trainingstage bearbeiten", "Edit training days")}" aria-label="${L("Trainingstage bearbeiten", "Edit training days")}" aria-expanded="${dayMgrOpen}">✎</button></div>` : "";
+  const head = `<div class="pl2dh"><h3>${esc(cur ? dayName(p, cur) : L("Alle Übungen", "All exercises"))}</h3>${cur && cur === nd && list.length ? `<span class="due">${L("ist dran", "up next")}</span>` : ""}<span class="hint n">≈ ${fmtDur(st.sec * 1000)} · ${st.sets} ${L("Sätze", "sets")}</span></div>`;
+  const rows = list.length ? list.map((u, i) => pl2Row(p, u, i, i > 0)).join("") : `<div class="empty">${L("Noch keine Übungen für diesen Tag.", "No exercises for this day yet.")}</div>`;
+  return card + tabs + `<section class="pl2day">${head}${rows}<button type="button" class="pl2add" data-pl2="add">＋ ${L("Übung hinzufügen", "Add exercise")}</button></section>` + pl2CovCard(p, cur, st.c);
+}
+function pl2CovCard(p, cur, c){
+  const all = countMuscles(planUnits(p)), hit = MF_BASE.filter(m => all[m]), miss = MF_BASE.filter(m => !all[m]), n = MF_BASE.filter(m => c[m]).length;
+  return `<button type="button" class="pl2cov" data-pl2="map">${covFig(c)}<span class="pl2covt"><span class="label">${L("Abdeckung", "Coverage")}${cur ? " · " + esc(dayName(p, cur)) : ""}</span><b>${LANG === "en" ? `${n} muscle ${n === 1 ? "group" : "groups"}` : `${n} ${n === 1 ? "Muskelgruppe" : "Muskelgruppen"}`}</b><span class="hint">${L("Ganzer Plan", "Whole plan")}: ${LANG === "en" ? `${hit.length} of ${MF_BASE.length}` : `${hit.length} von ${MF_BASE.length}`}${miss.length ? ` · ${L("fehlt", "missing")}: ${esc(miss.slice(0, 3).map(m => MUSCLES[m].n).join(", "))}${miss.length > 3 ? ` ${L(`und ${miss.length - 3} weitere`, `and ${miss.length - 3} more`)}` : ""}` : ""}</span></span><i aria-hidden="true">›</i></button>`;
+}
+// Blatt von unten (Handy)
+function pl2Sheet(html, cls){
+  let sh = $("pl2Sh"); if (!sh) { sh = document.createElement("div"); sh.id = "pl2Sh"; sh.className = "pl2sh"; sh.setAttribute("role", "dialog"); sh.setAttribute("aria-modal", "true"); document.body.appendChild(sh); sh.addEventListener("click", pl2ShClick); }
+  sh.innerHTML = `<div class="pl2bd" data-pl2s="close"></div><div class="pl2pan${cls ? " " + cls : ""}"><span class="pl2grab" aria-hidden="true"></span><button type="button" class="pl2x" data-pl2s="close" aria-label="${L("Schließen", "Close")}">✕</button>${html}</div>`;
+  sh.hidden = false; document.body.classList.add("pl2open"); requestAnimationFrame(() => sh.querySelector(".pl2it")?.focus({ preventScroll: true }));
+}
+function pl2Close(){ const sh = $("pl2Sh"); if (sh) sh.hidden = true; document.body.classList.remove("pl2open"); }
+const pl2It = (a, ic, t, s, cls) => `<button type="button" class="pl2it${cls ? " " + cls : ""}" data-pl2s="${a}"><i aria-hidden="true">${ic}</i><span><b>${t}</b>${s ? `<small>${s}</small>` : ""}</span></button>`;
+var pl2UId = null;
+function pl2UMenu(id){
+  const p = plan(), u = p.units.find(x => x.id === id); if (!u) return; pl2UId = id;
+  const cur = hasDays(p) ? dpDayOf(p) : null, list = cur ? unitsFor(p, cur) : planUnits(p), i = list.indexOf(u), nm = u.nick || u.name, o = ssPartner(p, u), kg = dpLastKg(u);
+  pl2Sheet(`<div class="pl2shh"><span class="pl2no n">${i + 1}</span><div><h3>${esc(nm)}</h3><span class="hint">${isCardio(u) ? esc(u.reps || "") : `${esc(u.sets || "–")} × ${esc(u.reps || "–")}`}${kg !== "–" ? ` · ${esc(kg)}` : ""}</span></div></div>
+    <div class="tags">${unitSel(u).map(m => `<span class="tag">${esc(MUSCLES[m]?.n || m)}</span>`).join("")}</div>${ssBadge(u)}
+    <div class="pl2list"><a class="pl2it" href="${esc(vidUrl(u.name))}" target="_blank" rel="noopener noreferrer" data-pl2s="close"><i aria-hidden="true">▶</i><span><b>${L("Video ansehen", "Watch video")}</b><small>${L("Anleitung zur Übung", "How to do the exercise")}</small></span></a>
+    ${pl2It("edit", "✎", L("Bearbeiten", "Edit"), L("Name, Sätze, Wiederholungen, Muskeln", "Name, sets, reps, muscles"))}
+    ${pl2It("alt", "⇄", L("Ersetzen", "Replace"), L("Andere Übung für dieselben Muskeln", "Another exercise for the same muscles"))}
+    ${ssOk(u) ? pl2It("ss", "⇅", L("Supersatz", "Superset"), o ? L(`Mit ${esc(o.nick || o.name)} verbunden`, `Paired with ${esc(o.nick || o.name)}`) : L("Mit einer anderen Übung im Wechsel", "Alternate with another exercise")) : ""}
+    ${i > 0 ? pl2It("up", "↑", L("Nach oben", "Move up"), "") : ""}
+    ${pl2It("del", "🗑", L("Löschen", "Delete"), "", "dang")}</div>`, "pl2um");
+}
+function pl2PMenu(){
+  const p = plan(), ds = daysOf(p);
+  pl2Sheet(`<h3 class="pl2sht">${L("Plan", "Plan")} · ${esc(p.name)}</h3><div class="pl2list">
+    ${pl2It("new", "＋", L("Neuer Plan", "New plan"), "")}
+    ${pl2It("ren", "✎", L("Plan umbenennen", "Rename plan"), "")}
+    ${pl2It("days", "▦", L("Trainingstage bearbeiten", "Edit training days"), ds.length ? esc(ds.map(d => d.name).join(", ")) + " · " + L("hinzufügen, umbenennen, löschen", "add, rename, delete") : L("In Trainingstage aufteilen", "Split into training days"))}
+    ${pl2It("imp", "⇪", L("Plan importieren", "Import plan"), L("aus PDF oder Text", "from PDF or text"))}
+    ${pl2It("pv", "⎙", L("Druckvorschau & PDF", "Print preview & PDF"), "")}
+    ${pl2It("txt", "⧉", L("Als Text kopieren", "Copy as text"), "")}
+    ${pl2Fb() ? pl2It("share", "↗", L("Mit Freunden teilen", "Share with friends"), "") : ""}
+    ${pl2It("home", "⌂", L("Zuhause-Version", "Home version"), "")}
+    ${pl2It("info", "ⓘ", L("Mehr dazu", "More info"), L("Erklärung zum Plan-Bereich", "How the plan section works"))}
+    ${pl2It("pdel", "🗑", L("Plan löschen", "Delete plan"), "", "dang")}</div>`, "pl2pm");
+}
+function pl2Scroll(el){ if (el) requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - 70), behavior: "smooth" }))); }
+function pl2Days(open){ dayMgrOpen = open == null ? !dayMgrOpen : open; renderDayMgr(); renderUnits(); if (dayMgrOpen) pl2Scroll($("dayMgr")); }
+function pl2AddDay(){ dayMgrOpen = true; renderDayMgr(); $("dayMgr").querySelector('[data-dm="add"]')?.click(); const p = plan(), ds = daysOf(p); if (ds.length) { dpDay = ds[ds.length - 1].id; formDay = dpDay; } renderAll(); pl2Scroll($("dayMgr")); }
+// „Übung hinzufügen“ als Blatt: der bisherige Bereich (Bibliothek, Selbst anlegen, Importieren) wird zum Blatt
+var pl2AddHome = null;
+function pl2Add(o, tab){
+  // Blatt liegt solange direkt im body, damit es über der unteren Leiste liegt; danach zurück an seinen Platz
+  const sec = $("addSec");
+  if (o && !DSK() && sec.parentElement !== document.body) { pl2AddHome = document.createComment("addSec"); sec.before(pl2AddHome); document.body.appendChild(sec); }
+  if (!o && pl2AddHome) { pl2AddHome.replaceWith(sec); pl2AddHome = null; }
+  document.body.classList.toggle("pl2add", !!o);
+  if (o) { const p = plan(), cur = hasDays(p) ? dpDayOf(p) : null; if (cur && !editingId) formDay = cur; $("pl2AddTo").textContent = cur ? L(`zu ${dayName(p, cur)}`, `to ${dayName(p, cur)}`) : ""; openAdd(tab || addTab || "lib"); $("addSec").scrollTop = 0; }
+}
+function pl2Act(a, b){
+  const p = plan();
+  if (a === "day") { dpDay = b.dataset.day; formDay = dpDay; altOpen = null; ssOpenId = null; focusId = null; renderAll(); return; }
+  if (a === "addday") { pl2AddDay(); return; }
+  if (a === "days") { pl2Days(); return; }
+  if (a === "add") { pl2Add(true, "lib"); return; }
+  if (a === "umenu") { pl2UMenu(b.closest(".unit").dataset.id); return; }
+  if (a === "map") { const cur = hasDays(p) ? dpDayOf(p) : null; dayFilter = cur || "alle"; focusId = null; document.body.classList.add("pl2map"); renderDayUI(); renderMap(); renderCover(); window.scrollTo(0, 0); return; }
+  if (a === "pv") { $("openPv").click(); return; }
+  if (a === "share") { frOpenShare(p.id); return; }
+}
+function pl2ShClick(e){
+  const b = e.target.closest("[data-pl2s]"); if (!b) return; const a = b.dataset.pl2s;
+  if (a === "close") { pl2Close(); return; }
+  e.preventDefault(); pl2Close();
+  const id = pl2UId;
+  if (["edit", "alt", "ss", "up", "del"].includes(a)) {
+    const btn = $("units").querySelector(`.unit[data-id="${CSS.escape(id)}"] .acts [data-act="${a}"]`); if (!btn) return; btn.click();
+    if (a === "edit") { pl2Add(true, "own"); return; }
+    if (a !== "up") pl2Scroll($("units").querySelector(`.unit[data-id="${CSS.escape(id)}"]`));
+    return; }
+  if (a === "new") { $("newPlan").click(); pl2Scroll($("planEdit")); return; }
+  if (a === "ren") { $("renPlan").click(); pl2Scroll($("planEdit")); return; }
+  if (a === "days") { if (daysOf(plan()).length) pl2Days(true); else pl2AddDay(); return; }
+  if (a === "imp") { pl2Add(true, "imp"); return; }
+  if (a === "pv") { $("openPv").click(); return; }
+  if (a === "txt") { $("copyTxt").click(); pl2Scroll($("copyBox")); return; }
+  if (a === "share") { frOpenShare(plan().id); return; }
+  if (a === "home") { const h = $("homeSec"); pl2Scroll(h); const t = h && h.querySelector(".libhead button[aria-expanded=false]"); if (t) t.click(); return; }
+  if (a === "info") { tourStart(); return; }
+  if (a === "pdel") { $("delPlan").click(); pl2Scroll($("planDelAsk")); return; }
+}
+if (PLAN2) {
+  $("units").addEventListener("click", e => { const b = e.target.closest("[data-pl2]"); if (!b || DSK()) return; e.stopImmediatePropagation(); e.preventDefault(); pl2Act(b.dataset.pl2, b); }, true);
+  // Plan-Menü ⋯ oben neben der Plan-Auswahl
+  const pm = document.createElement("button"); pm.type = "button"; pm.id = "pl2PM"; pm.className = "ghost pl2pmb"; pm.textContent = "⋯"; pm.setAttribute("aria-label", L("Plan-Menü", "Plan menu")); pm.setAttribute("aria-haspopup", "dialog");
+  pm.addEventListener("click", pl2PMenu); $("planMenu").after(pm);
+  // Kopf und Schließen fürs Hinzufügen-Blatt, Hintergrund zum Schließen
+  const ah = document.createElement("div"); ah.className = "pl2addh"; ah.innerHTML = `<span class="pl2grab" aria-hidden="true"></span><div><h2>${L("Übung hinzufügen", "Add exercise")}</h2><span class="hint" id="pl2AddTo"></span></div><button type="button" class="pl2x" data-pl2a="close" aria-label="${L("Schließen", "Close")}">✕</button>`;
+  $("addSec").prepend(ah); ah.querySelector("[data-pl2a]").addEventListener("click", () => pl2Add(false));
+  const bd = document.createElement("div"); bd.id = "pl2AddBd"; bd.className = "pl2bd"; bd.addEventListener("click", () => pl2Add(false)); document.body.appendChild(bd);
+  // große Körperkarte als Vollbild (Handy)
+  const mx = document.createElement("div"); mx.className = "pl2maph"; mx.innerHTML = `<h2>${L("Körperkarte", "Muscle map")}</h2><button type="button" class="pl2x" aria-label="${L("Schließen", "Close")}">✕</button>`;
+  document.querySelector(".mapcol").prepend(mx); mx.querySelector("button").addEventListener("click", () => { document.body.classList.remove("pl2map"); renderUnits(); });
+  document.addEventListener("keydown", e => { if (e.key !== "Escape") return; if ($("pl2Sh") && !$("pl2Sh").hidden) pl2Close(); else if (document.body.classList.contains("pl2add")) pl2Add(false); else if (document.body.classList.contains("pl2map")) { document.body.classList.remove("pl2map"); renderUnits(); } });
+  // Nach dem Speichern einer bearbeiteten Übung schließt das Blatt
+  $("form").addEventListener("submit", () => { const was = editingId; setTimeout(() => { if (was && !editingId && !DSK()) pl2Add(false); }, 0); }, true);
+  $("cancelEdit").addEventListener("click", () => { if (!DSK()) pl2Add(false); });
+  // Am PC: Plan-Knöpfe oben im Tageskopf
+  document.addEventListener("click", e => { const b = e.target.closest("#dpHead [data-dp]"); if (!b) return; b.closest("details")?.removeAttribute("open"); if (b.dataset.dp === "info") { tourStart(); return; } dpDaysClick(e); });
+}
+// Muskel auf der großen Figur am PC angeklickt: Hinweis und Bibliothek filtern
+function pl2MapPick(){
+  if (!PLAN2 || !DSK() || view !== "bauen") return;
+  renderDpLib(); const s = [...selection]; if (!s.length) return;
+  const p = plan(), n = planUnits(p).filter(u => s.some(m => hitsM(u, m))).length;
+  $("tip").innerHTML = `<span class="pl2pick">● ${esc(s.map(m => MUSCLES[m].n).join(", "))} · ${LANG === "en" ? `${n} ${n === 1 ? "exercise" : "exercises"} in plan` : `${n} ${n === 1 ? "Übung" : "Übungen"} im Plan`}</span><span class="hint">${L("Die Bibliothek rechts zeigt passende Übungen.", "The library on the right shows matching exercises.")}</span>`;
+}
+function pl2HeadX(p){
+  const cur = dpDayOf(p), st = pl2Stats(cur ? unitsFor(p, cur) : planUnits(p)), b = (a, t) => `<button type="button" class="ghost mini" data-dp="${a}">${t}</button>`;
+  return `<div class="pl2hx"><div class="pl2top">${b("home", "⌂ " + L("Zuhause-Version", "Home version"))}${pl2Fb() ? b("frshare", "↗ " + L("Teilen", "Share")) : ""}${b("pv", "⎙ PDF")}${b("imp", "⇪ " + L("Importieren", "Import"))}<details class="pl2more"><summary class="ghostbtn">⋯ ${L("Mehr", "More")}</summary><div class="pl2pop">${b("ren", "✎ " + L("Plan umbenennen", "Rename plan"))}${b("new", "＋ " + L("Neuer Plan", "New plan"))}${b("txt", "⧉ " + L("Als Text kopieren", "Copy as text"))}${b("info", "ⓘ " + L("Mehr dazu", "More info"))}${b("del", "🗑 " + L("Plan löschen", "Delete plan"))}</div></details></div>
+    <div class="pl2st"><div><b class="n">${fmt(st.sets)}</b><span>${L("Sätze", "Sets")}</span></div><div><b class="n">≈ ${fmtDur(st.sec * 1000)}</b><span>${L("Dauer", "Time")}</span></div><div><b class="n">${st.groups}</b><span>${L("Muskelgruppen", "Muscle groups")}</span></div></div></div>`;
+}
 function wireDpTable(){
   const box = $("units");
   // Eingabefelder und Menü in der Tabelle sollen nicht die ganze Zeile anklicken
@@ -10312,7 +10649,7 @@ renderAll();
 applyFresh();
 try { swSyncRun(true); if (navigator.serviceWorker) navigator.serviceWorker.ready.then(() => setTimeout(() => swSyncRun(true), 300)); } catch(e) {}
 // ---------- Yoga-Empfehlungen: Dehnen nach dem Krafttraining, Lücken im Yoga-Plan ----------
-if (YOGA && YOGA2) {
+if (YOGA && (YOGA2 || FXREC)) {
 const FX_G = () => [["beinbeuger", L("die Beinrückseite", "your hamstrings")], ["hueftbeuger", L("die Hüftbeuger", "your hip flexors")], ["gesaess", L("das Gesäß", "your glutes")], ["quadrizeps", L("die Oberschenkel vorne", "your quads")], ["adduktoren", L("die Innenseite der Beine", "your inner thighs")], ["waden", L("die Waden", "your calves")], ["brust", L("die Brust", "your chest")], ["latissimus", L("den breiten Rückenmuskel", "your lats")], ["rueckenunten", L("den unteren Rücken", "your lower back")], ["schultern", L("die Schultern", "your shoulders")], ["nacken", L("den Nacken", "your neck")], ["trizeps", L("den Trizeps", "your triceps")]];
 const fxHit = (ms, g) => ms.some(m => m === g || bm(m) === g || (g === "brust" && /^brust/.test(m)) || (g === "schultern" && /^schulter/.test(m)) || (g === "rueckenunten" && m === "unterer_ruecken"));
 const fxName = g => (FX_G().find(x => x[0] === g) || [, g])[1];
@@ -10829,7 +11166,7 @@ function renderSet(){
     <div class="seth"><h2>${L("Einstellungen", "Settings")}</h2><button type="button" class="setx" data-set="close" aria-label="${L("Schließen", "Close")}">✕</button></div>
     <div class="setsec" id="setSecLang"><span class="label">${L("Sprache", "Language")}</span>${seg("lang", [["de", "🇩🇪 Deutsch"], ["en", "🇬🇧 English"]], LANG)}</div>
     <div class="setsec" id="setSecTheme"><span class="label">${L("Helligkeit", "Brightness")}</span>${seg("theme", [["light", "☀ " + L("Hell", "Light")], ["dark", "☾ " + L("Dunkel", "Dark")], ["system", "◐ System"]], themePref)}</div>
-    ${YOGA && YOGA2 && (state.fxOff || state.plans.some(p => ptype(p) === "beweglich")) ? `<div class="setsec" id="setSecFx"><span class="label">${L("Yoga-Empfehlungen (Übungen vorschlagen)", "Yoga suggestions (recommend exercises)")}</span>${seg("fxrec", [["on", L("An", "On")], ["off", L("Aus", "Off")]], state.fxOff ? "off" : "on")}</div>` : ""}
+    ${YOGA && (YOGA2 || FXREC) && (state.fxOff || state.plans.some(p => ptype(p) === "beweglich")) ? `<div class="setsec" id="setSecFx"><span class="label">${L("Yoga-Empfehlungen (Übungen vorschlagen)", "Yoga suggestions (recommend exercises)")}</span>${seg("fxrec", [["on", L("An", "On")], ["off", L("Aus", "Off")]], state.fxOff ? "off" : "on")}</div>` : ""}
     <div class="setsec" id="setSecSkin"><span class="label setskh">Skin<button type="button" class="setall" data-set="all">${setAll ? L("Weniger zeigen", "Show fewer") : L(`Alle ${all.length} ansehen`, `See all ${all.length}`)} ›</button></span>
       <div class="setskins${setAll ? " all" : ""}">${list.map(setSkinTile).join("")}</div>
       ${locks ? `<p class="hint setlk">🔒 = ${L("wird durch Meilensteine freigeschaltet", "unlocked by milestones")}</p>` : ""}</div>
@@ -11506,6 +11843,7 @@ function admOpen(code){ if (String(code || "").trim().toUpperCase() !== ADM_CODE
 // ----- Feedback aus der App: jeder kann schreiben (auch ohne Online-Konto), lesen kann nur der Entwickler (Admin-Konto in firestore.rules) -----
 const FDB_K = () => [["bug", "🐞 " + L("Fehler", "Bug")], ["wish", "💡 " + L("Wunsch", "Wish")], ["praise", "👍 " + L("Lob", "Praise")], ["other", "💬 " + L("Sonstiges", "Other")]];
 const FDB_ST = () => ({ new: L("neu", "new"), read: L("gelesen", "read"), done: L("erledigt", "done") });
+const FDB_MAX = 500; // Zeichen pro Feedback (Vincent 29.10.)
 let fdb = { view: "send", k: "bug", msg: "", busy: false, mine: null, list: null, filt: "all", err: "", ask: null, nNew: null };
 const fdbGet = (k, d) => { try { return JSON.parse(localStorage.getItem("muskelplan." + k)) || d; } catch(e) { return d; } };
 const fdbPut = (k, v) => { try { localStorage.setItem("muskelplan." + k, JSON.stringify(v)); } catch(e) {} };
@@ -11516,7 +11854,7 @@ function fdbSlot(){ const d = todayIso().replace(/-/g, ""), c = fdbGet("fbn", {}
 async function fdbWrite(o){ await fbToken(); const id = `${C.uid}_${o.d}_${o.n}`;
   await fsCommit([wSet(`feedback/${id}`, { uid: C.uid, acc: cloudOn() ? C.acc : "", k: o.k, x: o.x, c: o.c, info: o.info, ts: o.ts, st: "new", a: "" }, { currentDocument: { exists: false } })]); return id; }
 async function fdbSend(){
-  const x = ($("fdbX").value || "").trim().slice(0, 1000), c = ($("fdbC").value || "").trim().slice(0, 100);
+  const x = ($("fdbX").value || "").trim().slice(0, FDB_MAX), c = ($("fdbC").value || "").trim().slice(0, 100);
   if (!x) { fdb.msg = L("Schreib zuerst etwas.", "Write something first."); renderSet(); return; }
   const s = fdbSlot(); if (!s) { fdb.msg = L("Heute hast du schon 5 Nachrichten geschickt. Morgen geht es wieder.", "You've already sent 5 messages today. Try again tomorrow."); renderSet(); return; }
   const o = { k: fdb.k, x, c, info: $("fdbI").checked ? fdbInfo() : "", ts: Date.now(), d: s.d, n: s.n };
@@ -11528,7 +11866,11 @@ async function fdbSend(){
 }
 // Nachrichten ohne Internet später nachschicken
 async function fdbFlush(){ const q = fdbGet("fbq", []); if (!q.length || !fbCfg() || fbCfg().demo) return; const rest = [];
-  for (const o of q) { try { await fdbWrite(o); } catch(e) { if (e.code === 0) rest.push(o); } } fdbPut("fbq", rest); }
+  for (const o of q) {
+    // älter als ein Tag: neuer Platz von heute, sonst lehnen die Regeln ab
+    if (Date.now() - o.ts > 864e5) { const s = fdbSlot(); if (!s) { rest.push(o); continue; } Object.assign(o, { d: s.d, n: s.n, ts: Date.now() }); fdbPut("fbn", { d: s.d, n: s.n }); }
+    try { await fdbWrite(o); } catch(e) { if (e.code === 0) rest.push(o); } } fdbPut("fbq", rest); }
+document.addEventListener("input", e => { if (e.target.id === "fdbX" && $("fdbN")) $("fdbN").textContent = `${e.target.value.length} / ${FDB_MAX}`; });
 addEventListener("online", () => setTimeout(fdbFlush, 1500)); setTimeout(fdbFlush, 4000);
 async function fdbLoad(adm2){
   fdb.busy = true; fdb.err = ""; renderSet();
@@ -11563,15 +11905,15 @@ function fdbHTML(){
   const kp = fdb.keep || {};
   return head("💬 " + L("Feedback senden", "Send feedback")) + msg + `<p class="hint">${L("Ein Fehler, ein Wunsch oder einfach Lob? Die Nachricht geht direkt an den Entwickler. Trainingsdaten werden nicht mitgeschickt.", "A bug, a wish or just praise? The message goes straight to the developer. No workout data is sent.")}</p>
     <div class="setseg fdbkind" role="group">${FDB_K().map(([v, t]) => `<button type="button" data-fdb="k" data-v="${v}" aria-pressed="${v === fdb.k}">${t}</button>`).join("")}</div>
-    <label class="label" for="fdbX">${L("Deine Nachricht", "Your message")}</label><textarea id="fdbX" maxlength="1000" rows="5">${esc(kp.x || "")}</textarea>
+    <label class="label" for="fdbX">${L("Deine Nachricht", "Your message")}</label><textarea id="fdbX" maxlength="${FDB_MAX}" rows="5">${esc(kp.x || "")}</textarea><span class="hint fdbcnt" id="fdbN" aria-live="polite">${(kp.x || "").length} / ${FDB_MAX}</span>
     <label class="label" for="fdbC">${L("Kontakt, falls du eine Antwort möchtest (freiwillig)", "Contact, if you'd like a reply (optional)")}</label><input id="fdbC" maxlength="100" autocomplete="off" value="${esc(kp.c || "")}">
-    <label class="fdbchk"><input type="checkbox" id="fdbI" checked> <span>${L("Technische Infos mitsenden (Version, Sprache, Gerät, Bildschirm, Browser)", "Include technical info (version, language, device, screen, browser)")}</span></label>
+    <label class="fdbchk"><input type="checkbox" id="fdbI"${kp.i === false ? "" : " checked"}> <span>${L("Technische Infos mitsenden (Version, Sprache, Gerät, Bildschirm, Browser)", "Include technical info (version, language, device, screen, browser)")}</span></label>
     <div class="clrow"><button type="button" class="primary" data-fdb="send"${fdb.busy ? " disabled" : ""}>${fdb.busy ? L("Sendet …", "Sending …") : L("Senden", "Send")}</button><button type="button" class="ghost" data-fdb="mine">${L("Meine Nachrichten", "My messages")} ›</button></div>`;
 }
 async function fdbAct(b){
   const a = b.dataset.fdb, id = b.dataset.id, el = $("setPanel");
   if (a === "back") { if (fdb.view === "mine") fdb.view = "send"; else setPage = ""; fdb.msg = ""; fdb.err = ""; renderSet(); el.scrollTop = 0; return; }
-  if (a === "k") { fdb.k = b.dataset.v; fdb.keep = { x: $("fdbX").value, c: $("fdbC").value }; renderSet(); return; }
+  if (a === "k") { fdb.k = b.dataset.v; fdb.keep = { x: $("fdbX").value, c: $("fdbC").value, i: $("fdbI").checked }; renderSet(); return; }
   if (a === "adm") { setPage = "fdb"; fdb.view = "adm"; fdb.err = ""; renderSet(); el.scrollTop = 0; fdbLoad(true); return; }
   if (a === "send") return fdbSend();
   if (a === "mine") { fdb.view = "mine"; fdb.msg = ""; renderSet(); el.scrollTop = 0; if (fbCfg() && !fbCfg().demo) fdbLoad(false); else { fdb.mine = []; renderSet(); } return; }
@@ -11612,7 +11954,7 @@ function hcHTML(){
   const row = (id, i, list) => { const fix = D.find(x => x[0] === id)[3], on = !c.h.includes(id);
     return `<li class="hcrow${on ? "" : " off"}"><label><input type="checkbox" data-hc="vis" data-id="${id}" ${on ? "checked" : ""}> <span>${esc(nm(id))}</span></label><span class="hcbtns">${fix ? `<span class="hint">${L("im Workout-Bereich", "inside workouts")}</span>` : `<button type="button" class="ghost mini" data-hc="up" data-id="${id}" aria-label="${L("Nach oben", "Move up")}" ${i === 0 ? "disabled" : ""}>↑</button><button type="button" class="ghost mini" data-hc="dn" data-id="${id}" aria-label="${L("Nach unten", "Move down")}" ${i === list.length - 1 ? "disabled" : ""}>↓</button>${m === "pc" ? `<button type="button" class="ghost mini" data-hc="col" data-id="${id}">⇄ ${c.c[id] === 1 ? L("nach rechts", "to the right") : L("nach links", "to the left")}</button>` : ""}`}</span></li>`; };
   const lists = m === "pc" ? [[1, L("Linke Spalte", "Left column")], [2, L("Rechte Spalte", "Right column")]].map(([k, t]) => { const L0 = c.o.filter(id => (c.c[id] || 2) === k); return `<div class="label">${t}</div><ul class="hclist">${L0.map((id, i) => row(id, i, L0)).join("") || `<li class="hint">–</li>`}</ul>`; }).join("")
-    : `<ul class="hclist">${c.o.map((id, i) => row(id, i, c.o)).join("")}</ul>`;
+    : (() => { const nf = c.o.filter(id => !D.find(x => x[0] === id)[3]); return `<ul class="hclist">${c.o.map(id => row(id, nf.indexOf(id), nf)).join("")}</ul>`; })();
   return `<div class="seth"><button type="button" class="setx cback" data-hc="back" aria-label="${L("Zurück", "Back")}">‹</button><h2>🏠 ${L("Startseite anpassen", "Customize home")}</h2><button type="button" class="setx" data-set="close" aria-label="${L("Schließen", "Close")}">✕</button></div>
     <p class="hint">${m === "pc" ? L("Am PC: was du in der Übersicht siehst, in welcher Spalte und in welcher Reihenfolge. Am Handy stellst du es getrennt ein.", "On the PC: what you see in the overview, in which column and in which order. On your phone you set it separately.") : L("Was du auf der Startseite siehst und in welcher Reihenfolge. Am PC stellst du es getrennt ein.", "What you see on the home screen and in which order. On the PC you set it separately.")}</p>
     ${lists}<div class="clrow"><button type="button" class="ghost" data-hc="reset">↺ ${L("Zurücksetzen", "Reset")}</button><button type="button" class="primary" data-hc="go">${L("Fertig", "Done")}</button></div>`;
@@ -11626,7 +11968,7 @@ function hcAct(b){
   if (a === "vis") { c.h = b.checked ? c.h.filter(x => x !== id) : [...c.h, id]; }
   if (a === "col") c.c[id] = (c.c[id] || 2) === 1 ? 2 : 1;
   if (a === "up" || a === "dn") { // innerhalb derselben Spalte tauschen
-    const same = c.o.filter(x => m !== "pc" || (c.c[x] || 2) === (c.c[id] || 2)), i = same.indexOf(id), j = a === "up" ? i - 1 : i + 1; if (j < 0 || j >= same.length) return;
+    const D0 = m === "pc" ? HC_PC() : HC_PH(), same = c.o.filter(x => !(D0.find(y => y[0] === x) || [])[3] && (m !== "pc" || (c.c[x] || 2) === (c.c[id] || 2))), i = same.indexOf(id), j = a === "up" ? i - 1 : i + 1; if (j < 0 || j >= same.length) return;
     const p = c.o.indexOf(id), q = c.o.indexOf(same[j]); [c.o[p], c.o[q]] = [c.o[q], c.o[p]]; }
   hcSave(m, c); renderSet(); requestAnimationFrame(() => $("setPanel")?.querySelector(`[data-hc="${a}"][data-id="${id}"]`)?.focus());
 }
