@@ -17,7 +17,7 @@
 <body>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Barlow:wght@400;500;600&family=Caveat:wght@600;700&family=Patrick+Hand&family=Permanent+Marker&family=Righteous&family=Press+Start+2P&family=VT323&family=Alfa+Slab+One&family=Special+Elite&family=Courier+Prime:wght@400;700&family=Anton&family=Black+Ops+One&family=Bangers&family=Comic+Neue:wght@400;700&family=Zen+Old+Mincho:wght@700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Share+Tech+Mono&family=Bitter:wght@700&family=Lora:wght@400;600&family=Kalam:wght@400;700&family=Fredoka:wght@500;600&family=Quicksand:wght@600;700&family=Cinzel:wght@700&family=Russo+One&family=Titillium+Web:ital,wght@0,700;1,700&family=Silkscreen&family=MedievalSharp&family=Luckiest+Guy&family=Audiowide&family=Montserrat:wght@700;800&family=Pacifico&family=Bungee&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Barlow:wght@400;500;600;700&family=Caveat:wght@600;700&family=Patrick+Hand&family=Permanent+Marker&family=Righteous&family=Press+Start+2P&family=VT323&family=Alfa+Slab+One&family=Special+Elite&family=Courier+Prime:wght@400;700&family=Anton&family=Black+Ops+One&family=Bangers&family=Comic+Neue:wght@400;700&family=Zen+Old+Mincho:wght@700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Share+Tech+Mono&family=Bitter:wght@700&family=Lora:wght@400;600&family=Kalam:wght@400;700&family=Fredoka:wght@500;600&family=Quicksand:wght@600;700&family=Cinzel:wght@700&family=Russo+One&family=Titillium+Web:ital,wght@0,700;1,700&family=Silkscreen&family=MedievalSharp&family=Luckiest+Guy&family=Audiowide&family=Montserrat:wght@700;800&family=Pacifico&family=Bungee&display=swap">
 <style>
 /* Layout: zwei Spalten – links die Körperkarte (Vorder- & Rückseite, sticky), rechts Plan bauen / Training. Blau = Auswahl, Ampel-Skala Grün→Rot = wie oft ein Muskel im Plan trainiert wird. */
 :root{
@@ -2913,7 +2913,7 @@ html.nui .delta.down{color:var(--muted)!important;background:transparent!importa
   html.nui header > div:has(> h1){grid-column:1;grid-row:1}
   html.nui header .planbar{grid-column:2;grid-row:1;margin:0;padding:0;border:0;min-width:0;display:flex;gap:6px;align-items:center;justify-content:flex-end}
   html.nui header .planbar > .label{display:none}
-  html.nui header #planSel{flex:0 1 auto;min-width:0;max-width:100%;border-radius:999px;padding:6px 28px 6px 12px;font-size:.88rem;min-height:36px}
+  html.nui header #planSel{flex:0 1 auto;min-width:0;max-width:100%;border-radius:999px;padding:6px 28px 6px 12px;font-size:16px;min-height:36px}
   html.nui header .topright{grid-column:3;grid-row:1;margin:0;position:static;display:flex;align-items:center;gap:6px}
   html.nui header .topright .bkchip:not([hidden]){max-width:36px;overflow:hidden;white-space:nowrap;padding:6px 8px}
   html.nui body.view-bauen header .planbar{grid-column:1/-1;grid-row:2;justify-content:flex-start;flex-wrap:wrap}
@@ -3220,6 +3220,259 @@ html.dsk .pl2gi.on{background:color-mix(in srgb,var(--sel) 10%,var(--bg))}
 .pl2empty .primary{min-height:48px}
 .pl2gi:hover{background:var(--panel);border-color:var(--sel);color:var(--ink)}
 .pl2gi.on:hover{background:color-mix(in srgb,var(--sel) 10%,var(--panel))}
+/* Handy-Kopf (App-Tester 02.11.): ⋯ auf Plan immer rechts, sonst öffnet das Menü links außerhalb; ganz schmale Handys: Plan-Auswahl in eigener Zeile */
+@media (max-width:1099px){html.nui body.view-bauen header #planMenu{margin-left:auto}}
+@media (max-width:359px){html.nui body:not(.view-bauen) header .planbar{grid-column:1/-1;grid-row:2}html.nui body:not(.view-bauen) header #planSel{max-width:none}}
+/* ---------- 03.11.: Neues Design „Depot-Stil“ (NEWDS, nur Dev: html.nds, nur Standard-Skin) ---------- */
+html.nds:not([data-skin]){--bg:#F6F7F8;--panel:#FFFFFF;--panel2:#EEF0F2;--s3:#E4E7EA;--tagbg:#EEF0F2;--line:#E6E8EB;--ink:#111418;--muted:#6B737C;--sel:#DC3A2F;--accs:rgba(220,58,47,.10);--good:#12A150;--goods:rgba(18,161,80,.10);--pick:#2F6BEA;--skin:#DDE1E5;--muscle:#B9C0C7;--bad:#DC3A2F;--navbg:rgba(255,255,255,.88);--r:16px;--shadow:none;--hero:var(--panel);--heroline:transparent;--display:"Barlow",system-ui,sans-serif;--logo:"Big Shoulders Display","Arial Narrow",Impact,sans-serif}
+@media (prefers-color-scheme:dark){html.nds:not([data-skin]):not([data-theme="light"]){--bg:#0C0E10;--panel:#16191D;--panel2:#1E2227;--s3:#262B31;--tagbg:#1E2227;--line:#24282E;--ink:#F2F4F5;--muted:#8B939C;--sel:#F0483D;--accs:rgba(240,72,61,.14);--good:#3DD68C;--goods:rgba(61,214,140,.14);--pick:#5B8CFF;--skin:#262B31;--muscle:#3A4149;--bad:#F0483D;--navbg:rgba(12,14,16,.86);--shadow:none;--hero:var(--panel);--heroline:transparent}}
+html.nds:not([data-skin])[data-theme="dark"]{--bg:#0C0E10;--panel:#16191D;--panel2:#1E2227;--s3:#262B31;--tagbg:#1E2227;--line:#24282E;--ink:#F2F4F5;--muted:#8B939C;--sel:#F0483D;--accs:rgba(240,72,61,.14);--good:#3DD68C;--goods:rgba(61,214,140,.14);--pick:#5B8CFF;--skin:#262B31;--muscle:#3A4149;--bad:#F0483D;--navbg:rgba(12,14,16,.86);--shadow:none;--hero:var(--panel);--heroline:transparent}
+html.nds:not([data-skin]) body{background:var(--bg)!important;font-family:var(--body);font-variant-numeric:tabular-nums}
+/* Karten: ohne Rand, Radius 16 */
+html.nds:not([data-skin]) :is(.panel,.rxcard,.ptile,.phero,.hday,.unit,.dash > *,#progSec > section,.dkpi,.dtoday,.hsquick:has(.nuitoday)){border:0!important;border-radius:16px!important;box-shadow:none!important;background:var(--panel)}
+html.nds:not([data-skin]) :is(.phero,.nuitoday,.rvhero){background:var(--panel)!important}
+/* Überschriften: Barlow statt Big Shoulders, nur Logo und Seitentitel bleiben schmal */
+html.nds:not([data-skin]) :is(h2,h3,.nick,.label,.rxkicker){text-transform:none;letter-spacing:0}
+html.nds:not([data-skin]) :is(.panel,.hwork,.dash,.setpanel) :is(h2,h3){font-family:var(--body);font-weight:600;font-size:17px;line-height:1.25}
+html.nds:not([data-skin]) .label{font-family:var(--body);font-weight:500;font-size:13px;color:var(--muted)}
+html.nds:not([data-skin]) .hint{color:var(--muted)}
+/* Knöpfe */
+html.nds:not([data-skin]) button.primary,html.nds:not([data-skin]) .primary{background:var(--sel);color:#fff;border:0;border-radius:14px;font-weight:700}
+html.nds:not([data-skin]) .hsgo,html.nds:not([data-skin]) .dtoday .hsgo{min-height:52px;font-size:16.5px;border-radius:14px}
+html.nds:not([data-skin]) button.ghost,html.nds:not([data-skin]) .ghostbtn{background:var(--panel2);border:0;border-radius:12px;color:var(--ink);font-weight:600}
+html.nds:not([data-skin]) .chip{border:0;background:var(--panel2);border-radius:999px;font-weight:600}
+html.nds:not([data-skin]) .chip[aria-pressed="true"]{background:var(--accs);color:var(--sel)}
+html.nds:not([data-skin]) .seg{background:var(--panel2);border:0;border-radius:12px;padding:3px}
+html.nds:not([data-skin]) .seg button{border:0;background:transparent;border-radius:9px;color:var(--muted);font-weight:600}
+html.nds:not([data-skin]) .seg button[aria-pressed="true"],html.nds:not([data-skin]) .seg button[aria-selected="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+html.nds:not([data-skin]) :is(input,select,textarea){border-radius:12px}
+/* Hover nur mit Maus; nie etwas ausblenden */
+@media (hover:hover){html.nds:not([data-skin]) button.ghost:hover,html.nds:not([data-skin]) .ghostbtn:hover{background:var(--s3)}html.nds:not([data-skin]) button.primary:hover{filter:brightness(1.07)}}
+html.nds:not([data-skin]) :is(button,a,select,input,summary):focus-visible{outline:2px solid var(--pick);outline-offset:2px}
+/* Fußzeile und Dauer-Hinweis weg: Patch Notes, Hinweise und Debug stehen unter ⚙ */
+html.nds:not([data-skin]) footer.foot,html.nds:not([data-skin]) .pagedisc{display:none!important}
+html.nds:not([data-skin]) body:not(.view-home) #firstHint{display:none!important}
+/* Handy-Kopf: 56 px, MP-Logo, Plan-Pille, Punkt, ⚙ */
+.ndsmp{display:none}
+@media (max-width:1099px){
+  html.nds:not([data-skin]) header{position:sticky;top:0;z-index:40;background:var(--bg);min-height:56px;padding:calc(env(safe-area-inset-top,0px) + 8px) 0 8px!important;margin:0 0 6px!important}
+  html.nds:not([data-skin]) header h1{font-size:0!important;line-height:1}
+  html.nds:not([data-skin]) header h1 > span:not(.ndsmp){font-size:0}
+  html.nds:not([data-skin]) header h1 .ndsmp{display:inline;font:900 26px/1 var(--logo);letter-spacing:.02em;color:var(--ink)}
+  html.nds:not([data-skin]) header h1 .ndsmp b{color:var(--sel);font-weight:inherit}
+  html.nds:not([data-skin]) header .planbar{justify-content:center!important;flex-wrap:nowrap!important;flex-direction:row!important}
+  html.nds:not([data-skin]) header .planbar .pl2pmb,html.nds:not([data-skin]) header .planbar #planMenu summary{flex:none;width:38px;height:38px;min-height:38px;padding:0;border-radius:50%}
+  html.nds:not([data-skin]) header #planSel{background-color:var(--panel2);border:0;border-radius:999px;font-weight:600;font-size:16px;min-height:38px;padding:6px 30px 6px 14px;color:var(--ink)}
+  html.nds:not([data-skin]) header #setBtn{background:transparent;border:0;width:40px;height:40px;font-size:1.2rem;color:var(--muted)}
+}
+/* Sicherungs-Punkt statt 💾-Text */
+html.nds:not([data-skin]) .bkchip:not([hidden]){position:relative;width:36px!important;min-width:36px!important;max-width:36px!important;height:36px!important;padding:0!important;border:0!important;border-radius:50%!important;background:transparent!important;overflow:hidden;color:transparent!important;font-size:0!important;text-indent:0!important}
+html.nds:not([data-skin]) .bkchip:not([hidden])::before{content:""!important;position:absolute;inset:auto!important;left:50%!important;top:50%!important;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--good);font-size:0}
+html.nds:not([data-skin]) .bkchip.old:not([hidden])::before{background:var(--sel)}
+html.nds:not([data-skin]) .bkchip.warn:not([hidden])::before{background:#E8A33A}
+@media (hover:hover){html.nds:not([data-skin]) .bkchip:not([hidden]):hover{background:var(--panel2)!important}}
+/* Leiste unten (Handy) */
+@media (max-width:760px){
+  html.nds:not([data-skin]).lay2 body .tabs{background:var(--navbg)!important;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--line)!important;box-shadow:none!important}
+  html.nds:not([data-skin]).lay2 body .tabs button{border-top:0!important;color:var(--muted)!important;font-size:12px!important;font-weight:600!important;min-height:64px}
+  html.nds:not([data-skin]).lay2 body .tabs button[aria-selected="true"]{color:var(--sel)!important}
+  html.nds:not([data-skin]).lay2 body .tabs::before,html.nds:not([data-skin]).lay2 body .tabs::after{display:none!important}
+  html.nds:not([data-skin]).nui.lay2 body .tabs button[data-view="training"] .ti{width:54px;height:54px;box-shadow:0 0 0 5px var(--bg),0 6px 18px -6px var(--sel)}
+}
+/* Startseite: große Zahl mit Verlauf */
+.ndshero{display:grid;gap:4px;min-width:0}
+.ndshero .ndslab{font-size:14px;color:var(--muted);font-weight:500}
+.ndshero .ndsbig{font:700 40px/1.05 var(--body);letter-spacing:-.01em;color:var(--ink);font-variant-numeric:tabular-nums}
+.ndshero .ndsdel{margin:0;font-size:14.5px;font-weight:600;color:var(--muted)}
+.ndshero .ndsdel .up{color:var(--good)}.ndshero .ndsdel .dn{color:var(--muted)}
+.ndschart{position:relative;height:150px;margin:14px -2px 4px}
+.ndschart svg{display:block;width:100%;height:100%;overflow:visible}
+.ndsdot{position:absolute;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--sel);box-shadow:0 0 0 2.5px var(--bg)}
+.ndschips{display:flex;justify-content:space-between;gap:4px}
+.ndschips button{flex:0 1 auto;min-width:44px;min-height:36px;padding:7px 12px;border:0;border-radius:999px;background:transparent;color:var(--muted);font-weight:600;font-size:14px}
+.ndschips button[aria-pressed="true"]{background:var(--accs,color-mix(in srgb,var(--sel) 14%,transparent));color:var(--sel)}
+@media (hover:hover){.ndschips button:not([aria-pressed="true"]):hover{background:var(--panel2,var(--tagbg));color:var(--ink)}}
+html.nds #ndsHero{order:0;padding:6px 2px 8px}
+html.nds.dsk body.view-home #ndsHero{display:none!important}
+/* Als Nächstes */
+html.nds .nuitoday{position:relative}
+html.nds .ndstfig{position:absolute;right:0;top:0;height:64px;pointer-events:none}
+html.nds .ndstfig .mfig{height:64px}
+html.nds:not([data-skin]) .nuitoday h2{font:700 28px/1.1 var(--body)!important;text-transform:none!important;letter-spacing:0!important;margin:2px 0}
+html.nds:not([data-skin]) .nuitoday h2 span{color:var(--ink)}
+html.nds:not([data-skin]) .nuichips{justify-content:center}
+html.nds:not([data-skin]) .nuichips .hsset{border-radius:999px;min-height:36px;padding:6px 14px;font-size:14px}
+/* Deine Workouts als Zeilen */
+html.nds .hdh .mfig{height:40px;flex:none}
+html.nds .hdh .nmw{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;min-width:0;flex:1 1 auto}
+html.nds .hdh .nmw .ndsago{flex-basis:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.nds .hdh .ndsago{font-size:13.5px;color:var(--muted);font-weight:500}
+html.nds .hdh .ndsspk{flex:none;display:flex;align-items:center}
+html.nds .hdh .cnt{flex:none;font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+html.nds:not([data-skin]) .hwork{background:var(--panel);border-radius:16px;padding:14px 16px 6px}
+html.nds:not([data-skin]) .hwork .hwhead{margin:0 0 4px;padding:0}
+html.nds:not([data-skin]) .hwork .hwhead h2{font:600 17px/1.25 var(--body)!important}
+html.nds:not([data-skin]) .hwork .hday{background:transparent!important;border-radius:0!important;border-top:1px solid var(--line)!important;margin:0}
+html.nds:not([data-skin]) .hwork .hday:first-of-type{border-top:0!important}
+html.nds:not([data-skin]) .hwork .hdh{display:flex;align-items:center;gap:12px;padding:12px 0;background:transparent;border:0;min-height:64px}
+html.nds:not([data-skin]) .hwork .hdh .nm{font:600 15.5px/1.2 var(--body)!important;text-transform:none!important;letter-spacing:0!important}
+html.nds:not([data-skin]) .hwork .hdh .car{color:var(--muted);font-size:.8rem}
+html.nds:not([data-skin]) .hwork .hday[data-open="1"] ol{padding-left:0}
+@media (max-width:380px){html.nds .hdh .ndsspk{display:none}}
+/* PC: Seitenleiste links (232 px), Titel und Plan-Pille oben */
+@media (min-width:1100px){
+  html.nds.dsk:not([data-skin]){--sbw:232px}
+  html.nds.dsk:not([data-skin]) body{padding-left:var(--sbw)!important}
+  html.nds.dsk:not([data-skin]) body::before{content:"";position:fixed;top:0;left:var(--sbw);right:0;height:80px;background:var(--bg);z-index:49}
+  html.nds.dsk:not([data-skin]) .wrap{padding-top:96px!important}
+  html.nds.dsk:not([data-skin]) body.view-home .wrap,html.nds.dsk:not([data-skin]) body.view-bauen .wrap{max-width:1240px}
+  html.nds.dsk:not([data-skin]) header{position:fixed!important;top:0;left:0;bottom:0;right:auto;width:var(--sbw);height:auto!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start;gap:4px;padding:26px 14px 18px!important;background:color-mix(in srgb,var(--panel) 45%,var(--bg))!important;border:0!important;border-right:1px solid var(--line)!important;box-shadow:none!important;z-index:50}
+  html.nds.dsk:not([data-skin]) header::after{content:attr(data-ttl);position:fixed;left:calc(var(--sbw) + 32px);top:22px;font:900 34px/1 var(--logo);letter-spacing:.01em;color:var(--ink);pointer-events:none}
+  html.nds.dsk:not([data-skin]) .dsklogo{display:block!important;font:900 26px/1 var(--logo)!important;margin:0 10px 26px;color:var(--ink)}
+  html.nds.dsk:not([data-skin]) header .tabs,html.nds.dsk.lay2:not([data-skin]) body header .tabs{flex-direction:column!important;height:auto!important;flex:0 0 auto!important;gap:4px!important;overflow:visible!important;border:0!important;background:transparent!important}
+  html.nds.dsk.lay2:not([data-skin]) body header .tabs button{height:46px!important;width:100%!important;justify-content:flex-start!important;gap:12px!important;padding:0 14px!important;border:0!important;border-radius:12px!important;color:var(--muted)!important;font-size:15px!important;font-weight:600!important;background:transparent}
+  html.nds.dsk.lay2:not([data-skin]) body header .tabs button[aria-selected="true"]{background:var(--accs)!important;color:var(--sel)!important}
+  html.nds.dsk:not([data-skin]) header .tabs .ti{display:inline-block!important;width:20px;text-align:center;font-size:1rem}
+  html.nds.dsk:not([data-skin]) header .tabs button[data-view="training"] .ti{width:20px!important;height:auto!important;background:transparent!important;color:inherit!important;box-shadow:none!important;border-radius:0!important;font-size:.9rem}
+  html.nds.dsk:not([data-skin]) .dskbar{position:fixed;top:18px;right:28px;z-index:51;display:flex;align-items:center;gap:10px}
+  html.nds.dsk:not([data-skin]) .dskbar .planbar{display:flex;margin:0;order:-1}
+  html.nds.dsk:not([data-skin]) .dskbar .planbar .label,html.nds.dsk:not([data-skin]) .dskbar #newPlan,html.nds.dsk:not([data-skin]) .dskbar #planMenu,html.nds.dsk:not([data-skin]) .dskbar .pl2pmb{display:none!important}
+  html.nds.dsk:not([data-skin]) .dskbar #planSel{height:42px;max-width:260px;border:0;border-radius:999px;background-color:var(--panel2);color:var(--ink);font-weight:600;padding:0 32px 0 16px}
+  html.nds.dsk:not([data-skin]) .dsktrain{height:44px!important;padding:0 18px!important;border:0!important;border-radius:14px!important;background:var(--sel)!important;color:#fff!important;font-weight:700!important}
+  html.nds.dsk:not([data-skin]) .dskgear,html.nds.dsk:not([data-skin]) .dskhelp{border:0!important;background:var(--panel2)!important;color:var(--ink)!important;border-radius:12px!important}
+  @media (hover:hover){html.nds.dsk.lay2:not([data-skin]) body header .tabs button:not([aria-selected="true"]):hover{background:var(--panel2)!important;color:var(--ink)!important}html.nds.dsk:not([data-skin]) .dskgear:hover{background:var(--s3)!important}}
+  html.nds.dsk:not([data-skin]) body.hspop #hStart{top:80px;right:28px}
+  /* Übersicht: links groß, rechts 360 px */
+  html.nds.nui.dsk body #dash{grid-template-columns:360px minmax(0,1fr)!important;direction:rtl}
+  html.nds.nui.dsk body #dash > *{direction:ltr}
+  html.nds.dsk .dhero{grid-area:x;padding:22px 24px 16px}
+  html.nds.dsk .dhero .ndsbig{font-size:48px}
+  html.nds.dsk .dhero .ndschart{height:240px}
+  html.nds.dsk .dhero .ndschips{justify-content:flex-end;gap:6px}
+}
+/* Muskel-Erholung kompakt */
+.ndslnk{margin-left:auto;background:transparent!important;border:0!important;color:var(--muted)!important;font-weight:600;font-size:14px;padding:6px 4px;min-height:36px}
+@media (hover:hover){.ndslnk:hover{color:var(--ink)!important}}
+html.nds #hRec .hrhead{display:flex;align-items:center;gap:8px}
+.ndsrec{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:center}
+.ndsrec .heatfigs{display:flex;gap:6px;justify-content:center;margin:0}
+.ndsrec .heatfigs > div{flex:1 1 0;min-width:0}
+.ndsrec .heatfigs svg{width:100%;height:auto;max-height:190px}
+.ndsrl{display:grid;gap:8px;align-content:center;justify-items:start}
+.ndsrc{display:inline-flex;align-items:center;gap:8px;background:var(--panel2,var(--tagbg));border-radius:999px;padding:8px 14px;font-weight:600;font-size:14.5px;max-width:100%}
+.ndsrc i{width:8px;height:8px;border-radius:50%;flex:none;background:#E8823A}.ndsrc i.r{background:var(--sel)}
+html.nds #hRec .legend{margin-top:12px}
+/* Sicherungs-Hinweis neutral */
+html.nds:not([data-skin]) .bkslim{background:var(--panel)!important;border:0!important;border-radius:16px}
+html.nds:not([data-skin]) .hwhead button[data-hw="all"]{background:transparent!important;color:var(--muted)!important;text-transform:none!important;letter-spacing:0!important;font:600 14px/1 var(--body)!important;padding:6px 4px;min-height:36px}
+@media (hover:hover){html.nds:not([data-skin]) .hwhead button[data-hw="all"]:hover{color:var(--ink)!important}}
+html.nds:not([data-skin]) #bkSec,html.nds:not([data-skin]) #bkSec .bkslim{background:var(--panel)!important;box-shadow:none!important;border:0!important;outline:0}
+/* Plan */
+html.nds:not([data-skin]) #planSec .seg{background:transparent;gap:4px;padding:0}
+html.nds:not([data-skin]) #planSec .seg button{border-radius:999px;padding:8px 14px}
+html.nds:not([data-skin]) #planSec .seg button[aria-pressed="true"]{background:var(--panel2);box-shadow:none}
+html.nds:not([data-skin]) .pl2tb{background:transparent!important;border:0!important;color:var(--muted)}
+html.nds:not([data-skin]) .pl2more{background:transparent!important;border:0!important;color:var(--muted)}
+html.nds:not([data-skin]) .pl2no{background:transparent!important;border:0!important;color:var(--muted);font-weight:600}
+html.nds:not([data-skin]) .pl2add{background:transparent!important;border:0!important;color:var(--sel)!important;justify-content:flex-start;font-weight:600}
+@media (hover:hover){html.nds:not([data-skin]) :is(.pl2tb,.pl2more):hover{background:var(--panel2)!important;color:var(--ink)}html.nds:not([data-skin]) #planSec .seg button:not([aria-pressed="true"]):hover{background:var(--panel2);color:var(--ink)}html.nds:not([data-skin]) .pl2add:hover{background:var(--accs)!important}}
+/* Training: Kacheln zur Auswahl */
+.ndstrh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ndstrh h2{margin:0;flex:1 1 auto}
+.ndstiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:4px 0 8px}
+.ndstile{position:relative;display:grid;justify-items:start;align-content:end;gap:2px;min-height:150px;padding:14px 16px;border-radius:16px;border:2px solid transparent;background:var(--panel);color:var(--ink);text-align:left;font:inherit}
+html.nds .sess.ndstr{background:transparent;padding:0}
+html.nds .sess.ndstr .ndstile{background:var(--panel)}
+.ndstile .mfig{height:58px;margin-bottom:auto}
+.ndstile b{font-size:19px;font-weight:700;margin-top:10px}
+.ndstile.due{border-color:var(--sel)}
+.ndsbadge{position:absolute;top:12px;right:12px;background:var(--accs,color-mix(in srgb,var(--sel) 14%,transparent));color:var(--sel);border-radius:999px;padding:4px 10px;font-size:13px;font-weight:600}
+@media (hover:hover){.ndstile:not(:disabled):hover{background:var(--panel2,var(--tagbg))!important}}
+.ndstile:disabled{opacity:.55}
+@media (max-width:360px){.ndstiles{grid-template-columns:1fr 1fr}.ndsbadge{position:static;order:-1;margin-bottom:4px}}
+html.nds #sessBox:has(> .ndstr){background:transparent!important;padding:0!important}
+html.nds .sess.ndstr{gap:12px}
+html.nds :is(.ndstile,.hdh,.ndstfig) .mfig{background:transparent!important;border:0!important;padding:0!important}
+.ndstile .mfig{height:64px}
+html.nds:not([data-skin]) .sess.ndstr > .label{margin-top:8px}
+html.nds:not([data-skin]) .sess.ndstr .recent{background:var(--panel);border-radius:16px;padding:4px 16px;margin:0;list-style:none}
+html.nds:not([data-skin]) .sess.ndstr .recent li + li{border-top:1px solid var(--line)}
+html.nds:not([data-skin]) .sess.ndstr .recentbtn{background:transparent!important;border:0!important;border-radius:0!important;padding:12px 0!important;width:100%}
+@media (hover:hover){html.nds:not([data-skin]) .sess.ndstr .recentbtn:hover{background:transparent!important;color:var(--sel)}}
+/* Training läuft: Ring x/y Sätze, „Satz speichern“ unten fest */
+html.nds .ndsrun{display:flex!important;align-items:center;gap:14px;margin-bottom:4px}
+.ndsring{position:relative;width:72px;height:72px;flex:none}
+.ndsring svg{width:72px;height:72px;display:block}
+.ndsring span{position:absolute;inset:0;display:grid;place-content:center;text-align:center;line-height:1.05}
+.ndsring b{font-size:22px;font-weight:700}.ndsring small{font-size:12px;color:var(--muted)}
+.ndsrunt{display:grid;gap:2px;min-width:0;flex:1 1 auto}
+.ndsrunt b{font-size:24px;font-weight:700;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html.nds .ndsrun .nuiend{color:var(--sel)!important;font-weight:700}
+html.nds .ndsrun .nuihome{width:40px;height:40px;min-width:40px;padding:0;border-radius:50%}
+@media (min-width:761px){html.nds body.running .ndsrun .nuihome{display:none}}
+@media (max-width:760px){
+  html.nds body.running #sessBox [data-s="saveSet"]{position:fixed;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:auto;z-index:44;box-shadow:0 10px 30px -10px rgba(0,0,0,.6)}
+  html.nds.lay2 body.running .wrap{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 96px)!important}
+}
+.ndsmet{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px}
+.ndsmet::-webkit-scrollbar{display:none}
+.ndsmet button{flex:none;min-height:38px;padding:8px 14px;border:0;border-radius:999px;background:transparent;color:var(--muted);font-weight:600;font-size:15px}
+.ndsmet button[aria-pressed="true"]{background:var(--panel2,var(--tagbg));color:var(--ink)}
+@media (hover:hover){.ndsmet button:not([aria-pressed="true"]):hover{color:var(--ink);background:var(--panel2,var(--tagbg))}}
+html.nds #ndsProg{padding:4px 2px 12px}
+@media (min-width:1100px){html.nds #ndsProg{background:var(--panel);border-radius:16px;padding:20px 24px 16px}html.nds #ndsProg .ndsbig{font-size:48px}html.nds #ndsProg .ndschart{height:220px}html.nds #ndsProg .ndschips{justify-content:flex-end;gap:6px}}
+html.nds:not([data-skin]) body #bkSec#bkSec{background:var(--panel)!important;border-color:transparent!important}
+@media (max-width:1099px){html.nds:not([data-skin]) #progSec > #ndsProg{background:transparent!important;padding:4px 2px 12px!important}}
+/* PC, Plan: Seitenleiste bleibt gleich breit (Vincent 03.11.: Springen war komisch); bei wenig Platz rutscht die Bibliothek unter die Tage */
+@media (min-width:1100px) and (max-width:1399px){
+  html.nds.pl2.dsk:not([data-skin]) body.view-bauen .grid{grid-template-columns:250px minmax(0,1fr)!important;grid-template-rows:auto auto 1fr!important;gap:18px}
+  html.nds.pl2.dsk:not([data-skin]) body.view-bauen #dpLib{grid-column:1!important;grid-row:3!important;position:static!important;max-height:none!important}
+}
+/* Plan-Tage (Handy): aktive Pille hell/dunkel gleich */
+html.nds:not([data-skin]) #planSec .seg button{background:transparent!important;color:var(--muted)!important;border:0!important;box-shadow:none!important}
+html.nds:not([data-skin]) #planSec .seg button[aria-pressed="true"]{background:var(--panel2)!important;color:var(--ink)!important}
+@media (min-width:1100px) and (max-width:1599px){
+  html.nds.dsk:not([data-skin]) body.view-bauen .wrap{max-width:none!important}
+  @media (min-width:1400px){html.nds.pl2.dsk:not([data-skin]) body.view-bauen .grid{grid-template-columns:270px minmax(0,1fr) 300px!important;gap:20px}}
+  html.nds.dsk:not([data-skin]) #units .dpt{--dcols:18px 30px minmax(0,1fr) 54px 70px 36px 36px}
+  html.nds.dsk:not([data-skin]) #units .dpt :is(.dtags,.dlast,.dna+.dtags){display:none}
+  html.nds.pl2.dsk:not([data-skin]) .dphd span:nth-child(4),html.nds.pl2.dsk:not([data-skin]) .dphd span:nth-child(7){display:block!important}html.nds.pl2.dsk:not([data-skin]) .dphd span:nth-child(6){display:none!important}
+}
+@media (min-width:1100px) and (max-width:1399px){html.nds.dsk .dkpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+html.nds.dsk .dch{flex-wrap:wrap;gap:8px}
+html.nds #progSec > #ndsProg{grid-column:1/-1}
+@media (min-width:1100px){html.nds.dsk:not([data-skin]) #trainSec > .planhead h2{display:none}}
+/* App-Tester 03.11. (tests/2026-11-03-depot-design): Hover-Schrift nicht auf --bg kippen, fixer Knopf ohne transform im Elternteil */
+/* Hover: wo eine Klasse den Hintergrund selbst setzt, Schrift nicht auf --bg kippen lassen */
+.hday>.hdh:hover,.hday li>button:hover,.ndstile:not(:disabled):hover,.pex:hover,.dpday:hover,.dpaddex:hover{color:var(--ink)}
+.nuichips .hsset:hover{background:var(--panel2,var(--tagbg));color:var(--ink)}
+.nuiinfo:hover{background:none}
+/* Satz speichern: Einblend-Animation darf keinen transform hinterlassen (sonst klebt position:fixed nicht am Bildschirm) */
+html.nui body.nuiin .grid > :not([hidden]){animation-fill-mode:backwards}
+html[data-skin="arcade"] .hwhead button[data-hw="all"]:hover{background:var(--tagbg);color:var(--ink)}
+.pl2cov:hover :is(i,.hint,.label){color:inherit}
+/* Tastatur offen: „Satz speichern“ wieder im Fluss, damit die Tastatur ihn nicht verdeckt (Vincent 03.11.) */
+@media (max-width:760px){html.nds body.running #sessBox:has(input:focus,textarea:focus) [data-s="saveSet"]{position:static;box-shadow:none;width:100%}}
+.ndstrnote{margin:0 0 4px}
+html.nds .ndsset{display:grid;gap:12px;background:var(--panel);border-radius:16px;padding:16px;min-width:0}
+html.nds.dsk:not([data-skin]) .pl2top{gap:6px;min-width:0;max-width:100%}html.nds.dsk:not([data-skin]) .pl2top > *{min-width:0}
+html.nds.dsk:not([data-skin]) .pl2top{flex-wrap:wrap}html.nds.dsk:not([data-skin]) .pl2more>summary{padding-inline:10px}
+/* Skin-Test App-Tester 03.11. (tests/2026-11-03-skins/fix.css) */
+/* 1. Handy-Kopf in Skins (Dev und Export): Plan-Auswahl + ⋯ in eigene Zeile unter Logo, 💾 und ⚙ */
+@media (max-width:599px){
+  html.nui:is(:not(.nds),[data-skin]) body:not(.view-bauen) header .planbar{grid-column:1/-1;grid-row:2;justify-content:flex-start;flex-wrap:nowrap}
+  html.nui:is(:not(.nds),[data-skin]) body:not(.view-bauen) header #planSel{flex:1 1 auto;width:auto;max-width:none}
+  html.nui:is(:not(.nds),[data-skin]) header .planbar .pl2pmb{flex:none}
+}
+/* 2. Breite Skin-Logos bei 360 px nicht unter 💾/⚙ */
+@media (max-width:379px){
+  html.nui:is([data-skin="w40"],[data-skin="comic"],[data-skin="gold"]) header h1{font-size:1.35rem}
+}
+/* 3. Zettel dunkel: Abdeckungs-Tags sind nur umrandet, Schrift braucht Tintenfarbe */
+:root[data-skin="paper"] .tag:is(.c1,.c2,.c3,.c4){color:var(--ink)}
+/* 4. Hover in Skins: „Alle zuklappen“ (Home) und „Beenden“ (laufendes Training) behalten ihre Farbschrift, bekommen aber den Hover-Grund var(--ink) -> unlesbar. Grund nicht wechseln: */
+html[data-skin] .hwork .hwhead .ghost:hover{background:none;color:var(--pick);text-decoration:underline}
+html[data-skin] .nuiend:hover{background:color-mix(in srgb,var(--sel) 16%,transparent)}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
@@ -3339,6 +3592,7 @@ body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
   </div>
 
   <div class="grid">
+    <section class="ndshero" id="ndsHero" hidden aria-label="Bewegtes Gewicht"></section>
     <section class="hwork" id="hWork" hidden aria-label="Deine Workouts"></section>
     <section class="panel hrec" id="hRec" hidden aria-label="Muskel-Erholung"></section>
     <section class="mapcol" aria-label="Körperkarte">
@@ -3448,6 +3702,7 @@ body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 
       <div class="progseg seg" id="progSeg" role="group" aria-label="Fortschritt" hidden><button type="button" data-pv="fortschritt" aria-pressed="true">Statistik</button><button type="button" data-pv="wissen" aria-pressed="false">Rechner</button></div>
       <section id="progSec" class="progsec" hidden>
+        <section class="ndshero ndsph" id="ndsProg" hidden aria-label="Verlauf"></section>
         <div class="progtools"><span id="pPerBox"></span><button type="button" class="ghost mini" id="progArrange" aria-expanded="false" aria-controls="progArr">⇅ Anordnen</button></div>
         <div class="panel progarr" id="progArr" hidden></div>
         <div class="panel lib weeksec" id="weekSec" aria-label="Diese Woche"></div>
@@ -3575,9 +3830,13 @@ const TUT2 = false;
 const LIGA = false; // Liga in Gruppen: nur in der Dev-Version (Vincent 26.10.)
 const HOMEC = false; // Startseite anpassen: nur in der Dev-Version (Vincent 28.10.)
 const PLAN2 = false; // neuer Plan-Bereich (Handy: ein Tag, ⋯-Menüs; PC: große Muskel-Figur): nur in der Dev-Version (Vincent 02.11.)
-const WKSTRIP = false; // Mo–So-Leiste (Trainingstage) überall ausgebaut (Vincent 02.11.2026)
+const WKSTRIP = false, WKGOAL = false; // WKGOAL: Wochenziel („x von y“, Ring, „Noch x bis zum Wochenziel“) ausgebaut (Vincent 02.11.2026)
+const _wk0 = 0; // Mo–So-Leiste (Trainingstage) überall ausgebaut (Vincent 02.11.2026)
 const NEWUI = true; // neues Design (Skin A Feinschliff, Training als Vollbild …): für alle freigegeben (Vincent 29.10.)
 if (NEWUI) document.documentElement.classList.add("nui");
+const NEWDS = true; // neues Design „Depot-Stil“ (Broker- und Kalorien-Apps als Vorbild): nur in der Dev-Version (Vincent 03.11.)
+const NDS_HOMEHERO = false; // Home ohne „Bewegt“-Statistik oben (Vincent 03.11.: „nimm das mal raus“), im Fortschritt bleibt sie
+if (NEWDS) document.documentElement.classList.add("nds");
 const FXREC = true; // Yoga-Empfehlungen (fxRec) mit Schalter: freigegeben für alle (Vincent 29.10.)
 const YOGA2 = false; // Yoga & Stretching (Übungsart „Halten“, Planart „Beweglich“): erst nur in der Testversion
 const LAY2 = true; // neues Layout: Home-Bildschirm, Tableiste unten (Handy), Seitenleiste (Desktop)
@@ -4930,6 +5189,12 @@ function renderHomeRec(){
   const long = ORDER.filter(m => !last[m] || daysBetween(last[m], today) > 7);
   const any = ORDER.some(m => last[m]);
   const recFoot = `<p class="disc">${L("Die Farben zeigen nur, wann du einen Muskel zuletzt trainiert hast. Das ist ein Richtwert: Wie schnell du dich erholst, hängt von Schlaf, Ernährung, Belastung und Erfahrung ab.", "The colours only show when you last trained a muscle. It's a rough guide: how fast you recover depends on sleep, nutrition, load and experience.")}</p>${recVid()}`;
+  if (NEWDS) { const lg = long.map(m => [m, last[m] ? daysBetween(last[m], today) : 1e4]).sort((x, y) => y[1] - x[1]);
+    box.innerHTML = `<div class="hrhead"><h2>${L("Muskel-Erholung", "Muscle recovery")}</h2><button type="button" class="ndslnk" data-nds="rec" aria-expanded="${ndsRecOpen}">${ndsRecOpen ? L("Weniger", "Less") : L("Details", "Details")} ›</button></div>
+    <div class="ndsrec"><div class="heatfigs"><div>${recoveryFigure("front", last)}</div><div>${recoveryFigure("back", last)}</div></div>
+      <div class="ndsrl">${!any ? `<p class="hint">${L("Nach dem ersten Training siehst du hier, welche Muskeln lange Pause haben.", "After your first workout you'll see here which muscles have been resting for a while.")}</p>` : lg.length ? `<span class="label">${L("Lange nicht trainiert", "Not trained for a while")}</span>${lg.slice(0, 4).map(([m, n]) => `<span class="ndsrc"><i class="${n > 14 ? "r" : "o"}"></i>${esc(MUSCLES[m].n)}</span>`).join("")}${lg.length > 4 ? `<span class="hint">${L(`und ${lg.length - 4} weitere`, `and ${lg.length - 4} more`)}</span>` : ""}` : `<p class="hint">✓ ${L("Jede Muskelgruppe war in den letzten 7 Tagen dran.", "Every muscle group was trained in the last 7 days.")}</p>`}</div></div>
+    ${ndsRecOpen ? `<div class="legend"><span><i class="rcl rc0"></i>${L("heute oder gestern", "today or yesterday")}</span><span><i class="rcl rc1"></i>${L("vor 2–3 Tagen", "2–3 days ago")}</span><span><i class="rcl rc2"></i>${L("vor 4–7 Tagen", "4–7 days ago")}</span><span><i class="rcl rc3"></i>${L("länger her oder nie", "longer ago or never")}</span></div>${lg.length > 4 ? `<p class="hint"><b>${L("Länger nicht trainiert", "Not trained for a while")}:</b> ${lg.map(([m]) => MUSCLES[m].n).join(", ")}</p>` : ""}${recFoot}` : ""}`;
+    return; }
   box.innerHTML = `<div class="hrhead"><h2>${L("Muskel-Erholung", "Muscle recovery")}</h2><span class="label">${L("Wann zuletzt trainiert", "Last trained")}</span></div>
     <div class="heatfigs"><div>${recoveryFigure("front", last)}<span class="label">${L("Vorne", "Front")}</span></div><div>${recoveryFigure("back", last)}<span class="label">${L("Hinten", "Back")}</span></div></div>
     <div class="legend"><span><i class="rcl rc0"></i>${L("heute oder gestern", "today or yesterday")}</span><span><i class="rcl rc1"></i>${L("vor 2–3 Tagen", "2–3 days ago")}</span><span><i class="rcl rc2"></i>${L("vor 4–7 Tagen", "4–7 days ago")}</span><span><i class="rcl rc3"></i>${L("länger her oder nie", "longer ago or never")}</span></div>
@@ -4938,6 +5203,7 @@ function renderHomeRec(){
 function renderStart(){
   const p = plan(); const w = $("hWork"), hs = $("hStart"); if (!w || !hs) return;
   try { renderHomeRec(); } catch(e) {}
+  if (NEWDS && NDS_HOMEHERO && $("ndsHero")) { try { $("ndsHero").innerHTML = ndsHeroHTML(); } catch(e) { console.warn(e); } }
   const ds = daysOf(p); const nd = hasDays(p) ? dueDay(p) : null;
   const run = state.run && state.run.planId === p.id ? state.run : null;
   if (!p.units.length) {
@@ -4951,11 +5217,12 @@ function renderStart(){
   const anyOpen = hasDays(p) && ds.some(d => homeDayOpen(p, d.id));
   const cards = hasDays(p) ? ds.map(d => {
     const list = unitsFor(p, d.id); const open = homeDayOpen(p, d.id);
-    return `<div class="hday" data-open="${open ? 1 : 0}"><button type="button" class="hdh" data-hw="day" data-day="${d.id}" aria-expanded="${open}"><span class="nmw"><span class="nm">${esc(d.name)}</span>${d.id === nd && list.length ? `<span class="due">${L("ist dran", "up next")}</span>` : ""}</span><span class="cnt">${list.length} ${list.length === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")}</span><span class="car" aria-hidden="true">▼</span></button>
+    const di = NEWDS ? ndsDayInfo(p, d.id) : null;
+    return `<div class="hday" data-open="${open ? 1 : 0}"><button type="button" class="hdh" data-hw="day" data-day="${d.id}" aria-expanded="${open}">${di ? di.fig : ""}<span class="nmw"><span class="nm">${esc(d.name)}</span>${d.id === nd && list.length ? `<span class="due">${L("ist dran", "up next")}</span>` : ""}${di ? `<span class="ndsago">${di.last ? di.ago : L("noch nie trainiert", "not trained yet")}</span>` : ""}</span>${di ? `<span class="ndsspk">${di.spark}</span>` : ""}<span class="cnt">${di ? `${list.length} ${L("Üb", "ex")} · ${di.min} min` : `${list.length} ${list.length === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")}`}</span><span class="car" aria-hidden="true">▼</span></button>
       ${open ? (list.length ? `<ol>${list.map(homeRow).join("")}</ol>` : `<p class="hint" style="padding:10px 16px;margin:0">${L("An diesem Tag sind noch keine Übungen.", "No exercises on this day yet.")}</p>`) + `<div class="hdfoot">${list.length ? `<button type="button" class="primary" data-hw="go" data-day="${d.id}">▶ ${L("Diesen Tag starten", "Start this day")}</button>` : ""}<button type="button" class="ghost" data-hw="edit" data-day="${d.id}">${L("Bearbeiten", "Edit")}</button></div>` : ""}
     </div>`;
   }).join("") : `<div class="hday" data-open="1"><div class="hdh"><span class="nm">${L("Alle Übungen", "All exercises")}</span><span class="cnt">${planUnits(p).length} ${planUnits(p).length === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")}</span></div><ol>${planUnits(p).map(homeRow).join("")}</ol><div class="hdfoot"><button type="button" class="ghost" data-hw="edit">${L("Bearbeiten", "Edit")}</button></div></div>`;
-  w.innerHTML = `${(() => { try { return rbBanner(); } catch(e) { return ""; } })()}<div class="hwhead"><div><div class="label">${L("Deine Workouts", "Your workouts")} · ${esc(p.homeOf ? L("Zuhause", "Home") : p.name)}</div><h2>${run ? L("Training läuft", "Workout running") : L("Bereit fürs Training", "Ready to train")}</h2></div>${hasDays(p) && ds.length > 1 ? `<button type="button" class="ghost" data-hw="all">${anyOpen ? L("Alle zuklappen", "Collapse all") : L("Alle aufklappen", "Expand all")}</button>` : ""}</div>${cards}<div class="hwadd"><button type="button" class="ghost" data-hw="add">＋ ${L("Übungen einfügen oder Plan importieren", "Add exercises or import a plan")}</button></div>`;
+  w.innerHTML = `${(() => { try { return rbBanner(); } catch(e) { return ""; } })()}<div class="hwhead"><div>${NEWDS ? `<h2>${L("Deine Workouts", "Your workouts")}</h2>` : `<div class="label">${L("Deine Workouts", "Your workouts")} · ${esc(p.homeOf ? L("Zuhause", "Home") : p.name)}</div><h2>${run ? L("Training läuft", "Workout running") : L("Bereit fürs Training", "Ready to train")}</h2>`}</div>${hasDays(p) && ds.length > 1 ? `<button type="button" class="ghost" data-hw="all">${anyOpen ? L("Alle zuklappen", "Collapse all") : L("Alle aufklappen", "Expand all")}</button>` : ""}</div>${cards}<div class="hwadd"><button type="button" class="ghost" data-hw="add">＋ ${L("Übungen einfügen oder Plan importieren", "Add exercises or import a plan")}</button></div>`;
   // Start-Bereich
   if (run) {
     hs.classList.remove("open");
@@ -4984,8 +5251,9 @@ function todayHead(p, qd){
   const min = Math.max(5, Math.round(list.reduce((n, u) => n + (isCardio(u) ? (parseFloat(u.reps) || 20) * 60 : setsNum(u) * (40 + (u.rest || st.restSet || 90))), 0) / 300) * 5);
   const strip = wkStripHTML(p, W, wkEdit);
   const nEx = list.length;
-  return `<div class="nuitoday"><span class="label">${L("Als Nächstes dran", "Up next")}</span><h2>${L("Heute", "Today")}${qd ? ` · <span>${esc(dayNameH(p, qd))}</span>` : ""}</h2>${W.cToday ? `<p class="nuicardio">${L(`Laut deiner Woche ${W.doneD.has(W.t) ? "heute noch" : "heute auch"}: ${W.cToday}`, `Your week ${W.doneD.has(W.t) ? "still has today" : "also has today"}: ${W.cToday}`)}</p>` : ""}
-    <p class="hint">${nEx} ${nEx === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")} · ${L("ca.", "approx.")} ${min} min · ${LANG === "en" ? `${W.done} of ${W.goal} this week` : `${W.done} von ${W.goal} diese Woche`}</p>
+  const di = NEWDS ? (qd ? ndsDayInfo(p, qd) : { fig: mfig([...new Set(p.units.flatMap(u => u.muscles || []))], []), ago: "" }) : null;
+  return `<div class="nuitoday">${di ? `<span class="ndstfig">${di.fig}</span>` : ""}<span class="label">${NEWDS ? L("Als Nächstes", "Up next") : L("Als Nächstes dran", "Up next")}</span><h2>${NEWDS ? (qd ? `<span>${esc(dayNameH(p, qd))}</span>` : L("Training", "Workout")) : `${L("Heute", "Today")}${qd ? ` · <span>${esc(dayNameH(p, qd))}</span>` : ""}`}</h2>${W.cToday ? `<p class="nuicardio">${L(`Laut deiner Woche ${W.doneD.has(W.t) ? "heute noch" : "heute auch"}: ${W.cToday}`, `Your week ${W.doneD.has(W.t) ? "still has today" : "also has today"}: ${W.cToday}`)}</p>` : ""}
+    <p class="hint">${nEx} ${nEx === 1 ? L("Übung", "exercise") : L("Übungen", "exercises")} · ${L("ca.", "approx.")} ${min} min${di && di.last ? ` · ${L("zuletzt", "last")} ${di.ago}` : ""}${WKGOAL ? ` · ${LANG === "en" ? `${W.done} of ${W.goal} this week` : `${W.done} von ${W.goal} diese Woche`}` : ""}</p>
     ${WKSTRIP ? `<div class="pweek${wkEdit ? " pwedit" : ""}">${strip}</div>${wkBarHTML(p, W.wk)}` : ""}</div>`;
 }
 // Neues Design: Zahlen kurz hochzählen (nur ganze Zahlen, ohne Bewegung bei „Bewegung reduzieren“)
@@ -5114,6 +5382,7 @@ function setView(v){
   document.body.classList.toggle("running", v === "training" && !!state.run && state.run.planId === state.active);
   document.body.classList.toggle("view-prog", v === "fortschritt" || v === "freunde" || v === "technik" || v === "wissen"); document.body.classList.toggle("view-fr", v === "freunde");
   document.body.classList.toggle("view-home", v === "home"); document.body.classList.toggle("view-bauen", v === "bauen"); document.body.classList.toggle("view-training", v === "training");
+  if ($("ndsHero")) $("ndsHero").hidden = !NEWDS || !NDS_HOMEHERO || v !== "home"; if (NEWDS) ndsTitle(v);
   if ($("hWork")) { $("hWork").hidden = v !== "home"; $("hStart").hidden = v !== "home"; $("hRec").hidden = v !== "home"; }
   $("progSec").hidden = v !== "fortschritt"; $("progSeg").hidden = v !== "fortschritt" && v !== "wissen"; $("frSec").hidden = v !== "freunde"; if ($("techSec")) $("techSec").hidden = v !== "technik"; if ($("wisSec")) $("wisSec").hidden = v !== "wissen";
   document.querySelectorAll("#tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.view === v || (v === "wissen" && b.dataset.view === "fortschritt")));
@@ -5253,6 +5522,8 @@ function draftStats(d){
 function nuiFinish(){
   const W = weekInfo(plan()), R = 42, C = 2 * Math.PI * R, f = Math.min(1, W.done / W.goal);
   const fr = document.documentElement.classList.contains("fron") && typeof frSt === "function" && (() => { try { return frSt().groups.length > 0; } catch(e) { return false; } })();
+  if (!WKGOAL) return `<div class="nuifin">${W.streak > 1 ? `<p class="hint">🔥 ${LANG === "en" ? `${W.streak} weeks streak` : `${W.streak} Wochen Serie`}</p>` : ""}
+    ${fr ? `<button type="button" class="ghost nuishare" data-s="nuishare">↗ ${L("Speichern & mit Freunden teilen", "Save & share with friends")}</button>` : ""}</div>`;
   return `<div class="nuifin"><div class="pring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="${R}" class="trk"/><circle cx="50" cy="50" r="${R}" class="val" stroke-dasharray="${(C * f).toFixed(1)} ${C.toFixed(1)}"/></svg><b>${W.done}/${W.goal}<small>${L("Woche", "Week")}</small></b></div>
     <p class="hint">${W.rest ? (LANG === "en" ? `${W.rest} more to your weekly goal.` : `Noch ${W.rest} bis zu deinem Wochenziel.`) : L("Wochenziel geschafft! 🎉", "Weekly goal reached! 🎉")}${W.streak > 1 ? ` · 🔥 ${LANG === "en" ? `${W.streak} weeks streak` : `${W.streak} Wochen Serie`}` : ""}</p>
     ${fr ? `<button type="button" class="ghost nuishare" data-s="nuishare">↗ ${L("Speichern & mit Freunden teilen", "Save & share with friends")}</button>` : ""}</div>`;
@@ -5434,6 +5705,13 @@ function holdCard(p, run, u, nextU){
 function rxHead(p, run, u){
   const planned = setsNum(u); const k = Math.min(run.cur.length, planned);
   const pct = Math.round((run.idx + (isCardio(u) ? 0 : k / planned)) / Math.max(1, run.order.length) * 100);
+  if (NEWDS) { const uf = id => p.units.find(y => y.id === id);
+    const tot = Math.max(1, run.order.reduce((n, id) => { const x = uf(id); return n + (x ? (isCardio(x) ? 1 : setsNum(x)) : 0); }, 0));
+    const done = run.items.reduce((n, it) => { const x = uf(it.u), e = x && (x.log || []).find(z => z.id === it.e); return n + (e ? (isCardio(x) ? 1 : setsOf(e).length) : 0); }, 0) + run.cur.length;
+    const R = 31, C = 2 * Math.PI * R, d = Math.min(1, done / tot) * C;
+    return `<div class="nuirun ndsrun"><div class="ndsring" role="img" aria-label="${L(`${done} von ${tot} Sätzen`, `${done} of ${tot} sets`)}"><svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="${R}" fill="none" stroke="var(--panel2,var(--line))" stroke-width="7"/>${done ? `<circle cx="36" cy="36" r="${R}" fill="none" stroke="var(--sel)" stroke-width="7" stroke-linecap="round" stroke-dasharray="${d.toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 36 36)"/>` : ""}</svg><span><b class="n">${done}</b><small>${L("von", "of")} ${tot}</small></span></div>
+      <div class="ndsrunt"><b>${run.day ? esc(dayNameH(p, run.day)) : L("Training", "Workout")}</b><span class="hint">${L("Sätze", "Sets")} · ${L("Übung", "Exercise")} ${Math.min(run.idx + 1, run.order.length)}/${run.order.length}${run.clock ? ` · <span class="n" id="sTimer" title="${L("Trainingsdauer", "Workout time")}">${clock(Date.now() - run.start)}</span>` : ""}</span></div>
+      <button type="button" class="ghost nuihome" data-s="nuihome" aria-label="${L("Zur Übersicht (Training läuft weiter)", "To overview (workout keeps running)")}" title="${L("Zur Übersicht (Training läuft weiter)", "To overview (workout keeps running)")}">⌂</button><button type="button" class="ghost nuiend" data-s="end">${L("Beenden", "End")}</button></div>`; }
   return `${NEWUI ? `<div class="nuirun"><button type="button" class="ghost nuihome" data-s="nuihome" aria-label="${L("Zur Übersicht (Training läuft weiter)", "To overview (workout keeps running)")}" title="${L("Zur Übersicht (Training läuft weiter)", "To overview (workout keeps running)")}">⌂</button><span class="label">${L("Training", "Workout")}</span><button type="button" class="ghost nuiend" data-s="end">${L("Beenden", "End")}</button></div>` : ""}<div class="rxtop"><span class="rxday">${run.day ? dayNameH(p, run.day) : L("Training", "Workout")}</span><span class="rxcount n">${L("Übung", "Exercise")} ${Math.min(run.idx + 1, run.order.length)}/${run.order.length}</span>${run.clock ? `<span class="rxclock n" id="sTimer" title="${L("Trainingsdauer", "Workout time")}">${clock(Date.now() - run.start)}</span>` : ""}</div>
     <div class="rxbar"><i style="width:${pct}%"></i></div>`;
 }
@@ -5779,8 +6057,8 @@ function renderSession(){
   const st = settings();
   const recent = (p.sessions || []).slice().sort((a, b) => b.start - a.start).slice(0, 5);
   if (LAY2) {
-    box.innerHTML = `<div class="sess idle hstart open hsin">
-      ${p.units.length ? startBody(p, "train") : `<h2>${L("Training starten", "Start workout")}</h2><p class="hint">${L("Lege zuerst unter „Plan“ Übungen an.", "First add exercises under “Plan”.")}</p>`}
+    box.innerHTML = `<div class="sess idle hstart open hsin${NEWDS && p.units.length ? " ndstr" : ""}">
+      ${NEWDS && p.units.length ? ndsTilesHTML(p) : ""}${p.units.length ? (NEWDS ? `<div class="ndsset">${startBody(p, "train")}</div>` : startBody(p, "train")) : `<h2>${L("Training starten", "Start workout")}</h2><p class="hint">${L("Lege zuerst unter „Plan“ Übungen an.", "First add exercises under “Plan”.")}</p>`}
       ${recent.length ? `<div class="label">${L("Letzte Trainings", "Recent workouts")}</div><ul class="recent">${recent.map(s => `<li><button type="button" class="ghost recentbtn" data-s="show" data-id="${s.id}">${sessRow(p, s)}</button>${s.note ? `<p class="noteq hint">${esc(s.note.length > 140 ? s.note.slice(0, 140) + " …" : s.note)}</p>` : ""}</li>`).join("")}</ul>
       <div class="formfoot"><button type="button" class="ghost" data-s="hist">${L("Ganzen Trainingsverlauf anzeigen", "Show full workout history")} (${(p.sessions || []).length})</button></div>` : ""}
     </div>`;
@@ -8407,7 +8685,7 @@ function renderFlex(){
       ${YOGA2 ? "" : "<!--"}<p class="hint">${L("Yoga und Dehnen zählen hier für sich und nicht bei Kraft, Cardio, Rückblick oder Übersicht mit.", "Yoga and stretching count here on their own, not in strength, cardio, reviews or the overview.")}</p>${YOGA2 ? "" : "-->"}`
     : `<div class="pempty"><p>🧘 ${L("Noch keine Yoga- oder Dehn-Einheit.", "No yoga or stretching session yet.")}</p><div class="clrow"><button type="button" class="ghost mini" data-pw="flexplan">+ ${L("Dehn-Plan anlegen", "Create a stretching plan")}</button></div></div>`}`;
 }
-function renderProgress(){ applyProgOrder(); renderPPer(); try { renderFlex(); } catch(e) { console.warn(e); } renderProgArr(); try { renderRb(); } catch(e) { console.warn(e); } renderWeek(); renderCal(); renderRec(); renderVol(); renderBody(); renderGStats(); renderExProgress(); renderMs(); }
+function renderProgress(){ if (NEWDS) ndsProgHero(); applyProgOrder(); renderPPer(); try { renderFlex(); } catch(e) { console.warn(e); } renderProgArr(); try { renderRb(); } catch(e) { console.warn(e); } renderWeek(); renderCal(); renderRec(); renderVol(); renderBody(); renderGStats(); renderExProgress(); renderMs(); }
 
 // ---------- Fortschritt: Wochenüberblick, Kalender, Erholung, Sätze pro Region, Meilensteine ----------
 let calMonth = null, calSel = null, calOpen = false, recOpen = false, volOpen = false, volScope = "this", msOpen = false;
@@ -8519,7 +8797,7 @@ function renderWeek(){
   const strip = wkStripHTML(p, weekInfo(p), wkEdit), wkBar = wkBarHTML(p, wk);
   const R = 42, C = 2 * Math.PI * R, frac = Math.min(1, done / goal);
   const ring = `<div class="pring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="${R}" class="trk"/><circle cx="50" cy="50" r="${R}" class="val" stroke-dasharray="${(C * frac).toFixed(1)} ${C.toFixed(1)}"/></svg><b>${done}/${goal}<small>${L("Trainings", "Workouts")}</small></b></div>`;
-  const title = rest ? (LANG === "en" ? `${rest} more ${rest === 1 ? "workout" : "workouts"}` : `Noch ${rest} ${rest === 1 ? "Training" : "Trainings"}`) : L("Wochenziel geschafft", "Weekly goal reached");
+  const title = !WKGOAL ? (LANG === "en" ? `${done} ${done === 1 ? "workout" : "workouts"} this week` : `${done} ${done === 1 ? "Training" : "Trainings"} diese Woche`) : rest ? (LANG === "en" ? `${rest} more ${rest === 1 ? "workout" : "workouts"}` : `Noch ${rest} ${rest === 1 ? "Training" : "Trainings"}`) : L("Wochenziel geschafft", "Weekly goal reached");
   const nextTxt = (cToday ? `${cLab}: <b>${cToday}</b>${nd ? " · " : ""}` : "") + (nd ? `${L("Als Nächstes dran", "Up next")}: <b>${esc(dayNameH(p, nd))}</b>` : "");
   const startB = state.run ? `<button type="button" class="primary pgo" data-pw="run">▶ ${L("Training fortsetzen", "Continue workout")}</button>`
     : p.units.length ? `<button type="button" class="primary pgo" data-pw="start"${wkNext !== undefined ? ` data-day="${esc(nd)}"` : ""}>▶ ${nd ? (LANG === "en" ? `Start <span>${esc(dayNameH(p, nd))}</span>` : `<span>${esc(dayNameH(p, nd))}</span> starten`) : L("Training starten", "Start workout")}</button>`
@@ -8532,8 +8810,8 @@ function renderWeek(){
   const prs = prList(), pk = pPer === "w" ? "m" : pPer, pFrom = pPer === "a" ? "0000" : perStart(pk, 0), P = prs.filter(x => x.d >= pFrom), lastP = P[P.length - 1];
   const pLab = pPer === "a" ? L("Gesamt", "All time") : pk === "m" ? new Date(t.slice(0, 4), +t.slice(5, 7) - 1, 1).toLocaleDateString(LOC(), { month: "short" }) : t.slice(0, 4);
   const avgW = S.reduce((n, x) => n + (pPer === "w" ? x.days : 0), 0) / 8;
-  box.innerHTML = `<div class="phero"><div class="pherotop">${ring}<div class="pherotx"><span class="label">${L("Diese Woche", "This week")} · ${L("ab", "from")} ${fmtD(mon)}</span><h2>${title}</h2>
-      <p class="hint">${rest ? L("bis zu deinem Wochenziel.", "to reach your weekly goal.") + " " : ""}${nextTxt}${streak ? `<span class="pstreak"> · 🔥 ${LANG === "en" ? `${streak} ${streak === 1 ? "week" : "weeks"} streak` : `${streak} ${streak === 1 ? "Woche" : "Wochen"} Serie`}</span>` : ""}</p></div>
+  box.innerHTML = `<div class="phero"><div class="pherotop">${WKGOAL ? ring : ""}<div class="pherotx"><span class="label">${L("Diese Woche", "This week")} · ${L("ab", "from")} ${fmtD(mon)}</span><h2>${title}</h2>
+      <p class="hint">${rest && WKGOAL ? L("bis zu deinem Wochenziel.", "to reach your weekly goal.") + " " : ""}${nextTxt}${streak ? `<span class="pstreak"> · 🔥 ${LANG === "en" ? `${streak} ${streak === 1 ? "week" : "weeks"} streak` : `${streak} ${streak === 1 ? "Woche" : "Wochen"} Serie`}</span>` : ""}</p></div>
       <div class="pherobtn">${startB}${/data-pw="plan"/.test(startB) ? "" : `<button type="button" class="ghost pplan" data-pw="plan">${L("Plan ansehen", "View plan")}</button>`}</div></div>
     ${WKSTRIP ? `<div class="pweek${wkEdit ? " pwedit" : ""}">${strip}</div>${wkBar}` : ""}</div>
     <div class="ptile pside pt-streak"><span class="label">${L("Serie", "Streak")}</span><b class="n">${streak ? "🔥 " : ""}${streak}</b><span class="hint">${L("Wochen am Stück mit Training", "weeks in a row with training")}</span></div>
@@ -9333,7 +9611,7 @@ $("copyClose").addEventListener("click", () => { $("copyBox").hidden = true; });
 
 // ---------- Patch Notes ----------
 Object.assign(I18N.ui, {"Die Yoga-Empfehlungen (welche Dehnübungen zu deinem Training passen) kannst du unter ⚙ Einstellungen oder direkt an der Empfehlung ausschalten.": "You can turn off the yoga suggestions (which stretches fit your training) under ⚙ Settings or right on the suggestion."});
-Object.assign(I18N.ui, {"Neues Design: ruhigere Farben, große Heute-Karte mit Wochenstreifen, Training im Vollbild, am PC Übersicht mit Heute-Karte. Alle Funktionen sind geblieben.": "New design: calmer colours, a big Today card with the week strip, full-screen workouts, and on the PC an overview with the Today card. All features are still there.", "Yoga-Empfehlungen: Die App schlägt passende Dehnübungen zu deinem Training vor. Ausschalten unter ⚙ Einstellungen oder direkt an der Empfehlung.": "Yoga suggestions: the app suggests stretches that fit your training. Turn them off under ⚙ Settings or right on the suggestion."});
+Object.assign(I18N.ui, {"Neues Design: klare Karten mit Fortschritts-Kurve und Kacheln für die wichtigsten Zahlen, Training im Vollbild, am PC eine Seitenleiste links. Alle Funktionen sind geblieben.": "New design: calmer colours, a big Today card with the week strip, full-screen workouts, and on the PC an overview with the Today card. All features are still there.", "Yoga-Empfehlungen: Die App schlägt passende Dehnübungen zu deinem Training vor. Ausschalten unter ⚙ Einstellungen oder direkt an der Empfehlung.": "Yoga suggestions: the app suggests stretches that fit your training. Turn them off under ⚙ Settings or right on the suggestion."});
 Object.assign(I18N.ui, {"Feedback senden: Unter ⚙ schickst du Fehler, Wünsche oder Lob direkt an den Entwickler, auch ohne Online-Konto. Antworten siehst du unter „Meine Nachrichten“.": "Send feedback: under ⚙ you can send bugs, wishes or praise straight to the developer, even without an online account. Replies show up under “My messages”."});
 Object.assign(I18N.ui, {"Statistik ab dem 3. Mal: Die ersten zwei Trainings einer Übung sind zum Einpendeln. Prozente, Steigerungen und Bestwerte rechnen ab dem dritten, im Verlauf bleiben alle sichtbar.": "Stats from the 3rd time: the first two workouts of an exercise are for settling in. Percentages, progress and bests count from the third; all stay visible in the history."});
 Object.assign(I18N.ui, {"Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten.": "Exercises you add during a workout are only for that workout. At the end you can keep them with “Add to plan”.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf, Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.": "New statistics: week card with ring, next workout and start button, tiles with the last 8 weeks, months or years, compact previews instead of collapsed cards. Wider on PC. Backup and update are now under ⚙ Settings.", "„Noch ein Satz“ fragt jetzt kurz „Mit Timer“ oder „Ohne Timer“. Mit Timer läuft erst die Pause, danach trägst du den Extra-Satz ein.": "“One more set” now briefly asks “With timer” or “No timer”. With timer, the rest runs first, then you log the extra set."});
@@ -9366,7 +9644,7 @@ Object.assign(I18N.ui, {"Beim ersten Start und nach einem Update kommt ein Willk
 Object.assign(I18N.ui, {"Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.": "On the PC, the muscle map in the plan shows either the selected training day or the whole plan."});
 Object.assign(I18N.ui, {"Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.": "Replace exercises in your plan: “⇄ Replace” with a search of the whole library, even if the exercise already has entries (your history is kept). Plus and minus for the weight during training change it by 1 kg. Searching the library runs more smoothly on phones."});
 const NOTES = [
-  ["1.3", "20.10.2026", ["Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.", "Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken.", "Liga in Gruppen, freiwillig: Punkte für Einsatz (Trainingstage, Wochenziel, Steigerung, Bestwerte, Cardio, Serie) als Woche, Monat und Jahr, oder „Laufen“ nach Kilometern. Der Ersteller einer Gruppe startet die Liga und kann Leute herausnehmen. Wer vorne liegt, bekommt Medaillen.", "Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.", "Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf, Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.", "Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten.", "Statistik ab dem 3. Mal: Die ersten zwei Trainings einer Übung sind zum Einpendeln. Prozente, Steigerungen und Bestwerte rechnen ab dem dritten, im Verlauf bleiben alle sichtbar.", "Feedback senden: Unter ⚙ schickst du Fehler, Wünsche oder Lob direkt an den Entwickler, auch ohne Online-Konto. Antworten siehst du unter „Meine Nachrichten“.", "Neues Design: ruhigere Farben, große Heute-Karte mit Wochenstreifen, Training im Vollbild, am PC Übersicht mit Heute-Karte. Alle Funktionen sind geblieben.", "Yoga-Empfehlungen: Die App schlägt passende Dehnübungen zu deinem Training vor. Ausschalten unter ⚙ Einstellungen oder direkt an der Empfehlung."]],
+  ["1.3", "20.10.2026", ["Online-Konto, freiwillig und kostenlos, ohne Passwort und ohne E-Mail: deine Pläne, Trainings und Körperwerte auf Handy und PC. Geräte verbindest du per 8-stelligem Code, mit Wiederherstellungs-Code für den Notfall. Alles, was du schon eingetragen hast, wird übernommen. Es werden nur Änderungen gepackt übertragen, auf Wunsch nur im WLAN.", "Neuer Bereich „Freunde“: Gruppen per Einladungs-Code oder Link (der Ersteller nimmt Anfragen an und kann Mitglieder entfernen), Bestenliste, Aktivität und „Trainiert gerade“. Du bestimmst, was Freunde sehen, am Anfang ist alles aus. Mit „Plan teilen“ zeigst du deinen Plan einer Gruppe oder nur per Link, Freunde können ihn ansehen und übernehmen.", "Eigene Freundesliste: Freunde direkt per Freundes-Code hinzufügen, ganz ohne Gruppe. Sie stehen unter ⚙ → „Meine Freunde“ und im Freunde-Bereich.", "Freund antippen zeigt, was er teilt. Neu teilbar: Meilensteine (mit Eintrag in der Aktivität) und der Übungsverlauf für „Vergleichen“: eure Kraft in einer Übung als zwei Linien, absolut oder als Steigerung in Prozent.", "Im Freunde-Tab lassen sich „Meine Freunde“ und „Das sehen Freunde“ einklappen. Die Aktivität zeigt die letzten 10 Einträge.", "Beim ersten Start und nach einem Update kommt ein Willkommen-Screen: Sprache, Helligkeit und Aussehen einstellen, Online-Konto ja oder nein (offline geht genauso), dann weiter mit oder ohne Tutorial.", "Faire Bestenliste: Neben „Absolut“ gibt es „Fair“ (bewegtes Gewicht im Verhältnis zum Körpergewicht, Kraft mit DOTS-Punkten) und „Steigerung“ in Prozent. Neu ist auch „Kraft“ aus Bankdrücken, Kniebeugen und Kreuzheben. „Fair“ gibt es nur mit dem Schalter „Faire Wertung“, dein Gewicht wird nicht hochgeladen.", "Der Rechner ist jetzt unter Fortschritt (Statistik | Rechner), damit die Leiste unten übersichtlicher ist.", "Muskel-Erholung: Hinweis und Video jetzt auch am PC und unter Statistiken.", "Liga in Gruppen, freiwillig: Punkte für Einsatz (Trainingstage, Wochenziel, Steigerung, Bestwerte, Cardio, Serie) als Woche, Monat und Jahr, oder „Laufen“ nach Kilometern. Der Ersteller einer Gruppe startet die Liga und kann Leute herausnehmen. Wer vorne liegt, bekommt Medaillen.", "Am PC zeigt die Muskelkarte im Plan wahlweise den gewählten Trainingstag oder den ganzen Plan.", "Übungen im Plan ersetzen: „⇄ Ersetzen“ mit Suche in der ganzen Bibliothek, auch wenn die Übung schon Einträge hat (der Verlauf bleibt). Plus und Minus beim Gewicht im Training ändern um 1 kg. Die Suche in der Bibliothek läuft am Handy flüssiger.", "Statistiken neu: Wochen-Karte mit Ring, nächstem Training und Start-Knopf, Kacheln mit Verlauf der letzten 8 Wochen, Monate oder Jahre, kompakte Vorschauen statt zugeklappter Karten. Am PC breiter. Sicherung und Update findest du jetzt unter ⚙ Einstellungen.", "Übungen, die du während eines Trainings dazunimmst, gelten nur für dieses Training. Am Ende kannst du sie mit „In den Plan übernehmen“ behalten.", "Statistik ab dem 3. Mal: Die ersten zwei Trainings einer Übung sind zum Einpendeln. Prozente, Steigerungen und Bestwerte rechnen ab dem dritten, im Verlauf bleiben alle sichtbar.", "Feedback senden: Unter ⚙ schickst du Fehler, Wünsche oder Lob direkt an den Entwickler, auch ohne Online-Konto. Antworten siehst du unter „Meine Nachrichten“.", "Neues Design: klare Karten mit Fortschritts-Kurve und Kacheln für die wichtigsten Zahlen, Training im Vollbild, am PC eine Seitenleiste links. Alle Funktionen sind geblieben.", "Yoga-Empfehlungen: Die App schlägt passende Dehnübungen zu deinem Training vor. Ausschalten unter ⚙ Einstellungen oder direkt an der Empfehlung."]],
   ["1.2", "19.10.2026", ["Einstellungen hinter dem ⚙ oben rechts: Sprache, Hell, Dunkel oder System, Skins mit kleiner Vorschau und Links zu Sicherung, Hilfe und Hinweisen.", "Yoga und Dehnen: neue Übungsart „Halten“ mit 34 Posen und Dehnübungen, Planart „Beweglich“ zum eigenen Zusammenstellen aus der Bibliothek, mit YouTube-Videos zum Mitmachen, Halte-Timer mit Gong, Vibration und Atempunkten, Seitenwechsel, „Automatisch weiter“ und Steif/Okay/Locker nach jeder Übung. Unter „Fortschritt“ zeigt „Beweglichkeit“ Serie, Minuten pro Woche und längste Haltezeiten.", "Training: Die Notiz zur Übung steht gut sichtbar unter dem Namen, auch in der Pause, und lässt sich mit ✎ direkt ändern. „Alternative“ ersetzt die Übung jetzt nur für heute, dein Plan bleibt gleich. Die Suche zeigt passende Übungen zuerst und findet sie auch mit anderer Schreibweise oder kleinem Tippfehler, zum Beispiel „Schulter drücken“ für „Schulterdrücken“. Viele Übungen findest du auch unter anderen Namen wie „Military Press“ oder „Stirndrücken“, darunter steht klein „auch bekannt als“. Das gilt auch beim Einlesen einer PDF. Die App öffnet beim Start den Plan, den du zuletzt offen hattest. Zeit-Übungen wie Plank fragen nach dem Stoppen der Stoppuhr „Übernehmen“, „Wiederholen“ oder „Anpassen“ und zeigen wie Körpergewicht-Übungen kein Gewicht mehr. Wer doch Gewicht nutzt, wählt beim Bearbeiten „Mit Zusatzgewicht“. Mit „⇅ Supersatz“ nimmst du, auch in der Pause, eine zweite Übung dazu: Beide machst du im Wechsel, die Pause kommt nach beiden. Supersätze legst du auch schon im Plan oder beim Start fest, eine kurze Erklärung steht jeweils dabei.", "Der Sägezahnmuskel zählt jetzt bei 69 Übungen mit, zum Beispiel bei Liegestützen, Bankdrücken, Schulterdrücken, Plank und Seitstütz. Deine Pläne werden automatisch ergänzt. Im Training gibt es den Video-Knopf jetzt auch in der Pause.", "Plan als PDF im neuen Design, wahlweise in Farbe oder Schwarz-Weiß, mit Muskel-Übersicht und Fortschritt je Übung. Die PDF lässt sich beim Plan-Erstellen wieder einlesen, und nach dem ersten Öffnen mit Internet geht das auch offline. Auch gekaufte Pläne mit einer Tabelle pro Übung werden samt Trainingstagen eingelesen, dazu kamen neue Übungen wie High Knees, Double Crunch und Plank Up-Down."]],
   ["1.1", "19.10.2026", ["Neues Design am Computer: Bereiche oben in einer Leiste und „Übersicht“ als Startseite mit Trainings und Volumen im Monat, Volumen pro Woche, Kraftentwicklung, Muskeln und Trainingstagen. Im Plan stehen die Tage links (direkt umbenennen und löschen), die Übungen als Tabelle zum direkten Ändern und Sortieren in der Mitte, Bibliothek und Abdeckung rechts. „▶ Training“ und die Einstellungen (⚙) sind oben rechts. Am Handy bleibt alles wie gewohnt.", "Rückblicke für Monat, halbes Jahr, Jahr und „Gesamt“ seit deinem ersten Training: Trainings, bewegtes Gewicht, Lieblingsübung, meisttrainierte Muskeln, wo du stärker geworden bist, Rhythmus, Cardio und Körpergewicht. Ist ein Zeitraum vorbei, erscheint auf der Startseite ein kleiner Hinweis. Am Computer findest du alle Rückblicke jederzeit unter „Fortschritt“.", "„Training starten“ am Handy fragt zuerst, welchen Tag du trainierst, zum Beispiel Ober- oder Unterkörper. Danach startet das Training sofort mit dem Gewichtsfeld.", "Zuhause-Version: Kraftstufe von 1 (Einsteiger) bis 6 (Profi). Die App wählt passende Körpergewichts-Übungen, ab Stufe 5 auch Handstand. Dazu 12 neue Übungen, zum Beispiel Liegestütze an der Wand, Muscle-ups, Front Lever und Dragon Flag.", "Handy: aufgeräumte Kopfzeile in einer Reihe und weniger Leerraum in der Tableiste unten."]],
   ["1.0", "19.10.2026", ["Großes Redesign, Muskelplan ist keine Beta mehr: neue Startseite mit deinen Trainingstagen und „Training starten“ (Stoppuhr, Pausen-Timer, Signalton), Tableiste unten am Handy und Seitenleiste am Computer, rundere Karten und Knöpfe.", "Die Muskelfigur auf der Startseite zeigt die Muskel-Erholung: was du frisch trainiert hast und was schon länger Pause hat.", "Neuer Trainings-Bildschirm: Satz-Kreise, große ± Knöpfe, Werte vom letzten Mal als Hinweis. Nach jedem Satz wählst du die nächste Übung, in der Pause siehst und bearbeitest du sie schon. „Noch ein Satz“ geht mit oder ohne Timer.", "Übungen auf Zeit wie Unterarmstütz (Plank) mit Stoppuhr und Ziel-Ring.", "Neuer Bildschirm „Training fertig!“ mit Dauer, Sätzen, bewegtem Gewicht, neuen Bestwerten und Vergleich zum letzten Mal.", "„⇄ Alternativen“ zeigt andere Übungen für dieselben Muskeln, im Training hilfreich, wenn ein Gerät besetzt ist. Übungen lassen sich auch mitten im Training hinzufügen.", "31 neue Übungen in der Bibliothek und passendere Wiederholungszahlen.", "Zuhause-Version: Du kannst jetzt auch Maschinen wählen, die du zuhause hast, zum Beispiel Kabelzug, Latzug oder Beinpresse.", "44 neue Meilensteine, jetzt 102 insgesamt.", "22 neue Skins, zum Beispiel Formel 1, Minecraft, Pokémon, Spotify und Rave, jeweils hell und dunkel.", "Fehler behoben: Eine geladene Sicherung wird nicht mehr überschrieben, und „Training starten“ verdeckt am Computer beim Scrollen nicht mehr die Muskelerholung."]],
@@ -10213,8 +10491,8 @@ function dskApply(first){
   const on = DSK(), hd = document.querySelector("header");
   if (PLAN2 && on && document.body.classList.contains("pl2add")) pl2Add(false);
   document.documentElement.classList.toggle("dsk", on);
-  if (on) { const lg = hd.querySelector(".dsklogo"); lg.after($("tabs")); $("dskBar").insertBefore($("bkChip"), $("dskTrain")); }
-  else { dskHome.tabs.parent.insertBefore($("tabs"), dskHome.tabs.next); dskHome.bk.parent.insertBefore($("bkChip"), dskHome.bk.next); dskGear(false); if (document.body.classList.contains("hspop")) dskPop(false); }
+  if (on) { const lg = hd.querySelector(".dsklogo"); lg.after($("tabs")); $("dskBar").insertBefore($("bkChip"), $("dskTrain")); if (NEWDS) $("dskBar").insertBefore(hd.querySelector(".planbar"), $("bkChip")); }
+  else { dskHome.tabs.parent.insertBefore($("tabs"), dskHome.tabs.next); dskHome.bk.parent.insertBefore($("bkChip"), dskHome.bk.next); if (NEWDS) { const pb = $("dskBar").querySelector(".planbar"); if (pb) hd.querySelector("div:has(> h1)").after(pb); } dskGear(false); if (document.body.classList.contains("hspop")) dskPop(false); }
   if (first !== true) renderAll();
 }
 // Muskelkarte am PC: gewählter Tag oder ganzer Plan
@@ -10318,7 +10596,7 @@ function renderDash(){
   const recentH = recent.length ? `<ul class="drec">${recent.map(({ p, s }) => { const v = sessionVolume(p, s); const nm = s.manual ? L("Einzeln eingetragen", "Logged singly") : s.day ? dayName(p, s.day) : L("Training", "Workout");
       return `<li><b>${esc(nm)}</b><span class="n">${fmtDs(s.d)}${s.timed === false || s.manual || !(s.end > s.start) ? "" : " · " + fmtDur(s.end - s.start)}${v ? " · " + fmt(Math.round(v)) + " kg" : ""}</span></li>`; }).join("")}</ul><button type="button" class="ghost mini dmore" data-dsh="hist">${L("Alle Trainings", "All workouts")} →</button>`
     : `<p class="hint">${L("Noch keine Trainings. Starte oben rechts mit ▶ Training.", "No workouts yet. Start top right with ▶ Workout.")}</p>`;
-  box.innerHTML = `${NEWUI ? dshToday() : dshWeek()}<div class="dkpis">${kpis}</div>
+  box.innerHTML = `${NEWDS && NDS_HOMEHERO ? `<section class="panel dcard dhero ndshero">${ndsHeroHTML()}</section>` : ""}${NEWUI ? dshToday() : dshWeek()}<div class="dkpis">${kpis}</div>
     <section class="panel dcard dvol"><div class="dch"><h2>${L("Volumen pro Woche", "Volume per week")}</h2>${segH("metric", dshMetric, [["kg", "kg"], ["sets", L("Sätze", "Sets")], ["min", L("Dauer", "Time")]])}</div><div class="dbars">${bars}</div></section>
     <section class="panel dcard dmus"><div class="dch"><h2>${L("Muskeln", "Muscles")}</h2>${segH("mus", dshMus, [["m", L("Monat", "Month")], ["w", L("Woche", "Week")]])}</div>
       <div class="heatfigs"><div>${heatFigure("front", share)}</div><div>${heatFigure("back", share)}</div></div>
@@ -11338,7 +11616,7 @@ function renderSet(){
       ${HOMEC ? `<button type="button" data-set="homec"><span>🏠 ${L("Startseite anpassen", "Customize home")}</span><i>›</i></button>` : ""}
       <button type="button" data-set="fdb"><span>💬 ${L("Feedback senden", "Send feedback")}</span><i>›</i></button>
       ${TUT2 ? "" : `<details class="setfaq"><summary>⇅ ${L("Supersätze: so geht's", "Supersets: how it works")}</summary><p>${esc(SS_HOW())}</p><p>${esc(L("Verbinden kannst du zwei Übungen an drei Stellen: im Plan mit „⇅“ an der Übung, beim Start unter „⇅ Supersätze“ und mitten im Training, auch in der Pause, mit „⇅ Supersatz“. Lösen geht genauso. Hast du dich vertippt, hilft „Rückgängig“ im Hinweis unten.", "You can link two exercises in three places: in the plan with “⇅” on the exercise, at the start under “⇅ Supersets”, and during the workout, also in the rest, with “⇅ Superset”. Unlinking works the same way. If you tapped the wrong one, use “Undo” in the message at the bottom."))}</p><div class="ytrow">${ytLink("Supersätze richtig trainieren", "How to do supersets right", "Supersätze richtig trainieren", "how to do supersets correctly")}</div></details>`}
-      <button type="button" data-set="notes"><span>ℹ ${L(`Hinweise & Version ${APP_VERSION}`, `Notes & version ${APP_VERSION}`)}</span><i>›</i></button>
+      <button type="button" data-set="notes"><span>ℹ ${NEWDS ? L(`Patch Notes · Version ${APP_VERSION}`, `Patch notes · version ${APP_VERSION}`) : L(`Hinweise & Version ${APP_VERSION}`, `Notes & version ${APP_VERSION}`)}</span><i>›</i></button>${NEWDS ? `<button type="button" data-set="hints"><span>⚖ ${L("Hinweise & Haftung", "Notes & disclaimer")}</span><i>›</i></button>${document.body.classList.contains("dev") ? `<button type="button" data-set="debug"><span>🛠 ${L("Debug-Menü", "Debug menu")}</span><i>›</i></button>` : $("devOn") && !$("devOn").hidden ? `<button type="button" data-set="devon"><span>🛠 ${L("Entwicklermodus einschalten", "Turn on developer mode")}</span><i>›</i></button>` : ""}` : ""}
     </div>${admMiniHTML()}<div class="setver" id="setVer"></div>`;
   const v = $("appVer"); if (v) { $("setVer").appendChild(v); }
   keep();
@@ -11391,7 +11669,10 @@ function setClick(e){
   if (a === "tech") { setOpen(false); setView("technik"); window.scrollTo({ top: 0, behavior: "auto" }); return; }
   if (a === "friends") { setPage = "cloud"; cloudMsg = ""; cloudPage = "friends"; frInvOpen = false; frErr = ""; frRmAsk = null; renderSet(); $("setPanel").scrollTop = 0; if (cloudOn()) frRefresh(true); return; }
   if (a === "cloud") { setPage = "cloud"; cloudMsg = ""; cloudPage = cloudFirst ? "first" : "home"; renderSet(); $("setPanel").scrollTop = 0; return; }
-  if (a === "notes") { if ($("notesBox").hidden) $("notesToggle").click(); setGo("notesToggle", "fortschritt"); return; }
+  if (a === "notes") { if ($("notesBox").hidden) $("notesToggle").click(); setGo(NEWDS ? "notesBox" : "notesToggle", "fortschritt"); return; }
+  if (a === "hints") { setOpen(false); openHints(); return; }
+  if (a === "debug") { if ($("debugBox").hidden) $("debugToggle").click(); setGo("debugBox", "fortschritt"); return; }
+  if (a === "devon") { setOpen(false); $("devOn").click(); return; }
   if (a === "help") { setOpen(false); if (typeof tsHelp === "function" && TUT2) tsHelp(true); else tourStart(); return; }
 }
 { const tr = document.querySelector("header .topright");
@@ -12228,7 +12509,7 @@ function cloudUI(){
   // nicht neu aufbauen, während jemand gerade einen Code eintippt
   const el = $("setPanel"), ae = document.activeElement; if (el && !el.hidden && setPage === "cloud" && cloudPage !== "friends" && cloudPage !== "who" && !(ae && ae.tagName === "INPUT" && ae.type !== "checkbox" && el.contains(ae))) renderSet();
   const r = document.querySelector('[data-set="cloud"] i'); if (r) r.textContent = cloudStatusTxt() + " ›";
-  const chip = $("bkChip"); if (chip && cloudOn()) { chip.hidden = false; chip.classList.remove("old"); chip.textContent = cloudStat === "offline" ? "☁ " + L("Offline", "Offline") : cloudStat === "err" ? "☁ " + L("Abgleich-Fehler", "Sync error") : "☁ " + L("Synchron", "Synced"); chip.title = L("Online-Konto", "Online account"); }
+  const chip = $("bkChip"); if (chip && cloudOn()) { chip.hidden = false; chip.classList.remove("old"); chip.classList.toggle("warn", cloudStat === "offline" || cloudStat === "err"); chip.textContent = cloudStat === "offline" ? "☁ " + L("Offline", "Offline") : cloudStat === "err" ? "☁ " + L("Abgleich-Fehler", "Sync error") : "☁ " + L("Synchron", "Synced"); chip.title = L("Online-Konto", "Online account"); }
   // mit Online-Konto liegen die Daten nicht mehr nur auf diesem Gerät
   const lo = $("bkLoss"); if (lo) { if (lo.dataset.orig == null) lo.dataset.orig = lo.innerHTML;
     if (cloudOn() && !fbCfg().demo) { lo.className = "hint"; lo.textContent = L("☁ Deine Daten sind auch in deinem Online-Konto. Löschst du die Browserdaten, holst du sie mit dem Wiederherstellungs-Code zurück (⚙ Einstellungen › Online-Konto). Eine Sicherung als Datei schadet trotzdem nicht.", "☁ Your data is also in your online account. If you clear browser data, get it back with the recovery code (⚙ Settings › Online account). A backup file still doesn't hurt."); }
@@ -13248,6 +13529,75 @@ async function frHash(){
 addEventListener("hashchange", frHash); setTimeout(frHash, 350);
 document.documentElement.classList.toggle("fron", !!fbCfg());
 $("frShareBtn").addEventListener("click", () => frOpenShare(plan().id));
+
+// ---------- 03.11.: Neues Design „Depot-Stil“ (NEWDS, nur Dev) ----------
+var ndsRecOpen = false, ndsMet = "kg"; try { ndsMet = localStorage.getItem("muskelplan.ndsmet") || "kg"; } catch(e) {}
+var ndsTrSet = false;
+function ndsTilesHTML(p){
+  const nd = hasDays(p) ? dueDay(p) : null;
+  const tile = (id, name, list, fig) => `<button type="button" class="ndstile${id && id === nd ? " due" : ""}" data-hs="qday" ${id ? `data-day="${id}"` : ""} ${list.length ? "" : "disabled"}>${fig}${id && id === nd ? `<span class="ndsbadge">${L("Als Nächstes", "Up next")}</span>` : ""}<b>${esc(name)}</b><span class="hint">${list.length} ${L("Üb", "ex")} · ${ndsMin(list)} min</span></button>`;
+  const tiles = hasDays(p) ? daysOf(p).map(d => tile(d.id, d.name, unitsFor(p, d.id), ndsDayInfo(p, d.id).fig)).join("") : tile("", L("Alle Übungen", "All exercises"), planUnits(p), mfig([...new Set(p.units.flatMap(u => (u.muscles || []).slice(0, 2)))], []));
+  return `<div class="ndstrh"><h2>${L("Was trainierst du heute?", "What are you training today?")}</h2></div><div class="ndstiles">${tiles}</div><p class="hint ndstrnote">${L("Stoppuhr, Pausen und Supersätze stellst du unten ein.", "Set stopwatch, rests and supersets below.")}</p>`;
+}
+var ndsPer = "1M"; try { ndsPer = localStorage.getItem("muskelplan.ndsper") || "1M"; } catch(e) {}
+const NDS_PER = () => [["1W", 7, L("1W", "1W"), L("letzte 7 Tage", "last 7 days"), L("zu den 7 Tagen davor", "vs the 7 days before")], ["1M", 30, "1M", L("letzte 30 Tage", "last 30 days"), L("zu den 30 Tagen davor", "vs the 30 days before")], ["3M", 91, "3M", L("letzte 3 Monate", "last 3 months"), L("zu den 3 Monaten davor", "vs the 3 months before")], ["1J", 365, L("1J", "1Y"), L("letztes Jahr", "last year"), L("zum Jahr davor", "vs the year before")], ["Max", 0, "Max", L("seit Beginn", "since the start"), ""]];
+function ndsAgo(d){ if (!d) return L("noch nie", "never"); const n = daysBetween(d, todayIso()); return n <= 0 ? L("heute", "today") : n === 1 ? L("gestern", "yesterday") : L(`vor ${n} Tagen`, `${n} days ago`); }
+function ndsMin(list){ const st = settings(); return Math.max(5, Math.round(list.reduce((n, u) => n + (isCardio(u) ? (parseFloat(u.reps) || 20) * 60 : setsNum(u) * (40 + (u.rest || st.restSet || 90))), 0) / 300) * 5); }
+function ndsDayInfo(p, id){
+  const list = unitsFor(p, id), ses = (p.sessions || []).filter(s => s.day === id && s.items && s.items.length).sort((a, b) => a.d < b.d ? -1 : a.d > b.d ? 1 : (a.start || 0) - (b.start || 0));
+  const last = ses.length ? ses[ses.length - 1].d : "", vals = ses.slice(-6).map(s => sessionVolume(p, s) || 0);
+  const pri = [...new Set(list.flatMap(u => (u.muscles || []).slice(0, 2)))], sec = [...new Set(list.flatMap(u => (u.muscles || []).slice(2)))].filter(m => !pri.includes(m));
+  return { last, ago: ndsAgo(last), min: ndsMin(list), fig: mfig(pri, sec), spark: vals.length > 1 ? ndsSpark(vals) : "" };
+}
+function ndsSpark(vals){ const W = 64, H = 24, lo = Math.min(...vals), hi = Math.max(...vals), r = hi - lo || 1, up = vals[vals.length - 1] >= vals[0];
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true"><polyline points="${vals.map((v, i) => `${(i / (vals.length - 1) * (W - 4) + 2).toFixed(1)},${(H - 3 - (v - lo) / r * (H - 6)).toFixed(1)}`).join(" ")}" fill="none" stroke="${up ? "var(--good)" : "var(--muted)"}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>`; }
+function ndsProgHero(){ const el = $("ndsProg"); if (!el) return; el.hidden = false; try { el.innerHTML = ndsHeroHTML(true); } catch(e) { console.warn(e); } }
+const NDS_MET = () => [["kg", L("Volumen", "Volume"), L("Bewegt", "Moved")], ["n", L("Trainings", "Workouts"), L("Trainings", "Workouts")], ["sets", L("Sätze", "Sets"), L("Sätze", "Sets")], ["min", L("Dauer", "Time"), L("Trainingszeit", "Training time")], ["cardio", "Cardio", L("Cardio", "Cardio")]];
+function ndsHeroHTML(prog){
+  const { E, K, S } = dshAll(), today = todayIso(), P = NDS_PER(), per = P.find(x => x[0] === ndsPer) || P[1];
+  const M = NDS_MET(), met = prog ? (M.find(x => x[0] === ndsMet) || M[0]) : M[0], mk = met[0];
+  const ev = []; // [Datum, Wert]
+  if (mk === "kg") K.forEach(x => ev.push([x.e.d, volume(x.e) || 0])); else if (mk === "sets") K.forEach(x => ev.push([x.e.d, setsOf(x.e).length]));
+  else if (mk === "n") S.forEach(({ s }) => { if (s.d && s.items && s.items.length) ev.push([s.d, 1]); });
+  else if (mk === "min") S.forEach(({ s }) => { if (s.d && s.timed !== false && !s.manual && s.end > s.start) ev.push([s.d, (s.end - s.start) / 60000]); });
+  else (state.cardio || []).forEach(e => { if (e.cardio) ev.push([e.d, +e.cardio.min || 0]); });
+  const vTxt = v => mk === "kg" ? (v >= 1e6 ? kgTxt(v) : fmt(Math.round(v)) + " kg") : mk === "min" || mk === "cardio" ? fmtDur(Math.round(v) * 60000) : fmt(Math.round(v));
+  const mchips = prog ? `<div class="ndsmet" role="group" aria-label="${L("Kennzahl", "Metric")}">${M.map(x => `<button type="button" data-nds="met" data-v="${x[0]}" aria-pressed="${x[0] === mk}">${x[1]}</button>`).join("")}</div>` : "";
+  const chips = `<div class="ndschips" role="group" aria-label="${L("Zeitraum", "Period")}">${P.map(x => `<button type="button" data-nds="per" data-v="${x[0]}" aria-pressed="${x[0] === per[0]}">${x[2]}</button>`).join("")}</div>`;
+  const first = ev.reduce((m, x) => x[0] <= today && (!m || x[0] < m) ? x[0] : m, "");
+  if (!first) return `${mchips}<span class="ndslab">${met[2]}</span><b class="ndsbig n">${vTxt(0)}</b><p class="ndsdel">${mk === "kg" ? L("Nach deinem ersten Training siehst du hier, wie viel Gewicht du bewegst und wie es sich entwickelt.", "After your first workout you'll see here how much weight you move and how it develops.") : L("Dazu gibt es noch keine Einträge.", "No entries for this yet.")}</p>`;
+  const span = per[1] || Math.max(7, daysBetween(first, today) + 1), from = isoAdd(today, -(span - 1)), pFrom = isoAdd(from, -span);
+  const byD = {}; let prev = 0;
+  ev.forEach(([d, v]) => { if (d >= from && d <= today) byD[d] = (byD[d] || 0) + v; else if (per[1] && d >= pFrom && d < from) prev += v; });
+  let c = 0; const pts = []; for (let i = 0; i < span; i++) { c += byD[isoAdd(from, i)] || 0; pts.push(c); }
+  const step = Math.max(1, Math.ceil(pts.length / 90)), sp = pts.filter((v, i) => i % step === 0); if ((pts.length - 1) % step) sp.push(pts[pts.length - 1]);
+  const W = 360, H = 140, hi = Math.max(1, c), xy = sp.map((v, i) => [sp.length > 1 ? i / (sp.length - 1) * W : W, H - 6 - v / hi * (H - 18)]);
+  const line = xy.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" "), [lx, ly] = xy[xy.length - 1];
+  const pc = per[1] && prev ? Math.round((c - prev) / prev * 100) : null;
+  const del = !per[1] ? L(`seit ${fmtD(first)}`, `since ${fmtD(first)}`) : pc === null ? (c ? L("davor nichts eingetragen", "nothing logged before") : L("in diesem Zeitraum noch nichts", "nothing in this period yet"))
+    : `<span class="${pc > 0 ? "up" : "dn"}">${pc > 0 ? "▲" : pc < 0 ? "▼" : "="} ${fmt(Math.abs(pc))} % ${per[4]}</span>`;
+  return `${mchips}<span class="ndslab">${met[2]} · ${per[3]}</span><b class="ndsbig n">${vTxt(c)}</b><p class="ndsdel">${del}</p>
+    <div class="ndschart" aria-hidden="true"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><linearGradient id="ndsGa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sel)" stop-opacity=".28"/><stop offset="1" stop-color="var(--sel)" stop-opacity="0"/></linearGradient></defs><polygon points="0,${H} ${line} ${W},${H}" fill="url(#ndsGa)"/><polyline points="${line}" fill="none" stroke="var(--sel)" stroke-width="2.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><i class="ndsdot" style="left:${(lx / W * 100).toFixed(2)}%;top:${(ly / H * 100).toFixed(2)}%"></i></div>${chips}`;
+}
+function ndsTitle(v){ const hd = document.querySelector("header"); if (hd) hd.dataset.ttl = ({ home: L("Übersicht", "Overview"), bauen: L("Plan", "Plan"), training: L("Training", "Workout"), fortschritt: L("Fortschritt", "Progress"), wissen: L("Fortschritt", "Progress"), freunde: L("Freunde", "Friends"), technik: L("Technik", "Technique") })[v] || ""; }
+if (NEWDS) {
+  const h1 = document.querySelector("header h1"); if (h1 && !h1.querySelector(".ndsmp")) h1.insertAdjacentHTML("beforeend", `<span class="ndsmp" aria-hidden="true">M<b>P</b></span>`);
+  document.addEventListener("click", e => { const b = e.target.closest("[data-nds]"); if (!b) return;
+    if (b.dataset.nds === "trset") { ndsTrSet = !ndsTrSet; renderSession(); $("sessBox").querySelector("[data-nds=trset]")?.focus({ preventScroll: true }); return; }
+    if (b.dataset.nds === "rec") { ndsRecOpen = !ndsRecOpen; renderHomeRec(); $("hRec").querySelector("[data-nds=rec]")?.focus({ preventScroll: true }); return; }
+    if (b.dataset.nds === "met") { ndsMet = b.dataset.v; try { localStorage.setItem("muskelplan.ndsmet", ndsMet); } catch(e2) {} ndsProgHero(); $("ndsProg").querySelector(`[data-nds="met"][data-v="${ndsMet}"]`)?.focus({ preventScroll: true }); return; }
+    if (b.dataset.nds === "per") { ndsPer = b.dataset.v; try { localStorage.setItem("muskelplan.ndsper", ndsPer); } catch(e2) {} document.querySelectorAll(".ndshero").forEach(h => { if (!h.hidden) h.innerHTML = ndsHeroHTML(h.id === "ndsProg"); }); const nb = document.querySelector(`.ndshero [data-nds="per"][data-v="${ndsPer}"]`); if (nb && document.activeElement === document.body) nb.focus({ preventScroll: true }); } });
+  try { ndsTitle(view); } catch(e) {}
+}
+
+// Tippen auf „Satz speichern“ bei offener Tastatur: Fokus bleibt bis zum Klick, sonst springt der Knopf nach unten weg, bevor der Klick ankommt
+if (NEWDS) ["pointerdown", "mousedown"].forEach(t => document.addEventListener(t, e => { const b = e.target.closest && e.target.closest('#sessBox [data-s="saveSet"]'); if (b && document.activeElement && document.activeElement.matches("#sessBox input, #sessBox textarea")) e.preventDefault(); }, true));
+// Training läuft am Handy: Tastatur offen → „Satz speichern“ nicht fest unten (sonst unter der Tastatur), sondern direkt unter den Feldern sichtbar halten
+if (NEWDS) document.addEventListener("focusin", e => {
+  if (!document.body.classList.contains("running") || !e.target.matches || !e.target.matches("#sessBox input, #sessBox textarea")) return;
+  const fit = () => { const b = document.querySelector('#sessBox [data-s="saveSet"]'); if (!b || !b.offsetParent) return; const vv = window.visualViewport, r = b.getBoundingClientRect(), h = vv ? vv.height + vv.offsetTop : innerHeight; if (r.bottom > h - 8) window.scrollBy({ top: r.bottom - h + 16, behavior: "smooth" }); };
+  setTimeout(fit, 350); if (window.visualViewport) { const on = () => { fit(); window.visualViewport.removeEventListener("resize", on); }; window.visualViewport.addEventListener("resize", on); }
+});
 </script>
 
 <script>
