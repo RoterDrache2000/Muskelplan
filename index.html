@@ -3321,27 +3321,27 @@ html.nds:not([data-skin]) .hwork .hday[data-open="1"] ol{padding-left:0}
 @media (max-width:380px){html.nds .hdh .ndsspk{display:none}}
 /* PC: Seitenleiste links (232 px), Titel und Plan-Pille oben */
 @media (min-width:1100px){
-  html.nds.dsk:not([data-skin]){--sbw:232px}
-  html.nds.dsk:not([data-skin]) body{padding-left:var(--sbw)!important}
-  html.nds.dsk:not([data-skin]) body::before{content:"";position:fixed;top:0;left:var(--sbw);right:0;height:80px;background:var(--bg);z-index:49}
-  html.nds.dsk:not([data-skin]) .wrap{padding-top:96px!important}
-  html.nds.dsk:not([data-skin]) body.view-home .wrap,html.nds.dsk:not([data-skin]) body.view-bauen .wrap{max-width:1240px}
-  html.nds.dsk:not([data-skin]) header{position:fixed!important;top:0;left:0;bottom:0;right:auto;width:var(--sbw);height:auto!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start;gap:4px;padding:26px 14px 18px!important;background:color-mix(in srgb,var(--panel) 45%,var(--bg))!important;border:0!important;border-right:1px solid var(--line)!important;box-shadow:none!important;z-index:50}
-  html.nds.dsk:not([data-skin]) header::after{content:attr(data-ttl);position:fixed;left:calc(var(--sbw) + 32px);top:22px;font:900 34px/1 var(--logo);letter-spacing:.01em;color:var(--ink);pointer-events:none}
-  html.nds.dsk:not([data-skin]) .dsklogo{display:block!important;font:900 26px/1 var(--logo)!important;margin:0 10px 26px;color:var(--ink)}
-  html.nds.dsk:not([data-skin]) header .tabs,html.nds.dsk.lay2:not([data-skin]) body header .tabs{flex-direction:column!important;height:auto!important;flex:0 0 auto!important;gap:4px!important;overflow:visible!important;border:0!important;background:transparent!important}
-  html.nds.dsk.lay2:not([data-skin]) body header .tabs button{height:46px!important;width:100%!important;justify-content:flex-start!important;gap:12px!important;padding:0 14px!important;border:0!important;border-radius:12px!important;color:var(--muted)!important;font-size:15px!important;font-weight:600!important;background:transparent}
-  html.nds.dsk.lay2:not([data-skin]) body header .tabs button[aria-selected="true"]{background:var(--accs)!important;color:var(--sel)!important}
-  html.nds.dsk:not([data-skin]) header .tabs .ti{display:inline-block!important;width:20px;text-align:center;font-size:1rem}
-  html.nds.dsk:not([data-skin]) header .tabs button[data-view="training"] .ti{width:20px!important;height:auto!important;background:transparent!important;color:inherit!important;box-shadow:none!important;border-radius:0!important;font-size:.9rem}
-  html.nds.dsk:not([data-skin]) .dskbar{position:fixed;top:18px;right:28px;z-index:51;display:flex;align-items:center;gap:10px}
-  html.nds.dsk:not([data-skin]) .dskbar .planbar{display:flex;margin:0;order:-1}
-  html.nds.dsk:not([data-skin]) .dskbar .planbar .label,html.nds.dsk:not([data-skin]) .dskbar #newPlan,html.nds.dsk:not([data-skin]) .dskbar #planMenu,html.nds.dsk:not([data-skin]) .dskbar .pl2pmb{display:none!important}
-  html.nds.dsk:not([data-skin]) .dskbar #planSel{height:42px;max-width:260px;border:0;border-radius:999px;background-color:var(--panel2);color:var(--ink);font-weight:600;padding:0 32px 0 16px}
-  html.nds.dsk:not([data-skin]) .dsktrain{height:44px!important;padding:0 18px!important;border:0!important;border-radius:14px!important;background:var(--sel)!important;color:#fff!important;font-weight:700!important}
-  html.nds.dsk:not([data-skin]) .dskgear,html.nds.dsk:not([data-skin]) .dskhelp{border:0!important;background:var(--panel2)!important;color:var(--ink)!important;border-radius:12px!important}
-  @media (hover:hover){html.nds.dsk.lay2:not([data-skin]) body header .tabs button:not([aria-selected="true"]):hover{background:var(--panel2)!important;color:var(--ink)!important}html.nds.dsk:not([data-skin]) .dskgear:hover{background:var(--s3)!important}}
-  html.nds.dsk:not([data-skin]) body.hspop #hStart{top:80px;right:28px}
+  html.nds.dsk{--sbw:232px}
+  html.nds.dsk body{padding-left:var(--sbw)!important}
+  html.nds.dsk body::before{content:"";position:fixed;top:0;left:var(--sbw);right:0;height:80px;background:var(--bg);z-index:49}
+  html.nds.dsk .wrap{padding-top:96px!important}
+  html.nds.dsk body.view-home .wrap,html.nds.dsk body.view-bauen .wrap{max-width:1240px}
+  html.nds.dsk header{position:fixed!important;top:0;left:0;bottom:0;right:auto;width:var(--sbw);height:auto!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start;gap:4px;padding:26px 14px 18px!important;background:color-mix(in srgb,var(--panel) 45%,var(--bg))!important;border:0!important;border-right:1px solid var(--line)!important;box-shadow:none!important;z-index:50}
+  html.nds.dsk header::after{content:attr(data-ttl);position:fixed;left:calc(var(--sbw) + 32px);top:22px;font:900 34px/1 var(--logo);letter-spacing:.01em;color:var(--ink);pointer-events:none}
+  html.nds.dsk .dsklogo{display:block!important;font:900 26px/1 var(--logo)!important;margin:0 10px 26px;color:var(--ink)}
+  html.nds.dsk header .tabs,html.nds.dsk.lay2 body header .tabs{flex-direction:column!important;height:auto!important;flex:0 0 auto!important;gap:4px!important;overflow:visible!important;border:0!important;background:transparent!important}
+  html.nds.dsk.lay2 body header .tabs button{height:46px!important;width:100%!important;justify-content:flex-start!important;gap:12px!important;padding:0 14px!important;border:0!important;border-radius:12px!important;color:var(--muted)!important;font-size:15px!important;font-weight:600!important;background:transparent}
+  html.nds.dsk.lay2 body header .tabs button[aria-selected="true"]{background:var(--accs)!important;color:var(--sel)!important}
+  html.nds.dsk header .tabs .ti{display:inline-block!important;width:20px;text-align:center;font-size:1rem}
+  html.nds.dsk header .tabs button[data-view="training"] .ti{width:20px!important;height:auto!important;background:transparent!important;color:inherit!important;box-shadow:none!important;border-radius:0!important;font-size:.9rem}
+  html.nds.dsk .dskbar{position:fixed;top:18px;right:28px;z-index:51;display:flex;align-items:center;gap:10px}
+  html.nds.dsk .dskbar .planbar{display:flex;margin:0;order:-1}
+  html.nds.dsk .dskbar .planbar .label,html.nds.dsk .dskbar #newPlan,html.nds.dsk .dskbar #planMenu,html.nds.dsk .dskbar .pl2pmb{display:none!important}
+  html.nds.dsk .dskbar #planSel{height:42px;max-width:260px;border:0;border-radius:999px;background-color:var(--panel2);color:var(--ink);font-weight:600;padding:0 32px 0 16px}
+  html.nds.dsk .dsktrain{height:44px!important;padding:0 18px!important;border:0!important;border-radius:14px!important;background:var(--sel)!important;color:#fff!important;font-weight:700!important}
+  html.nds.dsk .dskgear,html.nds.dsk .dskhelp{border:0!important;background:var(--panel2)!important;color:var(--ink)!important;border-radius:12px!important}
+  @media (hover:hover){html.nds.dsk.lay2 body header .tabs button:not([aria-selected="true"]):hover{background:var(--panel2)!important;color:var(--ink)!important}html.nds.dsk .dskgear:hover{background:var(--s3)!important}}
+  html.nds.dsk body.hspop #hStart{top:80px;right:28px}
   /* Übersicht: links groß, rechts 360 px */
   html.nds.nui.dsk body #dash{grid-template-columns:360px minmax(0,1fr)!important;direction:rtl}
   html.nds.nui.dsk body #dash > *{direction:ltr}
@@ -3425,23 +3425,23 @@ html.nds:not([data-skin]) body #bkSec#bkSec{background:var(--panel)!important;bo
 @media (max-width:1099px){html.nds:not([data-skin]) #progSec > #ndsProg{background:transparent!important;padding:4px 2px 12px!important}}
 /* PC, Plan: Seitenleiste bleibt gleich breit (Vincent 03.11.: Springen war komisch); bei wenig Platz rutscht die Bibliothek unter die Tage */
 @media (min-width:1100px) and (max-width:1399px){
-  html.nds.pl2.dsk:not([data-skin]) body.view-bauen .grid{grid-template-columns:250px minmax(0,1fr)!important;grid-template-rows:auto auto 1fr!important;gap:18px}
-  html.nds.pl2.dsk:not([data-skin]) body.view-bauen #dpLib{grid-column:1!important;grid-row:3!important;position:static!important;max-height:none!important}
+  html.nds.pl2.dsk body.view-bauen .grid{grid-template-columns:250px minmax(0,1fr)!important;grid-template-rows:auto auto 1fr!important;gap:18px}
+  html.nds.pl2.dsk body.view-bauen #dpLib{grid-column:1!important;grid-row:3!important;position:static!important;max-height:none!important}
 }
 /* Plan-Tage (Handy): aktive Pille hell/dunkel gleich */
 html.nds:not([data-skin]) #planSec .seg button{background:transparent!important;color:var(--muted)!important;border:0!important;box-shadow:none!important}
 html.nds:not([data-skin]) #planSec .seg button[aria-pressed="true"]{background:var(--panel2)!important;color:var(--ink)!important}
 @media (min-width:1100px) and (max-width:1599px){
-  html.nds.dsk:not([data-skin]) body.view-bauen .wrap{max-width:none!important}
-  @media (min-width:1400px){html.nds.pl2.dsk:not([data-skin]) body.view-bauen .grid{grid-template-columns:270px minmax(0,1fr) 300px!important;gap:20px}}
-  html.nds.dsk:not([data-skin]) #units .dpt{--dcols:18px 30px minmax(0,1fr) 54px 70px 36px 36px}
-  html.nds.dsk:not([data-skin]) #units .dpt :is(.dtags,.dlast,.dna+.dtags){display:none}
-  html.nds.pl2.dsk:not([data-skin]) .dphd span:nth-child(4),html.nds.pl2.dsk:not([data-skin]) .dphd span:nth-child(7){display:block!important}html.nds.pl2.dsk:not([data-skin]) .dphd span:nth-child(6){display:none!important}
+  html.nds.dsk body.view-bauen .wrap{max-width:none!important}
+  @media (min-width:1400px){html.nds.pl2.dsk body.view-bauen .grid{grid-template-columns:270px minmax(0,1fr) 300px!important;gap:20px}}
+  html.nds.dsk #units .dpt{--dcols:18px 30px minmax(0,1fr) 54px 70px 36px 36px}
+  html.nds.dsk #units .dpt :is(.dtags,.dlast,.dna+.dtags){display:none}
+  html.nds.pl2.dsk .dphd span:nth-child(4),html.nds.pl2.dsk .dphd span:nth-child(7){display:block!important}html.nds.pl2.dsk .dphd span:nth-child(6){display:none!important}
 }
 @media (min-width:1100px) and (max-width:1399px){html.nds.dsk .dkpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 html.nds.dsk .dch{flex-wrap:wrap;gap:8px}
 html.nds #progSec > #ndsProg{grid-column:1/-1}
-@media (min-width:1100px){html.nds.dsk:not([data-skin]) #trainSec > .planhead h2{display:none}}
+@media (min-width:1100px){html.nds.dsk #trainSec > .planhead h2{display:none}}
 /* App-Tester 03.11. (tests/2026-11-03-depot-design): Hover-Schrift nicht auf --bg kippen, fixer Knopf ohne transform im Elternteil */
 /* Hover: wo eine Klasse den Hintergrund selbst setzt, Schrift nicht auf --bg kippen lassen */
 .hday>.hdh:hover,.hday li>button:hover,.ndstile:not(:disabled):hover,.pex:hover,.dpday:hover,.dpaddex:hover{color:var(--ink)}
@@ -3455,8 +3455,8 @@ html[data-skin="arcade"] .hwhead button[data-hw="all"]:hover{background:var(--ta
 @media (max-width:760px){html.nds body.running #sessBox:has(input:focus,textarea:focus) [data-s="saveSet"]{position:static;box-shadow:none;width:100%}}
 .ndstrnote{margin:0 0 4px}
 html.nds .ndsset{display:grid;gap:12px;background:var(--panel);border-radius:16px;padding:16px;min-width:0}
-html.nds.dsk:not([data-skin]) .pl2top{gap:6px;min-width:0;max-width:100%}html.nds.dsk:not([data-skin]) .pl2top > *{min-width:0}
-html.nds.dsk:not([data-skin]) .pl2top{flex-wrap:wrap}html.nds.dsk:not([data-skin]) .pl2more>summary{padding-inline:10px}
+html.nds.dsk .pl2top{gap:6px;min-width:0;max-width:100%}html.nds.dsk .pl2top > *{min-width:0}
+html.nds.dsk .pl2top{flex-wrap:wrap}html.nds.dsk .pl2more>summary{padding-inline:10px}
 /* Skin-Test App-Tester 03.11. (tests/2026-11-03-skins/fix.css) */
 /* 1. Handy-Kopf in Skins (Dev und Export): Plan-Auswahl + ⋯ in eigene Zeile unter Logo, 💾 und ⚙ */
 @media (max-width:599px){
@@ -3473,6 +3473,25 @@ html.nds.dsk:not([data-skin]) .pl2top{flex-wrap:wrap}html.nds.dsk:not([data-skin
 /* 4. Hover in Skins: „Alle zuklappen“ (Home) und „Beenden“ (laufendes Training) behalten ihre Farbschrift, bekommen aber den Hover-Grund var(--ink) -> unlesbar. Grund nicht wechseln: */
 html[data-skin] .hwork .hwhead .ghost:hover{background:none;color:var(--pick);text-decoration:underline}
 html[data-skin] .nuiend:hover{background:color-mix(in srgb,var(--sel) 16%,transparent)}
+
+/* PC-Seitenleiste auch in allen Skins (Vincent 03.11.: fehlte in den Skins; Befund tests/2026-11-03-skins/befund-2.md) */
+@media (min-width:1100px){html.nds.dsk[data-skin] header h1{display:none!important}}
+:where(html.nds.dsk[data-skin]){--accs:color-mix(in srgb,var(--sel) 14%,transparent);--panel2:color-mix(in srgb,var(--ink) 7%,var(--panel));--s3:color-mix(in srgb,var(--ink) 12%,var(--panel));--logo:var(--display,inherit)}
+/* Figuren in Skins: Erholung und Abdeckung unterscheidbar (fix3-figuren.css vom App-Tester) */
+/* Figuren in Skins: Erholung und Abdeckung wieder unterscheidbar.
+   In vielen Skins ist --cov1 fast die Körperfarbe --muscle; dann sehen „4–7 Tage“
+   (bzw. „1×“ im Plan) und „über 1 Woche“ gleich aus. Körper blasser, cov1 kräftiger.
+   Nur Skins, der Standard bleibt wie er ist. */
+html[data-skin] .m *{fill:color-mix(in srgb,var(--muscle) 45%,var(--panel))}
+html[data-skin] .rc3,html[data-skin] .rcl.rc3{fill:color-mix(in srgb,var(--muscle) 45%,var(--panel));background:color-mix(in srgb,var(--muscle) 45%,var(--panel))}
+html[data-skin] .rc2,html[data-skin] .c1,html[data-skin] .rcl.rc2{fill:color-mix(in srgb,var(--cov1) 65%,var(--ink) 35%);background:color-mix(in srgb,var(--cov1) 65%,var(--ink) 35%)}
+/* Abdeckungs-Figur im Plan: Körper blasser, „1×“ kräftiger (sonst in vielen Skins einfarbig) */
+html[data-skin]{--cov1x:color-mix(in srgb,var(--cov1) 65%,var(--ink) 35%)}
+html[data-skin] .mfig{--mf0:color-mix(in srgb,var(--muscle) 32%,transparent)}
+html[data-skin] .mfig.cov{--cov1:var(--cov1x)}
+/* Skins am PC (1100 px): lange Muskelnamen und breite Skin-Schriften nicht über den Rand */
+.precside{min-width:0}.pchip{max-width:100%;overflow-wrap:anywhere;flex-wrap:wrap}
+html.nds.dsk[data-skin] .pl2more>summary{white-space:normal;max-width:100%}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
