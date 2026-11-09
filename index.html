@@ -3492,6 +3492,14 @@ html[data-skin] .mfig.cov{--cov1:var(--cov1x)}
 /* Skins am PC (1100 px): lange Muskelnamen und breite Skin-Schriften nicht über den Rand */
 .precside{min-width:0}.pchip{max-width:100%;overflow-wrap:anywhere;flex-wrap:wrap}
 html.nds.dsk[data-skin] .pl2more>summary{white-space:normal;max-width:100%}
+/* Handy (Vincent 08.11.): keine doppelte Lücke oben (Notch wurde von html UND Kopf eingerechnet), Kennzahl-Reiter passen ohne Abschneiden */
+@media (max-width:760px){
+  html.nds:not([data-skin]):has(>body:not(.running)){padding-top:0}
+  html.nds:not([data-skin]) body:not(.running) .wrap{padding-top:0}
+  .ndsmet{overflow:visible;justify-content:space-between;gap:2px}
+  .ndsmet button{flex:0 1 auto;min-width:0;padding:8px 9px;font-size:14px}
+}
+@media (max-width:374px){.ndsmet button{padding:8px 6px;font-size:13px}}
 body.dbwait #planEdit,body.dbwait #planHint{visibility:hidden}
 </style>
 
@@ -4460,8 +4468,11 @@ function renderUnits(){
   $("units").innerHTML = planUnits(p).map((u, i) => unitCard(u, i, i > 0)).join("");
 }
 
+const PSEL_MQ = matchMedia("(max-width:599px)");
+try { PSEL_MQ.addEventListener("change", () => { try { renderPlans(); } catch(e) {} }); } catch(e) {}
 function renderPlans(){
-  $("planSel").innerHTML = state.plans.map(p => `<option value="${p.id}" ${p.id===state.active?"selected":""}>${esc(p.name)} · ${TYPES[ptype(p)]} (${planUnits(p).length})</option>`).join("");
+  const selShort = PSEL_MQ.matches; // Handy: nur der Planname, sonst abgeschnitten (Vincent 08.11.)
+  $("planSel").innerHTML = state.plans.map(p => `<option value="${p.id}" ${p.id===state.active?"selected":""}>${esc(p.name)}${selShort ? "" : ` · ${TYPES[ptype(p)]} (${planUnits(p).length})`}</option>`).join("");
 }
 
 // Bibliotheksfilter passt sich beim Planwechsel an die Planart an (Yoga-Plan: Yoga, Gym-Plan: alles)
@@ -12967,7 +12978,10 @@ async function frCreate(name){
   const f = frSt(); f.groups.push({ id: gid, name }); f.g = gid; save(); await frRefresh(true);
 }
 async function frJoin(code){
-  code = String(code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").replace(/^MP/, ""); if (code.length !== 8) throw new CloudErr(L("Der Code sieht so aus: MP-XXXX-XXXX.", "The code looks like this: MP-XXXX-XXXX."), 400);
+  code = String(code || "").toUpperCase().replace(/[^A-Z0-9]/g, "").replace(/^MP/, "");
+  // 16 Zeichen = Wiederherstellungs-Code (geheim), kein Freundes-Code (Vincent 08.11.)
+  if (code.length === 16) throw new CloudErr(L("Das ist ein Wiederherstellungs-Code, kein Freundes-Code. Damit kommt man in das ganze Konto, er sollte geheim bleiben. Den Freundes-Code (MP-XXXX-XXXX) findet dein Freund im Freunde-Bereich unter „Meine Freunde“.", "That's a recovery code, not a friend code. It opens the whole account and should stay secret. Your friend finds the friend code (MP-XXXX-XXXX) in Friends under “My friends”."), 400);
+  if (code.length !== 8) throw new CloudErr(L("Der Code sieht so aus: MP-XXXX-XXXX.", "The code looks like this: MP-XXXX-XXXX."), 400);
   code = "MP-" + code.slice(0, 4) + "-" + code.slice(4);
   const c = await fsGet(`codes/${code}`); if (!c) throw new CloudErr(L("Diesen Code gibt es nicht. Frag nach dem richtigen Code.", "This code doesn't exist. Ask for the right code."), 404);
   if (c.k === "fr") return frFriendReq(c, code);
